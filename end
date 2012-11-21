@@ -1,0 +1,274 @@
+[1mdiff --git a/Local.testsettings b/Local.testsettings[m
+[1mnew file mode 100644[m
+[1mindex 0000000..25e6f27[m
+[1m--- /dev/null[m
+[1m+++ b/Local.testsettings[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32m﻿<?xml version="1.0" encoding="UTF-8"?>[m
+[32m+[m[32m<TestSettings name="Local" id="570649d5-2a65-4821-b6ac-c5858778d86c" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">[m
+[32m+[m[32m  <Description>These are default test settings for a local test run.</Description>[m
+[32m+[m[32m  <Deployment enabled="false" />[m
+[32m+[m[32m  <Execution>[m
+[32m+[m[32m    <TestTypeSpecific />[m
+[32m+[m[32m    <AgentRule name="Execution Agents">[m
+[32m+[m[32m    </AgentRule>[m
+[32m+[m[32m  </Execution>[m
+[32m+[m[32m</TestSettings>[m
+\ No newline at end of file[m
+[1mdiff --git a/SliceOfPie_BDSA.sln b/SliceOfPie_BDSA.sln[m
+[1mindex 907985e..89415c1 100644[m
+[1m--- a/SliceOfPie_BDSA.sln[m
+[1m+++ b/SliceOfPie_BDSA.sln[m
+[36m@@ -3,16 +3,48 @@[m [mMicrosoft Visual Studio Solution File, Format Version 11.00[m
+ # Visual Studio 2010[m
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceOfPie_BDSA", "SliceOfPie_BDSA\SliceOfPie_BDSA.csproj", "{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}"[m
+ EndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceOfPie_Testing", "SliceOfPie_Testing\SliceOfPie_Testing.csproj", "{45311E78-B3A8-47A9-B832-A1CA62243A3C}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A10DDE6-D32B-4626-995D-E635B8437BBE}"[m
+[32m+[m	[32mProjectSection(SolutionItems) = preProject[m
+[32m+[m		[32mLocal.testsettings = Local.testsettings[m
+[32m+[m		[32mSliceOfPie_BDSA.vsmdi = SliceOfPie_BDSA.vsmdi[m
+[32m+[m		[32mTraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings[m
+[32m+[m	[32mEndProjectSection[m
+[32m+[m[32mEndProject[m
+ Global[m
+[32m+[m	[32mGlobalSection(TestCaseManagementSettings) = postSolution[m
+[32m+[m		[32mCategoryFile = SliceOfPie_BDSA.vsmdi[m
+[32m+[m	[32mEndGlobalSection[m
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mDebug|Mixed Platforms = Debug|Mixed Platforms[m
+ 		Debug|x86 = Debug|x86[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m		[32mRelease|Mixed Platforms = Release|Mixed Platforms[m
+ 		Release|x86 = Release|x86[m
+ 	EndGlobalSection[m
+ 	GlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Debug|Any CPU.ActiveCfg = Debug|x86[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Debug|Mixed Platforms.Build.0 = Debug|x86[m
+ 		{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Debug|x86.ActiveCfg = Debug|x86[m
+ 		{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Debug|x86.Build.0 = Debug|x86[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Release|Any CPU.ActiveCfg = Release|x86[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Release|Mixed Platforms.ActiveCfg = Release|x86[m
+[32m+[m		[32m{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Release|Mixed Platforms.Build.0 = Release|x86[m
+ 		{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Release|x86.ActiveCfg = Release|x86[m
+ 		{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}.Release|x86.Build.0 = Release|x86[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Debug|x86.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Release|Mixed Platforms.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{45311E78-B3A8-47A9-B832-A1CA62243A3C}.Release|x86.ActiveCfg = Release|Any CPU[m
+ 	EndGlobalSection[m
+ 	GlobalSection(SolutionProperties) = preSolution[m
+ 		HideSolutionNode = FALSE[m
+[1mdiff --git a/SliceOfPie_BDSA.vsmdi b/SliceOfPie_BDSA.vsmdi[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a8b72d6[m
+[1m--- /dev/null[m
+[1m+++ b/SliceOfPie_BDSA.vsmdi[m
+[36m@@ -0,0 +1,6 @@[m
+[32m+[m[32m﻿<?xml version="1.0" encoding="UTF-8"?>[m
+[32m+[m[32m<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">[m
+[32m+[m[32m  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">[m
+[32m+[m[32m    <RunConfiguration id="570649d5-2a65-4821-b6ac-c5858778d86c" name="Local" storage="local.testsettings" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />[m
+[32m+[m[32m  </TestList>[m
+[32m+[m[32m</TestLists>[m
+\ No newline at end of file[m
+[1mdiff --git a/SliceOfPie_BDSA/Program.cs b/SliceOfPie_BDSA/Program.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 6e9d650..0000000[m
+[1m--- a/SliceOfPie_BDSA/Program.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,14 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-[m
+[31m-namespace SliceOfPie_BDSA[m
+[31m-{[m
+[31m-    class Program[m
+[31m-    {[m
+[31m-        static void Main(string[] args)[m
+[31m-        {[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/SliceOfPie_BDSA/Properties/AssemblyInfo.cs b/SliceOfPie_BDSA/Properties/AssemblyInfo.cs[m
+[1mindex 411fa6a..079b248 100644[m
+[1m--- a/SliceOfPie_BDSA/Properties/AssemblyInfo.cs[m
+[1m+++ b/SliceOfPie_BDSA/Properties/AssemblyInfo.cs[m
+[36m@@ -34,3 +34,5 @@[m [musing System.Runtime.InteropServices;[m
+ // [assembly: AssemblyVersion("1.0.*")][m
+ [assembly: AssemblyVersion("1.0.0.0")][m
+ [assembly: AssemblyFileVersion("1.0.0.0")][m
+[32m+[m
+[32m+[m[32m[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SliceOfPie_Testing")][m
+\ No newline at end of file[m
+[1mdiff --git a/SliceOfPie_Testing/Properties/AssemblyInfo.cs b/SliceOfPie_Testing/Properties/AssemblyInfo.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b71ef70[m
+[1m--- /dev/null[m
+[1m+++ b/SliceOfPie_Testing/Properties/AssemblyInfo.cs[m
+[36m@@ -0,0 +1,35 @@[m
+[32m+[m[32m﻿using System.Reflection;[m
+[32m+[m[32musing System.Runtime.CompilerServices;[m
+[32m+[m[32musing System.Runtime.InteropServices;[m
+[32m+[m
+[32m+[m[32m// General Information about an assembly is controlled through the following[m[41m [m
+[32m+[m[32m// set of attributes. Change these attribute values to modify the information[m
+[32m+[m[32m// associated with an assembly.[m
+[32m+[m[32m[assembly: AssemblyTitle("SliceOfPie_Testing")][m
+[32m+[m[32m[assembly: AssemblyDescription("")][m
+[32m+[m[32m[assembly: AssemblyConfiguration("")][m
+[32m+[m[32m[assembly: AssemblyCompany("")][m
+[32m+[m[32m[assembly: AssemblyProduct("SliceOfPie_Testing")][m
+[32m+[m[32m[assembly: AssemblyCopyright("Copyright ©  2012")][m
+[32m+[m[32m[assembly: AssemblyTrademark("")][m
+[32m+[m[32m[assembly: AssemblyCulture("")][m
+[32m+[m
+[32m+[m[32m// Setting ComVisible to false makes the types in this assembly not visible[m[41m [m
+[32m+[m[32m// to COM components.  If you need to access a type in this assembly from[m[41m [m
+[32m+[m[32m// COM, set the ComVisible attribute to true on that type.[m
+[32m+[m[32m[assembly: ComVisible(false)][m
+[32m+[m
+[32m+[m[32m// The following GUID is for the ID of the typelib if this project is exposed to COM[m
+[32m+[m[32m[assembly: Guid("abeba64a-688b-4d78-a4ef-259cc6e378a2")][m
+[32m+[m
+[32m+[m[32m// Version information for an assembly consists of the following four values:[m
+[32m+[m[32m//[m
+[32m+[m[32m//      Major Version[m
+[32m+[m[32m//      Minor Version[m[41m [m
+[32m+[m[32m//      Build Number[m
+[32m+[m[32m//      Revision[m
+[32m+[m[32m//[m
+[32m+[m[32m// You can specify all the values or you can default the Build and Revision Numbers[m[41m [m
+[32m+[m[32m// by using the '*' as shown below:[m
+[32m+[m[32m[assembly: AssemblyVersion("1.0.0.0")][m
+[32m+[m[32m[assembly: AssemblyFileVersion("1.0.0.0")][m
+[1mdiff --git a/SliceOfPie_Testing/SliceOfPie_Testing.csproj b/SliceOfPie_Testing/SliceOfPie_Testing.csproj[m
+[1mnew file mode 100644[m
+[1mindex 0000000..464ffd1[m
+[1m--- /dev/null[m
+[1m+++ b/SliceOfPie_Testing/SliceOfPie_Testing.csproj[m
+[36m@@ -0,0 +1,73 @@[m
+[32m+[m[32m﻿<?xml version="1.0" encoding="utf-8"?>[m
+[32m+[m[32m<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">[m
+[32m+[m[32m  <PropertyGroup>[m
+[32m+[m[32m    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>[m
+[32m+[m[32m    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>[m
+[32m+[m[32m    <ProductVersion>[m
+[32m+[m[32m    </ProductVersion>[m
+[32m+[m[32m    <SchemaVersion>2.0</SchemaVersion>[m
+[32m+[m[32m    <ProjectGuid>{45311E78-B3A8-47A9-B832-A1CA62243A3C}</ProjectGuid>[m
+[32m+[m[32m    <OutputType>Library</OutputType>[m
+[32m+[m[32m    <AppDesignerFolder>Properties</AppDesignerFolder>[m
+[32m+[m[32m    <RootNamespace>SliceOfPie_Testing</RootNamespace>[m
+[32m+[m[32m    <AssemblyName>SliceOfPie_Testing</AssemblyName>[m
+[32m+[m[32m    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>[m
+[32m+[m[32m    <FileAlignment>512</FileAlignment>[m
+[32m+[m[32m    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>[m
+[32m+[m[32m  </PropertyGroup>[m
+[32m+[m[32m  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">[m
+[32m+[m[32m    <DebugSymbols>true</DebugSymbols>[m
+[32m+[m[32m    <DebugType>full</DebugType>[m
+[32m+[m[32m    <Optimize>false</Optimize>[m
+[32m+[m[32m    <OutputPath>bin\Debug\</OutputPath>[m
+[32m+[m[32m    <DefineConstants>DEBUG;TRACE</DefineConstants>[m
+[32m+[m[32m    <ErrorReport>prompt</ErrorReport>[m
+[32m+[m[32m    <WarningLevel>4</WarningLevel>[m
+[32m+[m[32m  </PropertyGroup>[m
+[32m+[m[32m  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">[m
+[32m+[m[32m    <DebugType>pdbonly</DebugType>[m
+[32m+[m[32m    <Optimize>true</Optimize>[m
+[32m+[m[32m    <OutputPath>bin\Release\</OutputPath>[m
+[32m+[m[32m    <DefineConstants>TRACE</DefineConstants>[m
+[32m+[m[32m    <ErrorReport>prompt</ErrorReport>[m
+[32m+[m[32m    <WarningLevel>4</WarningLevel>[m
+[32m+[m[32m  </PropertyGroup>[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <Reference Include="Microsoft.CSharp" />[m
+[32m+[m[32m    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />[m
+[32m+[m[32m    <Reference Include="System" />[m
+[32m+[m[32m    <Reference Include="System.Core">[m
+[32m+[m[32m      <RequiredTargetFramework>3.5</RequiredTargetFramework>[m
+[32m+[m[32m    </Reference>[m
+[32m+[m[32m    <Reference Include="System.Data" />[m
+[32m+[m[32m    <Reference Include="System.Data.DataSetExtensions" />[m
+[32m+[m[32m    <Reference Include="System.Xml" />[m
+[32m+[m[32m    <Reference Include="System.Xml.Linq" />[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">[m
+[32m+[m[32m      <Visible>False</Visible>[m
+[32m+[m[32m    </CodeAnalysisDependentAssemblyPaths>[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <Compile Include="ProgramTest.cs" />[m
+[32m+[m[32m    <Compile Include="Properties\AssemblyInfo.cs" />[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <Shadow Include="Test References\SliceOfPie_BDSA.accessor" />[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_BDSA.csproj">[m
+[32m+[m[32m      <Project>{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}</Project>[m
+[32m+[m[32m      <Name>SliceOfPie_BDSA</Name>[m
+[32m+[m[32m    </ProjectReference>[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m[32m  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />[m
+[32m+[m[32m  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.[m[41m [m
+[32m+[m[32m       Other similar extension points exist, see Microsoft.Common.targets.[m
+[32m+[m[32m  <Target Name="BeforeBuild">[m
+[32m+[m[32m  </Target>[m
+[32m+[m[32m  <Target Name="AfterBuild">[m
+[32m+[m[32m  </Target>[m
+[32m+[m[32m  -->[m
+[32m+[m[32m</Project>[m
+\ No newline at end of file[m
+[1mdiff --git a/SliceOfPie_Testing/Test References/SliceOfPie_BDSA.accessor b/SliceOfPie_Testing/Test References/SliceOfPie_BDSA.accessor[m
+[1mnew file mode 100644[m
+[1mindex 0000000..54703bd[m
+[1m--- /dev/null[m
+[1m+++ b/SliceOfPie_Testing/Test References/SliceOfPie_BDSA.accessor[m	
+[36m@@ -0,0 +1,2 @@[m
+[32m+[m[32mSliceOfPie_BDSA.exe[m
+[32m+[m[32mDesktop[m
+[1mdiff --git a/TraceAndTestImpact.testsettings b/TraceAndTestImpact.testsettings[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b560d60[m
+[1m--- /dev/null[m
+[1m+++ b/TraceAndTestImpact.testsettings[m
+[36m@@ -0,0 +1,21 @@[m
+[32m+[m[32m﻿<?xml version="1.0" encoding="UTF-8"?>[m
+[32m+[m[32m<TestSettings name="Trace and Test Impact" id="c0e34119-ba8e-4e2c-9db0-4f0f9e0aa698" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">[m
+[32m+[m[32m  <Description>These are test settings for Trace and Test Impact.</Description>[m
+[32m+[m[32m  <Execution>[m
+[32m+[m[32m    <TestTypeSpecific />[m
+[32m+[m[32m    <AgentRule name="Execution Agents">[m
+[32m+[m[32m      <DataCollectors>[m
+[32m+[m[32m        <DataCollector uri="datacollector://microsoft/SystemInfo/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.DataCollection.SystemInfo.SystemInfoDataCollector, Microsoft.VisualStudio.TestTools.DataCollection.SystemInfo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="System Information">[m
+[32m+[m[32m        </DataCollector>[m
+[32m+[m[32m        <DataCollector uri="datacollector://microsoft/ActionLog/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.ManualTest.ActionLog.ActionLogPlugin, Microsoft.VisualStudio.TestTools.ManualTest.ActionLog, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Actions">[m
+[32m+[m[32m        </DataCollector>[m
+[32m+[m[32m        <DataCollector uri="datacollector://microsoft/HttpProxy/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TraceCollector.HttpProxyCollector, Microsoft.VisualStudio.TraceCollector, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="ASP.NET Client Proxy for IntelliTrace and Test Impact">[m
+[32m+[m[32m        </DataCollector>[m
+[32m+[m[32m        <DataCollector uri="datacollector://microsoft/TestImpact/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TraceCollector.TestImpactDataCollector, Microsoft.VisualStudio.TraceCollector, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Test Impact">[m
+[32m+[m[32m        </DataCollector>[m
+[32m+[m[32m        <DataCollector uri="datacollector://microsoft/TraceDebugger/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TraceCollector.TraceDebuggerDataCollector, Microsoft.VisualStudio.TraceCollector, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="IntelliTrace">[m
+[32m+[m[32m        </DataCollector>[m
+[32m+[m[32m      </DataCollectors>[m
+[32m+[m[32m    </AgentRule>[m
+[32m+[m[32m  </Execution>[m
+[32m+[m[32m</TestSettings>[m
+\ No newline at end of file[m
+[1mdiff --git a/yo.txt b/yo.txt[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
