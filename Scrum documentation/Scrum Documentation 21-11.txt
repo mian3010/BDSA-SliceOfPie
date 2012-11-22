@@ -1,16 +1,10 @@
 Following points where made when discussing our understanding of SCRUM 
 and how to use it in our project:
 
-	1. We consider scrum to wrap around our entire project. This means that backlog
-	items should include artifacts such as: report writing, documentation tasks etc.
-	We have some doubts whether SCRUM would be applied as such in production environment 
-	(or if they would only include customer oriented items here).
+	1. After some discussion, we have decided to use Scrum only when starting our product implementation.
+	Hence, we would begin our project as in a "regular" inception phase, starting with use cases, initial
+	software architecture etc. We've delayed our "sprints" to when we will actually start developing items.
 
 
-	2. We have decided to use planning poker as part of our sprint planning items. 
 
-	
-	3. We have decided to timebox our sprint planning meetings to 1 hour for each part, for a total of 2 hours.
-
-
-	
+	2. 	
