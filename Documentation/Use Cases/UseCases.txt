@@ -1,0 +1,120 @@
+﻿Use Case Documents
+extended from TeX/usecase.tex ver 1.0
+This document is versioned by Git.
+
+
+
+
+
+
+________________
+
+
+
+
+Use Case #1: Create document offline. Edit, save and synchronize it.                        
+ID: U#1
+Primary Actor: User / Writer
+Stakeholders:
+1. User: Wants effective access to a bunch of documents. Wants to share these documents with to other users. Want to be able to access documents in his/her home computer, but still access them elsewhere through a web interface
+2. Other users: Potential other users, who wants to use the same document on their home computer or through the web interface. 
+
+
+Precondition: The user is authenticated into the system.
+Postcondition: The document is created and saved locally. 
+
+
+Main success scenario: 
+1. User creates a new document on his local computer.
+2. System saves the document offline and online. 
+3. User edits the newly created document to his liking. When he’s done editing, he’ll request a save from System.
+4. System saves the changes made offline and online.                                                                                   Steps 3-4 are repeated until User is satisfied with the document. 
+5. User quits the system repeats steps 1-6 until satisfied.
+6. System commits changes offline and online, recording a session of editing to the history of the document.
+
+
+Extensions
+1. a System has no online connection
+1. System alerts User that his changes will not be saved online. System then defers synchronization to processes shown in U#3.
+2. User continues editing as in the main scenario until done.
+3. The System makes an offline commit, recording a session of editing that differs from another, possible offline editing session.
+
+
+________________
+
+
+Use Case #2: Synchronize Changes
+ID: U#2                                                                                                                                    Primary Actor: User 
+Stakeholder:
+1. User: Wants his files to be available both offline and online. Being available offline permits the user to always access them and edit them even when there is no connection. When online, he can access them from all computers.
+
+
+Precondition: The user is authenticated into the system.
+Postcondition: The local folder is synchronized with the online folder
+
+
+Main success scenario:
+1. User opens the program
+2. System synchronizes the local folder with the online folder.
+3. User edits a document from the folder locally.
+4. User saves the document.
+5. System synchronizes the local folder with the online folder.
+
+
+Extension:
+1. a. System fails to synchronize with the online folder
+1. User tries to synchronize using a button.
+2. User repeat 2b until 2d.
+3. System synchronizes with the online folder.
+
+
+
+
+
+
+
+
+
+
+        
+Use Case #3: Multiple users editing the same document, creating a conflict
+ID: U#3
+Primary Actor: User1, User2
+Stakeholder:
+1. User: Wants to edit in a document, that is shared with another user. Wants the document to be saved online and synchronized with both his and the other user(s) local document folders.
+
+
+Precondition: User is authenticated. User has created a document as shown in U#1.
+Postcondition: The two documents are merged and saved online.
+
+
+Main success scenario:
+1. User1 shares his document with user2 online.
+2. User2 synchronizes his local folder with the online folder.
+3. User1 edits the document locally.
+4. User1 synchronizes with the online document folder.
+5. User2 edits the document locally.
+6. User2 saves the document locally.
+7. User2 synchronizes with the online folder.
+8. System merges the online document with the changes made in user2´s document.
+9. System presents the merged document and the original document to user2.
+10. User2 accepts the merged document.
+11. System saves the new merged document online.
+
+
+Extensions:
+1. a. User2 has no internet connection
+1. User2 fails to synchronize with the system
+2. User2 does not receive the file from the online folder
+1. a. User2 does not accept the merged document
+1. User2 edits in the merged document
+2. User2 accepts the edited, merged document.
+3. System saves the new merged document online.
+
+
+                
+Use Case #4: User wants to go back previous revision of the document
+ID#4
+
+
+Primary Actor: User
