@@ -1,0 +1,82 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`File`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`File` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(400) NOT NULL ,
+  `serverpath` VARCHAR(400) NOT NULL ,
+  `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`User`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`User` (
+  `email` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`email`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`FileInstance`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`FileInstance` (
+  `id` INT UNSIGNED NOT NULL ,
+  `path` VARCHAR(400) NOT NULL ,
+  `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
+  `File_id` INT NOT NULL ,
+  `User_email` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`, `File_id`, `User_email`) ,
+  INDEX `fk_FileInstance_File_idx` (`File_id` ASC) ,
+  INDEX `fk_FileInstance_User1_idx` (`User_email` ASC) ,
+  CONSTRAINT `fk_FileInstance_File`
+    FOREIGN KEY (`File_id` )
+    REFERENCES `mydb`.`File` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_FileInstance_User1`
+    FOREIGN KEY (`User_email` )
+    REFERENCES `mydb`.`User` (`email` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Change`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Change` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `change` TEXT NULL ,
+  `timestamp` BIGINT NULL ,
+  `File_id` INT UNSIGNED NOT NULL ,
+  `User_email` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`, `File_id`, `User_email`) ,
+  INDEX `fk_Change_File1_idx` (`File_id` ASC) ,
+  INDEX `fk_Change_User1_idx` (`User_email` ASC) ,
+  CONSTRAINT `fk_Change_File1`
+    FOREIGN KEY (`File_id` )
+    REFERENCES `mydb`.`File` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Change_User1`
+    FOREIGN KEY (`User_email` )
+    REFERENCES `mydb`.`User` (`email` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
