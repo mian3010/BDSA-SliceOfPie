@@ -76,6 +76,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SliceOfPie_Interfaces\SliceOfPie_Interfaces.csproj">
+      <Project>{6C534488-ECBD-44A1-8783-C9CA0119FBE3}</Project>
+      <Name>SliceOfPie_Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceOfPie_OfflineGUI", "SliceOfPie_OfflineGUI\SliceOfPie_OfflineGUI.csproj", "{12FB4DA9-3273-4C11-AB80-7A8819F1DF62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceOfPie_Interfaces", "SliceOfPie_Interfaces\SliceOfPie_Interfaces.csproj", "{6C534488-ECBD-44A1-8783-C9CA0119FBE3}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SliceOfPie_BDSA.vsmdi
@@ -57,6 +59,16 @@ Global
 		{12FB4DA9-3273-4C11-AB80-7A8819F1DF62}.Release|Mixed Platforms.Build.0 = Release|x86
 		{12FB4DA9-3273-4C11-AB80-7A8819F1DF62}.Release|x86.ActiveCfg = Release|x86
 		{12FB4DA9-3273-4C11-AB80-7A8819F1DF62}.Release|x86.Build.0 = Release|x86
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6C534488-ECBD-44A1-8783-C9CA0119FBE3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
