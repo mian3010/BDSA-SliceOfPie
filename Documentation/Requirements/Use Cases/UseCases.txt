@@ -12,7 +12,7 @@ ________________
 
 
 
-Use Case #1: Create document offline. Edit, save and synchronize it.                        
+Use Case #1: CreateDocumentOffline
 ID: U#1
 Primary Actor: User / Writer
 Stakeholders:
@@ -43,7 +43,7 @@ Extensions
 ________________
 
 
-Use Case #2: Synchronize Changes
+Use Case #2: SynchronizeChanges
 ID: U#2                                                                                                                                    Primary Actor: User 
 Stakeholder:
 1. User: Wants his files to be available both offline and online. Being available offline permits the user to always access them and edit them even when there is no connection. When online, he can access them from all computers.
@@ -77,7 +77,7 @@ Extension:
 
 
         
-Use Case #3: Multiple users editing the same document, creating a conflict
+Use Case #3: MultipleUserEdit
 ID: U#3
 Primary Actor: User1, User2
 Stakeholder:
@@ -113,8 +113,12 @@ Extensions:
 
 
                 
-Use Case #4: User wants to go back previous revision of the document
+Use Case #4: ViewVersionHistory
 ID#4
 
 
 Primary Actor: User
+Main:
+The user wants to view a history for a file in the Slice Of Pie system. He’ll select a file from the graphical user interface in the system and click on a show version history button. The system will retrieve version history for the file and display it in a new window. 
+Alternate:
+The user wants to revert document to an earlier state. This use case has yet to be defined and elaborated on.
