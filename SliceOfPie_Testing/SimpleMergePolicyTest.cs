@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using SliceOfPie_BDSA;
+using SliceOfPie_OnlineGUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SliceOfPie_Testing

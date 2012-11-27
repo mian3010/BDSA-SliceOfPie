@@ -1,0 +1,596 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SliceOfLifeModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="SliceOfLifeModelStoreContainer">
+          <EntitySet Name="Change" EntityType="SliceOfLifeModel.Store.Change" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="File" EntityType="SliceOfLifeModel.Store.File" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="FileInstance" EntityType="SliceOfLifeModel.Store.FileInstance" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="FileMetaData" EntityType="SliceOfLifeModel.Store.FileMetaData" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="MetaDataType" EntityType="SliceOfLifeModel.Store.MetaDataType" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="Project" EntityType="SliceOfLifeModel.Store.Project" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="ProjectHasUser" EntityType="SliceOfLifeModel.Store.ProjectHasUser" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="User" EntityType="SliceOfLifeModel.Store.User" store:Type="Tables" Schema="SliceOfLife" />
+          <AssociationSet Name="fk_Change_File1" Association="SliceOfLifeModel.Store.fk_Change_File1">
+            <End Role="File" EntitySet="File" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Change_User1" Association="SliceOfLifeModel.Store.fk_Change_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="fk_File_Project1" Association="SliceOfLifeModel.Store.fk_File_Project1">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileInstance_File1" Association="SliceOfLifeModel.Store.fk_FileInstance_File1">
+            <End Role="File" EntitySet="File" />
+            <End Role="FileInstance" EntitySet="FileInstance" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileInstance_User1" Association="SliceOfLifeModel.Store.fk_FileInstance_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="FileInstance" EntitySet="FileInstance" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileMetaData_File1" Association="SliceOfLifeModel.Store.fk_FileMetaData_File1">
+            <End Role="File" EntitySet="File" />
+            <End Role="FileMetaData" EntitySet="FileMetaData" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileMetaData_MetaDataType1" Association="SliceOfLifeModel.Store.fk_FileMetaData_MetaDataType1">
+            <End Role="MetaDataType" EntitySet="MetaDataType" />
+            <End Role="FileMetaData" EntitySet="FileMetaData" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectHasUser_Project1" Association="SliceOfLifeModel.Store.fk_ProjectHasUser_Project1">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectHasUser" EntitySet="ProjectHasUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectHasUser_User1" Association="SliceOfLifeModel.Store.fk_ProjectHasUser_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="ProjectHasUser" EntitySet="ProjectHasUser" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Change">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="User_Project_Title" />
+            <PropertyRef Name="User_email" />
+            <PropertyRef Name="File_id" />
+          </Key>
+          <Property Name="id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="User_Project_Title" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="User_email" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="timestamp" Type="bigint" />
+          <Property Name="change" Type="text" />
+          <Property Name="File_id" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="serverpath" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="deleted" Type="utinyint" />
+          <Property Name="Project_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileInstance">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="User_email" />
+            <PropertyRef Name="File_id" />
+          </Key>
+          <Property Name="id" Type="uint" Nullable="false" />
+          <Property Name="User_email" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="path" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="deleted" Type="utinyint" />
+          <Property Name="File_id" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileMetaData">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="MetaDataType_Type" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="400" />
+          <Property Name="MetaDataType_Type" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="File_id" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MetaDataType">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Type" Type="varchar" Nullable="false" MaxLength="400" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="title" Type="varchar" Nullable="false" MaxLength="400" />
+        </EntityType>
+        <EntityType Name="ProjectHasUser">
+          <Key>
+            <PropertyRef Name="User_email" />
+            <PropertyRef Name="Project_id" />
+          </Key>
+          <Property Name="User_email" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="Project_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="varchar" Nullable="false" MaxLength="400" />
+        </EntityType>
+        <Association Name="fk_Change_File1">
+          <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="1" />
+          <End Role="Change" Type="SliceOfLifeModel.Store.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Change_User1">
+          <End Role="User" Type="SliceOfLifeModel.Store.User" Multiplicity="1" />
+          <End Role="Change" Type="SliceOfLifeModel.Store.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="User_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_File_Project1">
+          <End Role="Project" Type="SliceOfLifeModel.Store.Project" Multiplicity="1" />
+          <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="Project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileInstance_File1">
+          <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="1" />
+          <End Role="FileInstance" Type="SliceOfLifeModel.Store.FileInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileInstance">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileInstance_User1">
+          <End Role="User" Type="SliceOfLifeModel.Store.User" Multiplicity="1" />
+          <End Role="FileInstance" Type="SliceOfLifeModel.Store.FileInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="FileInstance">
+              <PropertyRef Name="User_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileMetaData_File1">
+          <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="1" />
+          <End Role="FileMetaData" Type="SliceOfLifeModel.Store.FileMetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileMetaData">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileMetaData_MetaDataType1">
+          <End Role="MetaDataType" Type="SliceOfLifeModel.Store.MetaDataType" Multiplicity="1" />
+          <End Role="FileMetaData" Type="SliceOfLifeModel.Store.FileMetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaDataType">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="FileMetaData">
+              <PropertyRef Name="MetaDataType_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectHasUser_Project1">
+          <End Role="Project" Type="SliceOfLifeModel.Store.Project" Multiplicity="1" />
+          <End Role="ProjectHasUser" Type="SliceOfLifeModel.Store.ProjectHasUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProjectHasUser">
+              <PropertyRef Name="Project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectHasUser_User1">
+          <End Role="User" Type="SliceOfLifeModel.Store.User" Multiplicity="1" />
+          <End Role="ProjectHasUser" Type="SliceOfLifeModel.Store.ProjectHasUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="ProjectHasUser">
+              <PropertyRef Name="User_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SliceOfLifeModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="SliceOfLifeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Changes" EntityType="SliceOfLifeModel.Change" />
+          <EntitySet Name="Files" EntityType="SliceOfLifeModel.File" />
+          <EntitySet Name="FileInstances" EntityType="SliceOfLifeModel.FileInstance" />
+          <EntitySet Name="FileMetaDatas" EntityType="SliceOfLifeModel.FileMetaData" />
+          <EntitySet Name="MetaDataTypes" EntityType="SliceOfLifeModel.MetaDataType" />
+          <EntitySet Name="Projects" EntityType="SliceOfLifeModel.Project" />
+          <EntitySet Name="Users" EntityType="SliceOfLifeModel.User" />
+          <AssociationSet Name="fk_Change_File1" Association="SliceOfLifeModel.fk_Change_File1">
+            <End Role="File" EntitySet="Files" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Change_User1" Association="SliceOfLifeModel.fk_Change_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_File_Project1" Association="SliceOfLifeModel.fk_File_Project1">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileInstance_File1" Association="SliceOfLifeModel.fk_FileInstance_File1">
+            <End Role="File" EntitySet="Files" />
+            <End Role="FileInstance" EntitySet="FileInstances" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileMetaData_File1" Association="SliceOfLifeModel.fk_FileMetaData_File1">
+            <End Role="File" EntitySet="Files" />
+            <End Role="FileMetaData" EntitySet="FileMetaDatas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileInstance_User1" Association="SliceOfLifeModel.fk_FileInstance_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FileInstance" EntitySet="FileInstances" />
+          </AssociationSet>
+          <AssociationSet Name="fk_FileMetaData_MetaDataType1" Association="SliceOfLifeModel.fk_FileMetaData_MetaDataType1">
+            <End Role="MetaDataType" EntitySet="MetaDataTypes" />
+            <End Role="FileMetaData" EntitySet="FileMetaDatas" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectHasUser" Association="SliceOfLifeModel.ProjectHasUser">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Change">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="User_Project_Title" />
+            <PropertyRef Name="User_email" />
+            <PropertyRef Name="File_id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Project_Title" Type="String" Nullable="false" />
+          <Property Name="User_email" Type="String" Nullable="false" />
+          <Property Name="timestamp" Type="Int64" />
+          <Property Name="change1" Type="String" />
+          <Property Name="File_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="File" Relationship="SliceOfLifeModel.fk_Change_File1" FromRole="Change" ToRole="File" />
+          <NavigationProperty Name="User" Relationship="SliceOfLifeModel.fk_Change_User1" FromRole="Change" ToRole="User" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="serverpath" Type="String" Nullable="false" />
+          <Property Name="deleted" Type="Byte" />
+          <Property Name="Project_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Changes" Relationship="SliceOfLifeModel.fk_Change_File1" FromRole="File" ToRole="Change" />
+          <NavigationProperty Name="Project" Relationship="SliceOfLifeModel.fk_File_Project1" FromRole="File" ToRole="Project" />
+          <NavigationProperty Name="FileInstances" Relationship="SliceOfLifeModel.fk_FileInstance_File1" FromRole="File" ToRole="FileInstance" />
+          <NavigationProperty Name="FileMetaDatas" Relationship="SliceOfLifeModel.fk_FileMetaData_File1" FromRole="File" ToRole="FileMetaData" />
+        </EntityType>
+        <EntityType Name="FileInstance">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="User_email" />
+            <PropertyRef Name="File_id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="User_email" Type="String" Nullable="false" />
+          <Property Name="path" Type="String" Nullable="false" />
+          <Property Name="deleted" Type="Byte" />
+          <Property Name="File_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="File" Relationship="SliceOfLifeModel.fk_FileInstance_File1" FromRole="FileInstance" ToRole="File" />
+          <NavigationProperty Name="User" Relationship="SliceOfLifeModel.fk_FileInstance_User1" FromRole="FileInstance" ToRole="User" />
+        </EntityType>
+        <EntityType Name="FileMetaData">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="MetaDataType_Type" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="String" />
+          <Property Name="MetaDataType_Type" Type="String" Nullable="false" />
+          <Property Name="File_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="File" Relationship="SliceOfLifeModel.fk_FileMetaData_File1" FromRole="FileMetaData" ToRole="File" />
+          <NavigationProperty Name="MetaDataType" Relationship="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" FromRole="FileMetaData" ToRole="MetaDataType" />
+        </EntityType>
+        <EntityType Name="MetaDataType">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Type" Type="String" Nullable="false" />
+          <NavigationProperty Name="FileMetaDatas" Relationship="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" FromRole="MetaDataType" ToRole="FileMetaData" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" Nullable="false" />
+          <NavigationProperty Name="Files" Relationship="SliceOfLifeModel.fk_File_Project1" FromRole="Project" ToRole="File" />
+          <NavigationProperty Name="Users" Relationship="SliceOfLifeModel.ProjectHasUser" FromRole="Project" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="String" Nullable="false" />
+          <NavigationProperty Name="Changes" Relationship="SliceOfLifeModel.fk_Change_User1" FromRole="User" ToRole="Change" />
+          <NavigationProperty Name="FileInstances" Relationship="SliceOfLifeModel.fk_FileInstance_User1" FromRole="User" ToRole="FileInstance" />
+          <NavigationProperty Name="Projects" Relationship="SliceOfLifeModel.ProjectHasUser" FromRole="User" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_Change_File1">
+          <End Role="File" Type="SliceOfLifeModel.File" Multiplicity="1" />
+          <End Role="Change" Type="SliceOfLifeModel.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Change_User1">
+          <End Role="User" Type="SliceOfLifeModel.User" Multiplicity="1" />
+          <End Role="Change" Type="SliceOfLifeModel.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="User_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_File_Project1">
+          <End Role="Project" Type="SliceOfLifeModel.Project" Multiplicity="1" />
+          <End Role="File" Type="SliceOfLifeModel.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="Project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileInstance_File1">
+          <End Role="File" Type="SliceOfLifeModel.File" Multiplicity="1" />
+          <End Role="FileInstance" Type="SliceOfLifeModel.FileInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileInstance">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileMetaData_File1">
+          <End Role="File" Type="SliceOfLifeModel.File" Multiplicity="1" />
+          <End Role="FileMetaData" Type="SliceOfLifeModel.FileMetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileMetaData">
+              <PropertyRef Name="File_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileInstance_User1">
+          <End Role="User" Type="SliceOfLifeModel.User" Multiplicity="1" />
+          <End Role="FileInstance" Type="SliceOfLifeModel.FileInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="FileInstance">
+              <PropertyRef Name="User_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_FileMetaData_MetaDataType1">
+          <End Role="MetaDataType" Type="SliceOfLifeModel.MetaDataType" Multiplicity="1" />
+          <End Role="FileMetaData" Type="SliceOfLifeModel.FileMetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaDataType">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="FileMetaData">
+              <PropertyRef Name="MetaDataType_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProjectHasUser">
+          <End Role="Project" Type="SliceOfLifeModel.Project" Multiplicity="*" />
+          <End Role="User" Type="SliceOfLifeModel.User" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SliceOfLifeModelStoreContainer" CdmEntityContainer="SliceOfLifeEntities">
+          <EntitySetMapping Name="Changes">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.Change">
+              <MappingFragment StoreEntitySet="Change">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="User_Project_Title" ColumnName="User_Project_Title" />
+                <ScalarProperty Name="User_email" ColumnName="User_email" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="change1" ColumnName="change" />
+                <ScalarProperty Name="File_id" ColumnName="File_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.File">
+              <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="serverpath" ColumnName="serverpath" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="Project_id" ColumnName="Project_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileInstances">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.FileInstance">
+              <MappingFragment StoreEntitySet="FileInstance">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="User_email" ColumnName="User_email" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="File_id" ColumnName="File_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileMetaDatas">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.FileMetaData">
+              <MappingFragment StoreEntitySet="FileMetaData">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="MetaDataType_Type" ColumnName="MetaDataType_Type" />
+                <ScalarProperty Name="File_id" ColumnName="File_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetaDataTypes">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.MetaDataType">
+              <MappingFragment StoreEntitySet="MetaDataType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SliceOfLifeModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProjectHasUser" TypeName="SliceOfLifeModel.ProjectHasUser" StoreEntitySet="ProjectHasUser">
+            <EndProperty Name="Project">
+              <ScalarProperty Name="id" ColumnName="Project_id" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="email" ColumnName="User_email" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="5.25" PointY="5.625" Height="2.5571907552083326" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3" PointY="4.25" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="8.25" PointY="5.75" Height="2.3648893229166648" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="5.25" PointY="2.625" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3" PointY="2" Height="1.4033821614583335" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="0.75" PointY="6" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3" PointY="7.75" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_File1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="6.31224609375" />
+          <ConnectorPoint PointX="5.25" PointY="6.31224609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_User1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="7.9660953776041659" />
+          <ConnectorPoint PointX="5.25" PointY="7.9660953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_File_Project1" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="6.49974609375" />
+          <ConnectorPoint PointX="3" PointY="6.49974609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_File1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="5.2112939453125" />
+          <ConnectorPoint PointX="9" PointY="5.2112939453125" />
+          <ConnectorPoint PointX="9" PointY="5.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_File1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="4.5237939453125" />
+          <ConnectorPoint PointX="5.25" PointY="4.5237939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_User1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="8.891337890625" />
+          <ConnectorPoint PointX="9" PointY="8.891337890625" />
+          <ConnectorPoint PointX="9" PointY="8.1148893229166639" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="3.0141910807291667" />
+          <ConnectorPoint PointX="5.25" PointY="3.0141910807291667" />
+        </AssociationConnector>
+        <AssociationConnector Association="SliceOfLifeModel.ProjectHasUser" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.5" PointY="7.7879850260416674" />
+          <ConnectorPoint PointX="1.5" PointY="8.6629855260416679" />
+          <ConnectorPoint PointX="3" PointY="8.6629855260416679" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
