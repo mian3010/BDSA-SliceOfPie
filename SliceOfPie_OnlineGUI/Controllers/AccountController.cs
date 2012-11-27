@@ -48,7 +48,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     public ActionResult LogOff() {
       WebSecurity.Logout();
 
-      return RedirectToAction("Index", "Home");
+      return RedirectToAction("Index", "Default");
     }
 
     //
@@ -71,7 +71,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
         try {
           WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
           WebSecurity.Login(model.UserName, model.Password);
-          return RedirectToAction("Index", "Home");
+          return RedirectToAction("Index", "Default");
         } catch (MembershipCreateUserException e) {
           ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
         }
@@ -281,7 +281,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       if (Url.IsLocalUrl(returnUrl)) {
         return Redirect(returnUrl);
       } else {
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Default");
       }
     }
 
