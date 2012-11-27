@@ -3,6 +3,7 @@ Table of Contents
 Abstract
 Work process/SCRUM
 Software Analysis
+- System requirements
 - Use cases
 - Domain Model
 - SSD
@@ -26,7 +27,3 @@ Conclusion
 Reflection upon the process
 Appendix
 
-?
-Problem analysis
-- Problem statement
-- System requirements
