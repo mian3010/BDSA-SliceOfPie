@@ -18,7 +18,7 @@ namespace SliceOfPie_OnlineGUI
         public override string ToString() {
           StringBuilder output = new StringBuilder();
           output.Append("<div class=\"document\">");
-          output.Append("<h2 class=\"document-name\">" + Title + "</h2>");
+          output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
           output.Append("<div class=\"document-view\">");
           output.Append("<ul class=\"metadata-view\">");
           foreach (FileMetaData MetaData in FileMetaDatas) {

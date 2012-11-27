@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace SliceOfPie_OnlineGUI.Controllers {
-  public class HomeController : Controller {
+  public class DefaultController : Controller {
     public ActionResult Index() {
       return View();
     }

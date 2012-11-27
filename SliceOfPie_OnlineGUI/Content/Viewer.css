@@ -1,4 +1,4 @@
-﻿.document-name
+﻿.document-title
 {
   font-size: 20px;
 }
@@ -22,6 +22,7 @@
   opacity: 0;
   -webkit-transition: .3s opacity;
 }
+h2.document-title:hover + div.document-view .metadata-view,
 .metadata-view:hover
 {
   opacity: 1;
