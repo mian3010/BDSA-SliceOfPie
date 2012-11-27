@@ -4,6 +4,9 @@
 # OS tempfile
 *.db
 
+# Workbench tempfile
+*.bak
+
 # Visio tempfile
 *.~vsd
 
