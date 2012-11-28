@@ -8,8 +8,8 @@
     <ProjectGuid>{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SliceOfPie_Model</RootNamespace>
-    <AssemblyName>SliceOfPie_Model</AssemblyName>
+    <RootNamespace>SliceOfPie_OnlineGUI</RootNamespace>
+    <AssemblyName>SliceOfPie_BDSA</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -49,20 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
-    <Compile Include="FileAdministrator.cs" />
-    <Compile Include="FilePersistenceException.cs" />
-
-    <Compile Include="CommunicatorOfflineAdapter.cs" />
     <Compile Include="Context.cs" />
-
-    <Compile Include="IAdministrator.cs" />
-    <Compile Include="ICommunicator.cs" />
-    <Compile Include="IController.cs" />
-    <Compile Include="LogEntry.cs" />
     <Compile Include="FileMetaData.cs" />
     <Compile Include="Document.cs" />
-    <Compile Include="EnumTypes.cs" />
+    <Compile Include="mainMethod.cs" />
     <Compile Include="MetaDataType.cs" />
     <Compile Include="Database.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -76,14 +66,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.Config" />
     <EntityDeploy Include="Database.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Database.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Properties\DataSources\SliceOfLifeEntities.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
