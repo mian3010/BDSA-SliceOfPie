@@ -19,18 +19,18 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.File), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.Change), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.User), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.Change), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.File), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.File), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.FileInstance), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.File), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.FileMetaData), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.FileInstance), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_OnlineGUI.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.FileMetaData), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_OnlineGUI.User))]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Change), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.User), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Change), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.File), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileInstance), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileMetaData), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileInstance), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileMetaData), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.User))]
 
 #endregion
 
-namespace SliceOfPie_OnlineGUI
+namespace SliceOfPie_Model
 {
     #region Contexts
     

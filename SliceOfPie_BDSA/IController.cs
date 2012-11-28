@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_Interfaces
+namespace SliceOfPie_Model
 {
     public interface IController
     {

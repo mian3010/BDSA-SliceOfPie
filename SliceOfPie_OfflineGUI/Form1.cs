@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SliceOfPie_Interfaces;
+using SliceOfPie_Model;
 
 namespace SliceOfPie_OfflineGUI
 {

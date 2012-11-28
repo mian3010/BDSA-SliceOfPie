@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -54,12 +55,12 @@
     <Compile Include="SimpleMergePolicyTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\SliceOfPie_BDSA.accessor" />
+    <Shadow Include="Test References\SliceOfPie_Model.accessor" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_BDSA.csproj">
+    <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_Model.csproj">
       <Project>{48b6328a-33a1-4ffd-b6b4-ed75e380e68c}</Project>
-      <Name>SliceOfPie_BDSA</Name>
+      <Name>SliceOfPie_Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

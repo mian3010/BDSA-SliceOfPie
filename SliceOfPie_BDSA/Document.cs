@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_OnlineGUI
+namespace SliceOfPie_Model
 {
     /// <summary>
     /// Document class. Emulates a simple document.
