@@ -50,11 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdministratorOfflineAdapter.cs" />
-
     <Compile Include="CommunicatorOfflineAdapter.cs" />
-
     <Compile Include="Context.cs" />
-
     <Compile Include="IAdministrator.cs" />
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IController.cs" />
@@ -62,7 +59,6 @@
     <Compile Include="FileMetaData.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="EnumTypes.cs" />
-    <Compile Include="mainMethod.cs" />
     <Compile Include="MetaDataType.cs" />
     <Compile Include="Database.Designer.cs">
       <AutoGen>True</AutoGen>
