@@ -5,16 +5,14 @@ using System.Text;
 
 namespace SliceOfPie_Model
 {
-    public interface IAdministrator
+    interface IAdministrator
     {
         IAdministrator GetInstance();
 
-        event EventHandler FilesUpdated, ContentAdded, FileSaved;
-
         void GetAllFiles();
 
-        void OpenFile(int id);
+        void OpenFile(File file);
 
-        void SaveFile(int id, String content);
+        void SaveFile(File file);
     }
 }
