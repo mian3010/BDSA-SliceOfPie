@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Text;
 using System.Web.Security;
+using SliceOfPie_Model;
 
 namespace SliceOfPie_OnlineGUI.Models {
   public class FileModel {

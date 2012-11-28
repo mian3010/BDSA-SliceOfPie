@@ -1,4 +1,4 @@
-namespace SliceOfPie_OnlineGUI
+namespace SliceOfPie_Model
 {
     public partial class MetaDataType
     {

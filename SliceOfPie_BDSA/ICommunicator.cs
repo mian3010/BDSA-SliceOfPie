@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_Interfaces
+namespace SliceOfPie_Model
 {
     /// <summary>
     /// The interface resposinsible for communicating with the persistence layer.
@@ -11,10 +11,13 @@ namespace SliceOfPie_Interfaces
     /// </summary>
     public interface ICommunicator
     {
-        public List<File> UpdateFiles();
+         int AddFile(File file);
 
-        public String GetContent(int id);
+        File ChangePath(File old, String newPath);
 
-        public int SaveContent(int id, String content);
+        List<LogEntry> GetLog();
+
+        void SaveLog();
+
     }
 }

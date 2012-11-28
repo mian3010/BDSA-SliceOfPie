@@ -551,8 +551,8 @@
         <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="5.25" PointY="5.625" Height="2.5571907552083326" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3" PointY="4.25" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="8.25" PointY="5.75" Height="2.3648893229166648" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="5.25" PointY="2.625" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3" PointY="2" Height="1.4033821614583335" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="2.125" PointX="5.375" PointY="2.125" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="2.75" PointY="1.25" Height="1.4033821614583335" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="0.75" PointY="6" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3" PointY="7.75" Height="1.7879850260416674" IsExpanded="true" />
         <AssociationConnector Association="SliceOfLifeModel.fk_Change_File1" ManuallyRouted="false">

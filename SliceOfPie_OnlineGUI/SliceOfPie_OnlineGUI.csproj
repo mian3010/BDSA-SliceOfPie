@@ -302,9 +302,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_BDSA.csproj">
+    <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_Model.csproj">
       <Project>{48b6328a-33a1-4ffd-b6b4-ed75e380e68c}</Project>
-      <Name>SliceOfPie_BDSA</Name>
+      <Name>SliceOfPie_Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
