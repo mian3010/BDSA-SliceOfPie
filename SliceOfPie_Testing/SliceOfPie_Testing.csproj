@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_BDSA.csproj">
-      <Project>{48B6328A-33A1-4FFD-B6B4-ED75E380E68C}</Project>
+      <Project>{48b6328a-33a1-4ffd-b6b4-ed75e380e68c}</Project>
       <Name>SliceOfPie_BDSA</Name>
     </ProjectReference>
   </ItemGroup>

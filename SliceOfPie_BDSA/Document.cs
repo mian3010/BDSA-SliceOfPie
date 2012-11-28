@@ -3,35 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_BDSA
+namespace SliceOfPie_OnlineGUI
 {
     /// <summary>
     /// Document class. Emulates a simple document.
     /// Author morr&msta.
     /// </summary>
-    public class Document
+    public class Document : File
     {
+        public String Title { get; set; }
+        public StringBuilder Content { get; set; }
+        public IList<String> Authors { get; set; }
 
-        public String Name
-        {
-            get;
-            set;
+        public override string ToString() {
+          StringBuilder output = new StringBuilder();
+          output.Append("<div class=\"document\">");
+          output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+          output.Append("<div class=\"document-view\">");
+          output.Append("<ul class=\"metadata-view\">");
+          foreach (FileMetaData MetaData in FileMetaDatas) {
+            output.Append("<li>"+MetaData.MetaDataType+": "+MetaData+"</li>");
+          }
+          output.Append("</ul>");
+          output.Append(Content);
+          output.Append("</div>");
+          return output.ToString();
         }
-
-        public StringBuilder Content
-        {
-            get;
-            set;
-        }
-
-        public List<String> UserIdList
-        {
-            get;
-            set;
-        }
-
-        // VersionHistory version.
-
 
         static internal Document createTestDocument(String s)
         {

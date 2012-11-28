@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using SliceOfPie_BDSA;
+using SliceOfPie_OnlineGUI;
 
-namespace SliceOfPie_BDSA
+namespace SliceOfPie_OnlineGUI
 {
     public class SimpleMergePolicy
     {

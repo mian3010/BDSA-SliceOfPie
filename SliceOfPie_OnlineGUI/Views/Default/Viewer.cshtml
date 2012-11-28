@@ -1,8 +1,8 @@
 ﻿@{
     ViewBag.Title = "Slice of Pie";
-    ViewBag.Message = "Editor";
+    ViewBag.Message = "Viewer";
 }
-@section home {
+@section header {
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -12,3 +12,8 @@
         </div>
     </section>
 }
+<section class="viewer">
+     <div class="content-wrapper">
+         @Html.Raw(ViewBag.Document)
+     </div>
+</section>
