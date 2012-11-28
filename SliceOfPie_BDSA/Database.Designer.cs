@@ -272,14 +272,12 @@ namespace SliceOfPie_OnlineGUI
         /// Create a new Change object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        /// <param name="user_Project_Title">Initial value of the User_Project_Title property.</param>
         /// <param name="user_email">Initial value of the User_email property.</param>
         /// <param name="file_id">Initial value of the File_id property.</param>
-        public static Change CreateChange(global::System.Int64 id, global::System.String user_Project_Title, global::System.String user_email, global::System.Int64 file_id)
+        public static Change CreateChange(global::System.Int64 id, global::System.String user_email, global::System.Int64 file_id)
         {
             Change change = new Change();
             change.id = id;
-            change.User_Project_Title = user_Project_Title;
             change.User_email = user_email;
             change.File_id = file_id;
             return change;
@@ -315,33 +313,6 @@ namespace SliceOfPie_OnlineGUI
         private global::System.Int64 _id;
         partial void OnidChanging(global::System.Int64 value);
         partial void OnidChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String User_Project_Title
-        {
-            get
-            {
-                return _User_Project_Title;
-            }
-            set
-            {
-                if (_User_Project_Title != value)
-                {
-                    OnUser_Project_TitleChanging(value);
-                    ReportPropertyChanging("User_Project_Title");
-                    _User_Project_Title = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("User_Project_Title");
-                    OnUser_Project_TitleChanged();
-                }
-            }
-        }
-        private global::System.String _User_Project_Title;
-        partial void OnUser_Project_TitleChanging(global::System.String value);
-        partial void OnUser_Project_TitleChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
