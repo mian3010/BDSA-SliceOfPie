@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdministratorOfflineAdapter.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="IAdministrator.cs" />
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IController.cs" />
