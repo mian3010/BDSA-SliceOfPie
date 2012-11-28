@@ -9,32 +9,35 @@ namespace SliceOfPie_Model {
   /// </summary>
   public static class Context {
 
-    public static SliceOfPie_OnlineGUI.User[] GetUsers() {
-      var DbContext = new SliceOfPie_OnlineGUI.SliceOfLifeEntities();
+    public static User[] GetUsers() {
+      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   select u;
-      return query.ToArray<SliceOfPie_OnlineGUI.User>();
+      return query.ToArray<User>();
     }
 
-    public static SliceOfPie_OnlineGUI.User GetUsers(string email) {
-      var DbContext = new SliceOfPie_OnlineGUI.SliceOfLifeEntities();
+    public static User GetUsers(string email) {
+      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
-      return (SliceOfPie_OnlineGUI.User)query;
+      return (User)query;
     }
 
     // Does this return object hold a list of MetaDataTypes?
-    public static SliceOfPie_OnlineGUI.FileMetaData[] GetMetaData(long FileId) {
-      var DbContext = new SliceOfPie_OnlineGUI.SliceOfLifeEntities();
+    public static FileMetaData[] GetMetaData(long FileId) {
+      var DbContext = new SliceOfLifeEntities();
       var query = from meta in DbContext.FileMetaDatas
                   where meta.File_id == FileId
                   select meta;
-      return query.ToArray<SliceOfPie_OnlineGUI.FileMetaData>();
+      return query.ToArray<FileMetaData>();
     }
 
-    public static void Main(string args[]) {
-
+    public static void AddUser(string email){
+      var DbContext = new SliceOfLifeEntities();
+      User user = User.CreateUser(email);
+      DbContext.AddToUsers(user);
+      DbContext.SaveChanges();
     }
   }
 }
