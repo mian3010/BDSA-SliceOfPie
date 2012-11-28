@@ -74,12 +74,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`Change` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `User_Project_Title` VARCHAR(400) NOT NULL ,
   `User_email` VARCHAR(400) NOT NULL ,
   `timestamp` BIGINT NULL ,
   `change` TEXT NULL ,
   `File_id` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`, `User_Project_Title`, `User_email`, `File_id`) ,
+  PRIMARY KEY (`id`, `User_email`, `File_id`) ,
   INDEX `fk_Change_User1_idx` (`User_email` ASC) ,
   INDEX `fk_Change_File1_idx` (`File_id` ASC) ,
   CONSTRAINT `fk_Change_User1`
