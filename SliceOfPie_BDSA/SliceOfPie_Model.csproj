@@ -49,13 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
-    <Compile Include="FileAdministrator.cs" />
+    <Compile Include="FileAdministratorAdaptor.cs" />
     <Compile Include="FilePersistenceException.cs" />
-
     <Compile Include="CommunicatorOfflineAdapter.cs" />
     <Compile Include="Context.cs" />
-
     <Compile Include="IAdministrator.cs" />
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IController.cs" />
