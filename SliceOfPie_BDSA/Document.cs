@@ -15,6 +15,11 @@ namespace SliceOfPie_Model
         public StringBuilder Content { get; set; }
         public IList<String> Authors { get; set; }
 
+        public Document()
+        {
+            Content = new StringBuilder();
+        }
+
         public override string ToString() {
           StringBuilder output = new StringBuilder();
           output.Append("<div class=\"document\">");
