@@ -37,7 +37,7 @@ namespace SliceOfPie_OfflineGUI
         public void LoadDocContent(Document doc)
         {
             if (doc != null)
-                webBrowser1.Document.Write(doc.Content.ToString());
+                webBrowser1.Document.Write(doc.ToString());
             else
                 MessageBox.Show("No document selected");
         }
