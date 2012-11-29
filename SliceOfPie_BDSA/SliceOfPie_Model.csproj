@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="File.cs" />
-    <Compile Include="FileAdministrator.cs" />
     <Compile Include="FileAdministratorAdaptor.cs" />
     <Compile Include="FilePersistenceException.cs" />
     <Compile Include="CommunicatorOfflineAdapter.cs" />
