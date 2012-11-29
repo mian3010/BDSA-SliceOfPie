@@ -12,6 +12,7 @@ namespace SliceOfTest {
       Context.AddUser("Hejsa");
       User user = Context.GetUsers().First();
       Console.WriteLine("User: " + user.email);
+      Console.ReadLine();
     }
   }
 }
