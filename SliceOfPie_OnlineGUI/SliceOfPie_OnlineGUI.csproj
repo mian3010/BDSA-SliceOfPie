@@ -177,6 +177,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\colorbox.css" />
     <Content Include="Content\Viewer.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -235,11 +236,19 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\border.png" />
+    <Content Include="Images\controls.png" />
+    <Content Include="Images\history.gif" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\loading_background.png" />
+    <Content Include="Images\logo_pie.png" />
+    <Content Include="Images\overlay.png" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.colorbox-min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -288,6 +297,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Default\Viewer.cshtml" />
+    <Content Include="Views\Shared\_Colorbox.cshtml" />
+    <Content Include="Views\Default\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

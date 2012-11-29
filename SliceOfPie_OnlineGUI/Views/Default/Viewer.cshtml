@@ -12,8 +12,18 @@
         </div>
     </section>
 }
+@section js {
+    $('#ShowHistory').colorbox();
+}
 <section class="viewer">
-     <div class="content-wrapper">
-         @Html.Raw(ViewBag.Document)
-     </div>
+    <ul id="document-menu">
+        <li>
+            <a id="ShowHistory" href="@Url.Action("History", "Default")">
+                <img src="@Url.Content("~/Images/history.gif")" />
+            </a>
+        </li>
+    </ul>
+    <div class="content-wrapper">
+        @Html.Raw(ViewBag.Document)
+    </div>
 </section>

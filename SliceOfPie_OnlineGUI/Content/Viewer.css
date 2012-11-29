@@ -1,4 +1,9 @@
-﻿.document-title
+﻿.viewer
+{
+  position: relative;
+  margin: 20px;
+}
+.document-title
 {
   font-size: 20px;
 }
@@ -26,4 +31,12 @@ h2.document-title:hover + div.document-view .metadata-view,
 .metadata-view:hover
 {
   opacity: 1;
+}
+#document-menu
+{
+  list-style: none;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  margin: 0;
 }
