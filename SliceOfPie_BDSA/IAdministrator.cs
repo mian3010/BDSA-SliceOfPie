@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_Model
-{
-    interface IAdministrator
-    {
-        IAdministrator GetInstance();
+namespace SliceOfPie_Model {
+  interface IAdministrator {
 
-        void GetAllFiles();
+    void GetAllFiles();
 
-        void OpenFile(File file);
+    void OpenFile(File file);
 
-        void SaveFile(File file);
-    }
+    void SaveFile(File file);
+  }
 }
