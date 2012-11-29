@@ -7,11 +7,12 @@ using SliceOfPie_Model;
 
 namespace SliceOfTest {
   class Program {
-    static void Main(string[] args) {
+    public static void Main(string[] args) {
       Console.WriteLine("Adding user");
       Context.AddUser("Hejsa");
       User user = Context.GetUsers().First();
       Console.WriteLine("User: " + user.email);
+      Console.ReadLine();
     }
   }
 }
