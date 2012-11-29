@@ -12,6 +12,8 @@ namespace SliceOfTest {
       Context.AddUser("Hejsa");
       User user = Context.GetUsers().First();
       Console.WriteLine("User: " + user.email);
+      Context.DeleteUser(user.email);
+      Console.WriteLine("User deleted");
       Console.ReadLine();
     }
   }
