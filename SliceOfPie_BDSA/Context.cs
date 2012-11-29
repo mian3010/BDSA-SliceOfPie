@@ -39,5 +39,14 @@ namespace SliceOfPie_Model {
       DbContext.AddToUsers(user);
       DbContext.SaveChanges();
     }
+
+    public static void DeleteUser(string email) {
+      var DbContext = new SliceOfLifeEntities();
+      var query = from u in DbContext.Users
+                  where u.email == email
+                  select u;
+      DbContext.DeleteObject(query.First());
+      DbContext.SaveChanges();
+    }
   }
 }
