@@ -12,20 +12,26 @@ namespace SliceOfPie_Model {
     public StringBuilder Content { get; set; }
     public IList<String> Authors { get; set; }
 
-    public override string ToString() {
-      StringBuilder output = new StringBuilder();
-      output.Append("<div class=\"document\">");
-      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-      output.Append("<div class=\"document-view\">");
-      output.Append("<ul class=\"metadata-view\">");
-      foreach (FileMetaData MetaData in FileMetaDatas) {
-        output.Append("<li>" + MetaData.MetaDataType + ": " + MetaData + "</li>");
-      }
-      output.Append("</ul>");
-      output.Append(Content);
-      output.Append("</div>");
-      return output.ToString();
-    }
+
+        public Document()
+        {
+            Content = new StringBuilder();
+        }
+
+        public override string ToString() {
+          StringBuilder output = new StringBuilder();
+          output.Append("<div class=\"document\">");
+          output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+          output.Append("<div class=\"document-view\">");
+          output.Append("<ul class=\"metadata-view\">");
+          foreach (FileMetaData MetaData in FileMetaDatas) {
+            output.Append("<li>"+MetaData.MetaDataType+": "+MetaData+"</li>");
+          }
+          output.Append("</ul>");
+          output.Append(Content);
+          output.Append("</div>");
+          return output.ToString();
+        }
 
     public string HistoryToString() {
       StringBuilder output = new StringBuilder();

@@ -33,7 +33,6 @@
             this.syncButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
-            this.copyButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.addButton = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -81,26 +80,15 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // copyButton
-            // 
-            this.copyButton.Location = new System.Drawing.Point(18, 97);
-            this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(75, 23);
-            this.copyButton.TabIndex = 4;
-            this.copyButton.Text = "Copy";
-            this.copyButton.UseVisualStyleBackColor = true;
-            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.addButton);
-            this.panel1.Controls.Add(this.copyButton);
             this.panel1.Controls.Add(this.editButton);
             this.panel1.Controls.Add(this.deleteButton);
             this.panel1.Location = new System.Drawing.Point(396, 101);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(110, 125);
+            this.panel1.Size = new System.Drawing.Size(110, 96);
             this.panel1.TabIndex = 5;
             // 
             // addButton
@@ -153,7 +141,6 @@
         private System.Windows.Forms.Button syncButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button editButton;
-        private System.Windows.Forms.Button copyButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.ProgressBar progressBar1;

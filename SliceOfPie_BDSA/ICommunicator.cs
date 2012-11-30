@@ -14,8 +14,6 @@ namespace SliceOfPie_Model
         int AddFile(File file);
         Boolean SaveFile(File file);
         
-
-
         File ChangePath(File old, String newPath);
 
         List<LogEntry> GetLog();
