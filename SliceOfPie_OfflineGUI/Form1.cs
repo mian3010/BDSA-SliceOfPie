@@ -60,9 +60,7 @@ namespace SliceOfPie_OfflineGUI
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            Form2 docform = new Form2();
-            docform.Show();
-            docform.LoadDocContent(d);
+           
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -78,6 +76,13 @@ namespace SliceOfPie_OfflineGUI
         private void progressBar1_Click(object sender, EventArgs e)
         {
             progressBar1.BackColor = Color.Aqua;
+        }
+
+        private void viewButton_Click(object sender, EventArgs e)
+        {
+            Form2 docform = new Form2();
+            docform.Show();
+            docform.LoadDocContent(d);
         }
     }
 }

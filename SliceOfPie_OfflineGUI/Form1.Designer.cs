@@ -38,6 +38,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.viewButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
@@ -83,12 +84,13 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.viewButton);
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Controls.Add(this.editButton);
             this.panel1.Controls.Add(this.deleteButton);
             this.panel1.Location = new System.Drawing.Point(396, 101);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(110, 96);
+            this.panel1.Size = new System.Drawing.Size(110, 126);
             this.panel1.TabIndex = 5;
             // 
             // addButton
@@ -115,6 +117,16 @@
             this.vScrollBar1.Name = "vScrollBar1";
             this.vScrollBar1.Size = new System.Drawing.Size(17, 303);
             this.vScrollBar1.TabIndex = 7;
+            // 
+            // viewButton
+            // 
+            this.viewButton.Location = new System.Drawing.Point(18, 95);
+            this.viewButton.Name = "viewButton";
+            this.viewButton.Size = new System.Drawing.Size(75, 24);
+            this.viewButton.TabIndex = 6;
+            this.viewButton.Text = "View";
+            this.viewButton.UseVisualStyleBackColor = true;
+            this.viewButton.Click += new System.EventHandler(this.viewButton_Click);
             // 
             // Form1
             // 
@@ -146,6 +158,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.Button viewButton;
     }
 }
 
