@@ -5,12 +5,11 @@
         <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/Viewer.css")
-        @Styles.Render("~/Content/colorbox.css")
-        @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/Scripts/jquery.colorbox-min.js")
+        @Styles.Render("~/Content/css")
+        @RenderSection("imports", required: false)
+        @Styles.Render("~/Content/Base.css")
+        @Scripts.Render("~/bundles/modernizr")
         <script type="text/javascript">jQuery(function ($) {@RenderSection("js", required: false) });</script>
     </head>
     <body>

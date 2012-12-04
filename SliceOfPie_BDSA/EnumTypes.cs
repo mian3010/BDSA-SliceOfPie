@@ -5,12 +5,6 @@ using System.Text;
 
 namespace SliceOfPie_Model
 {
-    public enum MetaType
-    {
-        Type_Document, Type_Image, 
-        Author, Length, Publisher
-
-    };
 
     public enum FileModification
     {

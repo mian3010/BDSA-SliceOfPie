@@ -1,0 +1,13 @@
+﻿#document-menu
+{
+  list-style: none;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  margin: 0;
+}
+
+  #document-menu a
+  {
+    text-decoration: none;
+  }
