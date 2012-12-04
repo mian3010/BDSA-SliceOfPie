@@ -2,6 +2,12 @@
     ViewBag.Title = "Slice of Pie";
     ViewBag.Message = "Viewer";
 }
+@section imports {
+    @Styles.Render("~/Content/Viewer.css")
+    @Styles.Render("~/Content/Menu.css")
+    @Styles.Render("~/Content/colorbox.css")
+    @Scripts.Render("~/Scripts/jquery.colorbox-min.js")
+}
 @section header {
     <section class="featured">
         <div class="content-wrapper">

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace SliceOfPie_Model {
   /// <summary>
-  /// Document class. Emulates a simple document.
+  /// Document class. Emulates a PARTIAL html document. 
+  /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr&msta.
   /// </summary>
   public class Document : File {
