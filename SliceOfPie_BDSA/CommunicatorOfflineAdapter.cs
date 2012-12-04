@@ -13,6 +13,8 @@ namespace SliceOfPie_Model {
 
       public readonly String rootpath;
 
+      private List<LogEntry> log = new List<LogEntry>();
+
       public CommunicatorOfflineAdapter(String rootpath)
       {
           this.rootpath = rootpath;
@@ -57,24 +59,40 @@ namespace SliceOfPie_Model {
             
             writer.WriteEndElement();
             writer.WriteEndDocument();
+
+            SaveLog(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Add);
+
             return true;
         }
     }
 
-    public bool SaveFile(File file) {
+    public bool ModifyFile(File file) {
+
       throw new NotImplementedException();
     }
 
-    public File ChangePath(File old, string newPath) {
+    public void DeleteFile(File file)
+    {
+
+    }
+
+    public void RenameFile(File file)
+    {
+
+    }
+
+
+
+    public File MoveFile(File old, string newPath) {
       throw new NotImplementedException();
     }
 
     public List<LogEntry> GetLog() {
-      throw new NotImplementedException();
+        return log;
     }
 
-    public void SaveLog() {
-      throw new NotImplementedException();
+    public void SaveLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification) {
+        log.Add(new LogEntry(id, filename, filepath, timeStamp, modification));
     }
   }
 }
