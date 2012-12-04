@@ -68,15 +68,24 @@ namespace SliceOfPie_Model {
 
     public bool ModifyFile(File file) {
 
+        if(file == null){
+            throw new ArgumentException();
+        }
         offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Modify));
         return true;
     }
 
     public bool DeleteFile(File file)
-    {        
+    {
+        //Is metadata availible.
+        if (file.deleted <= 0)
+        {
+            throw new ArgumentException();
+        }
         try
         {
             offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Delete));
+            //Delete the file through System.IO.File class, not Slice Of Pie File class.
             System.IO.File.Delete(file.serverpath);
         }
         catch (IOException e)
@@ -88,17 +97,30 @@ namespace SliceOfPie_Model {
 
     public void RenameFile(File file, string newName)
     {
+        if (file.deleted <= 0)
+        {
+            throw new ArgumentException();
+        }
+
         file.name = newName;
         offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Rename));
     }
 
 
     public void MoveFile(File file, string newPath) {
+        if (file.deleted <= 0)
+        {
+            throw new ArgumentException();
+        }
         file.serverpath = newPath;
         offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Move));
     }
 
     public List<LogEntry> GetLog() {
+        if (offLineLog.Count == 0)
+        {
+            Console.Out.WriteLine("Off-line log is empty");
+        }
         return offLineLog;
     }
 
