@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 
 namespace SliceOfPie_Model {
-  public class FileAdministratorAdaptor : IAdministrator {
+  public class FileSystemCommunicator : IAdministrator {
     private ICommunicator communicator;
     public delegate void FileEventHandler(object sender, File file);
     public event FileEventHandler FilesUpdated, ContentAdded, FileSaved;
 
     //singleton instance
-    public static FileAdministratorAdaptor administrator;
+    public static FileSystemCommunicator administrator;
 
-    private FileAdministratorAdaptor() {
+    private FileSystemCommunicator() {
 
     }
 
-    public static FileAdministratorAdaptor GetInstance() {
+    public static FileSystemCommunicator GetInstance() {
       if (administrator == null)
-        administrator = new FileAdministratorAdaptor();
+        administrator = new FileSystemCommunicator();
       return administrator;
     }
 

@@ -11,7 +11,7 @@ namespace SliceOfPie_Model
     /// </summary>
     public interface ICommunicator
     {
-        int AddFile(File file);
+        bool AddFile(File file);
         Boolean SaveFile(File file);
         
         File ChangePath(File old, String newPath);

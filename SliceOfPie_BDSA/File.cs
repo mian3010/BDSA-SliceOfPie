@@ -6,7 +6,7 @@ using System.Text;
 namespace SliceOfPie_Model {
   partial class File {
     public override string ToString() {
-      return "<p>Editor cannot open this filetype</p>";
+      return "<p> Editor cannot open this filetype </p>";
     }
     public string HistoryToString() {
       StringBuilder output = new StringBuilder();
