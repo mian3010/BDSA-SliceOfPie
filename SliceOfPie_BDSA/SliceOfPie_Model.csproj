@@ -55,7 +55,7 @@
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
     <Compile Include="File.cs" />
-    <Compile Include="FileAdministratorAdaptor.cs" />
+    <Compile Include="FileSystemCommunicator.cs" />
     <Compile Include="FilePersistenceException.cs" />
     <Compile Include="CommunicatorOfflineAdapter.cs" />
     <Compile Include="Context.cs" />
