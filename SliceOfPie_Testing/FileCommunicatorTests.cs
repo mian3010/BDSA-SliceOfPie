@@ -79,11 +79,19 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestRemoveFile()
         {
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(@"C:\Users\Magnus\Desktop\test\");
+            foreach (File file in GetTestRig())
+            {
+                ts.RemoveFile();
+            }
+
         }
 
         [TestMethod]
         public void TestLoadFile()
         {
+            CommunicatorOfflineAdapter ts = new
+
         }
         
     }
