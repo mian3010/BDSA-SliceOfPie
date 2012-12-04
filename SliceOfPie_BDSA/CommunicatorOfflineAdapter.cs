@@ -13,7 +13,7 @@ namespace SliceOfPie_Model {
 
       public readonly String rootpath;
 
-      private List<LogEntry> log = new List<LogEntry>();
+      private List<LogEntry> offLineLog = new List<LogEntry>();
 
       public CommunicatorOfflineAdapter(String rootpath)
       {
@@ -68,31 +68,43 @@ namespace SliceOfPie_Model {
 
     public bool ModifyFile(File file) {
 
-      throw new NotImplementedException();
+        offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Modify));
+        return true;
     }
 
-    public void DeleteFile(File file)
+    public bool DeleteFile(File file)
+    {        
+        try
+        {
+            offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Delete));
+            System.IO.File.Delete(file.serverpath);
+        }
+        catch (IOException e)
+        {
+            Console.Out.WriteLine("File is not deleted");
+        }
+        return true;
+    }
+
+    public void RenameFile(File file, string newName)
     {
-
-    }
-
-    public void RenameFile(File file)
-    {
-
+        file.name = newName;
+        offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Rename));
     }
 
 
-
-    public File MoveFile(File old, string newPath) {
-      throw new NotImplementedException();
+    // Remember to update serverpath with new file
+    public void MoveFile(File file, string newPath) {
+        file.serverpath = newPath;
+        offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Move));
     }
 
     public List<LogEntry> GetLog() {
-        return log;
+        return offLineLog;
     }
 
     public void SaveLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification) {
-        log.Add(new LogEntry(id, filename, filepath, timeStamp, modification));
+        offLineLog.Add(new LogEntry(id, filename, filepath, timeStamp, modification));
     }
   }
 }
