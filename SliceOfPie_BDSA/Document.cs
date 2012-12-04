@@ -19,6 +19,11 @@ namespace SliceOfPie_Model {
             Content = new StringBuilder();
         }
 
+        public override string GetContent()
+        {
+            return Content.ToString();
+        }
+
         public override string ToString() {
           StringBuilder output = new StringBuilder();
           output.Append("<div class=\"document\">");

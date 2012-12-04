@@ -5,6 +5,13 @@ using System.Text;
 
 namespace SliceOfPie_Model {
   partial class File {
+
+      public String GetContent()
+      {
+          return "If this message is shown, the object displaying it is a File base class and have no content"
+                 + "to display";
+      }
+
     public override string ToString() {
       return "<p> Editor cannot open this filetype </p>";
     }
