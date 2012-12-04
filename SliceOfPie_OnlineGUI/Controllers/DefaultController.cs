@@ -12,11 +12,14 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     }
 
     public ActionResult Editor() {
+      Document DocumentToEdit = Models.FileModel.getFile(0);
+      @ViewBag.DocumentTitle = DocumentToEdit.Title;
+      @ViewBag.DocumentContent = DocumentToEdit.Content;
       return View();
     }
 
     public ActionResult Viewer() {
-      SliceOfPie_Model.File FileToView = Models.FileModel.getFile(0);
+      File FileToView = Models.FileModel.getFile(0);
       @ViewBag.Document = FileToView.ToString();
       return View();
     }
