@@ -76,6 +76,8 @@ x64/
 *.tlh
 *.tmp
 *.log
+*.dll
+*.pdb
 *.vspscc
 *.vssscc
 .builds
