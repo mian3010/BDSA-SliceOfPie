@@ -22,7 +22,7 @@ namespace SliceOfPie_Network
         private void SendLog(List<LogEntry> log)
         {
             string xml = HTMLMarshaller.MarshallLog(log);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp("http://www.itu.dk/people/dpacino/test/");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
             request.Credentials = new NetworkCredential("test", "test");
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
@@ -42,7 +42,7 @@ namespace SliceOfPie_Network
         private void SendFile(SliceOfPie_Model.File file)
         {
             string xml = HTMLMarshaller.MarshallFile(file);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp("http://www.itu.dk/people/dpacino/test/");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
             request.Credentials = new NetworkCredential("test", "test");
             request.Accept = "text/xml,text/html";
             request.Method = "ADD";

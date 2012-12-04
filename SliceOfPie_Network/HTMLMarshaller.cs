@@ -54,6 +54,63 @@ namespace SliceOfPie_Network
 	        }
             return builder.ToString();
         }
+
+        public static List<LogEntry> UnMarshallLog(string xml)
+        {
+            StringReader stringReader = new StringReader(xml);
+            List<LogEntry> LogList = new List<LogEntry>();
+            Console.Out.WriteLine("Starting to parse");
+            using (XmlReader reader = XmlReader.Create(stringReader))
+            {
+                reader.MoveToContent();
+                string root = reader.GetAttribute("Logentry");
+                string id = reader.GetAttribute("ID");
+                string fileName = reader.GetAttribute("fileName");
+                string filePath = reader.GetAttribute("filePath");
+                string timeStamp = reader.GetAttribute("timestamp");
+                string modification = reader.GetAttribute("Modification");
+
+                if (reader.IsEmptyElement) { reader.Read(); return null; }
+                bool b = true;
+                reader.ReadStartElement();
+                while (b)
+                {
+                    if (reader.NodeType == XmlNodeType.EndElement) break;
+                    reader.Read();
+                    id = reader.ReadElementContentAsString();
+                    Console.Out.WriteLine("id:" + id);
+                    //reader.Read();
+                    fileName = reader.ReadElementContentAsString();
+                    Console.Out.WriteLine("fileName: " + fileName);
+                    //reader.Read();
+                    filePath = reader.ReadElementContentAsString();
+                    Console.Out.WriteLine("filePath: " + filePath);
+                    timeStamp = reader.ReadElementContentAsString();
+                    Console.Out.WriteLine("timestamp: " + timeStamp);
+                    modification = reader.ReadElementContentAsString();
+                    Console.Out.WriteLine("modification: " + modification);
+                    reader.Read();
+                    FileModification f = FileModification.Add;
+                    switch (modification) {
+                        case "Add": f = FileModification.Add; break;
+                        case "Delete": f = FileModification.Delete; break;
+                        case "Modify": f = FileModification.Modify; break;
+                        case "MergeReady": f = FileModification.MergeReady; break;
+                        case "Rename": f = FileModification.Rename; break;
+                        case "Move": f = FileModification.Move; break;
+                    }
+
+                    LogEntry entry = new LogEntry(int.Parse(id), fileName, filePath, DateTime.Now , f);
+                    LogList.Add(entry);
+                }
+                
+
+                Console.Out.WriteLine("UNMARSHALLING RESULT: " + root + id + fileName + filePath + timeStamp + modification);
+            }
+            return LogList;
+
+
+        }
     }
 }
 
