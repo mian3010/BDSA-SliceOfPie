@@ -93,7 +93,6 @@ namespace SliceOfPie_Model {
     }
 
 
-    // Remember to update serverpath with new file
     public void MoveFile(File file, string newPath) {
         file.serverpath = newPath;
         offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Move));
@@ -105,6 +104,11 @@ namespace SliceOfPie_Model {
 
     public void SaveLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification) {
         offLineLog.Add(new LogEntry(id, filename, filepath, timeStamp, modification));
+    }
+
+    public bool SaveFile(File file)
+    {
+        return true;
     }
   }
 }

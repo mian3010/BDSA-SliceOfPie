@@ -12,13 +12,20 @@ namespace SliceOfPie_Model
     public interface ICommunicator
     {
         bool AddFile(File file);
-        Boolean SaveFile(File file);
         
-        File ChangePath(File old, String newPath);
+        bool ModifyFile(File file);
+        
+        bool DeleteFile(File file);
+        
+        void RenameFile(File file, string newName);
+        
+        void MoveFile(File file, string newPath);
 
         List<LogEntry> GetLog();
 
-        void SaveLog();
+        void SaveLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification);
+
+        bool SaveFile(File file);
 
     }
 }
