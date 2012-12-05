@@ -15,20 +15,49 @@ namespace SliceOfPie_Network
 {
     public static class HTMLMarshaller
     {
-
+        /// <summary>
+        /// Marshall file to xml. 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static string MarshallFile(SliceOfPie_Model.File file)
         {
             StringBuilder builder = new StringBuilder();
-            using(XmlWriter writer = XmlWriter.Create(builder))
+            using (XmlWriter writer = XmlWriter.Create(builder))
             {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("File");
-                writer.WriteElementString("id", file.id.ToString());
-                writer.WriteElementString("name", file.name);
-                writer.WriteElementString("path", file.serverpath);     
+                writer.WriteStartElement("html");
+
+                // Write filemetadata 
+                foreach (FileMetaData types in file.FileMetaDatas)
+                {
+                    writer.WriteStartElement("meta");
+                    writer.WriteAttributeString("name", types.MetaDataType.Type);
+                    //writer.WriteEndAttribute(); 
+                    writer.WriteAttributeString("content", types.value);
+                    // writer.WriteEndAttribute();
+                    writer.WriteEndElement();
+                }
+
+                // Write a custom ID tag which we can use later for database purposes.
+                writer.WriteStartElement("meta");
+                writer.WriteAttributeString("id", file.id.ToString());
+                writer.WriteEndElement();
+
+                // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
+                writer.WriteStartElement("body");
+                writer.WriteString(file.ToString());
+                writer.WriteEndElement();
+
+
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+
             }
             return builder.ToString();
         }
+
+
 
         /// <summary>
         /// Method that Marshalls a list of LogEntrys into XML
