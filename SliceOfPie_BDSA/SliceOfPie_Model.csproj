@@ -62,6 +62,7 @@
     <Compile Include="FilePersistenceException.cs" />
     <Compile Include="CommunicatorOfflineAdapter.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="HTMLMarshalUtil.cs" />
     <Compile Include="IAdministrator.cs" />
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IController.cs" />

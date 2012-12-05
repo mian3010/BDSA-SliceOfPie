@@ -12,13 +12,16 @@ namespace SliceOfPie_Model {
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
 
       public readonly String rootpath;
+      public readonly String logpath = @"C:\Users\Stahl\Desktop\test\log";
+      public readonly String logfile = "log.xml";
 
       private List<LogEntry> offLineLog;
 
       public CommunicatorOfflineAdapter(String rootpath)
       {
           this.rootpath = rootpath;
-          offLineLog = new List<LogEntry>();
+          initLog();
+          
       }
 
     private bool AddNewFile(File file) {
@@ -31,40 +34,19 @@ namespace SliceOfPie_Model {
             Directory.CreateDirectory(file.serverpath);
         }
         string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
-        Debug.WriteLine("FULLPATH " + fullpath);
-        using (XmlWriter writer = XmlWriter.Create(fullpath))
+        String fileHTML = HTMLMarshalUtil.MarshallFile(file);
+        if (!System.IO.File.Exists(fullpath))
         {
-            writer.WriteStartDocument();
-            writer.WriteStartElement("html");
-            
-            // Write filemetadata 
-            foreach (FileMetaData types in file.FileMetaDatas)
-            {
-                writer.WriteStartElement("meta");
-                writer.WriteAttributeString("name", types.MetaDataType.Type);
-                //writer.WriteEndAttribute(); 
-                writer.WriteAttributeString("content", types.value);
-                // writer.WriteEndAttribute();
-                writer.WriteEndElement();
-            }
-
-            // Write a custom ID tag which we can use later for database purposes.
-            writer.WriteStartElement("meta");
-            writer.WriteAttributeString("id", file.id.ToString());
-            writer.WriteEndElement();
-
-            // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
-            writer.WriteStartElement("body");
-            writer.WriteString(file.ToString());
-            writer.WriteEndElement();
-            
-            
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-
-            // Save to our log
+            System.IO.File.WriteAllText(fullpath, fileHTML);
             return true;
         }
+        else
+        {
+            // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
+            System.IO.File.WriteAllText(fullpath, fileHTML);
+            return true;
+        }
+
     }
 
       /// <summary>
@@ -170,10 +152,6 @@ namespace SliceOfPie_Model {
 
     private void MoveFile(String fullOldPath, String fullNewPath)
     {
-        if (!System.IO.Directory.Exists(fullNewPath))
-        {
-            System.IO.Directory.CreateDirectory(fullNewPath);
-        }
         System.IO.File.Move(fullOldPath, fullNewPath);
     }
 
@@ -187,7 +165,10 @@ namespace SliceOfPie_Model {
         {
             throw new ArgumentException();
         }
-     
+        if (!System.IO.Directory.Exists(newPath))
+        {
+            System.IO.Directory.CreateDirectory(newPath);
+        }
         string fullPath = System.IO.Path.Combine(file.serverpath, file.name);
         string newFullPath = System.IO.Path.Combine(newPath, file.name);
 
@@ -219,8 +200,25 @@ namespace SliceOfPie_Model {
         return true;
     }
 
+    private void initLog()
+    {
+        String fullLogPath = System.IO.Path.Combine(logpath, logfile);
+        if (System.IO.File.Exists(fullLogPath))
+        {
+            String logXML = System.IO.File.ReadAllText(fullLogPath);
+            offLineLog = HTMLMarshalUtil.UnMarshallLog(logXML);
+        }
+        else
+        {
+            offLineLog = new List<LogEntry>();
+        }
+    }
+
     public void PersistLog()
     {
+        String fullLogPath = System.IO.Path.Combine(logpath, logfile);
+        String logXML = HTMLMarshalUtil.MarshallLog(offLineLog);
+        System.IO.File.WriteAllText(fullLogPath, logXML);
     }
 
       /// <summary>
@@ -233,11 +231,11 @@ namespace SliceOfPie_Model {
         String searchPath = file.serverpath;
         if (!searchPath.Contains(rootpath))
         {
-            Debug.WriteLine("okay CHANGE LINE MOFO");
+      
             searchPath = rootpath;
         }
-        searchPath = System.IO.Path.Combine(searchPath + file.name);
-        Debug.WriteLine("SEARCHPATH : " + searchPath);
+        searchPath = System.IO.Path.Combine(searchPath, file.name);
+
         if (System.IO.File.Exists(searchPath))
         {
             return true;
