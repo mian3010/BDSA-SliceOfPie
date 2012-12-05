@@ -73,10 +73,9 @@ namespace SliceOfPie_Testing
         {
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
             List<File> rig = GetTestRig();
-            Debug.WriteLine("SIZE OF THIS BITCH :" + rig.Count);
+       
             foreach (File file in rig)
             {
-                Debug.WriteLine("Calling this ::::::: ");
                 ts.AddFile(file);
                 Assert.AreEqual(true, ts.FindFile(file));
             }
@@ -85,6 +84,17 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestRenameFile()
         {
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
+            List<File> rig = GetTestRig();
+            AddFileRig(ts, rig);
+            foreach (File file in rig)
+            {
+                String newName = "exexex" + file.name;
+                ts.RenameFile(file, newName);
+                file.name = newName;
+                Assert.AreEqual(true, ts.FindFile(file));
+                ts.DeleteFile(file);
+            }
 
         }
 
@@ -105,17 +115,26 @@ namespace SliceOfPie_Testing
         {
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
             List<File> rig = GetTestRig();
+            AddFileRig(ts, rig);
+            foreach (File file in rig)
+            {
+                String newPath = TestPath + "\\testMove";
+                Debug.WriteLine("!!!!! WTF : " + newPath);
+                ts.MoveFile(file, newPath);
+                Assert.AreEqual(true, ts.FindFile(file));
+                file.serverpath = newPath;
+                ts.DeleteFile(file);
+            }
+            
+
+        }
+
+        private static void AddFileRig(CommunicatorOfflineAdapter ts, List<File> rig)
+        {
             foreach (File file in rig)
             {
                 ts.AddFile(file);
             }
-            foreach (File file in rig)
-            {
-                String newPath = "newplace" + file.name;
-                ts.MoveFile(file, newPath);
-                Assert.AreEqual(true, ts.FindFile(file));
-            }
-
         }
 
         [TestMethod]
