@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SliceOfPie_Model;
+using System.Diagnostics;
 
 namespace SliceOfPie_Testing
 {
     [TestClass]
     public class FileCommunicatorTests
     {
+        static string TestPath = @"C:\Users\Magnus\Desktop\test";
+
         /// <summary>
         /// Returns a set of files, built for testing various aspects of the system. Tests regular works, making new folders ...
         /// </summary>
@@ -32,26 +35,26 @@ namespace SliceOfPie_Testing
 
             
             File one = new File();
-            one.serverpath = @"C:\Users\Magnus\Desktop\test\";
-            one.name = "Reg1";
+            one.serverpath = TestPath;
+            one.name = "Reg1.html";
             one.id = 1;
             one.FileMetaDatas.Add(deta);
 
             File two = new File();
-            two.serverpath = @"C:\Users\Magnus\Desktop\test\newfolder\";
-            two.name = "NewF1";
+            two.serverpath = TestPath + "\\newfolder" ;
+            two.name = "NewF1.html";
             two.id = 2;
             two.FileMetaDatas.Add(beta);
 
             File three = new File();
             three.serverpath = @"IllegalServerPath";
-            three.name = "NewF2";
+            three.name = "NewF2.html";
             three.id = 3;
             three.FileMetaDatas.Add(feta);
     
             Document four = new Document();
-            four.serverpath = @"C:\Users\Magnus\Desktop\test\";
-            four.name = "RegD1";
+            four.serverpath = TestPath;
+            four.name = "RegD1.html";
             four.id = 4;
             four.FileMetaDatas.Add(meta);    
 
@@ -68,21 +71,49 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestAddFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(@"C:\Users\Magnus\Desktop\test\");
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
             List<File> rig = GetTestRig();
+            Debug.WriteLine("SIZE OF THIS BITCH :" + rig.Count);
             foreach (File file in rig)
             {
+                Debug.WriteLine("Calling this ::::::: ");
                 ts.AddFile(file);
+                Assert.AreEqual(true, ts.FindFile(file));
             }
+        }
+
+        [TestMethod]
+        public void TestRenameFile()
+        {
+
         }
 
         [TestMethod]
         public void TestDeleteFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(@"C:\Users\Magnus\Desktop\test\");
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
             foreach (File file in GetTestRig())
             {
                 ts.DeleteFile(file);
+                Assert.AreEqual(false, ts.FindFile(file));
+            }
+            
+        }
+
+        [TestMethod]
+        public void TestMoveFile()
+        {
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(TestPath);
+            List<File> rig = GetTestRig();
+            foreach (File file in rig)
+            {
+                ts.AddFile(file);
+            }
+            foreach (File file in rig)
+            {
+                String newPath = "newplace" + file.name;
+                ts.MoveFile(file, newPath);
+                Assert.AreEqual(true, ts.FindFile(file));
             }
 
         }
