@@ -23,9 +23,8 @@ namespace SliceOfPie_Model
 
         List<LogEntry> GetLog();
 
-        void SaveToLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification);
-
         bool SaveFile(File file);
 
+        void PersistLog();
     }
 }
