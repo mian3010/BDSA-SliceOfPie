@@ -30,6 +30,11 @@ namespace SliceOfPie_Network
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Method that Marshalls a list of LogEntrys into XML
+        /// </summary>
+        /// <param name="loglist"></param>
+        /// <returns>A list of Log Entries</returns>
         public static string MarshallLog(List<LogEntry> loglist)
         { 
             StringBuilder builder = new StringBuilder();
@@ -55,6 +60,11 @@ namespace SliceOfPie_Network
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Unmarshalls the log in XML form
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns>A list of LogEntries</returns>
         public static List<LogEntry> UnMarshallLog(string xml)
         {
             StringReader stringReader = new StringReader(xml);
@@ -100,7 +110,7 @@ namespace SliceOfPie_Network
                         case "Move": f = FileModification.Move; break;
                     }
 
-                    LogEntry entry = new LogEntry(int.Parse(id), fileName, filePath, DateTime.Now , f);
+                    LogEntry entry = new LogEntry(int.Parse(id), fileName, filePath, DateTime.Parse(timeStamp) , f);
                     LogList.Add(entry);
                 }
                 

@@ -285,7 +285,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -304,7 +304,7 @@ namespace SliceOfPie_Model
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -331,7 +331,7 @@ namespace SliceOfPie_Model
                 {
                     OnUser_emailChanging(value);
                     ReportPropertyChanging("User_email");
-                    _User_email = StructuralObject.SetValidValue(value, false);
+                    _User_email = StructuralObject.SetValidValue(value, false, "User_email");
                     ReportPropertyChanged("User_email");
                     OnUser_emailChanged();
                 }
@@ -356,7 +356,7 @@ namespace SliceOfPie_Model
             {
                 OntimestampChanging(value);
                 ReportPropertyChanging("timestamp");
-                _timestamp = StructuralObject.SetValidValue(value);
+                _timestamp = StructuralObject.SetValidValue(value, "timestamp");
                 ReportPropertyChanged("timestamp");
                 OntimestampChanged();
             }
@@ -380,7 +380,7 @@ namespace SliceOfPie_Model
             {
                 Onchange1Changing(value);
                 ReportPropertyChanging("change1");
-                _change1 = StructuralObject.SetValidValue(value, true);
+                _change1 = StructuralObject.SetValidValue(value, true, "change1");
                 ReportPropertyChanged("change1");
                 Onchange1Changed();
             }
@@ -406,7 +406,7 @@ namespace SliceOfPie_Model
                 {
                     OnFile_idChanging(value);
                     ReportPropertyChanging("File_id");
-                    _File_id = StructuralObject.SetValidValue(value);
+                    _File_id = StructuralObject.SetValidValue(value, "File_id");
                     ReportPropertyChanged("File_id");
                     OnFile_idChanged();
                 }
@@ -418,7 +418,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -530,7 +529,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -549,7 +548,7 @@ namespace SliceOfPie_Model
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -574,7 +573,7 @@ namespace SliceOfPie_Model
             {
                 OnnameChanging(value);
                 ReportPropertyChanging("name");
-                _name = StructuralObject.SetValidValue(value, false);
+                _name = StructuralObject.SetValidValue(value, false, "name");
                 ReportPropertyChanged("name");
                 OnnameChanged();
             }
@@ -598,7 +597,7 @@ namespace SliceOfPie_Model
             {
                 OnserverpathChanging(value);
                 ReportPropertyChanging("serverpath");
-                _serverpath = StructuralObject.SetValidValue(value, false);
+                _serverpath = StructuralObject.SetValidValue(value, false, "serverpath");
                 ReportPropertyChanged("serverpath");
                 OnserverpathChanged();
             }
@@ -622,7 +621,7 @@ namespace SliceOfPie_Model
             {
                 OndeletedChanging(value);
                 ReportPropertyChanging("deleted");
-                _deleted = StructuralObject.SetValidValue(value);
+                _deleted = StructuralObject.SetValidValue(value, "deleted");
                 ReportPropertyChanged("deleted");
                 OndeletedChanged();
             }
@@ -646,7 +645,7 @@ namespace SliceOfPie_Model
             {
                 OnProject_idChanging(value);
                 ReportPropertyChanging("Project_id");
-                _Project_id = StructuralObject.SetValidValue(value);
+                _Project_id = StructuralObject.SetValidValue(value, "Project_id");
                 ReportPropertyChanged("Project_id");
                 OnProject_idChanged();
             }
@@ -657,7 +656,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -797,7 +795,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -816,7 +814,7 @@ namespace SliceOfPie_Model
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -843,7 +841,7 @@ namespace SliceOfPie_Model
                 {
                     OnUser_emailChanging(value);
                     ReportPropertyChanging("User_email");
-                    _User_email = StructuralObject.SetValidValue(value, false);
+                    _User_email = StructuralObject.SetValidValue(value, false, "User_email");
                     ReportPropertyChanged("User_email");
                     OnUser_emailChanged();
                 }
@@ -868,7 +866,7 @@ namespace SliceOfPie_Model
             {
                 OnpathChanging(value);
                 ReportPropertyChanging("path");
-                _path = StructuralObject.SetValidValue(value, false);
+                _path = StructuralObject.SetValidValue(value, false, "path");
                 ReportPropertyChanged("path");
                 OnpathChanged();
             }
@@ -892,7 +890,7 @@ namespace SliceOfPie_Model
             {
                 OndeletedChanging(value);
                 ReportPropertyChanging("deleted");
-                _deleted = StructuralObject.SetValidValue(value);
+                _deleted = StructuralObject.SetValidValue(value, "deleted");
                 ReportPropertyChanged("deleted");
                 OndeletedChanged();
             }
@@ -918,7 +916,7 @@ namespace SliceOfPie_Model
                 {
                     OnFile_idChanging(value);
                     ReportPropertyChanging("File_id");
-                    _File_id = StructuralObject.SetValidValue(value);
+                    _File_id = StructuralObject.SetValidValue(value, "File_id");
                     ReportPropertyChanged("File_id");
                     OnFile_idChanged();
                 }
@@ -930,7 +928,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1040,7 +1037,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1059,7 +1056,7 @@ namespace SliceOfPie_Model
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -1084,7 +1081,7 @@ namespace SliceOfPie_Model
             {
                 OnvalueChanging(value);
                 ReportPropertyChanging("value");
-                _value = StructuralObject.SetValidValue(value, true);
+                _value = StructuralObject.SetValidValue(value, true, "value");
                 ReportPropertyChanged("value");
                 OnvalueChanged();
             }
@@ -1110,7 +1107,7 @@ namespace SliceOfPie_Model
                 {
                     OnMetaDataType_TypeChanging(value);
                     ReportPropertyChanging("MetaDataType_Type");
-                    _MetaDataType_Type = StructuralObject.SetValidValue(value, false);
+                    _MetaDataType_Type = StructuralObject.SetValidValue(value, false, "MetaDataType_Type");
                     ReportPropertyChanged("MetaDataType_Type");
                     OnMetaDataType_TypeChanged();
                 }
@@ -1135,7 +1132,7 @@ namespace SliceOfPie_Model
             {
                 OnFile_idChanging(value);
                 ReportPropertyChanging("File_id");
-                _File_id = StructuralObject.SetValidValue(value);
+                _File_id = StructuralObject.SetValidValue(value, "File_id");
                 ReportPropertyChanged("File_id");
                 OnFile_idChanged();
             }
@@ -1146,7 +1143,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1252,7 +1248,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1271,7 +1267,7 @@ namespace SliceOfPie_Model
                 {
                     OnTypeChanging(value);
                     ReportPropertyChanging("Type");
-                    _Type = StructuralObject.SetValidValue(value, false);
+                    _Type = StructuralObject.SetValidValue(value, false, "Type");
                     ReportPropertyChanged("Type");
                     OnTypeChanged();
                 }
@@ -1283,7 +1279,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1337,7 +1332,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1356,7 +1351,7 @@ namespace SliceOfPie_Model
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -1381,7 +1376,7 @@ namespace SliceOfPie_Model
             {
                 OntitleChanging(value);
                 ReportPropertyChanging("title");
-                _title = StructuralObject.SetValidValue(value, false);
+                _title = StructuralObject.SetValidValue(value, false, "title");
                 ReportPropertyChanged("title");
                 OntitleChanged();
             }
@@ -1392,7 +1387,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1466,7 +1460,7 @@ namespace SliceOfPie_Model
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1485,7 +1479,7 @@ namespace SliceOfPie_Model
                 {
                     OnemailChanging(value);
                     ReportPropertyChanging("email");
-                    _email = StructuralObject.SetValidValue(value, false);
+                    _email = StructuralObject.SetValidValue(value, false, "email");
                     ReportPropertyChanged("email");
                     OnemailChanged();
                 }
@@ -1497,7 +1491,6 @@ namespace SliceOfPie_Model
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1572,5 +1565,4 @@ namespace SliceOfPie_Model
 
     #endregion
 
-    
 }

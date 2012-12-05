@@ -11,7 +11,7 @@ using SliceOfPie_Model;
 
 namespace SliceOfPie_Network
 {
-    public class NetworkCommunicator
+    public class NetworkClient
     {
         private bool is_active;
         private int port = 8080;
