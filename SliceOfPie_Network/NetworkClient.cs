@@ -15,11 +15,12 @@ namespace SliceOfPie_Network
     {
         private bool is_active;
         private int port = 8080;
+
         /// <summary>
         /// Sends HTML using a HTTP protocol.
         /// </summary>
         /// <param name="msg"></param>
-        private void SendLog(List<LogEntry> log)
+        public void SendLog(List<LogEntry> log)
         {
             string xml = HTMLMarshaller.MarshallLog(log);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
@@ -39,7 +40,7 @@ namespace SliceOfPie_Network
             HandleLogResponse(resp);
         }
 
-        private void SendFile(SliceOfPie_Model.File file)
+        public void SendFile(SliceOfPie_Model.File file)
         {
             string xml = HTMLMarshaller.MarshallFile(file);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
@@ -59,9 +60,6 @@ namespace SliceOfPie_Network
             HandleFileResponse(resp);
         }
 
-        public void SynchronizeLog(List<LogEntry> list)
-        {
-        }
 
         public void HandleLogResponse(HttpWebResponse response)
         { 

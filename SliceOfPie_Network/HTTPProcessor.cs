@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 
 namespace SliceOfPie_Network
 {
@@ -12,16 +13,76 @@ namespace SliceOfPie_Network
     {
         private TcpClient tcp;
         private NetworkServer com;
+        private Stream inputStream;
+        private string http_method;
+        private string http_url;
+        private string http_protocol_versionstring;
+        private List<string> httpHeaders;
 
         public HTTPProcessor(TcpClient tcp, NetworkServer com)
         {
             this.tcp = tcp;
             this.com = com;
+            inputStream = tcp.GetStream();
         }
 
         public void Process()
-        { 
-            
+        {
+            ParseRequest();
+            ReadHeaders();
+        }
+
+        /// <summary>
+        /// Parses the HTTP request from the client
+        /// </summary>
+        public void ParseRequest()
+        {
+            StreamReader reader = new StreamReader(inputStream);
+            String request = reader.ReadLine();
+            string[] tokens = request.Split(' ');
+            if (tokens.Length != 3)
+            {
+                throw new Exception("invalid http request line");
+            }
+            http_method = tokens[0].ToUpper();
+            http_url = tokens[1];
+            http_protocol_versionstring = tokens[2];
+
+            Console.WriteLine("starting: " + request);
+        }
+
+        /// <summary>
+        /// Parses the HTTP header
+        /// </summary>
+        public void ReadHeaders()
+        {
+            StreamReader reader = new StreamReader(inputStream);
+            Console.WriteLine("readHeaders()");
+            String line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.Equals(""))
+                {
+                    Console.WriteLine("got headers");
+                    return;
+                }
+
+                int separator = line.IndexOf(':');
+                if (separator == -1)
+                {
+                    throw new Exception("invalid http header line: " + line);
+                }
+                String name = line.Substring(0, separator);
+                int pos = separator + 1;
+                while ((pos < line.Length) && (line[pos] == ' '))
+                {
+                    pos++; // strip any spaces
+                }
+
+                string value = line.Substring(pos, line.Length - pos);
+                Console.WriteLine("header: {0}:{1}", name, value);
+                httpHeaders.Add(value);
+            }
         }
     }
 }

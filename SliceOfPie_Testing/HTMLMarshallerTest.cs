@@ -55,7 +55,7 @@ namespace SliceOfPie_Testing
                 Assert.AreEqual(entry.id, refEntry.id);
                 Assert.AreEqual(entry.fileName, refEntry.fileName);
                 Assert.AreEqual(entry.filePath, refEntry.filePath);
-                Assert.AreEqual(entry.timeStamp, refEntry.timeStamp);
+                Assert.AreEqual(entry.timeStamp.ToString(), refEntry.timeStamp.ToString());
                 Assert.AreEqual(entry.modification, refEntry.modification);
                 Console.Out.WriteLine("entry: " + entry.id);
             }
