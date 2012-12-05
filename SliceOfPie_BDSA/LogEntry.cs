@@ -10,13 +10,13 @@ namespace SliceOfPie_Model
     /// </summary>
    public struct LogEntry
     {
-        public int id;
+        public long id;
         public String fileName;
         public String filePath;
         public DateTime timeStamp;
         public FileModification modification;
 
-        public LogEntry(int id, String filename, String filePath, DateTime timeStamp, FileModification modification)
+        public LogEntry(long id, String filename, String filePath, DateTime timeStamp, FileModification modification)
         {
             this.id = id;
             this.fileName = filename;
