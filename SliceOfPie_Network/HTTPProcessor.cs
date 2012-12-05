@@ -11,9 +11,9 @@ namespace SliceOfPie_Network
     class HTTPProcessor
     {
         private TcpClient tcp;
-        private NetworkCommunicator com;
+        private NetworkClient com;
 
-        public HTTPProcessor(TcpClient tcp, NetworkCommunicator com)
+        public HTTPProcessor(TcpClient tcp, NetworkClient com)
         {
             this.tcp = tcp;
             this.com = com;

@@ -31,7 +31,8 @@ namespace SliceOfPie_Model {
             Directory.CreateDirectory(file.serverpath);
         }
         string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
-        using (XmlWriter writer = XmlWriter.Create(fullpath + ".html"))
+        Debug.WriteLine("FULLPATH " + fullpath);
+        using (XmlWriter writer = XmlWriter.Create(fullpath))
         {
             writer.WriteStartDocument();
             writer.WriteStartElement("html");
@@ -117,11 +118,20 @@ namespace SliceOfPie_Model {
         {
             throw new ArgumentException();
         }
+        if (!file.serverpath.Contains(rootpath))
+        {
+            file.serverpath = rootpath;
+        }
+
         try
         {
            
             //Delete the file through System.IO.File class, not Slice Of Pie File class.
-            System.IO.File.Delete(file.serverpath);
+            
+
+            String deletePath = System.IO.Path.Combine(file.serverpath, file.name);
+            Debug.WriteLine(deletePath); 
+            System.IO.File.Delete(deletePath);
 
             offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Delete));
             return true;
@@ -213,5 +223,30 @@ namespace SliceOfPie_Model {
     {
     }
 
+      /// <summary>
+      /// Checks for a file in the root folder or the given path
+      /// </summary>
+      /// <param name="file">The file to search for</param>
+      /// <returns>True if the file is found, false if not existing (at least not in root path)</returns>
+    public Boolean FindFile(File file)
+    {
+        String searchPath = file.serverpath;
+        if (!searchPath.Contains(rootpath))
+        {
+            Debug.WriteLine("okay CHANGE LINE MOFO");
+            searchPath = rootpath;
+        }
+        searchPath = System.IO.Path.Combine(searchPath + file.name);
+        Debug.WriteLine("SEARCHPATH : " + searchPath);
+        if (System.IO.File.Exists(searchPath))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
   }
 }

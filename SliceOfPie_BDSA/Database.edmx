@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SliceOfLifeModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="SliceOfLifeModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SliceOfLifeModelStoreContainer">
-          <EntitySet Name="Change" EntityType="SliceOfLifeModel.Store.Change" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="File" EntityType="SliceOfLifeModel.Store.File" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="FileInstance" EntityType="SliceOfLifeModel.Store.FileInstance" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="FileMetaData" EntityType="SliceOfLifeModel.Store.FileMetaData" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="MetaDataType" EntityType="SliceOfLifeModel.Store.MetaDataType" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="Project" EntityType="SliceOfLifeModel.Store.Project" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="ProjectHasUser" EntityType="SliceOfLifeModel.Store.ProjectHasUser" store:Type="Tables" Schema="SliceOfLife" />
-          <EntitySet Name="User" EntityType="SliceOfLifeModel.Store.User" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="Change" EntityType="SliceOfLifeModel.Store.Change" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="File" EntityType="SliceOfLifeModel.Store.File" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FileInstance" EntityType="SliceOfLifeModel.Store.FileInstance" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FileMetaData" EntityType="SliceOfLifeModel.Store.FileMetaData" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="MetaDataType" EntityType="SliceOfLifeModel.Store.MetaDataType" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Project" EntityType="SliceOfLifeModel.Store.Project" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ProjectHasUser" EntityType="SliceOfLifeModel.Store.ProjectHasUser" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="User" EntityType="SliceOfLifeModel.Store.User" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="fk_Change_File1" Association="SliceOfLifeModel.Store.fk_Change_File1">
             <End Role="File" EntitySet="File" />
             <End Role="Change" EntitySet="Change" />
@@ -233,8 +233,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SliceOfLifeModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="SliceOfLifeEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="SliceOfLifeModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SliceOfLifeEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Changes" EntityType="SliceOfLifeModel.Change" />
           <EntitySet Name="Files" EntityType="SliceOfLifeModel.File" />
           <EntitySet Name="FileInstances" EntityType="SliceOfLifeModel.FileInstance" />
@@ -281,7 +281,7 @@
             <PropertyRef Name="User_email" />
             <PropertyRef Name="File_id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="User_email" Type="String" Nullable="false" />
           <Property Name="timestamp" Type="Int64" />
           <Property Name="change1" Type="String" />
@@ -293,7 +293,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="name" Type="String" Nullable="false" />
           <Property Name="serverpath" Type="String" Nullable="false" />
           <Property Name="deleted" Type="Byte" />
@@ -446,7 +446,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SliceOfLifeModelStoreContainer" CdmEntityContainer="SliceOfLifeEntities">
           <EntitySetMapping Name="Changes">
             <EntityTypeMapping TypeName="SliceOfLifeModel.Change">
@@ -526,7 +526,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
