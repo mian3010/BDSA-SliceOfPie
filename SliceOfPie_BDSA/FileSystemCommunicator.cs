@@ -23,7 +23,8 @@ namespace SliceOfPie_Model {
     }
 
     public void SaveFile(File file) {
-      bool b = communicator.SaveFile(file);
+      // bool b = communicator.SaveFile(file);
+        bool b = true;
       if (b)
         FileSaved(this, file);
     }

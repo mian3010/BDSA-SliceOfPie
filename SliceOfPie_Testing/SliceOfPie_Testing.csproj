@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMergePolicyTest.cs" />
     <Compile Include="FileCommunicatorTests.cs" />
+    <Compile Include="LoggingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\SliceOfPie_Model.accessor" />

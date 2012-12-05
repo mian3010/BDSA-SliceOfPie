@@ -12,16 +12,14 @@ namespace SliceOfPie_Model {
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
 
       public readonly String rootpath;
-      public readonly String logpath = @"C:\Users\Stahl\Desktop\test\log";
-      public readonly String logfile = "log.xml";
 
-      private List<LogEntry> offLineLog;
+      public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed;
+
+      public delegate void FileEventHandler(File file);
 
       public CommunicatorOfflineAdapter(String rootpath)
       {
-          this.rootpath = rootpath;
-          initLog();
-          
+          this.rootpath = rootpath; 
       }
 
     private bool AddNewFile(File file) {
@@ -59,7 +57,8 @@ namespace SliceOfPie_Model {
     {
         if (AddNewFile(file))
         {
-            SaveToLog(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Add);
+            if (FileAdded != null)
+                FileAdded(file);
             return true;
         }
         else return false;    
@@ -80,7 +79,8 @@ namespace SliceOfPie_Model {
 
         if (AddNewFile(file))
         {
-            offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Modify));
+            if(FileChanged != null) 
+                FileChanged(file);
             return true;
         }
         return false;
@@ -107,21 +107,19 @@ namespace SliceOfPie_Model {
 
         try
         {
-           
+    
             //Delete the file through System.IO.File class, not Slice Of Pie File class.
-            
-
             String deletePath = System.IO.Path.Combine(file.serverpath, file.name);
             Debug.WriteLine(deletePath); 
             System.IO.File.Delete(deletePath);
 
-            offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Delete));
+            if (FileDeleted != null)
+                FileDeleted(file);
             return true;
         }
         catch (IOException e)
         {
-            Console.Out.WriteLine("File is not deleted: " + e.Message);
-            return false;
+            throw new IOException("Deleting File on disk :" + file.name + " failed."); 
         }
       
     }
@@ -139,15 +137,15 @@ namespace SliceOfPie_Model {
         {
             throw new ArgumentException();
         }
-        
-     
         string fullPath = System.IO.Path.Combine(file.serverpath, file.name);
         string newFullPath = System.IO.Path.Combine(file.serverpath, newName);
-
+       
         MoveFile(fullPath, newFullPath);
         file.name = newName;
 
-        offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Rename));
+        if (FileRenamed != null)
+            FileRenamed(file);
+
     }
 
     private void MoveFile(String fullOldPath, String fullNewPath)
@@ -176,51 +174,9 @@ namespace SliceOfPie_Model {
 
         // Change the file path... in the old file [good idea yet?]
         file.serverpath = newPath;
-        offLineLog.Add(new LogEntry(file.id, file.name, file.serverpath, DateTime.Now, FileModification.Move));
+        if (FileMoved != null)
+            FileMoved(file);
     }
-
-     /// <summary>
-     /// Returns a log of all the modifications made to files.
-     /// </summary>
-     /// <returns></returns>
-    public List<LogEntry> GetLog() {
-        if (offLineLog.Count == 0)
-        {
-            Console.Out.WriteLine("Off-line log is empty");
-        }
-        return offLineLog;
-    }
-
-    private void SaveToLog(long id, string filename, string filepath, DateTime timeStamp, FileModification modification) {
-        offLineLog.Add(new LogEntry(id, filename, filepath, timeStamp, modification));
-    }
-
-    public bool SaveFile(File file)
-    {
-        return true;
-    }
-
-    private void initLog()
-    {
-        String fullLogPath = System.IO.Path.Combine(logpath, logfile);
-        if (System.IO.File.Exists(fullLogPath))
-        {
-            String logXML = System.IO.File.ReadAllText(fullLogPath);
-            offLineLog = HTMLMarshalUtil.UnMarshallLog(logXML);
-        }
-        else
-        {
-            offLineLog = new List<LogEntry>();
-        }
-    }
-
-    public void PersistLog()
-    {
-        String fullLogPath = System.IO.Path.Combine(logpath, logfile);
-        String logXML = HTMLMarshalUtil.MarshallLog(offLineLog);
-        System.IO.File.WriteAllText(fullLogPath, logXML);
-    }
-
       /// <summary>
       /// Checks for a file in the root folder or the given path
       /// </summary>
