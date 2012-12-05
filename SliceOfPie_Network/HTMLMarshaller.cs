@@ -110,7 +110,7 @@ namespace SliceOfPie_Network
                         case "Move": f = FileModification.Move; break;
                     }
 
-                    LogEntry entry = new LogEntry(int.Parse(id), fileName, filePath, DateTime.Now , f);
+                    LogEntry entry = new LogEntry(int.Parse(id), fileName, filePath, DateTime.Parse(timeStamp) , f);
                     LogList.Add(entry);
                 }
                 

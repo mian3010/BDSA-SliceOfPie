@@ -57,7 +57,8 @@
   <ItemGroup>
     <Compile Include="HTMLMarshaller.cs" />
     <Compile Include="HTTPProcessor.cs" />
-    <Compile Include="NetworkCommunicator.cs" />
+    <Compile Include="NetworkClient.cs" />
+    <Compile Include="NetworkServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -39,6 +39,7 @@ namespace SliceOfPie_Testing
             LogEntry log2 = new LogEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
             LogEntry log3 = new LogEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
             LogEntry log4 = new LogEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
+            Console.Out.WriteLine("LOG TIME BEFORE MARSHALL" + log1.timeStamp);
             log.Add(log1);
             log.Add(log2);
             log.Add(log3);
@@ -52,6 +53,10 @@ namespace SliceOfPie_Testing
                 LogEntry entry = list[i];
                 LogEntry refEntry = log[i];
                 Assert.AreEqual(entry.id, refEntry.id);
+                Assert.AreEqual(entry.fileName, refEntry.fileName);
+                Assert.AreEqual(entry.filePath, refEntry.filePath);
+                Assert.AreEqual(entry.timeStamp, refEntry.timeStamp);
+                Assert.AreEqual(entry.modification, refEntry.modification);
                 Console.Out.WriteLine("entry: " + entry.id);
             }
         }
