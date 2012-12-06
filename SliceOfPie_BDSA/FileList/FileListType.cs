@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_Model.FileList {
+namespace SliceOfPie_Model {
   public enum FileListType {
-    ClientToServer,
-    ServerToClient,
-    Conflict
+    Conflict,
+    Push,
+    Pull
   };
 }

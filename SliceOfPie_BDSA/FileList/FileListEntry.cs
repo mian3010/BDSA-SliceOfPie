@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 
 namespace SliceOfPie_Model.FileList {
-  class FileListEntry {
-    float Id { get; set; }
-    float Version { get; set; }
-    string Path { get; set; }
-    string Name { get; set; }
-    FileListType Type { get; set; }
-    bool IsDeleted { get; set; }
+  public class FileListEntry {
+    public long Id { get; set; }
+    public float Version { get; set; }
+    public string Path { get; set; }
+    public string Name { get; set; }
+    public FileListType Type { get; set; }
+    public bool IsDeleted { get; set; }
   }
 }
