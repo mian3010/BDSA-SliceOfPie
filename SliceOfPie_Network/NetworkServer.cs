@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Net;
 
 namespace SliceOfPie_Network
 {
@@ -12,7 +13,7 @@ namespace SliceOfPie_Network
     {
         //Default port = 8080
         protected int port;
-        TcpListener listener;
+        HttpListener listener;
         bool is_active = true;
    
         public NetworkServer(int port) {
@@ -23,11 +24,14 @@ namespace SliceOfPie_Network
         /// Start the listening loop. Listens for requests from clients.
         /// </summary>
         public void listen() {
-            listener = new TcpListener(port);
+            listener = new HttpListener();
+            listener.AuthenticationSchemes = AuthenticationSchemes.None;
             listener.Start();
-            while (is_active) {                
-                TcpClient s = listener.AcceptTcpClient();
-                HTTPProcessor processor = new HTTPProcessor(s, this);
+            while (is_active) {
+                listener.Start();
+                HttpListenerContext context = listener.GetContext();
+                HttpListenerRequest request = context.Request;
+                HTTPProcessor processor = new HTTPProcessor(request, this);
                 Thread thread = new Thread(new ThreadStart(processor.Process));
                 thread.Start();
                 Thread.Sleep(1);

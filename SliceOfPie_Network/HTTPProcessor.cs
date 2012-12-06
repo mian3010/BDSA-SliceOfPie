@@ -11,7 +11,7 @@ namespace SliceOfPie_Network
 {
     class HTTPProcessor
     {
-        private TcpClient tcp;
+        private HttpListenerRequest request;
         private NetworkServer com;
         private Stream inputStream;
         private string http_method;
@@ -19,17 +19,20 @@ namespace SliceOfPie_Network
         private string http_protocol_versionstring;
         private List<string> httpHeaders;
 
-        public HTTPProcessor(TcpClient tcp, NetworkServer com)
+        public HTTPProcessor(HttpListenerRequest request, NetworkServer com)
         {
-            this.tcp = tcp;
+            this.request = request;
             this.com = com;
-            inputStream = tcp.GetStream();
         }
 
+        /// <summary>
+        /// Processes the HTTP request
+        /// </summary>
         public void Process()
         {
-            ParseRequest();
-            ReadHeaders();
+            string http_method = request.HttpMethod;
+            StreamReader content = new StreamReader(request.InputStream);
+            
         }
 
         /// <summary>

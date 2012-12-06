@@ -9,13 +9,13 @@ namespace SliceOfPie_Testing
     [TestClass]
     public class FileCommunicatorTests
     {
-        static string TestPath = @"C:\Users\Magnus\Desktop\test";
+        public static string TestPath = @".\Files";
 
         /// <summary>
         /// Returns a set of files, built for testing various aspects of the system. Tests regular works, making new folders ...
         /// </summary>
         /// <returns>The test rig to be used in the test methods</returns>
-        public List<File> GetTestRig()
+        static public List<File> GetTestRig()
         {
             FileMetaData meta = new FileMetaData();
             meta.MetaDataType = new MetaDataType() { Type = "Author" };
@@ -23,15 +23,15 @@ namespace SliceOfPie_Testing
 
             FileMetaData beta = new FileMetaData();
             beta.MetaDataType = new MetaDataType() { Type = "Author" };
-            beta.value = "Magnus Stahl";
+            beta.value = "Magnus Dahl";
 
             FileMetaData deta = new FileMetaData();
             deta.MetaDataType = new MetaDataType() { Type = "Author" };
-            deta.value = "Magnus Stahl";
+            deta.value = "Agnes Stahl";
 
             FileMetaData feta = new FileMetaData();
             feta.MetaDataType = new MetaDataType() { Type = "Author" };
-            feta.value = "Magnus Stahl";
+            feta.value = "Stor fed Feta Stahl";
 
             
             File one = new File();
