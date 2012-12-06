@@ -5,6 +5,6 @@ using System.Text;
 
 namespace SliceOfPie_Model.FileList {
   class FileList {
-    IDictionary<long, FileListEntry> List { get; set; }
+    IList<FileListEntry> List { get; set; }
   }
 }
