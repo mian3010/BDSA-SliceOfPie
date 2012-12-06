@@ -23,16 +23,6 @@ namespace SliceOfPie_Server {
 
     private MergeDaemon mergeDaemon = new MergeDaemon();
 
-    private Execute tExecuter;
-    private Execute Executer {
-      get {
-        if (tExecuter == null) {
-          //tExecuter = new Execute(LogQue);
-        }
-        return tExecuter;
-      }
-    }
-
     public void ReceiveNewFile(File File) {
 
     }
@@ -45,48 +35,18 @@ namespace SliceOfPie_Server {
 
     }
 
-    public void ExecuteLogQue() {
-      Executer.Execute();
-    }
-
-    public void AddToModifyList(long id) {
-      //make private
-      ListFilesToMod.Add(id);
-    }
-
-    public void AddToAddList(string s) {
-      //make private
+    public void ReviewFileList(FileList fileList) {
+      FileListReviewer.Review(fileList);
     }
   }
 
-  class Execute {
-    private Queue<LogEntry> Que;
-    public Execute(Queue<LogEntry> Que) {
-      this.Que = Que;
-    }
-    public void Execute() {
-      while (Que.Count > 0) {
-        LogEntry Entry = Que.Dequeue();
-        switch (Entry.modification) {
-          case FileModification.Add:
-            HandleAddFile(Entry);
-            break;
-          case FileModification.Delete:
-            HandleDeleteFile(Entry);
-            break;
-          case FileModification.MergeReady:
-            HandleMergeReady(Entry);
-            break;
-          case FileModification.Modify:
-            HandleFileModify(Entry);
-            break;
-          case FileModification.Move:
-            HandleFileMove(Entry);
-            break;
-          case FileModification.Rename:
-            HandleFileRename(Entry);
-            break;
-        }
+  class FileListReviewer {
+    private FileList fileList;
+    public FileListReviewer();
+
+    public void Review(FileList fileList) {
+      foreach (FileListEntry Entry in fileList) {
+
       }
     }
 
