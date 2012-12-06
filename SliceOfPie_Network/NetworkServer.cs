@@ -25,13 +25,12 @@ namespace SliceOfPie_Network
         /// </summary>
         public void listen() {
             listener = new HttpListener();
-            listener.AuthenticationSchemes = AuthenticationSchemes.None;
+            listener.Prefixes.Add("http://localhost:8080/");
             listener.Start();
             while (is_active) {
-                listener.Start();
                 HttpListenerContext context = listener.GetContext();
                 HttpListenerRequest request = context.Request;
-                HTTPProcessor processor = new HTTPProcessor(request, this);
+                HTTPProcessor processor = new HTTPProcessor(context);
                 Thread thread = new Thread(new ThreadStart(processor.Process));
                 thread.Start();
                 Thread.Sleep(1);
