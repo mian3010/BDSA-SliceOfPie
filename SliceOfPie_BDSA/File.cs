@@ -13,19 +13,20 @@ namespace SliceOfPie_Model {
           set;
       }
 
+      private StringBuilder fuckCsharp;
       public StringBuilder Content
       {
           get
           {
-              if (Content == null)
+              if (fuckCsharp == null)
               {
-                  Content = new StringBuilder();
+                  fuckCsharp = new StringBuilder();
               }
-              return Content;
+              return fuckCsharp;
           }
           set
           {
-              Content = value;
+              fuckCsharp = value;
           }
       }
 
