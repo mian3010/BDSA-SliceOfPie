@@ -55,3 +55,8 @@ C:\Users\Claus\git\bdsa\SliceOfPie_OnlineGUI\bin\DotNetOpenAuth.OpenId.xml
 C:\Users\Claus\git\bdsa\SliceOfPie_OnlineGUI\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 C:\Users\Claus\git\bdsa\SliceOfPie_OnlineGUI\obj\Debug\OnlineGUI.dll
 C:\Users\Claus\git\bdsa\SliceOfPie_OnlineGUI\obj\Debug\OnlineGUI.pdb
+C:\Users\Magnus\Dropbox\ITU\BDSA\SliceOfPie\SliceOfPie_OnlineGUI\obj\Debug\SliceOfPie_OnlineGUI.csprojResolveAssemblyReference.cache
+C:\Users\Magnus\Dropbox\ITU\BDSA\SliceOfPie\SliceOfPie_OnlineGUI\obj\Debug\SliceOfPie_OnlineGUI.Properties.Resources.resources
+C:\Users\Magnus\Dropbox\ITU\BDSA\SliceOfPie\SliceOfPie_OnlineGUI\obj\Debug\SliceOfPie_OnlineGUI.csproj.GenerateResource.Cache
+C:\Users\Magnus\Dropbox\ITU\BDSA\SliceOfPie\SliceOfPie_OnlineGUI\obj\Debug\OnlineGUI.dll
+C:\Users\Magnus\Dropbox\ITU\BDSA\SliceOfPie\SliceOfPie_OnlineGUI\obj\Debug\OnlineGUI.pdb
