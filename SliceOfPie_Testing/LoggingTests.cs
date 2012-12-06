@@ -11,7 +11,7 @@ namespace SliceOfPie_Testing
         private List<LogEntry> BasicLogFunctions(bool saveLog)
         {
             List<File> rig = FileCommunicatorTests.GetTestRig();
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(FileCommunicatorTests.TestPath);
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
             OfflineLogger l = new OfflineLogger(ts);
             foreach (File file in rig)
             {
@@ -50,7 +50,7 @@ namespace SliceOfPie_Testing
         public void TestPersistentLog()
         {
             BasicLogFunctions(true);
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(FileCommunicatorTests.TestPath);
+            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
             OfflineLogger l = new OfflineLogger(ts);
             List<LogEntry> persistedLog = l.OfflineLog;
             Assert.AreEqual(true, persistedLog.Count > 0);

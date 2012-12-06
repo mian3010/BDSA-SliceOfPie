@@ -6,7 +6,6 @@ using System.Text;
 namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
-    static readonly string rootpath = @".\Files";
     private ICommunicator communicator;
     private OfflineLogger logger;
     public delegate void FileEventHandler(object sender, File file);
@@ -20,7 +19,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     private OfflineAdministrator() {
         /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
-        communicator = new CommunicatorOfflineAdapter(rootpath);
+        communicator = new CommunicatorOfflineAdapter();
         logger = new OfflineLogger((CommunicatorOfflineAdapter) communicator);
     }
 

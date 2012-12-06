@@ -11,22 +11,17 @@ namespace SliceOfPie_Model {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
 
-      public readonly String rootpath;
 
       public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed;
 
       public delegate void FileEventHandler(File file);
 
-      public CommunicatorOfflineAdapter(String rootpath)
+      public CommunicatorOfflineAdapter()
       {
-          this.rootpath = rootpath; 
       }
 
     private bool AddNewFile(File file) {
-        if (!file.serverpath.Contains(rootpath))
-        {
-            file.serverpath = rootpath;
-        }
+
         
         if(!Directory.Exists(file.serverpath)) {
             Directory.CreateDirectory(file.serverpath);
@@ -100,11 +95,7 @@ namespace SliceOfPie_Model {
         {
             throw new ArgumentException();
         }
-        if (!file.serverpath.Contains(rootpath))
-        {
-            file.serverpath = rootpath;
-        }
-
+    
         try
         {
     
@@ -185,11 +176,6 @@ namespace SliceOfPie_Model {
     public Boolean FindFile(File file)
     {
         String searchPath = file.serverpath;
-        if (!searchPath.Contains(rootpath))
-        {
-      
-            searchPath = rootpath;
-        }
         searchPath = System.IO.Path.Combine(searchPath, file.name);
 
         if (System.IO.File.Exists(searchPath))

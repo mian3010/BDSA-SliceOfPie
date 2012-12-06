@@ -74,12 +74,6 @@ namespace SliceOfPie_Model
                 file.Content.Append(m.Element("body").Value);    
             }   
             
-            //var content = from body in doc.Elements("html")
-            //              select body;
-            //foreach (var b in content)
-            //{
-            //    file.Content.Append(b.Element("body").Value);
-            //}
 
             return file;
         }

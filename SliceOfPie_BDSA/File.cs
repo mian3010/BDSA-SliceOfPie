@@ -7,6 +7,12 @@ using System.IO;
 namespace SliceOfPie_Model {
   partial class File {
 
+      public String UserEmail
+      {
+          get;
+          set;
+      }
+
       protected StringBuilder cont = new StringBuilder();
       public StringBuilder Content
       {

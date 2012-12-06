@@ -18,7 +18,7 @@ namespace SliceOfPie_Server
 
         public static void SaveFile(File File)
         {
-            CommunicatorOfflineAdapter adapter = new CommunicatorOfflineAdapter(@".\Files");
+            CommunicatorOfflineAdapter adapter = new CommunicatorOfflineAdapter();
             if (adapter.FindFile(File)) //File exists
             {
                 adapter.ModifyFile(File);
