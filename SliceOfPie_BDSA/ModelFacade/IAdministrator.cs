@@ -10,6 +10,8 @@ namespace SliceOfPie_Model {
 
     void OpenFile(File file);
 
+    void Synchronize();
+
     void SaveFile(File file);
   }
 }

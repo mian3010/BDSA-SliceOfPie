@@ -8,12 +8,11 @@ using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
 using SliceOfPie_Model;
-using SliceOfPie_Model;
 using System.Threading;
 
-namespace SliceOfPie_Network
+namespace SliceOfPie_Model
 {
-    public class NetworkClient
+    public class NetworkClient : INetClient
     {
         private bool is_active;
         private int port = 8080;
@@ -83,6 +82,27 @@ namespace SliceOfPie_Network
             Thread thread = new Thread(() => server.listen());
             // client.SendLog(loglist);
             server.Close();
+        }
+
+        public SliceOfPie_Model.FileList SyncServer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public long PushFile(File file)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public File PullFile(File file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public File PullFile(long fileID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -57,28 +57,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileList\FileListEntry.cs" />
-    <Compile Include="Database.Designer.cs">
+    <Compile Include="Networking\INetClient.cs" />
+    <Compile Include="Persistence\Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
-    <Compile Include="File.cs" />
+    <Compile Include="Files\File.cs" />
     <Compile Include="FileList\FileList.cs" />
     <Compile Include="FileList\FileListType.cs" />
-    <Compile Include="OfflineAdministrator.cs" />
-    <Compile Include="FilePersistenceException.cs" />
-    <Compile Include="CommunicatorOfflineAdapter.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="HTMLMarshalUtil.cs" />
-    <Compile Include="IAdministrator.cs" />
-    <Compile Include="ICommunicator.cs" />
+    <Compile Include="Networking\HTTPProcessor.cs" />
+    <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Networking\NetworkServer.cs" />
+    <Compile Include="Persistence\IFileListHandler.cs" />
+    <Compile Include="ModelFacade\OfflineAdministrator.cs" />
+    <Compile Include="Exceptions\FilePersistenceException.cs" />
+    <Compile Include="Persistence\CommunicatorOfflineAdapter.cs" />
+    <Compile Include="Persistence\Context.cs" />
+    <Compile Include="Utilities\HTMLMarshalUtil.cs" />
+    <Compile Include="ModelFacade\IAdministrator.cs" />
+    <Compile Include="Persistence\ICommunicator.cs" />
     <Compile Include="IController.cs" />
-    <Compile Include="LogEntry.cs" />
-    <Compile Include="FileMetaData.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="EnumTypes.cs" />
-    <Compile Include="OfflineLogger.cs" />
-    <Compile Include="MetaDataType.cs" />
+    <Compile Include="Files\FileMetaData.cs" />
+    <Compile Include="Files\Document.cs" />
+    <Compile Include="Persistence\OfflineFileListHandler.cs" />
+    <Compile Include="Files\MetaDataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMergePolicy.cs" />
   </ItemGroup>
@@ -89,7 +92,7 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Database.edmx">
+    <EntityDeploy Include="Persistence\Database.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Database.Designer.cs</LastGenOutput>
     </EntityDeploy>
@@ -97,6 +100,7 @@
     <None Include="Properties\DataSources\SliceOfLifeEntities.datasource" />
     <None Include="Properties\DataSources\SliceOfLifeEntities1.datasource" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
