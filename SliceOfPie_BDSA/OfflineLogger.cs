@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SliceOfPie_Model
 {
-    public class Logger
+    public class OfflineLogger
     {
         public readonly String logpath = @".\Files\log";
         public readonly String logfile = "log.xml";
@@ -36,7 +36,7 @@ namespace SliceOfPie_Model
             }
         }
 
-        public Logger(CommunicatorOfflineAdapter cm)
+        public OfflineLogger(CommunicatorOfflineAdapter cm)
         {
             cm.FileAdded += FileAdded;
             cm.FileChanged += FileChanged;

@@ -10,13 +10,12 @@ namespace SliceOfPie_Model {
   /// </summary>
   public class Document : File {
     public String Title { get; set; }
-    public StringBuilder Content { get; set; }
+  
     public IList<String> Authors { get; set; }
 
 
         public Document()
         {
-            Content = new StringBuilder();
         }
 
         public override string GetContent()
@@ -50,7 +49,7 @@ namespace SliceOfPie_Model {
 
     static internal Document createTestDocument(String s) {
       Document d = new Document();
-      d.Content = new StringBuilder(s);
+      d.Content.Append(s);
       return d;
     }
 

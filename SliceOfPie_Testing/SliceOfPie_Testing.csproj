@@ -80,6 +80,7 @@
     <Compile Include="SimpleMergePolicyTest.cs" />
     <Compile Include="FileCommunicatorTests.cs" />
     <Compile Include="LoggingTests.cs" />
+    <Compile Include="UnmarshallFileTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\SliceOfPie_Model.accessor" />

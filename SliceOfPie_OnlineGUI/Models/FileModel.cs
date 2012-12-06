@@ -35,7 +35,8 @@ namespace SliceOfPie_OnlineGUI.Models {
       d.FileMetaDatas.Add(FileMetaData1);
       d.FileMetaDatas.Add(FileMetaData2);
       d.FileMetaDatas.Add(FileMetaData3);
-      d.Content = new StringBuilder("Awesome text document here!<br /><strong>This should be bold</strong><br />OMG PIE:<br /><img src=\"http://www.seriouseats.com/images/potd_pi-pie.jpg\" />");
+      d.Content.Clear();
+      d.Content.Append("Awesome text document here!<br /><strong>This should be bold</strong><br />OMG PIE:<br /><img src=\"http://www.seriouseats.com/images/potd_pi-pie.jpg\" />");
       d.Content.Append("<br /><br />Testing wrappingggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
       d.Title = "The awesome title";
       return d;
