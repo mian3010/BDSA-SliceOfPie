@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace SliceOfPie_Model.FileList {
-  class FileListEntry {
+  public class FileListEntry {
     public long Id { get; set; }
     public float Version { get; set; }
     public string Path { get; set; }
