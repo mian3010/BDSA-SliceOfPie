@@ -25,18 +25,17 @@ namespace SliceOfPie_Network
         {
             string xml = HTMLMarshaller.MarshallLog(log);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
-            //request.Credentials = new NetworkCredential("test", "test");
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
-            
+            // Creates a byteversion of the XML string
             byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
 
             request.ContentLength = xml.Length;
 
             Stream stream = request.GetRequestStream();
             stream.Write(byteVersion, 0, byteVersion.Length);
-            Debug.WriteLine("stream has written");
             stream.Close();
+            // Waist for the HTTP response from the server
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
             HandleLogResponse(resp);
         }

@@ -31,12 +31,38 @@ namespace SliceOfPie_Network
         public void Process()
         {
             string http_method = request.HttpMethod;
+            string responseString = "";
+            // Determines which http-method is called.
+
+            try
+            {
+                if (http_method == "PUT")
+                {
+
+                }
+                else if (http_method == "POST")
+                {
+
+                }
+                else if (http_method == "PUT")
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception e)
+            {
+                Exception ex = new System.ArgumentException("Illegal XML in Process()", e);
+                throw ex;
+            }
+
             StreamReader content = new StreamReader(request.InputStream);
-
-            string xml = "connection!";
-
-            response.ContentLength64 = xml.Length;
-            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
+            Console.Out.WriteLine(content.ReadToEnd());
+            response.ContentLength64 = responseString.Length;
+            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
             Stream stream = response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
