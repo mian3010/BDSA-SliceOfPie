@@ -24,17 +24,17 @@ namespace SliceOfPie_Network
         public void SendLog(List<LogEntry> log)
         {
             string xml = HTMLMarshaller.MarshallLog(log);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
             //request.Credentials = new NetworkCredential("test", "test");
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
+            
+            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
 
-            byte[] _byteVersion = Encoding.ASCII.GetBytes(string.Concat("content=", xml));
-
-            request.ContentLength = _byteVersion.Length;
+            request.ContentLength = xml.Length;
 
             Stream stream = request.GetRequestStream();
-            stream.Write(_byteVersion, 0, _byteVersion.Length);
+            stream.Write(byteVersion, 0, byteVersion.Length);
             Debug.WriteLine("stream has written");
             stream.Close();
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
@@ -63,8 +63,10 @@ namespace SliceOfPie_Network
 
 
         public void HandleLogResponse(HttpWebResponse response)
-        { 
-            
+        {
+            Console.Out.WriteLine(response.Server);
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            Console.Out.WriteLine(reader.ReadToEnd());
         }
 
         public void HandleFileResponse(HttpWebResponse response)
@@ -89,6 +91,7 @@ namespace SliceOfPie_Network
             loglist.Add(log3);
             loglist.Add(log4);
             Thread thread = new Thread(() => server.listen());
+            thread.Start();
             client.SendLog(loglist);
             server.Close();
         }
