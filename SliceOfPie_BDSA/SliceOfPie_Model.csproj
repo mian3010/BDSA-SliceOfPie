@@ -56,12 +56,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileList\FileListEntry.cs" />
     <Compile Include="Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
     <Compile Include="File.cs" />
+    <Compile Include="FileList\FileList.cs" />
+    <Compile Include="FileList\FileListType.cs" />
     <Compile Include="OfflineAdministrator.cs" />
     <Compile Include="FilePersistenceException.cs" />
     <Compile Include="CommunicatorOfflineAdapter.cs" />
