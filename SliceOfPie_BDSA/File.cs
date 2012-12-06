@@ -13,10 +13,20 @@ namespace SliceOfPie_Model {
           set;
       }
 
-      protected StringBuilder cont = new StringBuilder();
       public StringBuilder Content
       {
-          get { return cont; } 
+          get
+          {
+              if (Content == null)
+              {
+                  Content = new StringBuilder();
+              }
+              return Content;
+          }
+          set
+          {
+              Content = value;
+          }
       }
 
       public virtual String GetContent()
