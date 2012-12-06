@@ -10,9 +10,12 @@ namespace SliceOfPie_Server
 {
     class Program
     {
+
+        private Queue<LogEntry> LogQue = new Queue<LogEntry>();
+
         static void Main(string[] args)
         {
-            File file = File.CreateFile(1, "Hejsa.txt", "Here", 0);
+            File file = File.CreateFile(1, "Hejsa.txt", @"Here", 0);
             SaveFile(file);
         }
 
@@ -27,22 +30,13 @@ namespace SliceOfPie_Server
             {
                 adapter.AddFile(File);
             }
+        }
 
-            /*
-            string path = @".\Files\" + File.serverpath;
-            string name = File.name;
-            string FileAsHtml = HTMLMarshaller.MarshallFile(File);
-
-            string fullPath = path + @"\" + name;
-            if(!System.IO.Directory.Exists(path)){
-                System.IO.Directory.CreateDirectory(path);
+        public void ReceiveLog(List<LogEntry> LogEntries)
+        {
+            foreach(LogEntry entry in LogEntries){
+                LogQue.Enqueue(entry);
             }
-            if (!System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Create(fullPath).Close();
-            }
-            System.IO.File.WriteAllText(fullPath, FileAsHtml);
-            */
         }
     }
 }
