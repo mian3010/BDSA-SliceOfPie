@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using SliceOfPie_Model;
 using System.Data.Entity;
-
+using System.Diagnostics;
 
 namespace SliceOfPie_OfflineGUI
 {
@@ -20,7 +20,7 @@ namespace SliceOfPie_OfflineGUI
         public Form1()
         {
             InitializeComponent();
-            
+                  
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -71,6 +71,7 @@ namespace SliceOfPie_OfflineGUI
         private void deleteButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Are you sure you want to delete file?", "Delete", MessageBoxButtons.YesNo);
+       
         }
 
         private void progressBar1_Click(object sender, EventArgs e)

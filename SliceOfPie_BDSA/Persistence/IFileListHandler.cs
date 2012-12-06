@@ -13,5 +13,7 @@ namespace SliceOfPie_Model
         }
 
         void PersistFileList();
+
+        String FilesAsXML();
     }
 }

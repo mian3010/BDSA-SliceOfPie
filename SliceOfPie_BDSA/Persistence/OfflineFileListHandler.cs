@@ -108,5 +108,11 @@ namespace SliceOfPie_Model
             FileList.List[file.id].Path = file.serverpath;
         }
 
+
+
+        public string FilesAsXML()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
