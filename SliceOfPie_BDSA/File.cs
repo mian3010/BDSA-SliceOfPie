@@ -7,6 +7,12 @@ using System.IO;
 namespace SliceOfPie_Model {
   partial class File {
 
+      protected StringBuilder cont = new StringBuilder();
+      public StringBuilder Content
+      {
+          get { return cont; } 
+      }
+
       public virtual String GetContent()
       {
           return "If this message is shown, the object displaying it is a File base class and have no content"

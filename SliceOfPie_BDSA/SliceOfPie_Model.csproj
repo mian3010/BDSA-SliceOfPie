@@ -58,7 +58,7 @@
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
     <Compile Include="File.cs" />
-    <Compile Include="FileSystemCommunicator.cs" />
+    <Compile Include="OfflineAdministrator.cs" />
     <Compile Include="FilePersistenceException.cs" />
     <Compile Include="CommunicatorOfflineAdapter.cs" />
     <Compile Include="Context.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="FileMetaData.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="EnumTypes.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="OfflineLogger.cs" />
     <Compile Include="MetaDataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMergePolicy.cs" />

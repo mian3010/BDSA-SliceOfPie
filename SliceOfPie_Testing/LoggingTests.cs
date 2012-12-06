@@ -12,7 +12,7 @@ namespace SliceOfPie_Testing
         {
             List<File> rig = FileCommunicatorTests.GetTestRig();
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(FileCommunicatorTests.TestPath);
-            Logger l = new Logger(ts);
+            OfflineLogger l = new OfflineLogger(ts);
             foreach (File file in rig)
             {
                 ts.AddFile(file);
@@ -51,7 +51,7 @@ namespace SliceOfPie_Testing
         {
             BasicLogFunctions(true);
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter(FileCommunicatorTests.TestPath);
-            Logger l = new Logger(ts);
+            OfflineLogger l = new OfflineLogger(ts);
             List<LogEntry> persistedLog = l.OfflineLog;
             Assert.AreEqual(true, persistedLog.Count > 0);
 
@@ -59,7 +59,7 @@ namespace SliceOfPie_Testing
             l.OfflineLog.Clear();
             l.PersistLogOnDisk();
 
-            l = new Logger(ts);
+            l = new OfflineLogger(ts);
             Assert.AreEqual(true, l.OfflineLog.Count == 0);
 
         }

@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using System.Data.Entity;
 
 
@@ -52,6 +53,38 @@ namespace SliceOfPie_Model
             }
             return builder.ToString();
         }
+        /// <summary>
+        /// Unmarshals a File according to the loosely defined XML format used in Slice of Pie.
+        /// </summary>
+        /// <param name="XML">The xml to unmarshal</param>
+        /// <returns>A new FileInstance object</returns>
+        public static File UnmarshallFile(String XML)
+        {
+            File file = new File();
+            XDocument doc = XDocument.Parse(XML);
+
+            IEnumerable<XElement> elements = doc.Elements("html");
+
+            foreach (var m in elements)
+            {
+                FileMetaData fmd = new FileMetaData();
+                fmd.value = m.Element("meta").Attribute("content").Value;
+                fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
+                file.FileMetaDatas.Add(fmd);
+                file.Content.Append(m.Element("body").Value);    
+            }   
+            
+            //var content = from body in doc.Elements("html")
+            //              select body;
+            //foreach (var b in content)
+            //{
+            //    file.Content.Append(b.Element("body").Value);
+            //}
+
+            return file;
+        }
+
+
 
         public static string MarshallLog(List<LogEntry> loglist)
         { 
