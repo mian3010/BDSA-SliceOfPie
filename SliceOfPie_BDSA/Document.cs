@@ -38,7 +38,7 @@ namespace SliceOfPie_Model {
           return output.ToString();
         }
 
-    public string HistoryToString() {
+    public new string HistoryToString() {
       StringBuilder output = new StringBuilder();
       output.Append("<ol>");
       output.Append("<li>Document created</li>");
