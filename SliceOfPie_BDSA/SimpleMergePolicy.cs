@@ -96,7 +96,8 @@ namespace SliceOfPie_Model
             
             // Since we use stringbuilder, we'll reuse the latest documents metadata.
             // Maybe change this later?
-            latest.Content = merged;
+            latest.Content.Clear();
+            latest.Content.Append(merged.ToString());
             return latest;
         }
 
