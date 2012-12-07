@@ -14,7 +14,5 @@ namespace SliceOfPie_Model
         // Returns new ID of the File you want to push
         long PushFile(File file);
 
-
-
     }
 }
