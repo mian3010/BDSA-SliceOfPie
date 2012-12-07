@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 
-namespace SliceOfPie_Network
+namespace SliceOfPie_Server
 {
     public class NetworkServer
     {
@@ -15,9 +15,19 @@ namespace SliceOfPie_Network
         protected int port;
         HttpListener listener;
         bool is_active = true;
+        static NetworkServer server;
+        RequestHandler handler;
+
+        public static NetworkServer GetInstance()
+        {
+            if (server == null)
+                server = new NetworkServer(8080, RequestHandler.instance);
+            return server;
+        }
    
-        public NetworkServer(int port) {
+        public NetworkServer(int port, RequestHandler handler) {
             this.port = port;
+            this.handler = handler;
         }
     
         /// <summary>
@@ -29,9 +39,8 @@ namespace SliceOfPie_Network
             listener.Start();
             while (is_active) {
                 HttpListenerContext context = listener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HTTPProcessor processor = new HTTPProcessor(context);
-                Thread thread = new Thread(new ThreadStart(processor.Process));
+                HTTPProcessor processor = new HTTPProcessor(context, handler);
+                Thread thread = new Thread(() => processor.Process());
                 thread.Start();
                 Thread.Sleep(1);
              }

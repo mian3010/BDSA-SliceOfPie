@@ -33,6 +33,12 @@ namespace SliceOfPie_Model
             return SendFile(file);
         }
 
+        /// <summary>
+        /// Send the XML to the server using a HTTP request.
+        /// </summary>
+        /// <param name="xml">The xml to send</param>
+        /// <param name="method">The REST method</param>
+        /// <returns>A response from the server to be returned</returns>
         private HttpWebResponse Send(string xml, string method)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");

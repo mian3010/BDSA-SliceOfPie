@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using SliceOfPie_Model;
 
 namespace SliceOfPie_Server
 {
@@ -17,11 +18,13 @@ namespace SliceOfPie_Server
     {
         private HttpListenerRequest request;
         private HttpListenerResponse response;
+        private RequestHandler handler;
 
-        public HTTPProcessor(HttpListenerContext context)
+        public HTTPProcessor(HttpListenerContext context, RequestHandler handler)
         {
             request = context.Request;
             response = context.Response;
+            this.handler = handler;
         }
 
         /// <summary>
@@ -42,15 +45,26 @@ namespace SliceOfPie_Server
                 }
                 else if (http_method == "POST")
                 {
+                    StreamReader reader = new StreamReader(request.InputStream);
+                    string s = reader.ReadToEnd();
+                    FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
+                    //responseString = handler.ReceiveFileList(list);
+
 
                 }
                 else if (http_method == "PUT")
                 {
 
                 }
-                else
+                else if (http_method == "GET")
                 {
-
+                    StreamReader reader = new StreamReader(request.InputStream);
+                    string s = reader.ReadLine();
+                    handler.GetFile(long.Parse(s));
+                    
+                }
+                else {
+                    throw new System.ArgumentException("Illegal XML method");
                 }
             }
             catch (Exception e)
@@ -59,6 +73,12 @@ namespace SliceOfPie_Server
                 throw ex;
             }
 
+            
+        }
+
+        public void RecieveFileList(FileList list)
+        {
+            string responseString = HTMLMarshalUtil.MarshallFileList(list);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;
