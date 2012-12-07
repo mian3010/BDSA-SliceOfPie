@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SliceOfPie_Model;
-using SliceOfPie_Network;
 
 namespace SliceOfPie_Server {
   class RequestHandler {
