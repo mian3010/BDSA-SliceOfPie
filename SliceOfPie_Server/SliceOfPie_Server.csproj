@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTTPProcessor.cs" />
+    <Compile Include="NetworkServer.cs" />
     <Compile Include="RequestHandler.cs" />
     <Compile Include="MergeDaemon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

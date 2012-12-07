@@ -8,7 +8,6 @@ using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
 using SliceOfPie_Model;
-using SliceOfPie_Model;
 using System.Threading;
 
 namespace SliceOfPie_Model
@@ -36,7 +35,25 @@ namespace SliceOfPie_Model
 
         private HttpWebResponse Send(string xml, string method)
         {
-          return null;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
+            request.Accept = "text/xml,text/html";
+            request.Method = method;
+            // Creates a byteversion of the XML string
+            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
+
+            request.ContentLength = xml.Length;
+
+            Stream stream = request.GetRequestStream();
+            stream.Write(byteVersion, 0, byteVersion.Length);
+            stream.Close();
+            // Waist for the HTTP response from the server
+            return (HttpWebResponse)request.GetResponse();
+        }
+
+        private File GetFile(long id)
+        {
+            HttpWebResponse response = Send(id.ToString(), "GET");
+            return HandleFileResponse(response);
         }
 
         /// <summary>
@@ -45,41 +62,16 @@ namespace SliceOfPie_Model
         /// <param name="msg"></param>
         private FileList SendFileList(FileList log)
         {
-
             string xml = HTMLMarshalUtil.MarshallFileList(log);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
-            request.Accept = "text/xml,text/html";
-            request.Method = "POST";
-            // Creates a byteversion of the XML string
-            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
-
-            request.ContentLength = xml.Length;
-
-            Stream stream = request.GetRequestStream();
-            stream.Write(byteVersion, 0, byteVersion.Length);
-            stream.Close();
-            // Waist for the HTTP response from the server
-            HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
-            return HandleFileListResponse(resp);
+            HttpWebResponse response = Send(xml, "POST");
+            return HandleFileListResponse(response);
         }
 
         private long SendFile(SliceOfPie_Model.File file)
         {
             string xml = HTMLMarshalUtil.MarshallFile(file);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
-            request.Accept = "text/xml,text/html";
-            request.Method = "PUT";
-            // Creates a byteversion of the XML string
-            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
-
-            request.ContentLength = xml.Length;
-
-            Stream stream = request.GetRequestStream();
-            stream.Write(byteVersion, 0, byteVersion.Length);
-            stream.Close();
-            // Waist for the HTTP response from the server
-            HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
-            return HandleFileResponse(resp);
+            HttpWebResponse response = Send(xml, "PUT");
+            return HandleIdResponse(response);
         }
 
         /// <summary>
@@ -98,24 +90,29 @@ namespace SliceOfPie_Model
         /// Handles the result comming from the server
         /// </summary>
         /// <param name="response">The response from the server</param>
-        private long HandleFileResponse(HttpWebResponse response)
+        private File HandleFileResponse(HttpWebResponse response)
         {
             Console.Out.WriteLine(response.Server);
             StreamReader reader = new StreamReader(response.GetResponseStream());
             Console.Out.WriteLine(reader.ReadToEnd());
+            return null;
+        }
+
+        private long HandleIdResponse(HttpWebResponse response)
+        {
             return 0;
         }
 
 
         public static void Main(String[] args)
         {
-            NetworkServer server = NetworkServer.GetInstance();
-            NetworkClient client = new NetworkClient();
+            //NetworkServer server = NetworkServer.GetInstance();
+           // NetworkClient client = new NetworkClient();
             // Testdata
-            Thread thread = new Thread(() => server.listen());
-            thread.Start();
+           // Thread thread = new Thread(() => server.listen());
+           // thread.Start();
             //client.SendLog(list);
-            server.Close();
+           // server.Close();
         }
     }
 }
