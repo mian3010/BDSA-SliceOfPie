@@ -15,7 +15,7 @@ namespace SliceOfPie_Server
         protected int port;
         HttpListener listener;
         bool is_active = true;
-        static NetworkServer server;
+        private static NetworkServer server;
         RequestHandler handler;
 
         public static NetworkServer GetInstance()
@@ -25,7 +25,7 @@ namespace SliceOfPie_Server
             return server;
         }
    
-        public NetworkServer(int port, RequestHandler handler) {
+        private NetworkServer(int port, RequestHandler handler) {
             this.port = port;
             this.handler = handler;
         }
