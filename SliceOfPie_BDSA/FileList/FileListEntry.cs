@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SliceOfPie_Model.FileList {
+namespace SliceOfPie_Model {
   public class FileListEntry {
     public long Id { get; set; }
     public float Version { get; set; }

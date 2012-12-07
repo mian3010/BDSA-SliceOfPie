@@ -7,7 +7,9 @@ namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
     private ICommunicator communicator;
-    private OfflineLogger logger;
+    private IFileListHandler logger;
+    private INetClient netClient;
+      
     public delegate void FileEventHandler(object sender, File file);
     public event FileEventHandler FilesUpdated, ContentAdded, FileSaved;
 
@@ -20,7 +22,8 @@ namespace SliceOfPie_Model {
     private OfflineAdministrator() {
         /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
         communicator = new CommunicatorOfflineAdapter();
-        logger = new OfflineLogger((CommunicatorOfflineAdapter) communicator);
+        logger = new OfflineFileListHandler(communicator);
+        netClient = new NetworkClient();
     }
 
     public static OfflineAdministrator GetInstance() {
@@ -31,26 +34,38 @@ namespace SliceOfPie_Model {
 
     public void Synchronize()
     {
-        // Get log from Logger
-        List<LogEntry> offlineLog = logger.OfflineLog;
+        // Get fileList from Communicator
+        FileList oFileList = logger.FileList;
+        // Send filelist to Server via Client
+        FileList responseList = netClient.SyncServer();
+        // Receive fileList
 
-        foreach (LogEntry entry in offlineLog)
+        List<File> conflictFiles = new List<File>();
+        foreach (FileListEntry entry in responseList.List.Values)
         {
-            switch (entry.modification)
+            switch (entry.Type)
             {
-                //case FileModification.Add:  break;
-                //case FileModification.Add: break;
-                //case FileModification.Add: break;
-                //case FileModification.Add: break;
-                //case FileModification.Add: break;
-                //case FileModification.Add: break;
-                //case FileModification.Add: break;
-
+                case FileListType.Conflict: 
+                    conflictFiles.Add(netClient.PullFile(communicator.GetFile(entry.Id))); break;
+                case FileListType.Pull:
+                    communicator.AddFile(netClient.PullFile(entry.Id)); break;
+                case FileListType.Push: 
+                    File toPush = communicator.GetFile(entry.Id);
+                    communicator.UpdateFileID(toPush, netClient.PushFile(toPush)); 
+                    break;
+                    
             }
         }
-
+        HandleConflictedFiles(conflictFiles);
+    
     }
 
+
+    private void HandleConflictedFiles(List<File> ConflictedFiles)
+    {
+        /// Here we should alert the user and let him fix conflicted files.
+    }
+       
     public void SaveFile(File file) {
       // bool b = communicator.SaveFile(file);
         bool b = true;

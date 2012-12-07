@@ -14,12 +14,12 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestMarshallLog()
         {
-            List<LogEntry> log = new List<LogEntry>();
+            List<FileListEntry> log = new List<FileListEntry>();
 
-            LogEntry log1 = new LogEntry(1, "file1", "/local", DateTime.Now, FileModification.Add);
-            LogEntry log2 = new LogEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
-            LogEntry log3 = new LogEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
-            LogEntry log4 = new LogEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
+            FileListEntry log1 = new FileListEntry(1, "file1", "/local", DateTime.Now, FileModification.Add);
+            FileListEntry log2 = new FileListEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
+            FileListEntry log3 = new FileListEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
+            FileListEntry log4 = new FileListEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
             log.Add(log1);
             log.Add(log2);
             log.Add(log3);
@@ -33,12 +33,12 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestUnMarshallLog()
         {
-            List<LogEntry> log = new List<LogEntry>();
+            List<FileListEntry> log = new List<FileListEntry>();
 
-            LogEntry log1 = new LogEntry(1, "file1", "/local", DateTime.Now, FileModification.Add);
-            LogEntry log2 = new LogEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
-            LogEntry log3 = new LogEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
-            LogEntry log4 = new LogEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
+            FileListEntry log1 = new FileListEntry(1, "file1", "/local", DateTime.Now, FileModification.Add);
+            FileListEntry log2 = new FileListEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
+            FileListEntry log3 = new FileListEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
+            FileListEntry log4 = new FileListEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
             Console.Out.WriteLine("LOG TIME BEFORE MARSHALL" + log1.timeStamp);
             log.Add(log1);
             log.Add(log2);
@@ -46,12 +46,12 @@ namespace SliceOfPie_Testing
             log.Add(log4);
 
             string xml= HTMLMarshaller.MarshallLog(log);
-            List<LogEntry> list = HTMLMarshaller.UnMarshallLog(xml);
+            List<FileListEntry> list = HTMLMarshaller.UnMarshallLog(xml);
 
             for (int i = 0; i < list.Count; i++ )
             {
-                LogEntry entry = list[i];
-                LogEntry refEntry = log[i];
+                FileListEntry entry = list[i];
+                FileListEntry refEntry = log[i];
                 Assert.AreEqual(entry.id, refEntry.id);
                 Assert.AreEqual(entry.fileName, refEntry.fileName);
                 Assert.AreEqual(entry.filePath, refEntry.filePath);

@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
 using SliceOfPie_Model;
+using SliceOfPie_Model;
 using System.Threading;
 
 namespace SliceOfPie_Network
@@ -21,55 +22,76 @@ namespace SliceOfPie_Network
         /// Sends HTML using a HTTP protocol.
         /// </summary>
         /// <param name="msg"></param>
-        public void SendLog(List<LogEntry> log)
+        public void SendLog(FileList log)
         {
-            string xml = HTMLMarshaller.MarshallLog(log);
+<<<<<<< HEAD
+            string xml = HTMLMarshalUtil.MarshallFileList(log);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost");
             //request.Credentials = new NetworkCredential("test", "test");
+=======
+            string xml = HTMLMarshaller.MarshallLog(log);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
+>>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
+            // Creates a byteversion of the XML string
+            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
 
-            byte[] _byteVersion = Encoding.ASCII.GetBytes(string.Concat("content=", xml));
-
-            request.ContentLength = _byteVersion.Length;
+            request.ContentLength = xml.Length;
 
             Stream stream = request.GetRequestStream();
-            stream.Write(_byteVersion, 0, _byteVersion.Length);
-            Debug.WriteLine("stream has written");
+            stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
+            // Waist for the HTTP response from the server
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
             HandleLogResponse(resp);
         }
 
         public void SendFile(SliceOfPie_Model.File file)
         {
-            string xml = HTMLMarshaller.MarshallFile(file);
+<<<<<<< HEAD
+            string xml = HTMLMarshalUtil.MarshallFile(file);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
             request.Credentials = new NetworkCredential("test", "test");
+=======
+            string xml = HTMLMarshaller.MarshallFile(file);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
+>>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             request.Accept = "text/xml,text/html";
-            request.Method = "ADD";
+            request.Method = "POST";
+            // Creates a byteversion of the XML string
+            byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
 
-            byte[] _byteVersion = Encoding.ASCII.GetBytes(string.Concat("content=", xml));
-
-            request.ContentLength = _byteVersion.Length;
+            request.ContentLength = xml.Length;
 
             Stream stream = request.GetRequestStream();
-            stream.Write(_byteVersion, 0, _byteVersion.Length);
-            Debug.WriteLine("stream has written");
+            stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
+            // Waist for the HTTP response from the server
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
             HandleFileResponse(resp);
         }
 
-
-        public void HandleLogResponse(HttpWebResponse response)
-        { 
-            
+        /// <summary>
+        /// Handles the resultcomming from the server.
+        /// </summary>
+        /// <param name="response">The response from the server</param>
+        private void HandleLogResponse(HttpWebResponse response)
+        {
+            Console.Out.WriteLine(response.Server);
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            Console.Out.WriteLine(reader.ReadToEnd());
         }
 
-        public void HandleFileResponse(HttpWebResponse response)
-        { 
-            
+        /// <summary>
+        /// Handles the result comming from the server
+        /// </summary>
+        /// <param name="response">The response from the server</param>
+        private void HandleFileResponse(HttpWebResponse response)
+        {
+            Console.Out.WriteLine(response.Server);
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            Console.Out.WriteLine(reader.ReadToEnd());
         }
 
 
@@ -78,18 +100,14 @@ namespace SliceOfPie_Network
             NetworkServer server = new NetworkServer(8080);
             NetworkClient client = new NetworkClient();
             // Testdata
-            List<LogEntry> loglist = new List<LogEntry>();
-            LogEntry log1 = new LogEntry(1, "file1", "/local", DateTime.Now, FileModification.Add);
-            LogEntry log2 = new LogEntry(2, "file2", "/local", DateTime.Now, FileModification.Delete);
-            LogEntry log3 = new LogEntry(3, "file3", "/local", DateTime.Now, FileModification.Modify);
-            LogEntry log4 = new LogEntry(4, "file4", "/local", DateTime.Now, FileModification.Add);
-            Console.Out.WriteLine("LOG TIME BEFORE MARSHALL" + log1.timeStamp);
-            loglist.Add(log1);
-            loglist.Add(log2);
-            loglist.Add(log3);
-            loglist.Add(log4);
+     
             Thread thread = new Thread(() => server.listen());
+<<<<<<< HEAD
+            // client.SendLog(loglist);
+=======
+            thread.Start();
             client.SendLog(loglist);
+>>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             server.Close();
         }
     }

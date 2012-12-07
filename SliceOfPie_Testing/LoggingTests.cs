@@ -8,11 +8,11 @@ namespace SliceOfPie_Testing
     [TestClass]
     public class LoggingTests
     {
-        private List<LogEntry> BasicLogFunctions(bool saveLog)
+        private FileList BasicFileList(bool saveLog)
         {
             List<File> rig = FileCommunicatorTests.GetTestRig();
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
-            OfflineLogger l = new OfflineLogger(ts);
+            OfflineFileList l = new OfflineFileList(ts);
             foreach (File file in rig)
             {
                 ts.AddFile(file);
@@ -25,7 +25,7 @@ namespace SliceOfPie_Testing
             if (saveLog) {
                 l.PersistLogOnDisk(); 
             }
-            return l.OfflineLog;
+            return l.FileList;
 
         }
 
@@ -36,7 +36,7 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestLoggingFunctions()
         {
-            List<LogEntry> entries = BasicLogFunctions(false);
+            List<LogEntry> entries = BasicFileList(false);
             LogEntry one = entries.Find((e) => { return (e.id == 1 && e.modification == FileModification.Delete);});
             LogEntry two = entries.Find((e) => { return (e.id == 2 && e.modification == FileModification.Rename); });
             LogEntry three = entries.Find((e) => { return (e.id == 4 && e.modification == FileModification.Modify); });
@@ -49,18 +49,18 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestPersistentLog()
         {
-            BasicLogFunctions(true);
+            BasicFileList(true);
             CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
-            OfflineLogger l = new OfflineLogger(ts);
-            List<LogEntry> persistedLog = l.OfflineLog;
+            OfflineFileList l = new OfflineFileList(ts);
+            List<LogEntry> persistedLog = l.FileList;
             Assert.AreEqual(true, persistedLog.Count > 0);
 
             // Test that the log is really saved as empty as well.
-            l.OfflineLog.Clear();
+            l.FileList.Clear();
             l.PersistLogOnDisk();
 
-            l = new OfflineLogger(ts);
-            Assert.AreEqual(true, l.OfflineLog.Count == 0);
+            l = new OfflineFileList(ts);
+            Assert.AreEqual(true, l.FileList.Count == 0);
 
         }
     }

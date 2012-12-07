@@ -19,6 +19,18 @@ namespace SliceOfPie_Model
 
         void RenameFile(File file, string newName);
 
+        void UpdateFileID(File file, long newID);
+
+        File GetFile(long id);
+
         void MoveFile(File file, string newPath);
+
+        event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
     }
+
+    /// <summary>
+    /// Custom delegate to handle file events. 
+    /// </summary>
+    /// <param name="file"></param>
+    public delegate void FileEventHandler(File file);
 }

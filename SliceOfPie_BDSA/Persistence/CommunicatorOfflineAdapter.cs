@@ -11,13 +11,22 @@ namespace SliceOfPie_Model {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
 
-
-      public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed;
-
-      public delegate void FileEventHandler(File file);
+      public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
       public CommunicatorOfflineAdapter()
       {
+      }
+
+      public bool AddFileFromServer(File file)
+      {
+          if (AddNewFile(file))
+          {
+              if (FilePulled != null)
+                  FilePulled(file);
+              return true;
+          }
+          else return false;    
+
       }
 
     private bool AddNewFile(File file) {
@@ -187,6 +196,19 @@ namespace SliceOfPie_Model {
             return false;
         }
     }
-    
+
+
+
+
+    public File GetFile(long id)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public void UpdateFileID(File file, long newID)
+    {
+        throw new NotImplementedException();
+    }
   }
 }
