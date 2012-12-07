@@ -13,5 +13,15 @@ namespace SliceOfPie_Model {
         set; 
     }
 
+    public String ListAsXml()
+    {
+        String xml;
+
+
+
+        return xml;
+    }
+
+
   }
 }
