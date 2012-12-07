@@ -51,6 +51,11 @@ namespace SliceOfPie_Server {
       }
     }
 
+    private FileList ServerFileList() {
+      
+      return null;
+    }
+
     private void HandleFileRename(FileListEntry Entry) {
       // Add change to change table in db
       // Do rename

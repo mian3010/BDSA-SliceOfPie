@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SliceOfPie_Model.FileList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,15 @@ namespace SliceOfPie_Model {
                   select u;
       DbContext.DeleteObject(query.First());
       DbContext.SaveChanges();
+    }
+
+    public static Dictionary<long, FileListEntry> GetServerFileList(string email) {
+      var DbContext = new SliceOfLifeEntities();
+      var query = from e in DbContext.FileInstances
+                  where e.User_email == email
+                  select e;
+      // Do stuff
+      return null;
     }
   }
 }
