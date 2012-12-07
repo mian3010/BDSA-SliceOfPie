@@ -45,9 +45,14 @@ namespace SliceOfPie_Server {
     public FileListReviewer();
 
     public void Review(FileList fileList) {
-      foreach (FileListEntry Entry in fileList) {
+      foreach (FileListEntry Entry in fileList.List.Values) {
 
       }
+    }
+
+    private FileList ServerFileList() {
+      
+      return null;
     }
 
     private void HandleFileRename(LogEntry Entry) {
