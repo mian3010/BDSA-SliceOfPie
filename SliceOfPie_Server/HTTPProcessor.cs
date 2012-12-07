@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-namespace SliceOfPie_Network
+namespace SliceOfPie_Server
 {
     /// <summary>
     /// Class responsible for processing the HTTP requests from the Network Server.
