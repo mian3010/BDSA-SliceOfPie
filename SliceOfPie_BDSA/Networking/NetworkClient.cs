@@ -35,8 +35,8 @@ namespace SliceOfPie_Model
         }
 
         private HttpWebResponse Send(string xml, string method)
-        { 
-            
+        {
+          return null;
         }
 
         /// <summary>

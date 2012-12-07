@@ -37,7 +37,7 @@ namespace SliceOfPie_Model {
         // Get fileList from Communicator
         FileList oFileList = logger.FileList;
         // Send filelist to Server via Client
-        FileList responseList = netClient.SyncServer();
+        FileList responseList = netClient.SyncServer(oFileList);
         // Receive fileList
 
         List<File> conflictFiles = new List<File>();
@@ -46,7 +46,7 @@ namespace SliceOfPie_Model {
             switch (entry.Type)
             {
                 case FileListType.Conflict: 
-                    conflictFiles.Add(netClient.PullFile(communicator.GetFile(entry.Id))); break;
+                    conflictFiles.Add(netClient.PullFile(entry.Id)); break;
                 case FileListType.Pull:
                     communicator.AddFile(netClient.PullFile(entry.Id)); break;
                 case FileListType.Push: 
