@@ -14,7 +14,7 @@ namespace SliceOfPie_Server
     /// Class responsible for processing the HTTP requests from the Network Server.
     /// Is created in a new thread for every new client.
     /// </summary>
-    class HTTPProcessor
+    public class HTTPProcessor
     {
         private HttpListenerRequest request;
         private HttpListenerResponse response;

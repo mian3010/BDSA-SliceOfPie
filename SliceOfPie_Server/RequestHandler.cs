@@ -7,7 +7,7 @@ using SliceOfPie_Model;
 using System.Threading;
 
 namespace SliceOfPie_Server {
-  class RequestHandler {
+  public class RequestHandler {
     private RequestHandler() { }
     public static void Main(string[] args) {
       FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
@@ -48,7 +48,7 @@ namespace SliceOfPie_Server {
     }
   }
 
-  private class FileReceiver {
+  class FileReceiver {
     HTTPProcessor hp;
     File file;
 
@@ -63,7 +63,7 @@ namespace SliceOfPie_Server {
     }
   }
 
-  private class FileListReviewer {
+  class FileListReviewer {
     private FileList fileList;
     private HTTPProcessor hp;
     public FileListReviewer(FileList fileList, HTTPProcessor hp) {
