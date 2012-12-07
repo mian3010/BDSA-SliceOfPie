@@ -8,8 +8,8 @@ using SliceOfPie_Network;
 
 namespace SliceOfPie_Server {
   class RequestHandler {
-      private RequestHandler()
-      { }
+    private RequestHandler() { }
+    public static void Main(string[] args) { }
 
     private static RequestHandler tinstance;
     public static RequestHandler instance {
@@ -42,18 +42,17 @@ namespace SliceOfPie_Server {
 
   class FileListReviewer {
     private FileList fileList;
-    public FileListReviewer()
-    {
+    public FileListReviewer() {
     }
 
     public void Review(FileList fileList) {
-      foreach(FileListEntry Entry in fileList.List.Values) {
+      foreach (FileListEntry Entry in fileList.List.Values) {
 
       }
     }
 
     private FileList ServerFileList() {
-      
+
       return null;
     }
 
