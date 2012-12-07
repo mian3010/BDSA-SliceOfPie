@@ -55,8 +55,18 @@ namespace SliceOfPie_Model {
       var query = from e in DbContext.FileInstances
                   where e.User_email == email
                   select e;
-      // Do stuff
-      return null;
+      foreach (var e in query.ToArray()) {
+        Console.WriteLine(e.ToString());
+      }
+      throw new NotImplementedException();
+    }
+
+    public static File GetFile(long fileId){
+      var DbContext = new SliceOfLifeEntities();
+      var query = from f in DbContext.Files
+                  where f.id == fileId
+                  select f;
+      return query.First<File>();
     }
   }
 }

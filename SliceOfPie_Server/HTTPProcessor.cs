@@ -45,6 +45,11 @@ namespace SliceOfPie_Server
                 }
                 else if (http_method == "POST")
                 {
+                    StreamReader reader = new StreamReader(request.InputStream);
+                    string s = reader.ReadToEnd();
+                    FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
+                    //responseString = handler.ReceiveFileList(list);
+
 
                 }
                 else if (http_method == "PUT")
@@ -55,8 +60,8 @@ namespace SliceOfPie_Server
                 {
                     StreamReader reader = new StreamReader(request.InputStream);
                     string s = reader.ReadLine();
-                    SliceOfPie_Model.File file = handler.GetFile(long.Parse(s));
-                    responseString = HTMLMarshalUtil.MarshallFile(file);
+                    handler.GetFile(long.Parse(s));
+                    
                 }
                 else {
                     throw new System.ArgumentException("Illegal XML method");
@@ -68,6 +73,12 @@ namespace SliceOfPie_Server
                 throw ex;
             }
 
+            
+        }
+
+        public void RecieveFileList(FileList list)
+        {
+            string responseString = HTMLMarshalUtil.MarshallFileList(list);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;

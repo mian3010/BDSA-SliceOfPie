@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SliceOfPie_Model;
+using System.Threading;
 
 namespace SliceOfPie_Server {
   class RequestHandler {
     private RequestHandler() { }
-    public static void Main(string[] args) { }
+    public static void Main(string[] args) {
+      FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
+      new SliceOfLifeEntities().AddToFileInstances(fi);
+      Context.GetServerFileList("test");
+    }
 
     private static RequestHandler tinstance;
     public static RequestHandler instance {
@@ -22,12 +27,8 @@ namespace SliceOfPie_Server {
 
     private MergeDaemon mergeDaemon = new MergeDaemon();
 
-    public void ReceiveNewFile(File File) {
-
-    }
-
-    public void ReceiveModifiedFile(File File) {
-
+    public void ReceiveFile(File File) {
+      // Determin new or mod
     }
 
     public void ReceiveFileList(FileList fileList) {
@@ -35,20 +36,23 @@ namespace SliceOfPie_Server {
     }
 
     public void ReviewFileList(FileList fileList) {
-      // FileListReviewer.Review(fileList);
+      FileListReviewer fr = new FileListReviewer(fileList);
+      Thread thread = new Thread(() => fr.Review());
+      thread.Start();
     }
 
     public File GetFile(long id) {
-      throw new NotImplementedException();
+      return Context.GetFile(id);
     }
   }
 
   class FileListReviewer {
     private FileList fileList;
-    public FileListReviewer() {
+    public FileListReviewer(FileList fileList) {
+      this.fileList = fileList;
     }
 
-    public void Review(FileList fileList) {
+    public void Review() {
       foreach (FileListEntry Entry in fileList.List.Values) {
 
       }
@@ -82,6 +86,7 @@ namespace SliceOfPie_Server {
     }
 
     private void HandleMergeReady(FileList Entry) {
+      //Context.
       throw new NotImplementedException();
     }
 
