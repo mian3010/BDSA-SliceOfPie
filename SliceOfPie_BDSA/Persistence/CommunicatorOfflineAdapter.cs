@@ -7,7 +7,11 @@ using System.IO;
 using System.Diagnostics;
 
 namespace SliceOfPie_Model {
-  public class CommunicatorOfflineAdapter : ICommunicator {
+    /// <summary>
+    /// The offline adapter for the ICommunicator interface. Implements persistent storage on disk.
+    /// Also distinguishes between adding files on disk that's retrieved from server or just created offline.
+    /// </summary>
+    public class CommunicatorOfflineAdapter : ICommunicator {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
 
