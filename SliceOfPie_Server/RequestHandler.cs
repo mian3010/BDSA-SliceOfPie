@@ -31,12 +31,12 @@ namespace SliceOfPie_Server {
       // Determin new or mod
     }
 
-    public void ReceiveFileList(FileList fileList) {
-
+    public void ReceiveFileList(FileList fileList, HTTPProcessor hp) {
+      ReviewFileList(fileList, hp);
     }
 
-    public void ReviewFileList(FileList fileList) {
-      FileListReviewer fr = new FileListReviewer(fileList);
+    private void ReviewFileList(FileList fileList, HTTPProcessor hp) {
+      FileListReviewer fr = new FileListReviewer(fileList, hp);
       Thread thread = new Thread(() => fr.Review());
       thread.Start();
     }
@@ -48,8 +48,10 @@ namespace SliceOfPie_Server {
 
   class FileListReviewer {
     private FileList fileList;
-    public FileListReviewer(FileList fileList) {
+    private HTTPProcessor hp;
+    public FileListReviewer(FileList fileList, HTTPProcessor hp) {
       this.fileList = fileList;
+      this.hp = hp;
     }
 
     public void Review() {
