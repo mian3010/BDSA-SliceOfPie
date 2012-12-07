@@ -37,6 +37,10 @@ namespace SliceOfPie_Server {
     public void ReviewFileList(FileList fileList) {
       // FileListReviewer.Review(fileList);
     }
+
+    public File GetFile(long id) {
+      throw new NotImplementedException();
+    }
   }
 
   class FileListReviewer {
