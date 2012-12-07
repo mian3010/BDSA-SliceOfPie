@@ -24,14 +24,9 @@ namespace SliceOfPie_Network
         /// <param name="msg"></param>
         public void SendLog(FileList log)
         {
-<<<<<<< HEAD
-            string xml = HTMLMarshalUtil.MarshallFileList(log);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost");
-            //request.Credentials = new NetworkCredential("test", "test");
-=======
+
             string xml = HTMLMarshaller.MarshallLog(log);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
->>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
             // Creates a byteversion of the XML string
@@ -49,14 +44,8 @@ namespace SliceOfPie_Network
 
         public void SendFile(SliceOfPie_Model.File file)
         {
-<<<<<<< HEAD
-            string xml = HTMLMarshalUtil.MarshallFile(file);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.itu.dk/people/dpacino/test/");
-            request.Credentials = new NetworkCredential("test", "test");
-=======
             string xml = HTMLMarshaller.MarshallFile(file);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
->>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             request.Accept = "text/xml,text/html";
             request.Method = "POST";
             // Creates a byteversion of the XML string
@@ -100,14 +89,9 @@ namespace SliceOfPie_Network
             NetworkServer server = new NetworkServer(8080);
             NetworkClient client = new NetworkClient();
             // Testdata
-     
             Thread thread = new Thread(() => server.listen());
-<<<<<<< HEAD
-            // client.SendLog(loglist);
-=======
             thread.Start();
             client.SendLog(loglist);
->>>>>>> c1047c883d7ca24cf6488cff4fda7cab91a1bf69
             server.Close();
         }
     }
