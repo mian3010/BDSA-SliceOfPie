@@ -27,8 +27,10 @@ namespace SliceOfPie_Server {
 
     private MergeDaemon mergeDaemon = new MergeDaemon();
 
-    public void ReceiveFile(File File) {
-      // Determin new or mod
+    public void ReceiveFile(File file, HTTPProcessor hp) {
+      FileReceiver fr = new FileReceiver(file, hp);
+      Thread thread = new Thread(() => fr.Receive());
+      thread.Start();
     }
 
     public void ReceiveFileList(FileList fileList, HTTPProcessor hp) {
@@ -46,7 +48,22 @@ namespace SliceOfPie_Server {
     }
   }
 
-  class FileListReviewer {
+  private class FileReceiver {
+    HTTPProcessor hp;
+    File file;
+
+    public FileReceiver(File file, HTTPProcessor hp) {
+      this.file = file;
+      this.hp = hp;
+    }
+
+    public void Receive() {
+      // Determin new or mod
+      //hp.something(file.id);
+    }
+  }
+
+  private class FileListReviewer {
     private FileList fileList;
     private HTTPProcessor hp;
     public FileListReviewer(FileList fileList, HTTPProcessor hp) {
@@ -58,6 +75,7 @@ namespace SliceOfPie_Server {
       foreach (FileListEntry Entry in fileList.List.Values) {
 
       }
+      //hp.something(fileList);
     }
 
     private FileList ServerFileList() {
