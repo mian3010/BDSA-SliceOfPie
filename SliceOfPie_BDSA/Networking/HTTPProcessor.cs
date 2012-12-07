@@ -55,7 +55,7 @@ namespace SliceOfPie_Model
             }
             catch (Exception e)
             {
-                Exception ex = new System.ArgumentException("Illegal XML in Process()", e);
+                Exception ex = new System.ArgumentException("Error processing XML", e);
                 throw ex;
             }
 

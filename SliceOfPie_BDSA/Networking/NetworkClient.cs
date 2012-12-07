@@ -13,16 +13,32 @@ using System.Threading;
 
 namespace SliceOfPie_Model
 {
-    public class NetworkClient
+    public class NetworkClient : INetClient
     {
         private bool is_active;
         private int port = 8080;
+
+
+        public FileList SyncServer(FileList list)
+        {
+            return SendFileList(list);
+        }
+
+        public File PullFile(long id)
+        {
+            return null;
+        }
+
+        public long PushFile(File file)
+        {
+            return SendFile(file);
+        }
 
         /// <summary>
         /// Sends HTML using a HTTP protocol.
         /// </summary>
         /// <param name="msg"></param>
-        public void SendFileList(FileList log)
+        private FileList SendFileList(FileList log)
         {
 
             string xml = HTMLMarshalUtil.MarshallFileList(log);
@@ -39,10 +55,10 @@ namespace SliceOfPie_Model
             stream.Close();
             // Waist for the HTTP response from the server
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
-            HandleLogResponse(resp);
+            return HandleFileListResponse(resp);
         }
 
-        public void SendFile(SliceOfPie_Model.File file)
+        private long SendFile(SliceOfPie_Model.File file)
         {
             string xml = HTMLMarshalUtil.MarshallFile(file);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
@@ -58,29 +74,31 @@ namespace SliceOfPie_Model
             stream.Close();
             // Waist for the HTTP response from the server
             HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
-            HandleFileResponse(resp);
+            return HandleFileResponse(resp);
         }
 
         /// <summary>
         /// Handles the resultcomming from the server.
         /// </summary>
         /// <param name="response">The response from the server</param>
-        private void HandleLogResponse(HttpWebResponse response)
+        private FileList HandleFileListResponse(HttpWebResponse response)
         {
             Console.Out.WriteLine(response.Server);
             StreamReader reader = new StreamReader(response.GetResponseStream());
             Console.Out.WriteLine(reader.ReadToEnd());
+            return null;
         }
 
         /// <summary>
         /// Handles the result comming from the server
         /// </summary>
         /// <param name="response">The response from the server</param>
-        private void HandleFileResponse(HttpWebResponse response)
+        private long HandleFileResponse(HttpWebResponse response)
         {
             Console.Out.WriteLine(response.Server);
             StreamReader reader = new StreamReader(response.GetResponseStream());
             Console.Out.WriteLine(reader.ReadToEnd());
+            return 0;
         }
 
 
