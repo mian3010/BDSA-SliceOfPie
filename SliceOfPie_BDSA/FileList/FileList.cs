@@ -17,7 +17,8 @@ namespace SliceOfPie_Model {
      * <xml>
      *  <rootdirectory>
      *     <subdirectory>
-     *         <file>
+     *         file
+     *          </subdirectory>
      *          <subdirectory>
      *            
      * <file>
