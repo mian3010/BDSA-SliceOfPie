@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using SliceOfPie_Model;
 
-namespace SliceOfPie_Network
+namespace SliceOfPie_Server
 {
     /// <summary>
     /// Class responsible for processing the HTTP requests from the Network Server.
@@ -17,11 +18,13 @@ namespace SliceOfPie_Network
     {
         private HttpListenerRequest request;
         private HttpListenerResponse response;
+        private RequestHandler handler;
 
-        public HTTPProcessor(HttpListenerContext context)
+        public HTTPProcessor(HttpListenerContext context, RequestHandler handler)
         {
             request = context.Request;
             response = context.Response;
+            this.handler = handler;
         }
 
         /// <summary>
@@ -48,9 +51,15 @@ namespace SliceOfPie_Network
                 {
 
                 }
-                else
+                else if (http_method == "GET")
                 {
-
+                    StreamReader reader = new StreamReader(request.InputStream);
+                    string s = reader.ReadLine();
+                    SliceOfPie_Model.File file = handler.GetFile(long.Parse(s));
+                    responseString = HTMLMarshalUtil.MarshallFile(file);
+                }
+                else {
+                    throw new System.ArgumentException("Illegal XML method");
                 }
             }
             catch (Exception e)
