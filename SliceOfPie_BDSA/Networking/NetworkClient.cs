@@ -34,6 +34,11 @@ namespace SliceOfPie_Model
             return SendFile(file);
         }
 
+        private HttpWebResponse Send(string xml, string method)
+        { 
+            
+        }
+
         /// <summary>
         /// Sends HTML using a HTTP protocol.
         /// </summary>
@@ -63,7 +68,7 @@ namespace SliceOfPie_Model
             string xml = HTMLMarshalUtil.MarshallFile(file);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
             request.Accept = "text/xml,text/html";
-            request.Method = "POST";
+            request.Method = "PUT";
             // Creates a byteversion of the XML string
             byte[] byteVersion = Encoding.ASCII.GetBytes(xml);
 
