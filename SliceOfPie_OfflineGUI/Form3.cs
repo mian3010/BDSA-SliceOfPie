@@ -14,56 +14,60 @@ namespace SliceOfPie_OfflineGUI
     public partial class Form3 : Form
     {
         String xml = "<?xml version=\"1.0\"?><folder><file>Example.txt</file></folder>";
+        List<String> paths = new List<String>();
+
+        /// <summary>
+        /// To-Do delete
+        /// </summary>
+        private void TestPaths()
+        {
+            paths.Add("C:/");
+            paths.Add("C:/John");
+            paths.Add("C:/Fail");
+            paths.Add("C:/Fail/Example");
+            paths.Add("C:/Fail.txt");
+            paths.Add("C:/Fail/noob.txt");
+        }
 
         public Form3()
         {
             InitializeComponent();
-            //InitializeTree();
         }
 
+
+        /// <summary>
+        /// Builds a tree from a list of strings.
+        /// Borrowed from Stackoverflow. Thansk PaulB!
+        /// </summary>
         private void InitializeTree()
         {
-            XmlDocument dom = new XmlDocument();
-            dom.LoadXml(xml);
+            TestPaths();
+            TreeNode root = new TreeNode();
+            TreeNode node = root;
+            treeView1.Nodes.Add(root);
 
-            treeView1.Nodes.Clear();
-            treeView1.Nodes.Add(new TreeNode(dom.DocumentElement.Name));
-            TreeNode tNode = new TreeNode();
-            tNode = treeView1.Nodes[0];
-
-            AddNode(dom.DocumentElement, tNode);
-            treeView1.ExpandAll();
-
+            foreach (string filePath in paths) 
+            {
+                node = root;
+                foreach (string pathBits in filePath.Split('/'))
+                {
+                    node = AddNode(node, pathBits);
+                }
+            }
 
         }
-
-        private void AddNode(XmlNode inXmlNode, TreeNode inTreeNode)
+        private TreeNode AddNode(TreeNode node, string key)
         {
-            XmlNode xNode;
-            TreeNode tNode;
-            XmlNodeList nodeList;
-            int i;
-
-            // Loop through the XML nodes until the leaf is reached.
-            // Add the nodes to the TreeView during the looping process.
-            if (inXmlNode.HasChildNodes)
+            if (node.Nodes.ContainsKey(key))
             {
-                nodeList = inXmlNode.ChildNodes;
-                for (i = 0; i <= nodeList.Count - 1; i++)
-                {
-                    xNode = inXmlNode.ChildNodes[i];
-                    inTreeNode.Nodes.Add(new TreeNode(xNode.Name));
-                    tNode = inTreeNode.Nodes[i];
-                    AddNode(xNode, tNode);
-                }
+                return node.Nodes[key];
             }
             else
             {
-                // Here you need to pull the data from the XmlNode based on the
-                // type of node, whether attribute values are required, and so forth.
-                inTreeNode.Text = (inXmlNode.OuterXml).Trim();
+                return node.Nodes.Add(key, key);
             }
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

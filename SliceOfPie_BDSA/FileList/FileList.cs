@@ -22,17 +22,16 @@ namespace SliceOfPie_Model {
      *          <subdirectory>
      *            
      * <file>
-     **/  
-
-    public String ListAsXml()
+     **/
+    public List<String> GetAllFilePaths()
     {
-        String xml = "";
-
-
-
-        return xml;
+        List<String> paths = new List<String>();
+        foreach (FileListEntry tmp in List.Values)
+        {
+            paths.Add(System.IO.Path.Combine(tmp.Path, tmp.Name));
+        }
+        return paths;
     }
-
 
   }
 }
