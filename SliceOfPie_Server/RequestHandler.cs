@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SliceOfPie_Model;
-using SliceOfPie_Network;
 
 namespace SliceOfPie_Server {
   class RequestHandler {
@@ -50,6 +49,11 @@ namespace SliceOfPie_Server {
       foreach(FileListEntry Entry in fileList.List.Values) {
 
       }
+    }
+
+    private FileList ServerFileList() {
+      
+      return null;
     }
 
     private void HandleFileRename(FileListEntry Entry) {

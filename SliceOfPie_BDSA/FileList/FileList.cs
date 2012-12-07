@@ -13,9 +13,19 @@ namespace SliceOfPie_Model {
         set; 
     }
 
+    /*
+     * <xml>
+     *  <rootdirectory>
+     *     <subdirectory>
+     *         <file>
+     *          <subdirectory>
+     *            
+     * <file>
+     **/  
+
     public String ListAsXml()
     {
-        String xml;
+        String xml = "";
 
 
 

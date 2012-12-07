@@ -15,8 +15,16 @@ namespace SliceOfPie_Model
         protected int port;
         HttpListener listener;
         bool is_active = true;
-   
-        public NetworkServer(int port) {
+        private static NetworkServer server;
+
+        public static NetworkServer GetInstance()
+        {
+            if (server == null)
+                server = new NetworkServer(8080);
+            return server;
+        }
+
+        private NetworkServer(int port) {
             this.port = port;
         }
     
@@ -28,10 +36,8 @@ namespace SliceOfPie_Model
             listener.AuthenticationSchemes = AuthenticationSchemes.None;
             listener.Start();
             while (is_active) {
-                listener.Start();
                 HttpListenerContext context = listener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HTTPProcessor processor = new HTTPProcessor(request, this);
+                HTTPProcessor processor = new HTTPProcessor(context);
                 Thread thread = new Thread(new ThreadStart(processor.Process));
                 thread.Start();
                 Thread.Sleep(1);
