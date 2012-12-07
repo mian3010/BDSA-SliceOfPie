@@ -7,9 +7,7 @@ namespace SliceOfPie_Model
 {
     interface INetClient
     {
-        FileList SyncServer();
-
-        File PullFile(File file);
+        FileList SyncServer(FileList list);
 
         File PullFile(long fileID);
 
