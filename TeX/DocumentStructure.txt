@@ -1,0 +1,13 @@
+<document>
+	<document-title>Title</document-title>
+	<document-view>
+		<metadata-view>
+			<li>
+				<metadata-type>TYPE</metadata-type>: <metadata-value>VALUE</metadata-value>
+			</li>
+		</metadata-view>
+		<document-content>
+			CONTENT
+		</document-content>
+	</document-view>
+</document>
