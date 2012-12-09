@@ -24,7 +24,7 @@ CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`File` (
   `serverpath` VARCHAR(400) NOT NULL ,
   `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
   `Project_id` INT NOT NULL ,
-  `version` DECIMAL(30,30) NULL ,
+  `Version` DECIMAL(30,30) NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_File_Project1_idx` (`Project_id` ASC) ,
   CONSTRAINT `fk_File_Project1`
