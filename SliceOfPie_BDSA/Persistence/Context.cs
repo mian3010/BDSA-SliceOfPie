@@ -1,4 +1,4 @@
-﻿using SliceOfPie_Model;
+﻿using SliceOfPie_Model.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SliceOfPie_Model {
   /// <summary>
-  /// Context has methods for operating on the database (in this case ITU MySQL).
+  /// Context has methods for operating on the database
   /// </summary>
   public static class Context {
 
@@ -46,7 +46,7 @@ namespace SliceOfPie_Model {
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
-      DbContext.DeleteObject(query.First());
+      DbContext.DeleteObject(query.First<User>());
       DbContext.SaveChanges();
     }
 
@@ -67,6 +67,36 @@ namespace SliceOfPie_Model {
                   where f.id == fileId
                   select f;
       return query.First<File>();
+    }
+
+    public static long SaveFile(File file) {
+      var DbContext = new SliceOfLifeEntities();
+      DbContext.Files.AddObject(file);
+      DbContext.SaveChanges();
+
+      // Make sure it was added correctly
+      var query = from f in DbContext.Files
+                  where f.id == file.id
+                  select f;
+      File tempFile = query.First<File>();
+      if(tempFile.Equals(file)) return file.id;
+      else return -1;
+    }
+
+    public static long UpdateFile(File file) {
+      //TODO Change instaead of delete'n'add
+      var DbContext = new SliceOfLifeEntities();
+      DbContext.Files.DeleteObject(file);
+      DbContext.Files.AddObject(file);
+      DbContext.SaveChanges();
+
+      // Make sure it was added correctly
+      var query = from f in DbContext.Files
+                  where f.id == file.id
+                  select f;
+      File tempFile = query.First<File>();
+      if (tempFile.Equals(file)) return file.id;
+      else return -1;
     }
   }
 }

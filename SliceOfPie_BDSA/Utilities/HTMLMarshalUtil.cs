@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using SliceOfPie_Model;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using System.Data.Entity;
+using SliceOfPie_Model.Persistence;
 
 
 namespace SliceOfPie_Model
@@ -17,7 +17,7 @@ namespace SliceOfPie_Model
     public static class HTMLMarshalUtil
     {
 
-        public static string MarshallFile(SliceOfPie_Model.File file)
+        public static string MarshallFile(File file)
         {
             StringBuilder builder = new StringBuilder();
             using(XmlWriter writer = XmlWriter.Create(builder))

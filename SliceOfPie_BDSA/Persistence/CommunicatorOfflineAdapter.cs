@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.IO;
 using System.Diagnostics;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
     /// <summary>
@@ -36,8 +36,8 @@ namespace SliceOfPie_Model {
     private bool AddNewFile(File file) {
 
         
-        if(!Directory.Exists(file.serverpath)) {
-            Directory.CreateDirectory(file.serverpath);
+        if(!System.IO.Directory.Exists(file.serverpath)) {
+            System.IO.Directory.CreateDirectory(file.serverpath);
         }
         string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
         String fileHTML = HTMLMarshalUtil.MarshallFile(file);
@@ -121,9 +121,9 @@ namespace SliceOfPie_Model {
                 FileDeleted(file);
             return true;
         }
-        catch (IOException e)
+        catch (System.IO.IOException e)
         {
-            throw new IOException("Deleting File on disk :" + file.name + " failed."); 
+            throw new System.IO.IOException("Deleting File on disk :" + file.name + " failed."); 
         }
       
     }

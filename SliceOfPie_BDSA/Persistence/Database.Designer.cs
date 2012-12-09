@@ -19,18 +19,18 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Change), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.User), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Change), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.File), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileInstance), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.File), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileMetaData), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileInstance), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.FileMetaData), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.User))]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Change), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Change), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.File), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileMetaData), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileMetaData), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.User))]
 
 #endregion
 
-namespace SliceOfPie_Model
+namespace SliceOfPie_Model.Persistence
 {
     #region Contexts
     
@@ -654,6 +654,30 @@ namespace SliceOfPie_Model
         private global::System.Int32 _Project_id;
         partial void OnProject_idChanging(global::System.Int32 value);
         partial void OnProject_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> version
+        {
+            get
+            {
+                return _version;
+            }
+            set
+            {
+                OnversionChanging(value);
+                ReportPropertyChanging("version");
+                _version = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("version");
+                OnversionChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _version;
+        partial void OnversionChanging(Nullable<global::System.Decimal> value);
+        partial void OnversionChanged();
 
         #endregion
 

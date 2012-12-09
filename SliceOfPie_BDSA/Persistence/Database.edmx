@@ -4,16 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SliceOfLifeModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.0" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="SliceOfLifeModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.1" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="SliceOfLifeModelStoreContainer">
-          <EntitySet Name="Change" EntityType="SliceOfLifeModel.Store.Change" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="File" EntityType="SliceOfLifeModel.Store.File" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FileInstance" EntityType="SliceOfLifeModel.Store.FileInstance" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FileMetaData" EntityType="SliceOfLifeModel.Store.FileMetaData" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="MetaDataType" EntityType="SliceOfLifeModel.Store.MetaDataType" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Project" EntityType="SliceOfLifeModel.Store.Project" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ProjectHasUser" EntityType="SliceOfLifeModel.Store.ProjectHasUser" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="User" EntityType="SliceOfLifeModel.Store.User" store:Type="Tables" Schema="SliceOfLife" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Change" EntityType="SliceOfLifeModel.Store.Change" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="File" EntityType="SliceOfLifeModel.Store.File" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="FileInstance" EntityType="SliceOfLifeModel.Store.FileInstance" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="FileMetaData" EntityType="SliceOfLifeModel.Store.FileMetaData" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="MetaDataType" EntityType="SliceOfLifeModel.Store.MetaDataType" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="Project" EntityType="SliceOfLifeModel.Store.Project" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="ProjectHasUser" EntityType="SliceOfLifeModel.Store.ProjectHasUser" store:Type="Tables" Schema="SliceOfLife" />
+          <EntitySet Name="User" EntityType="SliceOfLifeModel.Store.User" store:Type="Tables" Schema="SliceOfLife" />
           <AssociationSet Name="fk_Change_File1" Association="SliceOfLifeModel.Store.fk_Change_File1">
             <End Role="File" EntitySet="File" />
             <End Role="Change" EntitySet="Change" />
@@ -72,6 +72,7 @@
           <Property Name="serverpath" Type="varchar" Nullable="false" MaxLength="400" />
           <Property Name="deleted" Type="utinyint" />
           <Property Name="Project_id" Type="int" Nullable="false" />
+          <Property Name="version" Type="decimal" Precision="30" Scale="30" />
         </EntityType>
         <EntityType Name="FileInstance">
           <Key>
@@ -302,6 +303,7 @@
           <NavigationProperty Name="Project" Relationship="SliceOfLifeModel.fk_File_Project1" FromRole="File" ToRole="Project" />
           <NavigationProperty Name="FileInstances" Relationship="SliceOfLifeModel.fk_FileInstance_File1" FromRole="File" ToRole="FileInstance" />
           <NavigationProperty Name="FileMetaDatas" Relationship="SliceOfLifeModel.fk_FileMetaData_File1" FromRole="File" ToRole="FileMetaData" />
+          <Property Type="Decimal" Name="version" />
         </EntityType>
         <EntityType Name="FileInstance">
           <Key>
@@ -462,6 +464,7 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="SliceOfLifeModel.File">
               <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="serverpath" ColumnName="serverpath" />

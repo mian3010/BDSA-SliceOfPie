@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SliceOfPie_Model {
+namespace SliceOfPie_Model.Persistence {
   /// <summary>
   /// Document class. Emulates a PARTIAL html document. 
   /// Needs enclosing HTML tags when saved and displayed in system.

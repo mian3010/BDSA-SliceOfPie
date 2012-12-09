@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
-using System.IO;
+using SliceOfPie_Model.Persistence;
 using System.Diagnostics;
 using SliceOfPie_Model;
 using System.Threading;
@@ -49,14 +49,14 @@ namespace SliceOfPie_Model
 
             request.ContentLength = xml.Length;
 
-            Stream stream = request.GetRequestStream();
+            System.IO.Stream stream = request.GetRequestStream();
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
             // Waist for the HTTP response from the server
             return (HttpWebResponse)request.GetResponse();
         }
 
-        private File GetFile(long id)
+        private SliceOfPie_Model.Persistence.File GetFile(long id)
         {
             HttpWebResponse response = Send(id.ToString(), "GET");
             return HandleFileResponse(response);
@@ -73,7 +73,7 @@ namespace SliceOfPie_Model
             return HandleFileListResponse(response);
         }
 
-        private long SendFile(SliceOfPie_Model.File file)
+        private long SendFile(SliceOfPie_Model.Persistence.File file)
         {
             string xml = HTMLMarshalUtil.MarshallFile(file);
             HttpWebResponse response = Send(xml, "PUT");
@@ -87,7 +87,7 @@ namespace SliceOfPie_Model
         private FileList HandleFileListResponse(HttpWebResponse response)
         {
             Console.Out.WriteLine(response.Server);
-            StreamReader reader = new StreamReader(response.GetResponseStream());
+            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             Console.Out.WriteLine(reader.ReadToEnd());
             return null;
         }
@@ -96,10 +96,10 @@ namespace SliceOfPie_Model
         /// Handles the result comming from the server
         /// </summary>
         /// <param name="response">The response from the server</param>
-        private File HandleFileResponse(HttpWebResponse response)
+        private SliceOfPie_Model.Persistence.File HandleFileResponse(HttpWebResponse response)
         {
             Console.Out.WriteLine(response.Server);
-            StreamReader reader = new StreamReader(response.GetResponseStream());
+            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             Console.Out.WriteLine(reader.ReadToEnd());
             return null;
         }

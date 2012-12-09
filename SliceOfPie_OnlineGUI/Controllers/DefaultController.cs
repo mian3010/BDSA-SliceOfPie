@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SliceOfPie_Model;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OnlineGUI.Controllers {
   public class DefaultController : Controller {
