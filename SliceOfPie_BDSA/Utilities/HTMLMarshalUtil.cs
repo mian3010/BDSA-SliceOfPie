@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Data.Entity;
 using SliceOfPie_Model.Persistence;
+using System.IO;
 
 
 namespace SliceOfPie_Model
@@ -105,35 +106,12 @@ namespace SliceOfPie_Model
 
         public static FileList UnMarshallFileList(string xml)
         {
-            Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
-            XDocument doc = XDocument.Parse(xml);
-
-
-            FileListEntry entry = new FileListEntry();
-            entry.Id = Int64.Parse(m.Element("ID").Value);
-            entry.Name = m.Element("fileName").Value;
-            entry.Path = m.Element("filePath").Value;
-            entry.Version = float.Parse(m.Element("version").Value);
-            entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
-            switch (m.Element("type").Value)
-            {
-                case "Push": entry.Type = FileListType.Push; break;
-                case "Pull": entry.Type = FileListType.Pull; break;
-                case "Conflict": entry.Type = FileListType.Conflict; break;
-            }
-
-            fileList.Add(entry.Id, entry);
-
-            foreach (var m in fileentries)
-            {
-
-
-            }
-
-            XElement e = doc.Element("incrementCounter");
-            String inc = e.Value;
-            long incCounter = Int64.Parse(inc);
-            return new FileList() { List = fileList, incrementCounter = incCounter };
+            StringBuilder builder = new StringBuilder();
+             using (XmlReader reader = XmlReader.Create())
+             {
+                
+             }
+  {
  
         }
     }
