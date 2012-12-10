@@ -12,12 +12,13 @@ using System.Data.Entity;
 using SliceOfPie_Model.Persistence;
 
 
+
 namespace SliceOfPie_Model
 {
     public static class HTMLMarshalUtil
     {
 
-        public static string MarshallFile(File file)
+        public static string MarshallFile(SliceOfPie_Model.Persistence.File file)
         {
             XmlWriterSettings set = new XmlWriterSettings();
             set.Indent = true;
@@ -61,9 +62,9 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="XML">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static File UnmarshallFile(String XML)
+        public static SliceOfPie_Model.Persistence.File UnmarshallFile(String XML)
         {
-            File file = new File();
+            SliceOfPie_Model.Persistence.File file = new SliceOfPie_Model.Persistence.File();
             XElement doc = XElement.Parse(XML);
 
             IEnumerable<XElement> metaData = doc.Elements("meta");
@@ -106,6 +107,7 @@ namespace SliceOfPie_Model
 
         public static FileList UnMarshallFileList(string xml)
         {
+
             Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
             XElement doc = XElement.Parse(xml);
 
@@ -134,7 +136,6 @@ namespace SliceOfPie_Model
             String inc = e.Value;
             long incCounter = Int64.Parse(inc);
             return new FileList() { List = fileList, incrementCounter = incCounter };
- 
         }
 
         public static String MarshallId(long id)
