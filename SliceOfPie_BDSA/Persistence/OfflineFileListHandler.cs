@@ -115,7 +115,7 @@ namespace SliceOfPie_Model
 
             foreach (FileListEntry entry in FileList.List.Values)
             {
-                dic.Add(System.IO.Path.Combine(entry.Path, entry.Name), entry.Id);
+                dic[System.IO.Path.Combine(entry.Path, entry.Name)] = entry.Id;
             }
 
             return dic;

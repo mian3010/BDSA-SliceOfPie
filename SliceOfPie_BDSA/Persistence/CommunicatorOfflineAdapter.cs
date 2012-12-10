@@ -222,7 +222,11 @@ namespace SliceOfPie_Model {
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
-        return HTMLMarshalUtil.UnmarshallFile(html);
+        File loadedFile = HTMLMarshalUtil.UnmarshallFile(html);
+        loadedFile.serverpath = fileInfo.Path;
+        loadedFile.name = fileInfo.Name;
+
+        return loadedFile;
     
     }
 

@@ -10,7 +10,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Data.Entity;
 using SliceOfPie_Model.Persistence;
-using System.IO;
+
 
 
 namespace SliceOfPie_Model
@@ -18,7 +18,7 @@ namespace SliceOfPie_Model
     public static class HTMLMarshalUtil
     {
 
-        public static string MarshallFile(File file)
+        public static string MarshallFile(SliceOfPie_Model.Persistence.File file)
         {
             XmlWriterSettings set = new XmlWriterSettings();
             set.Indent = true;
@@ -40,8 +40,8 @@ namespace SliceOfPie_Model
                 }
 
                 // Write a custom ID tag which we can use later for database purposes.
-                writer.WriteStartElement("meta");
-                writer.WriteAttributeString("id", file.id.ToString());
+                writer.WriteStartElement("ID");
+                writer.WriteString(file.id.ToString());
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
@@ -62,23 +62,25 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="XML">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static File UnmarshallFile(String XML)
+        public static SliceOfPie_Model.Persistence.File UnmarshallFile(String XML)
         {
-            File file = new File();
-            XDocument doc = XDocument.Parse(XML);
+            SliceOfPie_Model.Persistence.File file = new SliceOfPie_Model.Persistence.File();
+            XElement doc = XElement.Parse(XML);
 
-            IEnumerable<XElement> elements = doc.Elements("html");
-
-            foreach (var m in elements)
+            IEnumerable<XElement> metaData = doc.Elements("meta");
+            foreach (XElement meta in metaData)
             {
                 FileMetaData fmd = new FileMetaData();
-                fmd.value = m.Element("meta").Attribute("content").Value;
-                fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
-                file.FileMetaDatas.Add(fmd);
-                file.Content.Append(m.Element("body").Value);    
-            }   
-            
+                fmd.MetaDataType_Type = meta.Attribute("name").Value;
+                fmd.value = meta.Attribute("content").Value;
+            }
 
+            XElement id = doc.Element("ID");
+            file.id = long.Parse(id.Value);
+
+            XElement body = doc.Element("body");
+            file.Content.Append(body.Value);
+            
             return file;
         }
 
@@ -106,13 +108,45 @@ namespace SliceOfPie_Model
 
         public static FileList UnMarshallFileList(string xml)
         {
-            StringBuilder builder = new StringBuilder();
-             using (XmlReader reader = XmlReader.Create())
-             {
-                
-             }
-  {
- 
+
+            Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
+            XElement doc = XElement.Parse(xml);
+
+            XElement root = doc.Element("fileList");
+            XElement m = root.Element("listEntry");
+            while (m != null)
+            {
+                FileListEntry entry = new FileListEntry();
+                entry.Id = Int64.Parse(m.Element("ID").Value);
+                entry.Name = m.Element("fileName").Value;
+                entry.Path = m.Element("filePath").Value;
+                entry.Version = float.Parse(m.Element("version").Value);
+                entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
+                switch (m.Element("type").Value)
+                {
+                    case "Push": entry.Type = FileListType.Push; break;
+                    case "Pull": entry.Type = FileListType.Pull; break;
+                    case "Conflict": entry.Type = FileListType.Conflict; break;
+                }
+
+                fileList.Add(entry.Id, entry);
+                m = m.ElementsAfterSelf().FirstOrDefault();
+            }
+
+            XElement e = doc.Element("incrementCounter");
+            String inc = e.Value;
+            long incCounter = Int64.Parse(inc);
+            return new FileList() { List = fileList, incrementCounter = incCounter };
+        }
+
+        public static String MarshallId(long id)
+        {
+            return "";
+        }
+
+          public static long UnMarshallId(String id)
+        {
+            return -1;
         }
     }
 }

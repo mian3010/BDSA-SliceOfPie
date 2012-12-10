@@ -35,7 +35,7 @@ namespace SliceOfPie_OfflineGUI
             webBrowser1.IsWebBrowserContextMenuEnabled = false;  
         }
 
-        public void LoadDocContent(Document doc)
+        public void LoadDocContent(File doc)
         {
             if (doc != null)
                 webBrowser1.Document.Write(doc.ToString());

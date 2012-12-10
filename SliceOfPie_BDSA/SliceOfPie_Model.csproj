@@ -107,7 +107,9 @@
     <None Include="Properties\DataSources\SliceOfLifeEntities.datasource" />
     <None Include="Properties\DataSources\SliceOfLifeEntities1.datasource" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Persistence\Database.edmx.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

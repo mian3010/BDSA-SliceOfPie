@@ -56,6 +56,7 @@ namespace ServerTest
             server.Close();
 
         }
+
         [TestMethod]
         public void TestSynchronize()
         {

@@ -35,7 +35,13 @@ namespace SliceOfPie_OfflineGUI
             one.serverpath = @"C:\test\";
             one.name = "add.html";
 
-            model.AddFile(one);
+            FileMetaData fmd = new FileMetaData { value = "Magnus Stahl" };
+            MetaDataType mdt = new MetaDataType { Type = "Author" };
+            fmd.MetaDataType = mdt;
+
+            one.FileMetaDatas.Add(fmd);
+
+            model.AddFile(one); 
 
             Application.Run(view);
 
@@ -48,7 +54,7 @@ namespace SliceOfPie_OfflineGUI
         public void UpdateFileInGUI(object sender, FileEventArgs e)
         {
             // TO DO IMPLEMENT DOCUMENT CHECKING
-            view.SetCurrentDocument((Document) model.GetFile(e.FileID));
+            view.SetCurrentDocument( model.GetFile(e.FileID));
         }
 
     }
