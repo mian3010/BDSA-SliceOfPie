@@ -41,7 +41,7 @@ namespace SliceOfPie_Model
         /// <returns>A response from the server to be returned</returns>
         private HttpWebResponse Send(string xml, string method)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:"+ port + "/");
             request.Accept = "text/xml,text/html";
             request.Method = method;
             // Creates a byteversion of the XML string
