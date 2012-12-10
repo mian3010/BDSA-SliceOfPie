@@ -19,12 +19,21 @@ namespace SliceOfPie_Model {
 
     public FilesystemCommunicator() { }
 
+    public bool SaveFile(File FileToSave) {
+      throw new NotImplementedException();
+    }
+
+    public bool PushFile(File FileToSave) {
+      throw new NotImplementedException();
+    }
+
     private bool SaveFile(File file, System.IO.Stream Content) {
       if (!System.IO.Directory.Exists(file.serverpath)) {
         System.IO.Directory.CreateDirectory(file.serverpath);
       }
       string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
-      String fileHTML = HtmlMarshalUtil.MarshallFile(file, Content);
+      String fileHTML = null;
+      //String fileHTML = HtmlMarshalUtil.MarshallFile(file, Content);
       if (!System.IO.File.Exists(fullpath)) {
         System.IO.File.WriteAllText(fullpath, fileHTML);
         return true;
@@ -33,7 +42,6 @@ namespace SliceOfPie_Model {
         System.IO.File.WriteAllText(fullpath, fileHTML);
         return true;
       }
-
     }
 
     /// <summary>

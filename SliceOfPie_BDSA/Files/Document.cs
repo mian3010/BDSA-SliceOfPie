@@ -12,7 +12,7 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   public class Document : File {
     public String Title { get; set; }
-    public IList<String> Authors { get; set; }
+    public IList<FileMetaData> MetaData { get; set; }
     public string Content {
       get {
         return getContentFromFile();
@@ -28,8 +28,9 @@ namespace SliceOfPie_Model.Persistence {
         "  <h2 class=\"document-title\">" + Title + "</h2>" +
         "  <div class=\"document-view\">" +
         "    <ul class=\"metadata-view\">");
-      foreach (FileMetaData MetaData in FileMetaData) {
-        output.Append("      <li><span class=\"metadata-type\">" + MetaData.MetaDataType + "</span>: <span class=\"metadata-value\">" + MetaData + "</span></li>");
+      
+      foreach (FileMetaData Meta in MetaData) {
+        output.Append("      <li><span class=\"metadata-type\">" + Meta.MetaDataType + "</span>: <span class=\"metadata-value\">" + Meta + "</span></li>");
       }
       output.Append(
         "    </ul>" +
@@ -41,7 +42,7 @@ namespace SliceOfPie_Model.Persistence {
       return output.ToString();
     }
 
-    public override string HistoryToString() {
+    public string HistoryToString() {
       StringBuilder output = new StringBuilder();
       output.Append("<ol>");
       output.Append("<li>Document created</li>");

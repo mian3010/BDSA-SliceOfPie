@@ -17,12 +17,22 @@ namespace SliceOfPie_Model {
     private bool is_active;
     private int port = 8080;
 
+    public bool SaveFile(File FileToSave) {
+      throw new NotImplementedException();
+    }
+
+    public long PushFile(File FileToSave) {
+      throw new NotImplementedException();
+    }
+
+    public FileList SyncServer(FileList list) {
+      throw new NotImplementedException();
+    }
 
     /*public FileList SyncServer(FileList list) {
       return SendFileList(list);
     }*/
-
-    public void PullFile(long FileId) {
+    public File PullFile(long FileId) {
       WebRequest Request = WebRequest.Create("http://localhost:8080/");
       Request.Method = "GET";
       System.IO.Stream RequestStream = Request.GetRequestStream();
@@ -47,12 +57,13 @@ namespace SliceOfPie_Model {
       }
 
       RequestStream.Close();
+
+      throw new NotImplementedException();
     }
 
     /*public long PushFile(File file) {
       return SendFile(file);
     }*/
-
     public void PushFile(FileInstance FileToPush) {
       HttpWebRequest Request = (HttpWebRequest)WebRequest.Create("http://localhost:8080/");
       Request.Method = "POST";

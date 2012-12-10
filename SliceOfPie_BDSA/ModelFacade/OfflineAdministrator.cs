@@ -49,7 +49,7 @@ namespace SliceOfPie_Model {
                 case FileListType.Conflict: 
                     conflictFiles.Add(netClient.PullFile(entry.Id)); break;
                 case FileListType.Pull:
-                    communicator.AddFile(netClient.PullFile(entry.Id)); break;
+                    communicator.SaveFile(netClient.PullFile(entry.Id)); break;
                 case FileListType.Push: 
                     File toPush = communicator.GetFile(entry.Id);
                     communicator.UpdateFileID(toPush, netClient.PushFile(toPush)); 
