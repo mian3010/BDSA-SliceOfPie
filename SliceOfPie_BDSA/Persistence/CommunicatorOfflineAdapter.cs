@@ -33,7 +33,12 @@ namespace SliceOfPie_Model {
           fileListHandler = new OfflineFileListHandler(this);
       }
 
-      public bool AddFileFromServer(File file)
+        /// <summary>
+        /// Adds a file from remote storage. Should be used during synchronization.
+        /// </summary>
+        /// <param name="file">The file to add from a remote location</param>
+        /// <returns>True if successful, false otherwise</returns>
+      public bool AddFileFromRemote(File file)
       {
           if (AddNewFile(file))
           {
@@ -47,7 +52,6 @@ namespace SliceOfPie_Model {
 
     private bool AddNewFile(File file) {
 
-        
         if(!System.IO.Directory.Exists(file.serverpath)) {
             System.IO.Directory.CreateDirectory(file.serverpath);
         }
@@ -71,10 +75,12 @@ namespace SliceOfPie_Model {
       /// Add a new file to the disk with either the serverpath specified in the file or the default rootpath.
       /// Will overwrite existing files. Must be run with administrator rights. Also saves a LogEntry describing the action
       /// </summary>
-      /// <param name="file">The file to be added. Does not need a id or a path</param>
+      /// <param name="file">The file to be added. Does not need a id or a path. Has to be created with an offline client.
+      /// </param>
       /// <returns>Boolean indicating whether the creation was succesful</returns>
-    public bool AddFile(File file)
+    public bool AddOfflineCreatedFile(File file)
     {
+        file.id = FileListHandler.FileList.incrementCounter--;
         if (AddNewFile(file))
         {
             if (FileAdded != null)
@@ -215,7 +221,11 @@ namespace SliceOfPie_Model {
 
 
 
-
+    /// <summary>
+    /// Retrieves a file from storage using the File's path
+    /// </summary>
+    /// <param name="id">The id of the file to retrieve</param>
+    /// <returns></returns>
     public File GetFile(long id)
     {
         FileListEntry fileInfo = fileListHandler.FileList.List[id];

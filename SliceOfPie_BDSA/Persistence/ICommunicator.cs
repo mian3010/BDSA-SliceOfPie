@@ -22,7 +22,14 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="file">The file object to add</param>
         /// <returns></returns>
-        bool AddFile(File file);
+        bool AddOfflineCreatedFile(File file);
+
+        /// <summary>
+        /// Adds a file from remote storage. Should be used during synchronization.
+        /// </summary>
+        /// <param name="file">The file to add from a remote location</param>
+        /// <returns>True if successful, false otherwise</returns>
+        bool AddFileFromRemote(File file);
 
         /// <summary>
         /// Modifies a file already in storage
@@ -72,9 +79,5 @@ namespace SliceOfPie_Model
         event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
     }
 
-    /// <summary>
-    /// Custom delegate to handle file events. 
-    /// </summary>
-    /// <param name="file"></param>
-    public delegate void FileEventHandler(File file);
+   
 }

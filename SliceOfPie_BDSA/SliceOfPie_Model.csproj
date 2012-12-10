@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\NoNodeSelectedException.cs" />
     <Compile Include="FileList\FileListEntry.cs" />
     <Compile Include="Networking\INetClient.cs" />
     <Compile Include="Persistence\Database.Designer.cs">
@@ -80,11 +81,11 @@
     <Compile Include="Exceptions\FilePersistenceException.cs" />
     <Compile Include="Persistence\CommunicatorOfflineAdapter.cs" />
     <Compile Include="Persistence\Context.cs" />
+    <Compile Include="Utilities\EventDelegates.cs" />
     <Compile Include="Utilities\FileEventArgs.cs" />
     <Compile Include="Utilities\HTMLMarshalUtil.cs" />
     <Compile Include="ModelFacade\IAdministrator.cs" />
     <Compile Include="Persistence\ICommunicator.cs" />
-    <Compile Include="Controller\IController.cs" />
     <Compile Include="Files\FileMetaData.cs" />
     <Compile Include="Files\Document.cs" />
     <Compile Include="Persistence\OfflineFileListHandler.cs" />

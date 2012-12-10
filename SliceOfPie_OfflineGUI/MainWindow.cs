@@ -10,33 +10,53 @@ using System.Windows.Forms;
 using System.Xml;
 using SliceOfPie_Model.Persistence;
 using SliceOfPie_Model;
+using SliceOfPie_Model.Exceptions;
 
 
 namespace SliceOfPie_OfflineGUI {
-  public partial class Form3 : Form {
+  public partial class MainWindow : Form {
    
-    private Dictionary<String, long> paths;
-    private File currentDocument; 
+    private Dictionary<String, long> pathsToID;
+
+    public File CurrentDocument
+    {
+        get;
+        set;
+    }
 
     public event FileRequestHandler FileRequested;
-    public event EventHandler InterfaceClosing;
-    public delegate void FileRequestHandler(object sender, FileEventArgs args);
+    public event FileEventHandler FileSaved;
+    public event EventHandler InterfaceClosing, SynchronizationRequested;
 
-    public Form3(Dictionary<String, long> FileTree) {
+    private EditorWindow editWindow;
+
+    public MainWindow(Dictionary<String, long> FileTree) {
       InitializeComponent();
-      paths = FileTree;
+      pathsToID = FileTree;
+
+      // We only use 1 instance of our Editor.
+      editWindow = new EditorWindow();
+      editWindow.Hide();
+      editWindow.DocumentSaved += DocumentSavedInEditor;
     }
 
-    public void SetCurrentDocument(File doc)
+    private void DocumentSavedInEditor(object sender, string newContent)
     {
-        currentDocument = doc;
-    }
+        CurrentDocument.Content.Clear();
+        CurrentDocument.Content.Append(newContent);
 
+        FileSaved(CurrentDocument);
+    }
+    
+      /// <summary>
+      /// Builds a tree structure from the full file paths of all files located in the
+      /// FileListHandler. 
+      /// </summary>
     private void InitializeTree() {
         TreeNode root = new TreeNode("Files");
       TreeNode node = root;
       treeView1.Nodes.Add(root);
-        List<String> allPaths = paths.Keys.ToList();
+        List<String> allPaths = pathsToID.Keys.ToList();
         allPaths.Sort();
       foreach (string filePath in allPaths) {
         node = root;
@@ -72,8 +92,7 @@ namespace SliceOfPie_OfflineGUI {
           AddNode(xNode, tNode);
         }
       } else {
-        // Here you need to pull the data from the XmlNode based on the
-        // type of node, whether attribute values are required, and so forth.
+        // Just add our outer text for now
         inTreeNode.Text = (inXmlNode.OuterXml).Trim();
       }
     }
@@ -82,15 +101,23 @@ namespace SliceOfPie_OfflineGUI {
       InitializeTree();
     }
 
-    private void Form3_Load(object sender, EventArgs e) {
+    private void Form3_Load(object sender, EventArgs e) 
+    {
 
     }
 
+      /// <summary>
+      /// Returns the ID of file located in the NOde that's currently
+      /// selected in the tree
+      /// </summary>
+      /// <returns>ID of the file connected to the node</returns>
     private long IDFromCurrentNode()
     {
         List<String> fullPath = new List<String>();
         TreeNode current = treeView1.SelectedNode;
+        if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
         fullPath.Add(current.Name);
+
         while (current.Parent != null)
         {
             fullPath.Add(current.Parent.Name);
@@ -98,27 +125,50 @@ namespace SliceOfPie_OfflineGUI {
         }
         fullPath.Reverse();
         String cPath = System.IO.Path.Combine(fullPath.ToArray());
-        return paths[cPath];
+        return pathsToID[cPath];
     }
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
 
     }
 
+      /// <summary>
+      /// Calls the FileRequested event which notifies the Controller that a 
+      /// File has been requested by the user. Also includes the ID of the file that's requested.
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e">Not used, instead uses FileEventArgs which contains a long</param>
     private void button_load_Click(object sender, EventArgs e)
     {
+        try
+        {
+            FileRequested(this, new FileEventArgs(IDFromCurrentNode()));
 
-        FileRequested(this, new FileEventArgs(IDFromCurrentNode()));
-        Form2 editWindow = new Form2();
-        editWindow.LoadDocContent(currentDocument);
+            editWindow.LoadDocContent(CurrentDocument);
+            editWindow.Show();
+        }
+        catch (NoNodeSelectedException ex)
+        {
+            Console.Out.WriteLine(ex);
+        }
     }
 
+    /// <summary>
+    /// A method that gracefully exists the program. For now just persists the FileLog. Maybe it should also 
+    /// save the current file in the editor (TODO).
+    /// </summary>
+    /// <param name="e">FormClosingEventArgs (not used)</param>
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
         if (InterfaceClosing != null)
             InterfaceClosing(this, null);
 
         base.OnFormClosing(e);
+    }
+
+    private void button_synchronize_Click(object sender, EventArgs e)
+    {
+        SynchronizationRequested(this, null);
     }
 
   
