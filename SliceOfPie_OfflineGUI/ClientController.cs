@@ -30,13 +30,16 @@ namespace SliceOfPie_OfflineGUI
             view = new Form3(model.GetPathsAndIDs());
             view.FileRequested += UpdateFileInGUI;
             view.InterfaceClosing += model.ExitGracefully;
-            Application.Run(view);
 
             File one = new File();
             one.serverpath = @"C:\test\";
             one.name = "add.html";
 
             model.AddFile(one);
+
+            Application.Run(view);
+
+           
 
         }
 
