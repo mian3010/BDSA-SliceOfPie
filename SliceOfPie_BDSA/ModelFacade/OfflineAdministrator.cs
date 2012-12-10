@@ -22,7 +22,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     private OfflineAdministrator() {
         /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
-        communicator = new CommunicatorOfflineAdapter();
+        communicator = new FilesystemCommunicator();
         logger = new OfflineFileListHandler(communicator);
         netClient = new NetworkClient();
     }
