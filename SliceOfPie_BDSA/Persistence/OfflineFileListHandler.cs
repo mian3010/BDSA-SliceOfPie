@@ -27,7 +27,7 @@ namespace SliceOfPie_Model
                 if (System.IO.File.Exists(fullLogPath))
                 {
                     String logXML = System.IO.File.ReadAllText(fullLogPath);
-                    FileList fileList = HTMLMarshalUtil.UnMarshallFileList(logXML);
+                    FileList fileList = HtmlMarshalUtil.UnmarshallFileList(logXML);
                 
                 }
                 else
@@ -71,7 +71,7 @@ namespace SliceOfPie_Model
         {
             FileListEntry entry =  StandardFileEntry(file);
             entry.Id = FileList.incrementCounter--;
-            entry.Version = 0.001F;
+            entry.Version = 0.001m;
             file.id = entry.Id;
             FileList.List.Add(entry.Id, entry);  
         }
@@ -90,13 +90,13 @@ namespace SliceOfPie_Model
         public void PersistFileList()
         {
             String fullPath = System.IO.Path.Combine(logpath, logfile);
-            String logXML = HTMLMarshalUtil.MarshallFileList(FileList);
+            String logXML = HtmlMarshalUtil.MarshallFileList(FileList);
             System.IO.File.WriteAllText(fullPath, logXML);
         }
 
         public void FileChangedOnDisk(File file)
         {
-            FileList.List[file.id].Version += 0.001F;          
+            FileList.List[file.id].Version += 0.001m;          
         }
 
         public void FileChangedOnServer(File file)

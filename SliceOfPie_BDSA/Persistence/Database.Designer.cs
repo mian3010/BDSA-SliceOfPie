@@ -37,32 +37,32 @@ namespace SliceOfPie_Model.Persistence
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class SliceOfLifeEntities : ObjectContext
+    public partial class Entities : ObjectContext
     {
         #region Constructors
     
         /// <summary>
-        /// Initializes a new SliceOfLifeEntities object using the connection string found in the 'SliceOfLifeEntities' section of the application configuration file.
+        /// Initializes a new Entities object using the connection string found in the 'Entities' section of the application configuration file.
         /// </summary>
-        public SliceOfLifeEntities() : base("name=SliceOfLifeEntities", "SliceOfLifeEntities")
+        public Entities() : base("name=Entities", "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new SliceOfLifeEntities object.
+        /// Initialize a new Entities object.
         /// </summary>
-        public SliceOfLifeEntities(string connectionString) : base(connectionString, "SliceOfLifeEntities")
+        public Entities(string connectionString) : base(connectionString, "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new SliceOfLifeEntities object.
+        /// Initialize a new Entities object.
         /// </summary>
-        public SliceOfLifeEntities(EntityConnection connection) : base(connection, "SliceOfLifeEntities")
+        public Entities(EntityConnection connection) : base(connection, "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -518,13 +518,15 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="name">Initial value of the name property.</param>
         /// <param name="serverpath">Initial value of the serverpath property.</param>
         /// <param name="project_id">Initial value of the Project_id property.</param>
-        public static File CreateFile(global::System.Int64 id, global::System.String name, global::System.String serverpath, global::System.Int32 project_id)
+        /// <param name="version">Initial value of the Version property.</param>
+        public static File CreateFile(global::System.Int64 id, global::System.String name, global::System.String serverpath, global::System.Int32 project_id, global::System.Decimal version)
         {
             File file = new File();
             file.id = id;
             file.name = name;
             file.serverpath = serverpath;
             file.Project_id = project_id;
+            file.Version = version;
             return file;
         }
 
@@ -658,26 +660,26 @@ namespace SliceOfPie_Model.Persistence
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Decimal> version
+        public global::System.Decimal Version
         {
             get
             {
-                return _version;
+                return _Version;
             }
             set
             {
-                OnversionChanging(value);
-                ReportPropertyChanging("version");
-                _version = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("version");
-                OnversionChanged();
+                OnVersionChanging(value);
+                ReportPropertyChanging("Version");
+                _Version = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Version");
+                OnVersionChanged();
             }
         }
-        private Nullable<global::System.Decimal> _version;
-        partial void OnversionChanging(Nullable<global::System.Decimal> value);
-        partial void OnversionChanged();
+        private global::System.Decimal _Version;
+        partial void OnVersionChanging(global::System.Decimal value);
+        partial void OnVersionChanged();
 
         #endregion
 

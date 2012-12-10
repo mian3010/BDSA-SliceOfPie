@@ -7,18 +7,18 @@ using System.Text;
 namespace SliceOfPie_Model {
   /// <summary>
   /// Context has methods for operating on the database
+  /// Author: Claus35-DK - clih@itu.dk
   /// </summary>
   public static class Context {
+    private static Entities DbContext = new Entities();
 
     public static User[] GetUsers() {
-      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   select u;
       return query.ToArray<User>();
     }
 
     public static User GetUsers(string email) {
-      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
@@ -27,22 +27,19 @@ namespace SliceOfPie_Model {
 
     // Does this return object hold a list of MetaDataTypes?
     public static FileMetaData[] GetMetaData(long FileId) {
-      var DbContext = new SliceOfLifeEntities();
       var query = from meta in DbContext.FileMetaDatas
                   where meta.File_id == FileId
                   select meta;
       return query.ToArray<FileMetaData>();
     }
 
-    public static void AddUser(string email){
-      var DbContext = new SliceOfLifeEntities();
+    public static void AddUser(string email) {
       User user = User.CreateUser(email);
       DbContext.AddToUsers(user);
       DbContext.SaveChanges();
     }
 
     public static void DeleteUser(string email) {
-      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
@@ -51,7 +48,6 @@ namespace SliceOfPie_Model {
     }
 
     public static Dictionary<long, FileListEntry> GetServerFileList(string email) {
-      var DbContext = new SliceOfLifeEntities();
       var query = from e in DbContext.FileInstances
                   where e.User_email == email
                   select e;
@@ -61,8 +57,7 @@ namespace SliceOfPie_Model {
       throw new NotImplementedException();
     }
 
-    public static File GetFile(long fileId){
-      var DbContext = new SliceOfLifeEntities();
+    public static File GetFile(long fileId) {
       var query = from f in DbContext.Files
                   where f.id == fileId
                   select f;
@@ -70,7 +65,6 @@ namespace SliceOfPie_Model {
     }
 
     public static long SaveFile(File file) {
-      var DbContext = new SliceOfLifeEntities();
       DbContext.Files.AddObject(file);
       DbContext.SaveChanges();
 
@@ -79,13 +73,12 @@ namespace SliceOfPie_Model {
                   where f.id == file.id
                   select f;
       File tempFile = query.First<File>();
-      if(tempFile.Equals(file)) return file.id;
+      if (tempFile.Equals(file)) return file.id;
       else return -1;
     }
 
     public static long UpdateFile(File file) {
       //TODO Change instaead of delete'n'add
-      var DbContext = new SliceOfLifeEntities();
       DbContext.Files.DeleteObject(file);
       DbContext.Files.AddObject(file);
       DbContext.SaveChanges();
@@ -97,6 +90,19 @@ namespace SliceOfPie_Model {
       File tempFile = query.First<File>();
       if (tempFile.Equals(file)) return file.id;
       else return -1;
+    }
+
+    public static FileList GetFileList(string userEmail) {
+      FileList UsersFilesOnServer = new FileList();
+      IDictionary<long, FileListEntry> List = UsersFilesOnServer.List;
+
+      var query = from f in DbContext.FileInstances
+                  where f.User_email == userEmail
+                  select f;
+      foreach (FileInstance fi in query) {
+        List.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
+      }
+      return UsersFilesOnServer;
     }
   }
 }
