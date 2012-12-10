@@ -109,5 +109,17 @@ namespace SliceOfPie_Server
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }
+
+        public void RecieveConfirmation(long id)
+        {
+            string responseString = id.ToString();
+            StreamReader content = new StreamReader(request.InputStream);
+            Console.Out.WriteLine(content.ReadToEnd());
+            response.ContentLength64 = responseString.Length;
+            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
+            Stream stream = response.OutputStream;
+            stream.Write(byteVersion, 0, byteVersion.Length);
+            stream.Close();
+        }
     }
 }
