@@ -101,8 +101,7 @@ namespace SliceOfPie_Model
                                                      new XElement("isDeleted", a.IsDeleted.ToString())))
                                ,new XElement("incrementCounter", fileList.incrementCounter.ToString()) );
                                                  
-            String hmm = doc.ToString(SaveOptions.DisableFormatting);
-            return doc.ToString(SaveOptions.DisableFormatting);
+            return doc.ToString();
         }
 
         public static FileList UnMarshallFileList(string xml)
@@ -140,12 +139,12 @@ namespace SliceOfPie_Model
 
         public static String MarshallId(long id)
         {
-            return "";
+            throw new NotImplementedException();
         }
 
           public static long UnMarshallId(String id)
         {
-            return -1;
+            throw new NotImplementedException();
         }
     }
 }

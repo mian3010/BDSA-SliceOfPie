@@ -1,6 +1,6 @@
 ﻿namespace SliceOfPie_OfflineGUI
 {
-    partial class Form2
+    partial class EditorWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -60,6 +60,7 @@
             this.saveButton.TabIndex = 0;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // Form2
             // 

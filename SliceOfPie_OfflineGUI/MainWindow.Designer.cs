@@ -1,6 +1,6 @@
 ﻿namespace SliceOfPie_OfflineGUI
 {
-    partial class Form3
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -79,8 +79,9 @@
             this.button_synchronize.TabIndex = 5;
             this.button_synchronize.Text = "Synchronize";
             this.button_synchronize.UseVisualStyleBackColor = true;
+            this.button_synchronize.Click += new System.EventHandler(this.button_synchronize_Click);
             // 
-            // Form3
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -91,7 +92,7 @@
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form3";
+            this.Name = "MainWindow";
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);

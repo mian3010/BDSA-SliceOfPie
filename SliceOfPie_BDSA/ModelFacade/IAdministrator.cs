@@ -7,11 +7,14 @@ using SliceOfPie_Model.Persistence;
 namespace SliceOfPie_Model {
   public interface IAdministrator {
 
-    void GetAllFiles();
 
     File GetFile(long id);
-
+    
+      /// <summary>
+    /// Initializes the Synchroization process.
+    /// </summary>
     void Synchronize();
+
 
     void SaveFile(File file);
 

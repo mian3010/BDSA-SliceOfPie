@@ -70,9 +70,8 @@ namespace SliceOfPie_Model
         public void FileAdded(File file)
         {
             FileListEntry entry =  StandardFileEntry(file);
-            entry.Id = FileList.incrementCounter--;
+            entry.Id = file.id;
             entry.Version = 0.001F;
-            file.id = entry.Id;
             FileList.List.Add(entry.Id, entry);  
         }
 
