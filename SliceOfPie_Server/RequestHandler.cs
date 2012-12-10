@@ -86,9 +86,10 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public File GetFile(long id) {
+    public void GetFile(long id, HTTPProcessor processor) {
       //TODO: Test this
-      return Context.GetFile(id);
+      File file = Context.GetFile(id);
+      processor.RecieveFile(file);
     }
   }
 
@@ -130,7 +131,7 @@ namespace SliceOfPie_Server {
       } else {
 
       }
-      // hp.something(succes);
+      hp.RecieveConfirmation(succes);
     }
   }
 
