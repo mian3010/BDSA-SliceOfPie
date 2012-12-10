@@ -20,6 +20,7 @@ namespace SliceOfPie_Server
 
         public static NetworkServer GetInstance()
         {
+            Console.Out.WriteLine("Building server");
             if (server == null)
                 server = new NetworkServer(8080, RequestHandler.instance);
             return server;

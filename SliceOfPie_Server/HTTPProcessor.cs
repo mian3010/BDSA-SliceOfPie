@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using SliceOfPie_Model;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Server
 {
@@ -35,34 +36,31 @@ namespace SliceOfPie_Server
         {
             Console.Out.WriteLine("starting to process");
             string http_method = request.HttpMethod;
-            string responseString = "";
+            Stream inputStream = request.InputStream;
             // Determines which http-method is called.
-
             try
             {
                 if (http_method == "PUT")
                 {
-
+                    StreamReader reader = new StreamReader(inputStream);
+                    string xml = reader.ReadToEnd();
+                    SliceOfPie_Model.Persistence.File file = HTMLMarshalUtil.UnmarshallFile(xml);
+                    handler.ReceiveFile(file, this);
                 }
                 else if (http_method == "POST")
                 {
-                    StreamReader reader = new StreamReader(request.InputStream);
+                    StreamReader reader = new StreamReader(inputStream);
                     string s = reader.ReadToEnd();
-                    FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
-                    //responseString = handler.ReceiveFileList(list);
-
-
-                }
-                else if (http_method == "PUT")
-                {
-
-                }
-                else if (http_method == "GET")
-                {
-                    StreamReader reader = new StreamReader(request.InputStream);
-                    string s = reader.ReadLine();
-                    handler.GetFile(long.Parse(s));
-
+                    if (s.Contains("FileID"))
+                    {
+                        long id = HTMLMarshalUtil.UnMarshallId(s);
+                        handler.GetFile(id, this);
+                    }
+                    else
+                    {
+                        FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
+                        handler.ReceiveFileList(list, this);
+                    }
                 }
                 else
                 {
@@ -71,11 +69,9 @@ namespace SliceOfPie_Server
             }
             catch (Exception e)
             {
-                Exception ex = new System.ArgumentException("Illegal XML in Process()", e);
+                Exception ex = new System.ArgumentException("Error in Process()", e);
                 throw ex;
             }
-
-
         }
 
         /// <summary>
@@ -110,6 +106,11 @@ namespace SliceOfPie_Server
             stream.Close();
         }
 
+
+        /// <summary>
+        /// Recieves a id on the file that has been pulled to the server.
+        /// </summary>
+        /// <param name="id"></param>
         public void RecieveConfirmation(long id)
         {
             string responseString = id.ToString();

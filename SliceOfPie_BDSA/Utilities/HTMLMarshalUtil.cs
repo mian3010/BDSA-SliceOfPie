@@ -65,16 +65,22 @@ namespace SliceOfPie_Model
         {
             File file = new File();
             XDocument doc = XDocument.Parse(XML);
-
             IEnumerable<XElement> elements = doc.Elements("html");
 
             foreach (var m in elements)
             {
-                FileMetaData fmd = new FileMetaData();
-                fmd.value = m.Element("meta").Attribute("content").Value;
-                fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
-                file.FileMetaDatas.Add(fmd);
-                file.Content.Append(m.Element("body").Value);    
+                try
+                {
+                    FileMetaData fmd = new FileMetaData();
+                    fmd.value = m.Element("meta").Attribute("content").Value;
+                    fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
+                    file.FileMetaDatas.Add(fmd);
+                    file.Content.Append(m.Element("body").Value);
+                }
+                catch (NullReferenceException e)
+                {
+                    continue;
+                }
             }   
             
 
@@ -169,6 +175,35 @@ namespace SliceOfPie_Model
             //long incCounter = Int64.Parse(inc);
             //return new FileList() { List = fileList, incrementCounter = incCounter };
             return null;
+        }
+
+        /// <summary>
+        /// Makes the ID into xml
+        /// </summary>
+        /// <param name="id">long</param>
+        /// <returns>XmlString</returns>
+        public static string MarshallId(long id)
+        { 
+            StringBuilder builder = new StringBuilder();
+            using (XmlWriter writer = XmlWriter.Create(builder))
+            {
+                writer.WriteStartDocument();
+                writer.WriteElementString("FileID", id.ToString());
+                writer.WriteEndDocument();
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Returns the ID as a long value
+        /// </summary>
+        /// <param name="xml">string</param>
+        /// <returns>long</returns>
+        public static long UnMarshallId(string xml)
+        {
+            XDocument doc = XDocument.Parse(xml);
+            long id = long.Parse(doc.Element("FileID").Value);
+            return id;
         }
     }
 }

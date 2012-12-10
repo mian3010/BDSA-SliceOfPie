@@ -25,7 +25,7 @@ namespace SliceOfPie_Model
 
         public File PullFile(long id)
         {
-            return null;
+            return GetFile(id);
         }
 
         public long PushFile(File file)
@@ -58,7 +58,8 @@ namespace SliceOfPie_Model
 
         private SliceOfPie_Model.Persistence.File GetFile(long id)
         {
-            HttpWebResponse response = Send(id.ToString(), "GET");
+            string xml = HTMLMarshalUtil.MarshallId(id);
+            HttpWebResponse response = Send(xml, "POST");
             return HandleFileResponse(response);
         }
 
