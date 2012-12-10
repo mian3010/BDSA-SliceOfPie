@@ -33,6 +33,7 @@ namespace SliceOfPie_Server
         /// </summary>
         public void Process()
         {
+            Console.Out.WriteLine("starting to process");
             string http_method = request.HttpMethod;
             string responseString = "";
             // Determines which http-method is called.
@@ -61,9 +62,10 @@ namespace SliceOfPie_Server
                     StreamReader reader = new StreamReader(request.InputStream);
                     string s = reader.ReadLine();
                     handler.GetFile(long.Parse(s));
-                    
+
                 }
-                else {
+                else
+                {
                     throw new System.ArgumentException("Illegal XML method");
                 }
             }
@@ -73,12 +75,32 @@ namespace SliceOfPie_Server
                 throw ex;
             }
 
-            
+
         }
 
+        /// <summary>
+        /// Responsible for sending the FileList back to the client
+        /// </summary>
+        /// <param name="list">FileList</param>
         public void RecieveFileList(FileList list)
         {
             string responseString = HTMLMarshalUtil.MarshallFileList(list);
+            StreamReader content = new StreamReader(request.InputStream);
+            Console.Out.WriteLine(content.ReadToEnd());
+            response.ContentLength64 = responseString.Length;
+            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
+            Stream stream = response.OutputStream;
+            stream.Write(byteVersion, 0, byteVersion.Length);
+            stream.Close();
+        }
+
+        /// <summary>
+        /// Responsible for sending the Files back to the client
+        /// </summary>
+        /// <param name="file">File</param>
+        public void RecieveFile(SliceOfPie_Model.Persistence.File file)
+        {
+            string responseString = HTMLMarshalUtil.MarshallFile(file);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;
