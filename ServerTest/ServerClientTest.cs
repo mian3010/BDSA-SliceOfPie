@@ -5,6 +5,7 @@ using SliceOfPie_Model.Persistence;
 using SliceOfPie_Server;
 using System.Threading;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace ServerTest
 {
@@ -52,7 +53,29 @@ namespace ServerTest
             long id = client.PushFile(doc);
             Console.Out.WriteLine("Recieved file ID: " + id);
             Assert.AreEqual(1, id);
+            server.Close();
 
+        }
+        [TestMethod]
+        public void TestSynchronize()
+        {
+            NetworkServer server = NetworkServer.GetInstance();
+            NetworkClient client = new NetworkClient();
+            FileList list = new FileList();
+            list.List = new Dictionary<long, FileListEntry>();
+            FileListEntry e1 = new FileListEntry();
+            FileListEntry e2 = new FileListEntry();
+            FileListEntry e3 = new FileListEntry();
+            e1.Id = 1;
+            e2.Id = 2;
+            e3.Id = 3;
+            list.List.Add(e1.Id, e1);
+            list.List.Add(e2.Id, e2);
+            list.List.Add(e3.Id, e3);
+            Thread serverT = new Thread(() => server.listen());
+            serverT.Start();
+            Thread.Sleep(1000);
+            FileList returnList = client.SyncServer(list);
         }
     }
 }
