@@ -11,14 +11,26 @@ namespace SliceOfPie_Model {
     /// The offline adapter for the ICommunicator interface. Implements persistent storage on disk.
     /// Also distinguishes between adding files on disk that's retrieved from server or just created offline.
     /// </summary>
+    /// 
+
+   /////// TO DO -  IMPLEMENT CACHE
+
+
     public class CommunicatorOfflineAdapter : ICommunicator {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
-
+        private OfflineFileListHandler fileListHandler;
+        
+        public IFileListHandler FileListHandler
+        {
+            get { return fileListHandler; } 
+        }
+    
       public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
       public CommunicatorOfflineAdapter()
       {
+          fileListHandler = new OfflineFileListHandler(this);
       }
 
       public bool AddFileFromServer(File file)
@@ -206,7 +218,12 @@ namespace SliceOfPie_Model {
 
     public File GetFile(long id)
     {
-        throw new NotImplementedException();
+        FileListEntry fileInfo = fileListHandler.FileList.List[id];
+        String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
+        String html = System.IO.File.ReadAllText(fullPath);
+
+        return HTMLMarshalUtil.UnmarshallFile(html);
+    
     }
 
 

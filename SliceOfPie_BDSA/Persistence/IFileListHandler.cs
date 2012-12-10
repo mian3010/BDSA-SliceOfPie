@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SliceOfPie_Model
 {
-    interface IFileListHandler
+    public interface IFileListHandler
     {
         /// <summary>
         /// A property that contains the FileList itself. 
@@ -20,10 +20,7 @@ namespace SliceOfPie_Model
         /// </summary>
         void PersistFileList();
 
-        /// <summary>
-        /// Supplies a list of the files in XML format.
-        /// </summary>
-        /// <returns>A string containing the XML</returns>
-        String FilesAsXML();
+
+        Dictionary<String, long> GetPathsWithID();
     }
 }

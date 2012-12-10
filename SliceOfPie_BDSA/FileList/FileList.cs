@@ -13,26 +13,8 @@ namespace SliceOfPie_Model {
         set; 
     }
 
-    /*
-     * <xml>
-     *  <rootdirectory>
-     *     <subdirectory>
-     *         file
-     *          </subdirectory>
-     *          <subdirectory>
-     *            
-     * <file>
-     **/  
 
-    public String ListAsXml()
-    {
-        String xml = "";
-
-
-
-        return xml;
-    }
-
+ 
 
   }
 }
