@@ -106,28 +106,27 @@ namespace SliceOfPie_Model
         public static FileList UnMarshallFileList(string xml)
         {
             Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
-            XDocument doc = XDocument.Parse(xml);
+            XElement doc = XElement.Parse(xml);
 
-
-            FileListEntry entry = new FileListEntry();
-            entry.Id = Int64.Parse(m.Element("ID").Value);
-            entry.Name = m.Element("fileName").Value;
-            entry.Path = m.Element("filePath").Value;
-            entry.Version = float.Parse(m.Element("version").Value);
-            entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
-            switch (m.Element("type").Value)
+            XElement root = doc.Element("fileList");
+            XElement m = root.Element("listEntry");
+            while (m != null)
             {
-                case "Push": entry.Type = FileListType.Push; break;
-                case "Pull": entry.Type = FileListType.Pull; break;
-                case "Conflict": entry.Type = FileListType.Conflict; break;
-            }
+                FileListEntry entry = new FileListEntry();
+                entry.Id = Int64.Parse(m.Element("ID").Value);
+                entry.Name = m.Element("fileName").Value;
+                entry.Path = m.Element("filePath").Value;
+                entry.Version = float.Parse(m.Element("version").Value);
+                entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
+                switch (m.Element("type").Value)
+                {
+                    case "Push": entry.Type = FileListType.Push; break;
+                    case "Pull": entry.Type = FileListType.Pull; break;
+                    case "Conflict": entry.Type = FileListType.Conflict; break;
+                }
 
-            fileList.Add(entry.Id, entry);
-
-            foreach (var m in fileentries)
-            {
-
-
+                fileList.Add(entry.Id, entry);
+                m = m.ElementsAfterSelf().FirstOrDefault();
             }
 
             XElement e = doc.Element("incrementCounter");
@@ -135,6 +134,16 @@ namespace SliceOfPie_Model
             long incCounter = Int64.Parse(inc);
             return new FileList() { List = fileList, incrementCounter = incCounter };
  
+        }
+
+        public static String MarshallId(long id)
+        {
+            return "";
+        }
+
+          public static long UnMarshallId(String id)
+        {
+            return -1;
         }
     }
 }

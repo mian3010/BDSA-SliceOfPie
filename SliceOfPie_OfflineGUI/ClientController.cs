@@ -35,7 +35,7 @@ namespace SliceOfPie_OfflineGUI
             one.serverpath = @"C:\test\";
             one.name = "add.html";
 
-            model.AddFile(one);
+            //model.AddFile(one); 
 
             Application.Run(view);
 
