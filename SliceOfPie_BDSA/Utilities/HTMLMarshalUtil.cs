@@ -39,8 +39,8 @@ namespace SliceOfPie_Model
                 }
 
                 // Write a custom ID tag which we can use later for database purposes.
-                writer.WriteStartElement("meta");
-                writer.WriteAttributeString("id", file.id.ToString());
+                writer.WriteStartElement("ID");
+                writer.WriteString(file.id.ToString());
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
@@ -64,20 +64,22 @@ namespace SliceOfPie_Model
         public static File UnmarshallFile(String XML)
         {
             File file = new File();
-            XDocument doc = XDocument.Parse(XML);
+            XElement doc = XElement.Parse(XML);
 
-            IEnumerable<XElement> elements = doc.Elements("html");
-
-            foreach (var m in elements)
+            IEnumerable<XElement> metaData = doc.Elements("meta");
+            foreach (XElement meta in metaData)
             {
                 FileMetaData fmd = new FileMetaData();
-                fmd.value = m.Element("meta").Attribute("content").Value;
-                fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
-                file.FileMetaDatas.Add(fmd);
-                file.Content.Append(m.Element("body").Value);    
-            }   
-            
+                fmd.MetaDataType_Type = meta.Attribute("name").Value;
+                fmd.value = meta.Attribute("content").Value;
+            }
 
+            XElement id = doc.Element("ID");
+            file.id = long.Parse(id.Value);
+
+            XElement body = doc.Element("body");
+            file.Content.Append(body.Value);
+            
             return file;
         }
 

@@ -16,7 +16,7 @@ namespace SliceOfPie_OfflineGUI {
   public partial class Form3 : Form {
    
     private Dictionary<String, long> paths;
-    private Document currentDocument; 
+    private File currentDocument; 
 
     public event FileRequestHandler FileRequested;
     public event EventHandler InterfaceClosing;
@@ -27,7 +27,7 @@ namespace SliceOfPie_OfflineGUI {
       paths = FileTree;
     }
 
-    public void SetCurrentDocument(Document doc)
+    public void SetCurrentDocument(File doc)
     {
         currentDocument = doc;
     }
