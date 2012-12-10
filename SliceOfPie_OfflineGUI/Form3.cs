@@ -8,36 +8,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using SliceOfPie_Model.Persistence;
+using SliceOfPie_Model;
+
 
 namespace SliceOfPie_OfflineGUI {
   public partial class Form3 : Form {
-    List<String> paths = new List<String>();
+   
+    private Dictionary<String, long> paths;
+    private Document currentDocument; 
 
-    /// <summary>
-    /// To-Do delete
-    /// </summary>
-    private void TestPaths() {
-      paths.Add("C:/File");
-      paths.Add("C:/John");
-      paths.Add("C:/Fail");
-      paths.Add("C:/Fail/Example");
-      paths.Add("C:/Fail.txt");
-      paths.Add("C:/Fail/noob.txt");
-      paths.Add("D:/Fail/noob.txt");
+    public event FileRequestHandler FileRequested;
+    public event EventHandler InterfaceClosing;
+    public delegate void FileRequestHandler(object sender, FileEventArgs args);
+
+    public Form3(Dictionary<String, long> FileTree) {
+      InitializeComponent();
+      paths = FileTree;
     }
 
-    public Form3() {
-      InitializeComponent();
-      //InitializeTree();
+    public void SetCurrentDocument(Document doc)
+    {
+        currentDocument = doc;
     }
 
     private void InitializeTree() {
-      TestPaths();
-      TreeNode root = new TreeNode("Files");
+        TreeNode root = new TreeNode("Files");
       TreeNode node = root;
       treeView1.Nodes.Add(root);
-
-      foreach (string filePath in paths) {
+        List<String> allPaths = paths.Keys.ToList();
+        allPaths.Sort();
+      foreach (string filePath in allPaths) {
         node = root;
         foreach (string pathBits in filePath.Split('/')) {
           node = AddNode(node, pathBits);
@@ -85,9 +86,44 @@ namespace SliceOfPie_OfflineGUI {
 
     }
 
+    private long IDFromCurrentNode()
+    {
+        List<String> fullPath = new List<String>();
+        TreeNode current = treeView1.SelectedNode;
+        fullPath.Add(current.Name);
+        while (current.Parent != null)
+        {
+            fullPath.Add(current.Parent.Name);
+            current = current.Parent;
+        }
+        fullPath.Reverse();
+        String cPath = System.IO.Path.Combine(fullPath.ToArray());
+        return paths[cPath];
+    }
+
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
 
     }
+
+    private void button_load_Click(object sender, EventArgs e)
+    {
+
+        FileRequested(this, new FileEventArgs(IDFromCurrentNode()));
+        Form2 editWindow = new Form2();
+        editWindow.LoadDocContent(currentDocument);
+    }
+
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {
+        if (InterfaceClosing != null)
+            InterfaceClosing(this, null);
+
+        base.OnFormClosing(e);
+    }
+
+  
+  
   }
+   
 }
 

@@ -8,7 +8,6 @@ namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
     private ICommunicator communicator;
-    private IFileListHandler logger;
     private INetClient netClient;
       
     public delegate void FileEventHandler(object sender, File file);
@@ -23,7 +22,7 @@ namespace SliceOfPie_Model {
     private OfflineAdministrator() {
         /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
         communicator = new CommunicatorOfflineAdapter();
-        logger = new OfflineFileListHandler(communicator);
+     
         netClient = new NetworkClient();
     }
 
@@ -33,10 +32,20 @@ namespace SliceOfPie_Model {
       return administrator;
     }
 
+    public File GetFile(long id)
+    {
+        return communicator.GetFile(id);
+    }
+
+    public void AddFile(File file)
+    {
+        communicator.AddFile(file);
+    }
+   
     public void Synchronize()
     {
         // Get fileList from Communicator
-        FileList oFileList = logger.FileList;
+        FileList oFileList = communicator.FileListHandler.FileList;
         // Send filelist to Server via Client
         FileList responseList = netClient.SyncServer(oFileList);
         // Receive fileList
@@ -74,13 +83,25 @@ namespace SliceOfPie_Model {
         FileSaved(this, file);
     }
 
-    public void OpenFile(File file) {
-
-    }
+  
 
     public void GetAllFiles() {
       throw new NotImplementedException();
     }
 
+    public Dictionary<String, long> GetPathsAndIDs()
+    {
+        return communicator.FileListHandler.GetPathsWithID();
+    }
+
+
+
+
+
+    public void ExitGracefully(object sender, EventArgs e)
+    {
+        communicator.FileListHandler.PersistFileList();
+
+    }
   }
 }

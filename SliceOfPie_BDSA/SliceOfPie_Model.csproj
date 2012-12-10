@@ -80,10 +80,11 @@
     <Compile Include="Exceptions\FilePersistenceException.cs" />
     <Compile Include="Persistence\CommunicatorOfflineAdapter.cs" />
     <Compile Include="Persistence\Context.cs" />
+    <Compile Include="Utilities\FileEventArgs.cs" />
     <Compile Include="Utilities\HTMLMarshalUtil.cs" />
     <Compile Include="ModelFacade\IAdministrator.cs" />
     <Compile Include="Persistence\ICommunicator.cs" />
-    <Compile Include="IController.cs" />
+    <Compile Include="Controller\IController.cs" />
     <Compile Include="Files\FileMetaData.cs" />
     <Compile Include="Files\Document.cs" />
     <Compile Include="Persistence\OfflineFileListHandler.cs" />

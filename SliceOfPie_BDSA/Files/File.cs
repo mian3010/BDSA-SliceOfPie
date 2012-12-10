@@ -12,16 +12,16 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
-    private StringBuilder fuckCsharp;
+    private StringBuilder priv_Content;
     public StringBuilder Content {
       get {
-        if (fuckCsharp == null) {
-          fuckCsharp = new StringBuilder();
+        if (priv_Content == null) {
+          priv_Content = new StringBuilder();
         }
-        return fuckCsharp;
+        return priv_Content;
       }
       set {
-        fuckCsharp = value;
+        priv_Content = value;
       }
     }
 

@@ -88,11 +88,12 @@ namespace SliceOfPie_Model
 
 
         public static string MarshallFileList(FileList fileList)
-        { 
+        {
             StringBuilder builder = new StringBuilder();
             using (XmlWriter writer = XmlWriter.Create(builder))
 	        {
 	            writer.WriteStartDocument();
+                writer.WriteStartElement("loginfo");
 	            writer.WriteStartElement("fileList");
 
 	            foreach (FileListEntry entry in fileList.List.Values)
@@ -106,11 +107,15 @@ namespace SliceOfPie_Model
 		            writer.WriteElementString("isDeleted", entry.IsDeleted.ToString());
                     writer.WriteEndElement();
 	            }
-                writer.WriteStartElement("incrementCounter", fileList.incrementCounter.ToString());
-                writer.WriteEndElement();
-
+             
 	            writer.WriteEndElement();
-	            writer.WriteEndDocument();
+                writer.WriteStartElement("incrementCounter");
+                writer.WriteString(fileList.incrementCounter.ToString());
+                writer.WriteEndElement();
+              
+                writer.WriteEndElement();
+                
+                writer.WriteEndDocument();
 	        }
             return builder.ToString();
         }
@@ -119,7 +124,7 @@ namespace SliceOfPie_Model
         {
             Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
             XDocument doc = XDocument.Parse(xml);
-            IEnumerable<XElement> elements = doc.Elements("fileList");
+            IEnumerable<XElement> elements = doc.Root.Elements("fileList").Descendants();
             foreach (var m in elements)
             {
                 FileListEntry entry = new FileListEntry();
@@ -137,7 +142,11 @@ namespace SliceOfPie_Model
                 
                 fileList.Add(entry.Id, entry);
             }
-            long incCounter = Int64.Parse(doc.Element("incrementCounter").Value);
+            XElement root = doc.Root;
+            
+            XElement e = root.Element("incrementCounter");
+            String inc = e.Value;
+            long incCounter = Int64.Parse(inc);
             return new FileList() { List = fileList, incrementCounter = incCounter };
         }
 

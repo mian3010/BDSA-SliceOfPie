@@ -12,6 +12,11 @@ namespace SliceOfPie_Model
     /// </summary>
     public interface ICommunicator
     {
+        IFileListHandler FileListHandler
+        {
+            get;
+        }
+
         /// <summary>
         /// Adds a file to storage
         /// </summary>
