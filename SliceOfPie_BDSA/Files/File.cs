@@ -32,7 +32,7 @@ namespace SliceOfPie_Model.Persistence {
 
 
     public override string ToString() {
-      return "<p> Editor cannot open this filetype </p>";
+        return Content.ToString();
     }
     public string HistoryToString() {
       StringBuilder output = new StringBuilder();

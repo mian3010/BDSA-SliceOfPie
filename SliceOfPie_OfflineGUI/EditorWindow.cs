@@ -11,9 +11,12 @@ using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OfflineGUI
 {
-    public partial class Form2 : Form
+    public partial class EditorWindow : Form
     {
-        public Form2()
+        public event DocumentHandler DocumentSaved;
+       
+ 
+        public EditorWindow()
         {
             InitializeComponent();
 
@@ -46,6 +49,15 @@ namespace SliceOfPie_OfflineGUI
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
 
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            String text = webBrowser1.Document.Body.InnerHtml;
+            if (DocumentSaved != null)
+            {
+                DocumentSaved(this, text);
+            }
         }
     }
 }
