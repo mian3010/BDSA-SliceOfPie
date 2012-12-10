@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="FileReceiver.cs" />
     <Compile Include="FileReviewer.cs" />
-    <Compile Include="HTTPProcessor.cs" />
+    <Compile Include="HttpProcessor.cs" />
     <Compile Include="NetworkServer.cs" />
     <Compile Include="RequestHandler.cs" />
     <Compile Include="MergeDaemon.cs" />

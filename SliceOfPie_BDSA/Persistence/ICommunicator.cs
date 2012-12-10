@@ -18,7 +18,6 @@ namespace SliceOfPie_Model
         /// <param name="file">The file object to add</param>
         /// <returns></returns>
         bool SaveFile(File FileToSave);
-        bool SaveDocument(Document DocumentToSave, string Content);
 
         /// <summary>
         /// Deletes the specified file from storage
