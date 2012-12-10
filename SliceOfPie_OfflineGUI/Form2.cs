@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SliceOfPie_Model;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OfflineGUI
 {

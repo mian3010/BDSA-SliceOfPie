@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using SliceOfPie_Model;
 using System.Data.Entity;
 using System.Diagnostics;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OfflineGUI
 {
