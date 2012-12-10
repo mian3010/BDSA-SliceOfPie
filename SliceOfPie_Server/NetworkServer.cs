@@ -39,7 +39,7 @@ namespace SliceOfPie_Server
             listener.Start();
             while (is_active) {
                 HttpListenerContext context = listener.GetContext();
-                HTTPProcessor processor = new HTTPProcessor(context, handler);
+                HttpProcessor processor = new HttpProcessor(context, handler);
                 Thread thread = new Thread(() => processor.Process());
                 thread.Start();
                 Thread.Sleep(1);
