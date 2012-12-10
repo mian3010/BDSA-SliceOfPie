@@ -65,22 +65,16 @@ namespace SliceOfPie_Model
         {
             File file = new File();
             XDocument doc = XDocument.Parse(XML);
+
             IEnumerable<XElement> elements = doc.Elements("html");
 
             foreach (var m in elements)
             {
-                try
-                {
-                    FileMetaData fmd = new FileMetaData();
-                    fmd.value = m.Element("meta").Attribute("content").Value;
-                    fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
-                    file.FileMetaDatas.Add(fmd);
-                    file.Content.Append(m.Element("body").Value);
-                }
-                catch (NullReferenceException e)
-                {
-                    continue;
-                }
+                FileMetaData fmd = new FileMetaData();
+                fmd.value = m.Element("meta").Attribute("content").Value;
+                fmd.MetaDataType_Type = m.Element("meta").Attribute("name").Value;
+                file.FileMetaDatas.Add(fmd);
+                file.Content.Append(m.Element("body").Value);    
             }   
             
 
@@ -91,9 +85,6 @@ namespace SliceOfPie_Model
 
         public static string MarshallFileList(FileList fileList)
         {
-            //XmlWriterSettings set = new XmlWriterSettings();
-            //set.Indent = true;
-            //StringBuilder builder = new StringBuilder();
             List<FileListEntry> fList = fileList.List.Values.ToList();
             XElement doc = new XElement("logInfo", 
                                 new XElement("fileList",
@@ -106,36 +97,8 @@ namespace SliceOfPie_Model
                                                      new XElement("version", a.Version.ToString()),
                                                      new XElement("type", a.Type.ToString()),
                                                      new XElement("isDeleted", a.IsDeleted.ToString())))
-                               ,new XElement("incrementCoutner", fileList.incrementCounter.ToString()) );
+                               ,new XElement("incrementCounter", fileList.incrementCounter.ToString()) );
                                                  
-            //using (XmlWriter writer = XmlWriter.Create(builder,set))
-            //{
-            //    writer.WriteStartDocument();
-            //    writer.WriteStartElement("loginfo");
-            //    writer.WriteStartElement("fileList");
-
-            //    foreach (FileListEntry entry in fileList.List.Values)
-            //    {
-            //        writer.WriteStartElement("listEntry");
-            //        writer.WriteElementString("ID", entry.Id.ToString());
-            //        writer.WriteElementString("fileName", entry.Name);
-            //        writer.WriteElementString("filePath", entry.Path);
-            //        writer.WriteElementString("version", entry.Version.ToString());
-            //        writer.WriteElementString("type", entry.Type.ToString());
-            //        writer.WriteElementString("isDeleted", entry.IsDeleted.ToString());
-            //        writer.WriteEndElement();
-            //    }
-             
-            //    writer.WriteEndElement();
-            //    writer.WriteStartElement("incrementCounter");
-            //    writer.WriteString(fileList.incrementCounter.ToString());
-            //    writer.WriteEndElement();
-              
-            //    writer.WriteEndElement();
-                
-            //    writer.WriteEndDocument();
-            //}
-            //return builder.ToString();
             String hmm = doc.ToString(SaveOptions.DisableFormatting);
             return doc.ToString(SaveOptions.DisableFormatting);
         }
@@ -144,66 +107,34 @@ namespace SliceOfPie_Model
         {
             Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
             XDocument doc = XDocument.Parse(xml);
-            
-            var fileentries = from res in doc.Descendants("fileList")
-                               select new {
-                        lol = res.Element("ID").Value };
-       
-          //FileListEntry entry = new FileListEntry();
-          //          entry.Id = Int64.Parse(m.Element("ID").Value);
-          //          entry.Name = m.Element("fileName").Value;
-          //          entry.Path = m.Element("filePath").Value;
-          //          entry.Version = float.Parse(m.Element("version").Value);
-          //          entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
-          //          switch (m.Element("type").Value)
-          //          {
-          //              case "Push": entry.Type = FileListType.Push; break;
-          //              case "Pull": entry.Type = FileListType.Pull; break;
-          //              case "Conflict": entry.Type = FileListType.Conflict; break;
-          //          }
 
-          //          fileList.Add(entry.Id, entry);
 
-            //foreach(var m in fileentries)
-            //{
-                   
-             
-            //}
-            
-            //XElement e = doc.Element("incrementCounter");
-            //String inc = e.Value;
-            //long incCounter = Int64.Parse(inc);
-            //return new FileList() { List = fileList, incrementCounter = incCounter };
-            return null;
-        }
-
-        /// <summary>
-        /// Makes the ID into xml
-        /// </summary>
-        /// <param name="id">long</param>
-        /// <returns>XmlString</returns>
-        public static string MarshallId(long id)
-        { 
-            StringBuilder builder = new StringBuilder();
-            using (XmlWriter writer = XmlWriter.Create(builder))
+            FileListEntry entry = new FileListEntry();
+            entry.Id = Int64.Parse(m.Element("ID").Value);
+            entry.Name = m.Element("fileName").Value;
+            entry.Path = m.Element("filePath").Value;
+            entry.Version = float.Parse(m.Element("version").Value);
+            entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
+            switch (m.Element("type").Value)
             {
-                writer.WriteStartDocument();
-                writer.WriteElementString("FileID", id.ToString());
-                writer.WriteEndDocument();
+                case "Push": entry.Type = FileListType.Push; break;
+                case "Pull": entry.Type = FileListType.Pull; break;
+                case "Conflict": entry.Type = FileListType.Conflict; break;
             }
-            return builder.ToString();
-        }
 
-        /// <summary>
-        /// Returns the ID as a long value
-        /// </summary>
-        /// <param name="xml">string</param>
-        /// <returns>long</returns>
-        public static long UnMarshallId(string xml)
-        {
-            XDocument doc = XDocument.Parse(xml);
-            long id = long.Parse(doc.Element("FileID").Value);
-            return id;
+            fileList.Add(entry.Id, entry);
+
+            foreach (var m in fileentries)
+            {
+
+
+            }
+
+            XElement e = doc.Element("incrementCounter");
+            String inc = e.Value;
+            long incCounter = Int64.Parse(inc);
+            return new FileList() { List = fileList, incrementCounter = incCounter };
+ 
         }
     }
 }
