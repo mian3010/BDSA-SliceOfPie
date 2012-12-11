@@ -71,7 +71,7 @@ namespace SliceOfPie_Model
         {
             FileListEntry entry =  StandardFileEntry(file);
             entry.Id = file.id;
-            entry.Version = 0.001F;
+            entry.Version = 0.001m;
             FileList.List.Add(entry.Id, entry);  
         }
 
@@ -95,7 +95,7 @@ namespace SliceOfPie_Model
 
         public void FileChangedOnDisk(File file)
         {
-            FileList.List[file.id].Version += 0.001F;          
+            FileList.List[file.id].Version += 0.001m;          
         }
 
         public void FileChangedOnServer(File file)

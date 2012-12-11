@@ -7,7 +7,7 @@ using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
-    public class SimpleMergePolicy
+    public class SimpleMergePolicy : MergePolicy
     {
         /// <summary>
         /// Static merge method, implementing the Simple merge policy from the Slice of Pie project description.
@@ -18,7 +18,7 @@ namespace SliceOfPie_Model
         /// The original document before changes</param>
         /// <param name="latest">The latest document with changes made</param>
         /// <returns>A copy of the document metadata along with the new content.</returns>
-        public static Document Merge(Document original, Document latest)
+        internal override Document MergeDocuments(Document original, Document latest)
         {
             string splitPattern = @"(?<=[.])";
             Regex splitter = new Regex(splitPattern);
