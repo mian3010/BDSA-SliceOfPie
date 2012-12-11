@@ -10,7 +10,7 @@ namespace SliceOfPie_Server {
   /// </summary>
   class FileReceiver {
     private HttpProcessor _hp;
-    private readonly File _file;
+    private readonly FileInstance _file;
 
     /// <summary>
     /// Constructor. 
@@ -18,7 +18,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public FileReceiver(File file, HttpProcessor hp) {
+    public FileReceiver(FileInstance file, HttpProcessor hp) {
       _file = file;
       _hp = hp;
     }

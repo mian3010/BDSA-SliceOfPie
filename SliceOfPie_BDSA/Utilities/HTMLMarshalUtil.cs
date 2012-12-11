@@ -14,7 +14,7 @@ namespace SliceOfPie_Model
     public static class HtmlMarshalUtil
     {
 
-        public static string MarshallFile(File file)
+        public static string MarshallFile(FileInstance file)
         {
             var set = new XmlWriterSettings {Indent = true};
           var builder = new StringBuilder();
@@ -24,7 +24,7 @@ namespace SliceOfPie_Model
                 writer.WriteStartElement("html");
 
                 // Write filemetadata 
-                foreach (FileMetaData types in file.FileMetaDatas)
+                foreach (FileMetaData types in file.File.FileMetaDatas)
                 {
                     writer.WriteStartElement("meta");
                     writer.WriteAttributeString("name", types.MetaDataType.Type);
@@ -57,9 +57,9 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="xml">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static File UnmarshallFile(String xml)
+        public static Document UnmarshallDocument(String xml)
         {
-            var file = new File();
+            var file = new Document();
             XElement doc = XElement.Parse(xml);
 
             IEnumerable<XElement> metaData = doc.Elements("meta");
@@ -70,13 +70,14 @@ namespace SliceOfPie_Model
                     MetaDataType_Type = meta.Attribute("name").Value,
                     value = meta.Attribute("content").Value
                   };
+              file.File.FileMetaDatas.Add(fmd);
             }
 
             XElement id = doc.Element("ID");
           if (id != null) file.id = long.Parse(id.Value);
 
           XElement body = doc.Element("body");
-          if (body != null) file.Content.Append(body.Value);
+          if (body != null) file.Content = body.Value;
 
           return file;
         }

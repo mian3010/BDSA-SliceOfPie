@@ -27,13 +27,13 @@ namespace SliceOfPie_Model {
       return _administrator ?? (_administrator = new OfflineAdministrator());
     }
 
-    public File GetFile(long id)
+    public FileInstance GetFile(long id)
     {
         return _communicator.GetFile(id);
     }
 
 
-    public void AddFile(File file)
+    public void AddFile(FileInstance file)
     {
         if (file.id <= 0)
         {
@@ -54,8 +54,8 @@ namespace SliceOfPie_Model {
         FileList responseList = _netClient.SyncServer(oFileList);
         // Receive fileList
 
-        var conflictFiles = new List<File>();
-        foreach (FileListEntry entry in responseList.List.Values)
+        var conflictFiles = new List<FileInstance>();
+        foreach (var entry in responseList.List.Values)
         {
             switch (entry.Type)
             {
@@ -64,7 +64,7 @@ namespace SliceOfPie_Model {
                 case FileListType.Pull:
                     _communicator.AddOfflineCreatedFile(_netClient.PullFile(entry.Id)); break;
                 case FileListType.Push: 
-                    File toPush = _communicator.GetFile(entry.Id);
+                    FileInstance toPush = _communicator.GetFile(entry.Id);
                     _communicator.UpdateFileId(toPush, _netClient.PushFile(toPush)); 
                     break;
                     
@@ -75,12 +75,12 @@ namespace SliceOfPie_Model {
     }
 
 
-    private void HandleConflictedFiles(List<File> conflictedFiles)
+    private void HandleConflictedFiles(List<FileInstance> conflictedFiles)
     {
         // Here we should alert the user and let him fix conflicted files.
     }
        
-    public void SaveFile(File file) {
+    public void SaveFile(FileInstance file) {
         _communicator.ModifyFile(file);
     }
 

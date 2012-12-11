@@ -17,9 +17,11 @@ namespace SliceOfPie_Server {
       Context.AddUser(user);
 
       // Add files
-      var file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0.0m);
-      file.Content.Append("This is a test file. Does this work? \n New line");
-      Context.AddFile(file);
+      File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
+      var document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+
+      document.Content = "This is a test file. Does this work? \n New line";
+      Context.AddFile(document);
 
       // Add FileInstance, bind to user
       var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
@@ -60,7 +62,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HttpProcessor hp) {
+    public void ReceiveFile(FileInstance file, HttpProcessor hp) {
       var fr = new FileReceiver(file, hp);
       var thread = new Thread(fr.Receive);
       thread.Start();
@@ -89,7 +91,7 @@ namespace SliceOfPie_Server {
     /// <returns></returns>
     public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
-      File file = Context.GetFile(id);
+      FileInstance file = Context.GetFile(id);
       processor.RecieveFile(file);
     }
   }

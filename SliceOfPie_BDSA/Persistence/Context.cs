@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SliceOfPie_Model.Persistence {
@@ -128,25 +128,25 @@ namespace SliceOfPie_Model.Persistence {
       return usersFilesOnServer;
     }
 
-    public static File GetFile(long fileId) {
-      var query = from f in DbContext.Files
+    public static FileInstance GetFile(long fileId) {
+      var query = from f in DbContext.FileInstances
                   where f.id == fileId
                   select f;
       return !query.Any() ? null : query.First();
     }
 
-    public static long AddFile(File file) {
+    public static long AddFile(FileInstance file) {
       if (file == null) return -2;
       if (GetFile(file.id) != null) {
         return UpdateFile(file);
       }
-      DbContext.Files.AddObject(file);
+      DbContext.Files.AddObject(file.File);
       return DbContext.SaveChanges();
     }
 
-    public static long UpdateFile(File file) {
+    public static long UpdateFile(FileInstance file) {
       if (file == null) return -2;
-      DbContext.Files.DeleteObject(file);
+      DbContext.Files.DeleteObject(file.File);
       return AddFile(file);
     }
 

@@ -40,7 +40,7 @@ namespace SliceOfPie_Server
                 {
                     var reader = new StreamReader(inputStream);
                     string xml = reader.ReadToEnd();
-                    SliceOfPie_Model.Persistence.File file = HtmlMarshalUtil.UnmarshallFile(xml);
+                    SliceOfPie_Model.Persistence.FileInstance file = HtmlMarshalUtil.UnmarshallDocument(xml);
                     _handler.ReceiveFile(file, this);
                 }
                 else if (httpMethod == "POST")
@@ -60,12 +60,12 @@ namespace SliceOfPie_Server
                 }
                 else
                 {
-                    throw new System.ArgumentException("Illegal XML method");
+                    throw new ArgumentException("Illegal XML method");
                 }
             }
             catch (Exception e)
             {
-                Exception ex = new System.ArgumentException("Error in Process()", e);
+                Exception ex = new ArgumentException("Error in Process()", e);
                 throw ex;
             }
         }
@@ -90,7 +90,7 @@ namespace SliceOfPie_Server
         /// Responsible for sending the Files back to the client
         /// </summary>
         /// <param name="file">File</param>
-        public void RecieveFile(SliceOfPie_Model.Persistence.File file)
+        public void RecieveFile(SliceOfPie_Model.Persistence.FileInstance file)
         {
             string responseString = HtmlMarshalUtil.MarshallFile(file);
             var content = new StreamReader(_request.InputStream);

@@ -8,31 +8,35 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  public class Document : File {
+  public class Document : FileInstance {
     public String Title { get; set; }
-  
+
     public IList<String> Authors { get; set; }
 
+    public new string Content {
+      get { return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
+      set { PrivContent = Encoding.UTF8.GetBytes(value); }
+    }
 
-    public override string GetContent()
-        {
-            return Content.ToString();
-        }
 
-        public override string ToString() {
-          var output = new StringBuilder();
-          output.Append("<div class=\"document\">");
-          output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-          output.Append("<div class=\"document-view\">");
-          output.Append("<ul class=\"metadata-view\">");
-          foreach (FileMetaData metaData in FileMetaDatas) {
-            output.Append("<li>"+metaData.MetaDataType+": "+metaData+"</li>");
-          }
-          output.Append("</ul>");
-          output.Append(Content);
-          output.Append("</div>");
-          return output.ToString();
-        }
+    public override string GetContent() {
+      return Content;
+    }
+
+    public override string ToString() {
+      var output = new StringBuilder();
+      output.Append("<div class=\"document\">");
+      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+      output.Append("<div class=\"document-view\">");
+      output.Append("<ul class=\"metadata-view\">");
+      foreach (FileMetaData metaData in File.FileMetaDatas) {
+        output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
+      }
+      output.Append("</ul>");
+      output.Append(Content);
+      output.Append("</div>");
+      return output.ToString();
+    }
 
     public new string HistoryToString() {
       var output = new StringBuilder();
@@ -44,8 +48,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     static internal Document CreateTestDocument(String s) {
-      var d = new Document();
-      d.Content.Append(s);
+      var d = new Document {Content = s};
       return d;
     }
 

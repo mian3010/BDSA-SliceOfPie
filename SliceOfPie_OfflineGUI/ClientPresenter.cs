@@ -63,13 +63,13 @@ namespace SliceOfPie_OfflineGUI
         private void UpdateFileInGui(object sender, FileEventArgs e)
         {
             // TO DO IMPLEMENT DOCUMENT CHECKING
-            _view.CurrentDocument = _model.GetFile(e.FileId);
+            _view.CurrentDocument = (SliceOfPie_Model.Persistence.Document)_model.GetFile(e.FileId);
         }
 
         public MainWindow MainWindow
         {
           get {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
           }
           set { throw new NotImplementedException(); }
         }

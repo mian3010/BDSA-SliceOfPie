@@ -20,7 +20,9 @@ namespace SliceOfPie_OfflineGUI
             Application.DoEvents();
           if (webBrowser1.Document != null)
           {
-            webBrowser1.Document.OpenNew(false).Write("<html><body><div id=\"editable\">Edit this text</div></body></html>");
+            var htmlDocument = webBrowser1.Document.OpenNew(false);
+            if (htmlDocument != null)
+              htmlDocument.Write("<html><body><div id=\"editable\">Edit this text</div></body></html>");
 
             foreach (HtmlElement el in webBrowser1.Document.All)
             {
@@ -39,7 +41,7 @@ namespace SliceOfPie_OfflineGUI
           webBrowser1.IsWebBrowserContextMenuEnabled = false;  
         }
 
-        public void LoadDocContent(File doc)
+        public void LoadDocContent(FileInstance doc)
         {
             if (doc != null)
             {
@@ -58,10 +60,13 @@ namespace SliceOfPie_OfflineGUI
         {
           if (webBrowser1.Document != null)
           {
-            String text = webBrowser1.Document.Body.InnerHtml;
-            if (DocumentSaved != null)
+            if (webBrowser1.Document.Body != null)
             {
-              DocumentSaved(this, text);
+              String text = webBrowser1.Document.Body.InnerHtml;
+              if (DocumentSaved != null)
+              {
+                DocumentSaved(this, text);
+              }
             }
           }
         }
