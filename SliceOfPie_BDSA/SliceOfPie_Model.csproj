@@ -104,6 +104,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Database.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="FileListHandler_CD.cd" />
+    <None Include="FileOverviewRep_CD.cd" />
+    <None Include="ModelFacade_CD.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\SliceOfLifeEntities.datasource" />
     <None Include="Properties\DataSources\SliceOfLifeEntities1.datasource" />

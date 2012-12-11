@@ -71,5 +71,16 @@ namespace SliceOfPie_OfflineGUI
             view.CurrentDocument = model.GetFile(e.FileId);
         }
 
+        public MainWindow MainWindow
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
     }
 }

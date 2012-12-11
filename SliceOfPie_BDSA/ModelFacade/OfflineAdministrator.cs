@@ -5,12 +5,9 @@ using SliceOfPie_Model.Persistence;
 namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
-    private readonly ICommunicator _communicator;
-    private readonly INetClient _netClient;
-      
-    public delegate void FileEventHandler(object sender, File file);
-    public event FileEventHandler FilesUpdated, ContentAdded, FileSaved;
-
+    private ICommunicator _communicator;
+    private INetClient _netClient;
+     
     //singleton instance
     private static OfflineAdministrator _administrator;
 
@@ -19,15 +16,15 @@ namespace SliceOfPie_Model {
     /// </summary>
     private OfflineAdministrator() {
         // This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
-        _communicator = new CommunicatorOfflineAdapter();
+        _communicator = CommunicatorOfflineAdapter.GetCommunicatorInstance();
      
         _netClient = new NetworkClient();
     }
 
-    public static OfflineAdministrator GetInstance() {
-      if (_administrator == null)
-        _administrator = new OfflineAdministrator();
-      return _administrator;
+
+    public static OfflineAdministrator GetInstance()
+    {
+      return _administrator ?? (_administrator = new OfflineAdministrator());
     }
 
     public File GetFile(long id)

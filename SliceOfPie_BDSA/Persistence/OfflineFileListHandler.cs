@@ -20,6 +20,17 @@ namespace SliceOfPie_Model
             }
         }
 
+        public FileList FileList1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
 
 
         public OfflineFileListHandler(ICommunicator cm)

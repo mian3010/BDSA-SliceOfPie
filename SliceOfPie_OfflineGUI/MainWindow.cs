@@ -168,6 +168,17 @@ namespace SliceOfPie_OfflineGUI {
         SynchronizationRequested(this, null);
     }
 
+    public EditorWindow EditorWindow
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        set
+        {
+        }
+    }
+
   
   
   }
