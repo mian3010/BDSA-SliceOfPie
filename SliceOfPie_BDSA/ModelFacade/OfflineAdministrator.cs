@@ -9,22 +9,20 @@ namespace SliceOfPie_Model {
 
     private ICommunicator communicator;
     private INetClient netClient;
-      
-    public delegate void FileEventHandler(object sender, File file);
-    public event FileEventHandler FilesUpdated, ContentAdded, FileSaved;
-
+     
     //singleton instance
-    public static OfflineAdministrator administrator;
+    private static OfflineAdministrator administrator;
 
     /// <summary>
     /// Constructs offlineAdministrator with a static rootpath for now.
     /// </summary>
     private OfflineAdministrator() {
-        /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
-        communicator = new CommunicatorOfflineAdapter();
+        // This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
+        communicator = CommunicatorOfflineAdapter.GetCommunicatorInstance();
      
         netClient = new NetworkClient();
     }
+
 
     public static OfflineAdministrator GetInstance() {
       if (administrator == null)

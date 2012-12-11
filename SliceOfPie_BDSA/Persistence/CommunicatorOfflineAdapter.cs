@@ -19,8 +19,10 @@ namespace SliceOfPie_Model {
     public class CommunicatorOfflineAdapter : ICommunicator {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
-        private OfflineFileListHandler fileListHandler;
-        
+        private readonly OfflineFileListHandler fileListHandler;
+
+        private static CommunicatorOfflineAdapter adapter;
+
         public IFileListHandler FileListHandler
         {
             get { return fileListHandler; } 
@@ -28,7 +30,12 @@ namespace SliceOfPie_Model {
     
       public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
-      public CommunicatorOfflineAdapter()
+        public static CommunicatorOfflineAdapter GetCommunicatorInstance()
+        {
+            return adapter ?? (adapter = new CommunicatorOfflineAdapter());
+        }
+
+        private CommunicatorOfflineAdapter()
       {
           fileListHandler = new OfflineFileListHandler(this);
       }
@@ -244,6 +251,17 @@ namespace SliceOfPie_Model {
     public void UpdateFileID(File file, long newID)
     {
         throw new NotImplementedException();
+    }
+
+    public OfflineFileListHandler OfflineFileListHandler
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        set
+        {
+        }
     }
   }
 }
