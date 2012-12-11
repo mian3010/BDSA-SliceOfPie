@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
-    public static class HTMLMarshalUtil
+    public static class HtmlMarshalUtil
     {
 
         public static string MarshallFile(SliceOfPie_Model.Persistence.File file)
@@ -41,7 +42,7 @@ namespace SliceOfPie_Model
 
                 // Write a custom ID tag which we can use later for database purposes.
                 writer.WriteStartElement("ID");
-                writer.WriteString(file.id.ToString());
+                writer.WriteString(file.id.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
@@ -60,12 +61,12 @@ namespace SliceOfPie_Model
         /// <summary>
         /// Unmarshals a File according to the loosely defined XML format used in Slice of Pie.
         /// </summary>
-        /// <param name="XML">The xml to unmarshal</param>
+        /// <param name="xml">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static SliceOfPie_Model.Persistence.File UnmarshallFile(String XML)
+        public static SliceOfPie_Model.Persistence.File UnmarshallFile(String xml)
         {
             SliceOfPie_Model.Persistence.File file = new SliceOfPie_Model.Persistence.File();
-            XElement doc = XElement.Parse(XML);
+            XElement doc = XElement.Parse(xml);
 
             IEnumerable<XElement> metaData = doc.Elements("meta");
             foreach (XElement meta in metaData)
@@ -94,13 +95,13 @@ namespace SliceOfPie_Model
                                                  from a in fList
                                                  select
                                                      new XElement("listEntry",
-                                                     new XElement("ID", a.Id.ToString()),
+                                                     new XElement("ID", a.Id.ToString(CultureInfo.InvariantCulture)),
                                                      new XElement("fileName", a.Name),
-                                                     new XElement("filePath", a.Path.ToString()),
-                                                     new XElement("version", a.Version.ToString()),
+                                                     new XElement("filePath", a.Path.ToString(CultureInfo.InvariantCulture)),
+                                                     new XElement("version", a.Version.ToString(CultureInfo.InvariantCulture)),
                                                      new XElement("type", a.Type.ToString()),
                                                      new XElement("isDeleted", a.IsDeleted.ToString())))
-                               ,new XElement("incrementCounter", fileList.incrementCounter.ToString()) );
+                               ,new XElement("incrementCounter", fileList.IncrementCounter.ToString(CultureInfo.InvariantCulture)) );
                                                  
             return doc.ToString();
         }
@@ -135,7 +136,7 @@ namespace SliceOfPie_Model
             XElement e = doc.Element("incrementCounter");
             String inc = e.Value;
             long incCounter = Int64.Parse(inc);
-            return new FileList() { List = fileList, incrementCounter = incCounter };
+            return new FileList() { List = fileList, IncrementCounter = incCounter };
         }
 
         /// <summary>

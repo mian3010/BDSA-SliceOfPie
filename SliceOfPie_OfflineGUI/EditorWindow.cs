@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -31,7 +32,7 @@ namespace SliceOfPie_OfflineGUI
                 el.SetAttribute("contenteditable", "false");
             }
 
-            webBrowser1.Document.Body.SetAttribute("width", this.Width.ToString() + "px");
+            webBrowser1.Document.Body.SetAttribute("width", this.Width.ToString(CultureInfo.InvariantCulture) + "px");
             webBrowser1.Document.Body.SetAttribute("height", "100%");
             webBrowser1.Document.Body.SetAttribute("contenteditable", "true");
             webBrowser1.Document.DomDocument.GetType().GetProperty("designMode").SetValue(webBrowser1.Document.DomDocument, "On", null);

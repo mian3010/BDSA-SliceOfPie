@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,13 @@ namespace SliceOfPie_Server
     /// Class responsible for processing the HTTP requests from the Network Server.
     /// Is created in a new thread for every new client.
     /// </summary>
-    public class HTTPProcessor
+    public class HttpProcessor
     {
-        private HttpListenerRequest request;
-        private HttpListenerResponse response;
-        private RequestHandler handler;
+        private readonly HttpListenerRequest request;
+        private readonly HttpListenerResponse response;
+        private readonly RequestHandler handler;
 
-        public HTTPProcessor(HttpListenerContext context, RequestHandler handler)
+        public HttpProcessor(HttpListenerContext context, RequestHandler handler)
         {
             request = context.Request;
             response = context.Response;
@@ -35,30 +36,30 @@ namespace SliceOfPie_Server
         public void Process()
         {
             Console.Out.WriteLine("starting to process");
-            string http_method = request.HttpMethod;
+            string httpMethod = request.HttpMethod;
             Stream inputStream = request.InputStream;
             // Determines which http-method is called.
             try
             {
-                if (http_method == "PUT")
+                if (httpMethod == "PUT")
                 {
                     StreamReader reader = new StreamReader(inputStream);
                     string xml = reader.ReadToEnd();
-                    SliceOfPie_Model.Persistence.File file = HTMLMarshalUtil.UnmarshallFile(xml);
+                    SliceOfPie_Model.Persistence.File file = HtmlMarshalUtil.UnmarshallFile(xml);
                     handler.ReceiveFile(file, this);
                 }
-                else if (http_method == "POST")
+                else if (httpMethod == "POST")
                 {
                     StreamReader reader = new StreamReader(inputStream);
                     string s = reader.ReadToEnd();
                     if (s.Contains("FileID"))
                     {
-                        long id = HTMLMarshalUtil.UnMarshallId(s);
+                        long id = HtmlMarshalUtil.UnMarshallId(s);
                         handler.GetFile(id, this);
                     }
                     else
                     {
-                        FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
+                        FileList list = HtmlMarshalUtil.UnMarshallFileList(s);
                         handler.ReceiveFileList(list, this);
                     }
                 }
@@ -80,7 +81,7 @@ namespace SliceOfPie_Server
         /// <param name="list">FileList</param>
         public void RecieveFileList(FileList list)
         {
-            string responseString = HTMLMarshalUtil.MarshallFileList(list);
+            string responseString = HtmlMarshalUtil.MarshallFileList(list);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;
@@ -96,7 +97,7 @@ namespace SliceOfPie_Server
         /// <param name="file">File</param>
         public void RecieveFile(SliceOfPie_Model.Persistence.File file)
         {
-            string responseString = HTMLMarshalUtil.MarshallFile(file);
+            string responseString = HtmlMarshalUtil.MarshallFile(file);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;
@@ -113,7 +114,7 @@ namespace SliceOfPie_Server
         /// <param name="id"></param>
         public void RecieveConfirmation(long id)
         {
-            string responseString = id.ToString();
+            string responseString = id.ToString(CultureInfo.InvariantCulture);
             StreamReader content = new StreamReader(request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;

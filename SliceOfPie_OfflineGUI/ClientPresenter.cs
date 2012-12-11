@@ -18,8 +18,8 @@ namespace SliceOfPie_OfflineGUI
     /// </summary>
     public class ClientPresenter
     {
-        private MainWindow view;
-        private OfflineAdministrator model;
+        private readonly MainWindow view;
+        private readonly OfflineAdministrator model;
 
         public static void Main(String[] args)
         {
@@ -28,7 +28,7 @@ namespace SliceOfPie_OfflineGUI
         }
 
 
-        public ClientPresenter()
+      private ClientPresenter()
         {
             model = OfflineAdministrator.GetInstance();
             Application.EnableVisualStyles();
@@ -38,7 +38,7 @@ namespace SliceOfPie_OfflineGUI
             view = new MainWindow(model.GetPathsAndIDs());
   
             // Bind update to FileRequested event
-            view.FileRequested += UpdateFileInGUI;
+            view.FileRequested += UpdateFileInGui;
 
             // Bind the closing event of the GUI to the model persisting its data.
             view.InterfaceClosing += model.ExitGracefully;
@@ -65,10 +65,10 @@ namespace SliceOfPie_OfflineGUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void UpdateFileInGUI(object sender, FileEventArgs e)
+        private void UpdateFileInGui(object sender, FileEventArgs e)
         {
             // TO DO IMPLEMENT DOCUMENT CHECKING
-            view.CurrentDocument = model.GetFile(e.FileID);
+            view.CurrentDocument = model.GetFile(e.FileId);
         }
 
     }

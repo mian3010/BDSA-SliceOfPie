@@ -291,14 +291,14 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       RemoveLoginSuccess,
     }
 
-    internal class ExternalLoginResult : ActionResult {
+    private class ExternalLoginResult : ActionResult {
       public ExternalLoginResult(string provider, string returnUrl) {
         Provider = provider;
         ReturnUrl = returnUrl;
       }
 
-      public string Provider { get; private set; }
-      public string ReturnUrl { get; private set; }
+      private string Provider { get; set; }
+      private string ReturnUrl { get; set; }
 
       public override void ExecuteResult(ControllerContext context) {
         OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);

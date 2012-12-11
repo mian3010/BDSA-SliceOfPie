@@ -14,16 +14,16 @@ namespace SliceOfPie_Model
 {
     public class NetworkClient : INetClient
     {
-        private int port = 8080;
+      private const int Port = 8080;
 
-        /// <summary>
+      /// <summary>
         /// Sends the FileList to the Server and initializes the synchronization process
         /// </summary>
         /// <param name="list">FileList</param>
         /// <returns>FileList</returns>
         public FileList SyncServer(FileList list)
         {
-            string xml = HTMLMarshalUtil.MarshallFileList(list);
+            string xml = HtmlMarshalUtil.MarshallFileList(list);
             HttpWebResponse response = Send(xml, "POST");
             return HandleFileListResponse(response);
         }
@@ -31,11 +31,11 @@ namespace SliceOfPie_Model
         /// <summary>
         /// Gets a File from the server
         /// </summary>
-        /// <param name="id">ID</param>
+        /// <param name="fileId">ID</param>
         /// <returns>File</returns>
-        public File PullFile(long id)
+        public File PullFile(long fileId)
         {
-            string xml = HTMLMarshalUtil.MarshallId(id);
+            string xml = HtmlMarshalUtil.MarshallId(fileId);
             HttpWebResponse response = Send(xml, "POST");
             return HandleFileResponse(response);
         }
@@ -47,7 +47,7 @@ namespace SliceOfPie_Model
         /// <returns>ID</returns>
         public long PushFile(File file)
         {
-            string xml = HTMLMarshalUtil.MarshallFile(file);
+            string xml = HtmlMarshalUtil.MarshallFile(file);
             HttpWebResponse response = Send(xml, "PUT");
             return HandleIdResponse(response);
         }
@@ -60,7 +60,7 @@ namespace SliceOfPie_Model
         /// <returns>A response from the server to be returned</returns>
         private HttpWebResponse Send(string xml, string method)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:"+ port + "/");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:"+ Port + "/");
             request.Accept = "text/xml,text/html";
             request.Method = method;
             // Creates a byteversion of the XML string
@@ -81,35 +81,47 @@ namespace SliceOfPie_Model
         /// <param name="response">The response from the server</param>
         private FileList HandleFileListResponse(HttpWebResponse response)
         {
+          if (response != null)
+          {
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
-            FileList list = HTMLMarshalUtil.UnMarshallFileList(xml);
+            FileList list = HtmlMarshalUtil.UnMarshallFileList(xml);
             return list;
+          }
+          return null;
         }
 
-        /// <summary>
+      /// <summary>
         /// Handles the result comming from the server
         /// </summary>
         /// <param name="response">The response from the server</param>
         private SliceOfPie_Model.Persistence.File HandleFileResponse(HttpWebResponse response)
-        {
+      {
+        if (response != null)
+          {
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
-            File file = HTMLMarshalUtil.UnmarshallFile(xml);
+            File file = HtmlMarshalUtil.UnmarshallFile(xml);
             return file;
-        }
+          }
+        return null;
+      }
 
-        /// <summary>
+      /// <summary>
         /// Handles the ID comming from the Server
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
         private long HandleIdResponse(HttpWebResponse response)
-        {
+      {
+        if (response != null)
+          {
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
-            long id = HTMLMarshalUtil.UnMarshallId(xml);
+            long id = HtmlMarshalUtil.UnMarshallId(xml);
             return id;
-        }
+          }
+        return 0;
+      }
     }
 }

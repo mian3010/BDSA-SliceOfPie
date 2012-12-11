@@ -16,11 +16,10 @@ using SliceOfPie_Model.Exceptions;
 namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form {
    
-    private Dictionary<String, long> pathsToID;
+    private readonly Dictionary<String, long> _pathsToId;
 
     public File CurrentDocument
-    {
-        get;
+    { private get;
         set;
     }
 
@@ -28,16 +27,16 @@ namespace SliceOfPie_OfflineGUI {
     public event FileEventHandler FileSaved;
     public event EventHandler InterfaceClosing, SynchronizationRequested;
 
-    private EditorWindow editWindow;
+    private readonly EditorWindow _editWindow;
 
-    public MainWindow(Dictionary<String, long> FileTree) {
+    public MainWindow(Dictionary<String, long> fileTree) {
       InitializeComponent();
-      pathsToID = FileTree;
+      _pathsToId = fileTree;
 
       // We only use 1 instance of our Editor.
-      editWindow = new EditorWindow();
-      editWindow.Hide();
-      editWindow.DocumentSaved += DocumentSavedInEditor;
+      _editWindow = new EditorWindow();
+      _editWindow.Hide();
+      _editWindow.DocumentSaved += DocumentSavedInEditor;
     }
 
     private void DocumentSavedInEditor(object sender, string newContent)
@@ -56,7 +55,7 @@ namespace SliceOfPie_OfflineGUI {
         TreeNode root = new TreeNode("Files");
       TreeNode node = root;
       treeView1.Nodes.Add(root);
-        List<String> allPaths = pathsToID.Keys.ToList();
+        List<String> allPaths = _pathsToId.Keys.ToList();
         allPaths.Sort();
       foreach (string filePath in allPaths) {
         node = root;
@@ -76,22 +75,20 @@ namespace SliceOfPie_OfflineGUI {
     }
 
     private void AddNode(XmlNode inXmlNode, TreeNode inTreeNode) {
-      XmlNode xNode;
-      TreeNode tNode;
-      XmlNodeList nodeList;
-      int i;
-
       // Loop through the XML nodes until the leaf is reached.
       // Add the nodes to the TreeView during the looping process.
-      if (inXmlNode.HasChildNodes) {
-        nodeList = inXmlNode.ChildNodes;
+      if (inXmlNode.HasChildNodes)
+      {
+        XmlNodeList nodeList = inXmlNode.ChildNodes;
+        int i;
         for (i = 0; i <= nodeList.Count - 1; i++) {
-          xNode = inXmlNode.ChildNodes[i];
+          XmlNode xNode = inXmlNode.ChildNodes[i];
           inTreeNode.Nodes.Add(new TreeNode(xNode.Name));
-          tNode = inTreeNode.Nodes[i];
+          TreeNode tNode = inTreeNode.Nodes[i];
           AddNode(xNode, tNode);
         }
-      } else {
+      }
+      else {
         // Just add our outer text for now
         inTreeNode.Text = (inXmlNode.OuterXml).Trim();
       }
@@ -111,7 +108,7 @@ namespace SliceOfPie_OfflineGUI {
       /// selected in the tree
       /// </summary>
       /// <returns>ID of the file connected to the node</returns>
-    private long IDFromCurrentNode()
+    private long IdFromCurrentNode()
     {
         List<String> fullPath = new List<String>();
         TreeNode current = treeView1.SelectedNode;
@@ -125,7 +122,7 @@ namespace SliceOfPie_OfflineGUI {
         }
         fullPath.Reverse();
         String cPath = System.IO.Path.Combine(fullPath.ToArray());
-        return pathsToID[cPath];
+        return _pathsToId[cPath];
     }
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -142,10 +139,10 @@ namespace SliceOfPie_OfflineGUI {
     {
         try
         {
-            FileRequested(this, new FileEventArgs(IDFromCurrentNode()));
+            FileRequested(this, new FileEventArgs(IdFromCurrentNode()));
 
-            editWindow.LoadDocContent(CurrentDocument);
-            editWindow.Show();
+            _editWindow.LoadDocContent(CurrentDocument);
+            _editWindow.Show();
         }
         catch (NoNodeSelectedException ex)
         {

@@ -1,40 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
-    private ICommunicator communicator;
-    private INetClient netClient;
+    private readonly ICommunicator _communicator;
+    private readonly INetClient _netClient;
       
     public delegate void FileEventHandler(object sender, File file);
     public event FileEventHandler FilesUpdated, ContentAdded, FileSaved;
 
     //singleton instance
-    public static OfflineAdministrator administrator;
+    private static OfflineAdministrator _administrator;
 
     /// <summary>
     /// Constructs offlineAdministrator with a static rootpath for now.
     /// </summary>
     private OfflineAdministrator() {
-        /// This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
-        communicator = new CommunicatorOfflineAdapter();
+        // This is not very smart I think. Perhaps logger should be a composite object in offline adapter.
+        _communicator = new CommunicatorOfflineAdapter();
      
-        netClient = new NetworkClient();
+        _netClient = new NetworkClient();
     }
 
     public static OfflineAdministrator GetInstance() {
-      if (administrator == null)
-        administrator = new OfflineAdministrator();
-      return administrator;
+      if (_administrator == null)
+        _administrator = new OfflineAdministrator();
+      return _administrator;
     }
 
     public File GetFile(long id)
     {
-        return communicator.GetFile(id);
+        return _communicator.GetFile(id);
     }
 
 
@@ -42,11 +40,11 @@ namespace SliceOfPie_Model {
     {
         if (file.id <= 0)
         {
-            communicator.AddOfflineCreatedFile(file);
+            _communicator.AddOfflineCreatedFile(file);
         }
         else
         {
-            communicator.AddFileFromRemote(file);
+            _communicator.AddFileFromRemote(file);
         }
 
     }
@@ -54,9 +52,9 @@ namespace SliceOfPie_Model {
     public void Synchronize()
     {
         // Get fileList from Communicator
-        FileList oFileList = communicator.FileListHandler.FileList;
+        FileList oFileList = _communicator.FileListHandler.FileList;
         // Send filelist to Server via Client
-        FileList responseList = netClient.SyncServer(oFileList);
+        FileList responseList = _netClient.SyncServer(oFileList);
         // Receive fileList
 
         List<File> conflictFiles = new List<File>();
@@ -65,12 +63,12 @@ namespace SliceOfPie_Model {
             switch (entry.Type)
             {
                 case FileListType.Conflict: 
-                    conflictFiles.Add(netClient.PullFile(entry.Id)); break;
+                    conflictFiles.Add(_netClient.PullFile(entry.Id)); break;
                 case FileListType.Pull:
-                    communicator.AddOfflineCreatedFile(netClient.PullFile(entry.Id)); break;
+                    _communicator.AddOfflineCreatedFile(_netClient.PullFile(entry.Id)); break;
                 case FileListType.Push: 
-                    File toPush = communicator.GetFile(entry.Id);
-                    communicator.UpdateFileID(toPush, netClient.PushFile(toPush)); 
+                    File toPush = _communicator.GetFile(entry.Id);
+                    _communicator.UpdateFileId(toPush, _netClient.PushFile(toPush)); 
                     break;
                     
             }
@@ -80,19 +78,19 @@ namespace SliceOfPie_Model {
     }
 
 
-    private void HandleConflictedFiles(List<File> ConflictedFiles)
+    private void HandleConflictedFiles(List<File> conflictedFiles)
     {
-        /// Here we should alert the user and let him fix conflicted files.
+        // Here we should alert the user and let him fix conflicted files.
     }
        
     public void SaveFile(File file) {
-        communicator.ModifyFile(file);
+        _communicator.ModifyFile(file);
     }
 
   
     public Dictionary<String, long> GetPathsAndIDs()
     {
-        return communicator.FileListHandler.GetPathsWithID();
+        return _communicator.FileListHandler.GetPathsWithId();
     }
 
 
@@ -101,7 +99,7 @@ namespace SliceOfPie_Model {
 
     public void ExitGracefully(object sender, EventArgs e)
     {
-        communicator.FileListHandler.PersistFileList();
+        _communicator.FileListHandler.PersistFileList();
 
     }
   }

@@ -19,39 +19,39 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get the list of approved to receive new files
     /// </summary>
-    private List<long> NewFileList;
+    private List<long> _newFileList;
     public List<long> PendingNewFileList {
       get {
-        if (NewFileList == null) {
-          NewFileList = new List<long>();
+        if (_newFileList == null) {
+          _newFileList = new List<long>();
         }
-        return NewFileList;
+        return _newFileList;
       }
     }
 
     /// <summary>
     /// Get the list of approved to receive modified files
     /// </summary>
-    private List<long> ModFileList;
+    private List<long> _modFileList;
     public List<long> PendingModFileList {
       get {
-        if (ModFileList == null) {
-          ModFileList = new List<long>();
+        if (_modFileList == null) {
+          _modFileList = new List<long>();
         }
-        return ModFileList;
+        return _modFileList;
       }
     }
 
     /// <summary>
     /// Get this singleon instance
     /// </summary>
-    private static RequestHandler tinstance;
-    public static RequestHandler instance {
+    private static RequestHandler _tinstance;
+    public static RequestHandler Instance {
       get {
-        if (tinstance == null) {
-          tinstance = new RequestHandler();
+        if (_tinstance == null) {
+          _tinstance = new RequestHandler();
         }
-        return tinstance;
+        return _tinstance;
       }
     }
 
@@ -60,7 +60,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HTTPProcessor hp) {
+    public void ReceiveFile(File file, HttpProcessor hp) {
       FileReceiver fr = new FileReceiver(file, hp);
       Thread thread = new Thread(() => fr.Receive());
       thread.Start();
@@ -71,11 +71,11 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="fileList"></param>
     /// <param name="hp"></param>
-    public void ReceiveFileList(FileList fileList, HTTPProcessor hp) {
+    public void ReceiveFileList(FileList fileList, HttpProcessor hp) {
       ReviewFileList(fileList, hp);
     }
 
-    private void ReviewFileList(FileList fileList, HTTPProcessor hp) {
+    private void ReviewFileList(FileList fileList, HttpProcessor hp) {
       FileListReviewer fr = new FileListReviewer(fileList, hp);
       Thread thread = new Thread(() => fr.Review());
       thread.Start();
@@ -85,8 +85,9 @@ namespace SliceOfPie_Server {
     /// Get a file from the server
     /// </summary>
     /// <param name="id"></param>
+    /// /// <param name="processor"></param>
     /// <returns></returns>
-    public void GetFile(long id, HTTPProcessor processor) {
+    public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
       File file = Context.GetFile(id);
       processor.RecieveFile(file);
@@ -98,8 +99,8 @@ namespace SliceOfPie_Server {
   /// This will usually be started in a seperate thread.
   /// </summary>
   class FileReceiver {
-    HTTPProcessor hp;
-    File file;
+    readonly HttpProcessor _hp;
+    readonly File _file;
 
     /// <summary>
     /// Constructor. 
@@ -107,9 +108,9 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public FileReceiver(File file, HTTPProcessor hp) {
-      this.file = file;
-      this.hp = hp;
+    public FileReceiver(File file, HttpProcessor hp) {
+      this._file = file;
+      this._hp = hp;
     }
 
     public void Receive() {
@@ -120,18 +121,18 @@ namespace SliceOfPie_Server {
 
       // Determin new or mod
       // If new file
-      if (RequestHandler.instance.PendingNewFileList.Contains(file.id)) {
-         succes = Context.SaveFile(file);
+      if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
+         succes = Context.SaveFile(_file);
 
         // else if mod file
-      } else if (RequestHandler.instance.PendingModFileList.Contains(file.id)) {
-        succes = Context.UpdateFile(file);
+      } else if (RequestHandler.Instance.PendingModFileList.Contains(_file.id)) {
+        succes = Context.UpdateFile(_file);
 
         // else reject
       } else {
 
       }
-      hp.RecieveConfirmation(succes);
+      _hp.RecieveConfirmation(succes);
     }
   }
 
@@ -140,8 +141,8 @@ namespace SliceOfPie_Server {
   /// This will usually be started in a seperate thread.
   /// </summary>
   class FileListReviewer {
-    private FileList fileList;
-    private HTTPProcessor hp;
+    private readonly FileList _fileList;
+    private HttpProcessor _hp;
 
     /// <summary>
     /// Constructor. 
@@ -149,15 +150,15 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="fileList"></param>
     /// <param name="hp"></param>
-    public FileListReviewer(FileList fileList, HTTPProcessor hp) {
-      this.fileList = fileList;
-      this.hp = hp;
+    public FileListReviewer(FileList fileList, HttpProcessor hp) {
+      this._fileList = fileList;
+      this._hp = hp;
     }
 
     public void Review() {
-      foreach (FileListEntry Entry in fileList.List.Values) {
+      foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
-        if (Context.GetFile(Entry.Id) != null) {
+        if (Context.GetFile(entry.Id) != null) {
 
         } else {
 
@@ -171,21 +172,21 @@ namespace SliceOfPie_Server {
       throw new NotImplementedException();
     }
 
-    private void HandleFileRename(FileListEntry Entry) {
+    private void HandleFileRename(FileListEntry entry) {
       // Add change to change table in db
       // Do rename
       // Add change to server log
       throw new NotImplementedException();
     }
 
-    private void HandleFileMove(FileListEntry Entry) {
+    private void HandleFileMove(FileListEntry entry) {
       // Add change to change table in db
       // Change FileInstance path
       // Add change to server log
       throw new NotImplementedException();
     }
 
-    private void HandleFileModify(FileList Entry) {
+    private void HandleFileModify(FileList entry) {
       // Check if okay
       // Add to okay to modify list
       // Program.instance.AddToModifyList(Entry.id); // TODO file id
@@ -193,19 +194,19 @@ namespace SliceOfPie_Server {
       throw new NotImplementedException();
     }
 
-    private void HandleMergeReady(FileList Entry) {
+    private void HandleMergeReady(FileList entry) {
       //Context.
       throw new NotImplementedException();
     }
 
-    private void HandleDeleteFile(FileList Entry) {
+    private void HandleDeleteFile(FileList entry) {
       // Add change to change table in db
       // Do delete
       // Add change to server log
       throw new NotImplementedException();
     }
 
-    private void HandleAddFile(FileList Entry) {
+    private void HandleAddFile(FileList entry) {
       // Check if okay
       // Add to okay to add list // Temp ID?
       // Tell client to PUT file

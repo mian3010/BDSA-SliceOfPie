@@ -12,27 +12,27 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     }
 
     public ActionResult Editor() {
-      Document DocumentToEdit = Models.FileModel.getFile(0);
-      @ViewBag.DocumentTitle = DocumentToEdit.Title;
-      @ViewBag.DocumentContent = DocumentToEdit.Content;
+      Document documentToEdit = Models.FileModel.GetFile(0);
+      @ViewBag.DocumentTitle = documentToEdit.Title;
+      @ViewBag.DocumentContent = documentToEdit.Content;
       return View();
     }
 
     public ActionResult Viewer() {
-      File FileToView = Models.FileModel.getFile(0);
-      @ViewBag.Document = FileToView.ToString();
+      File fileToView = Models.FileModel.GetFile(0);
+      @ViewBag.Document = fileToView.ToString();
       return View();
     }
 
     public ActionResult History() {
-      File FileToView = Models.FileModel.getFile(0);
+      File fileToView = Models.FileModel.GetFile(0);
       try {
-        Document DocumentToView = (Document)FileToView;
-        @ViewBag.Title = DocumentToView.Title;
+        Document documentToView = (Document)fileToView;
+        @ViewBag.Title = documentToView.Title;
       } catch (InvalidCastException e) {
-        @ViewBag.Title = "File: "+FileToView.name;
+        @ViewBag.Title = "File: "+fileToView.name;
       }
-      @ViewBag.DocumentHistory = FileToView.HistoryToString();
+      @ViewBag.DocumentHistory = fileToView.HistoryToString();
       return View();
     }
   }

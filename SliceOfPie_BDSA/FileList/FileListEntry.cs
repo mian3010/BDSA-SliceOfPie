@@ -7,23 +7,23 @@ namespace SliceOfPie_Model {
   public class FileListEntry {
     public long Id { get; set; }
     public float Version { get; set; }
-    private string path;
+    private string _path;
     public string Path { 
         get { 
-            if(path == null) return "none";
+            if(_path == null) return "none";
             else return Path;
             }
-        set { path = Path; }
+        set { _path = Path; }
     }
-    private string name;
+    private string _name;
     public string Name { 
         get {
-            if (name == null) return "none";
-            else return name;       
+            if (_name == null) return "none";
+            else return _name;       
             }
         set
         {
-            name = Name;
+            _name = Name;
         }
     }
     public FileListType Type { get; set; }
