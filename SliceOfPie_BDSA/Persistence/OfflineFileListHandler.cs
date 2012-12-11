@@ -9,28 +9,17 @@ namespace SliceOfPie_Model
 {
     public class OfflineFileListHandler : IFileListHandler
     {
-        public readonly String logpath = @"C:\test\log";
-        public readonly String logfile = "filelist.xml";
+        public readonly String Logpath = @"C:\test\log";
+        public readonly String Logfile = "filelist.xml";
 
-        private FileList p_fileList;
+        private readonly FileList p_fileList;
         public FileList FileList   {
             get
             {
                 return p_fileList;
             }
         }
-
-            public FileList FileList1
-            {
-                get
-                {
-                    throw new System.NotImplementedException();
-                }
-                set
-                {
-                }
-            }
-
+        
 
 
         public OfflineFileListHandler(ICommunicator cm)
@@ -42,10 +31,10 @@ namespace SliceOfPie_Model
             cm.FileRenamed += FileRenamed;
             cm.FilePulled += FilePulled;
 
-            String fullLogPath = System.IO.Path.Combine(logpath, logfile);
-            if (!System.IO.Directory.Exists(logpath))
+            String fullLogPath = System.IO.Path.Combine(Logpath, Logfile);
+            if (!System.IO.Directory.Exists(Logpath))
             {
-                System.IO.Directory.CreateDirectory(logpath);
+                System.IO.Directory.CreateDirectory(Logpath);
             }
             if (System.IO.File.Exists(fullLogPath))
             {
@@ -99,7 +88,7 @@ namespace SliceOfPie_Model
 
         public void PersistFileList()
         {
-            String fullPath = System.IO.Path.Combine(logpath, logfile);
+            String fullPath = System.IO.Path.Combine(Logpath, Logfile);
             String logXML = HtmlMarshalUtil.MarshallFileList(FileList);
             System.IO.File.WriteAllText(fullPath, logXML);
         }

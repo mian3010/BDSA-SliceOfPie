@@ -15,6 +15,7 @@ namespace SliceOfPie_OfflineGUI
         private readonly MainWindow _view;
         private readonly OfflineAdministrator _model;
 
+        [STAThread]
         public static void Main(String[] args)
         {
             new ClientPresenter();

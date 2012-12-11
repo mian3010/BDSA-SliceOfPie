@@ -22,16 +22,13 @@ namespace SliceOfPie_OfflineGUI {
     public event FileEventHandler FileSaved;
     public event EventHandler InterfaceClosing, SynchronizationRequested;
 
-    private readonly EditorWindow _editWindow;
+    private EditorWindow _editWindow;
 
     public MainWindow(Dictionary<String, long> fileTree) {
       InitializeComponent();
       _pathsToId = fileTree;
 
-      // We only use 1 instance of our Editor.
-      _editWindow = new EditorWindow();
-      _editWindow.Hide();
-      _editWindow.DocumentSaved += DocumentSavedInEditor;
+     
     }
 
     private void DocumentSavedInEditor(object sender, string newContent)
@@ -129,7 +126,15 @@ namespace SliceOfPie_OfflineGUI {
       /// <param name="e">Not used, instead uses FileEventArgs which contains a long</param>
     private void button_load_Click(object sender, EventArgs e)
     {
-        try
+          if (_editWindow == null)
+          {
+              // We only use 1 instance of our Editor.
+              _editWindow = new EditorWindow();
+              _editWindow.Hide();
+              _editWindow.DocumentSaved += DocumentSavedInEditor;
+          }
+        
+          try
         {
             FileRequested(this, new FileEventArgs(IdFromCurrentNode()));
 
