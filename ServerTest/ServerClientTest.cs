@@ -26,8 +26,11 @@ namespace ServerTest
             server.Close();
         }
 
+        /// <summary>
+        /// Tests that you cannot save a file that is not in the FileList
+        /// </summary>
         [TestMethod]
-        public void TestSaveFile()
+        public void TestSaveFileNegative()
         {
             NetworkServer server = NetworkServer.GetInstance();
             NetworkClient client = new NetworkClient();
@@ -43,7 +46,7 @@ namespace ServerTest
             serverT.Start();
             Thread.Sleep(1000);
             long id = client.PushFile(doc);
-            Assert.AreEqual(1, id);
+            Assert.AreEqual(-2, id);
             server.Close();
 
         }

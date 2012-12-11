@@ -113,9 +113,8 @@ namespace SliceOfPie_Server
         /// <param name="id"></param>
         public void RecieveConfirmation(long id)
         {
-            string responseString = id.ToString();
+            string responseString = HTMLMarshalUtil.MarshallId(id);
             StreamReader content = new StreamReader(request.InputStream);
-            Console.Out.WriteLine(content.ReadToEnd());
             response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
             Stream stream = response.OutputStream;
