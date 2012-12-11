@@ -12,7 +12,7 @@ namespace SliceOfPie_Server {
   /// </summary>
   class FileListReviewer {
     private readonly FileList _fileList;
-    private HttpProcessor _hp;
+    private readonly HttpProcessor _hp;
 
     /// <summary>
     /// Constructor. 
@@ -30,14 +30,14 @@ namespace SliceOfPie_Server {
       if (usersFilesFromServer.List == null) usersFilesFromServer.List = new Dictionary<long, FileListEntry>();
       foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
-        File fileFromDb = Context.GetFile(entry.Id);
+        FileInstance fileFromDb = Context.GetFile(entry.Id);
         if (fileFromDb != null) {
           var majorEntryVersion = (int)Math.Truncate(entry.Version);
           var minorEntryVersion = (int)(entry.Version - Math.Truncate(entry.Version) * 10);
-          if (fileFromDb.version != null)
+          if (fileFromDb.File.version != null)
           {
-            var majorDbVersion = (int)Math.Truncate((decimal)fileFromDb.version);
-            var minorDbVersion = (int)(entry.Version - Math.Truncate((decimal)fileFromDb.version) * 10);
+            var majorDbVersion = (int)Math.Truncate((decimal)fileFromDb.File.version);
+            var minorDbVersion = (int)(entry.Version - Math.Truncate((decimal)fileFromDb.File.version) * 10);
             if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
               //Client must push their file for merging
               RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);

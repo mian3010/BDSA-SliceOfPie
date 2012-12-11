@@ -13,7 +13,7 @@ namespace SliceOfPie_OfflineGUI {
    
     private readonly Dictionary<String, long> _pathsToId;
 
-    public File CurrentDocument
+    public FileInstance CurrentDocument
     { private get;
         set;
     }

@@ -8,7 +8,7 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  public class Document : File {
+  public class Document : FileInstance {
     public String Title { get; set; }
   
     public IList<String> Authors { get; set; }
@@ -25,7 +25,7 @@ namespace SliceOfPie_Model.Persistence {
           output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
           output.Append("<div class=\"document-view\">");
           output.Append("<ul class=\"metadata-view\">");
-          foreach (FileMetaData metaData in FileMetaDatas) {
+          foreach (FileMetaData metaData in File.FileMetaDatas) {
             output.Append("<li>"+metaData.MetaDataType+": "+metaData+"</li>");
           }
           output.Append("</ul>");

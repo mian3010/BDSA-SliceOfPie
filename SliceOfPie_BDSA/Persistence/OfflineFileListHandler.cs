@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
@@ -19,18 +16,6 @@ namespace SliceOfPie_Model
                 return p_fileList;
             }
         }
-
-            public FileList FileList1
-            {
-                get
-                {
-                    throw new System.NotImplementedException();
-                }
-                set
-                {
-                }
-            }
-
 
 
         public OfflineFileListHandler(ICommunicator cm)
@@ -49,8 +34,8 @@ namespace SliceOfPie_Model
             }
             if (System.IO.File.Exists(fullLogPath))
             {
-                String logXML = System.IO.File.ReadAllText(fullLogPath);
-                p_fileList = HtmlMarshalUtil.UnMarshallFileList(logXML);
+                String logXml = System.IO.File.ReadAllText(fullLogPath);
+                p_fileList = HtmlMarshalUtil.UnMarshallFileList(logXml);
 
             }
             else
@@ -61,7 +46,7 @@ namespace SliceOfPie_Model
             }
         }
 
-        public void FilePulled(File file)
+        public void FilePulled(FileInstance file)
         {
             FileListEntry entry = StandardFileEntry(file);
             entry.Id = file.id;
@@ -69,16 +54,16 @@ namespace SliceOfPie_Model
             // Version from File ?
         }
 
-        private FileListEntry StandardFileEntry(File file)
+        private FileListEntry StandardFileEntry(FileInstance file)
         {
             FileListEntry entry = new FileListEntry();
-            entry.Name = file.name;
-            entry.Path = file.serverpath;
+            entry.Name = file.File.name;
+            entry.Path = file.File.serverpath;
             entry.IsDeleted = false;
             return entry;
         }
 
-        public void FileAdded(File file)
+        public void FileAdded(FileInstance file)
         {
             FileListEntry entry =  StandardFileEntry(file);
             entry.Id = file.id;
@@ -86,37 +71,37 @@ namespace SliceOfPie_Model
             FileList.List.Add(entry.Id, entry);  
         }
 
-        public void FileDeleted(File file)
+        public void FileDeleted(FileInstance file)
         {
             FileList.List.Remove(file.id);
         }
 
-        public void FileRenamed(File file)
+        public void FileRenamed(FileInstance file)
         {
-            FileList.List[file.id].Name = file.name;
+            FileList.List[file.id].Name = file.File.name;
         }
 
 
         public void PersistFileList()
         {
             String fullPath = System.IO.Path.Combine(logpath, logfile);
-            String logXML = HtmlMarshalUtil.MarshallFileList(FileList);
-            System.IO.File.WriteAllText(fullPath, logXML);
+            String logXml = HtmlMarshalUtil.MarshallFileList(FileList);
+            System.IO.File.WriteAllText(fullPath, logXml);
         }
 
-        public void FileChangedOnDisk(File file)
+        public void FileChangedOnDisk(FileInstance file)
         {
             FileList.List[file.id].Version += 0.001m;          
         }
 
-        public void FileChangedOnServer(File file)
+        public void FileChangedOnServer(FileInstance file)
         {
             // We need version, possibly passed on from file?
         }
 
-        public void FileMoved(File file)
+        public void FileMoved(FileInstance file)
         {
-            FileList.List[file.id].Path = file.serverpath;
+            FileList.List[file.id].Path = file.File.serverpath;
         }
 
         public Dictionary<String, long> GetPathsWithId()

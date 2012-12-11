@@ -1,5 +1,4 @@
 ﻿using SliceOfPie_Model.Persistence;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -103,17 +102,17 @@ namespace SliceOfPie_Model {
       DbContext.SaveChanges();
     }
 
-    public static File GetFile(long fileId) {
-      var query = from f in DbContext.Files
+    public static FileInstance GetFile(long fileId) {
+      var query = from f in DbContext.FileInstances
                   where f.id == fileId
                   select f;
       if (!query.Any()) return null;
       return query.First();
     }
 
-    public static long SaveFile(File file) {
+    public static long SaveFile(FileInstance file) {
       if (file == null) return -2;
-      DbContext.Files.AddObject(file);
+      DbContext.Files.AddObject(file.File);
       DbContext.SaveChanges();
 
       // Make sure it was added correctly
@@ -122,15 +121,15 @@ namespace SliceOfPie_Model {
                   select f;
       if (!query.Any()) return -1;
       var tempFile = query.First();
-      if (tempFile.Equals(file)) return file.id;
+      if (tempFile.Equals(file.File)) return file.id;
       return -1;
     }
 
-    public static long UpdateFile(File file) {
+    public static long UpdateFile(FileInstance file) {
       //TODO Change instaead of delete'n'add
       if (file == null) return -2;
-      DbContext.Files.DeleteObject(file);
-      DbContext.Files.AddObject(file);
+      DbContext.Files.DeleteObject(file.File);
+      DbContext.Files.AddObject(file.File);
       DbContext.SaveChanges();
 
       // Make sure it was added correctly
@@ -139,7 +138,7 @@ namespace SliceOfPie_Model {
                   select f;
       if (!query.Any()) return -1;
       var tempFile = query.First();
-      if (tempFile.Equals(file)) return file.id;
+      if (tempFile.Equals(file.File)) return file.id;
       return -1;
     }
 

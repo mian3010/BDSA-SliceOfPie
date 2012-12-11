@@ -18,8 +18,10 @@ namespace SliceOfPie_Server {
 
       // Add files
       File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
-      file.Content.Append("This is a test file. Does this work? \n New line");
-      Context.SaveFile(file);
+      FileInstance fileInstance = FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+
+      fileInstance.Content.Append("This is a test file. Does this work? \n New line");
+      Context.SaveFile(fileInstance);
 
       // Add FileInstance, bind to user
 
@@ -57,7 +59,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HttpProcessor hp) {
+    public void ReceiveFile(FileInstance file, HttpProcessor hp) {
       var fr = new FileReceiver(file, hp);
       var thread = new Thread(fr.Receive);
       thread.Start();
@@ -86,7 +88,7 @@ namespace SliceOfPie_Server {
     /// <returns></returns>
     public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
-      File file = Context.GetFile(id);
+      FileInstance file = Context.GetFile(id);
       processor.RecieveFile(file);
     }
   }
