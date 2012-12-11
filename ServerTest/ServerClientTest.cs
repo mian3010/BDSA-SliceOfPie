@@ -65,17 +65,14 @@ namespace ServerTest
             list.List.Add(e3.Id, e3);
             var serverT = new Thread(server.Listen);
             serverT.Start();
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             FileList returnList = client.SyncServer(list);
             ICollection<long> col = returnList.List.Keys;
             foreach(long l in col)
                 Assert.AreEqual(returnList.List[l].Id, list.List[l].Id);
-            FileListEntry ref1 = returnList.List[1];
-            FileListEntry ref2 = returnList.List[2];
-            FileListEntry ref3 = returnList.List[3];
-            var file = new FileInstance {id = 1, File = {name = "TESTFIL"}};
-          var data = new FileMetaData();
-            long id = client.PushFile(file);
+            //var file = new FileInstance {id = 1, File = {name = "TESTFIL"}};
+            //var data = new FileMetaData();
+            //long id = client.PushFile(file);
             
         }
     }

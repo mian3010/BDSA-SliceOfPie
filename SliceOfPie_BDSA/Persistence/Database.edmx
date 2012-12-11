@@ -545,6 +545,24 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams>
+      <Diagram DiagramId="bedff1449a59482195696a8f97513849" Name="Diagram1">
+        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_File_Project1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.ProjectHasUser" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
   </Designer>
 </edmx:Edmx>

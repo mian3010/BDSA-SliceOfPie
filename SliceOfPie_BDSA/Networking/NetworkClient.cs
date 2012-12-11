@@ -60,7 +60,7 @@ namespace SliceOfPie_Model {
     /// <param name="method">The REST method</param>
     /// <returns>A response from the server to be returned</returns>
     private System.IO.Stream Send(byte[] data, string method) {
-      var request = WebRequest.Create("http://localhost:" + Port);
+      var request = WebRequest.Create("http://localhost:" + Port + "/");
       request.Method = method;
       var requestStream = request.GetRequestStream();
       requestStream.Write(data, 0, data.Length);
