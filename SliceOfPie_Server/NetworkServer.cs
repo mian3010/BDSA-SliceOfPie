@@ -6,7 +6,7 @@ namespace SliceOfPie_Server
     public class NetworkServer
     {
         //Default port = 8080
-      private int _port;
+      private readonly int _port;
         HttpListener _listener;
         bool _isActive = true;
         private static NetworkServer _server;

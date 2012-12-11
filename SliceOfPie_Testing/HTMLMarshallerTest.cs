@@ -10,19 +10,19 @@ namespace SliceOfPie_Testing
     [TestClass]
     public class HTMLMarshallerTest
     {
-        List<File> testInput = new List<File>();
-        File testOne;
-        File testTwo;
-        File testThree;
-        File testFour;
-        File testFive;
+        List<FileInstance> testInput = new List<FileInstance>();
+        FileInstance testOne;
+        FileInstance testTwo;
+        FileInstance testThree;
+        FileInstance testFour;
+        FileInstance testFive;
 
         /// <summary>
-        /// Test method that creates 5 files with input
+        /// Test method that creates 5 fileInstances with input
         /// </summary>
         /// <returns> List of test files
         [TestMethod]
-        public List<File> FileTestInput()
+        public List<FileInstance> FileInstanceTestInput()
         {
             MetaDataType authorType = new MetaDataType();
             authorType.Type = "Author";
@@ -34,46 +34,46 @@ namespace SliceOfPie_Testing
 
 
             //Test input for test file
-            testOne = new File();
+            testOne = new FileInstance();
             testOne.id = 1;
-            testOne.name = "Document 1";
-            testOne.serverpath = "Testclass/HTMLMarshallerTest/testOne";
-            testOne.Project_id = 1;
+            testOne.File.name = "Document 1";
+            testOne.File.serverpath = "Testclass/HTMLMarshallerTest/testOne";
+            testOne.File.Project_id = 1;
             testOne.UserEmail = "morr@itu.com";
-            testOne.FileMetaDatas.Add(authorTypeValue);
+            testOne.File.FileMetaDatas.Add(authorTypeValue);
 
-            testTwo = new File();
-            testTwo.id = 2;
-            testTwo.name = "Document 2";
-            testTwo.serverpath = "Testclass/HTMLMarshallerTest/testTwo";
-            testTwo.Project_id = 2;
-            testTwo.UserEmail = "morr@itu.com";
-            testTwo.FileMetaDatas.Add(authorTypeValue);
+            testTwo = new FileInstance();
+            testTwo.id = 0;
+            testTwo.File.name = "";
+            testTwo.File.serverpath = "";
+            testTwo.File.Project_id = 0;
+            testTwo.UserEmail = "";
+            testTwo.File.FileMetaDatas.Add(authorTypeValue);
 
-            testThree = new File();
-            testThree.id = 3;
-            testThree.name = "Document 3";
-            testThree.serverpath = "Testclass/HTMLMarshallerTest/testthree";
-            testThree.Project_id = 3;
-            testThree.UserEmail = "morr@itu.com";
-            testThree.FileMetaDatas.Add(authorTypeValue);
-            testThree.FileMetaDatas.Add(authorTypeValue);
+            testThree = new FileInstance();
+            testThree.id = -3;
+            testThree.File.name = "33333333333";
+            testThree.File.serverpath = "333333333333333333333333333";
+            testThree.File.Project_id = 3;
+            testThree.UserEmail = "33333333333";
+            testThree.File.FileMetaDatas.Add(authorTypeValue);
+            testThree.File.FileMetaDatas.Add(authorTypeValue);
 
-            testFour = new File();
-            testFour.id = 4;
-            testFour.name = "Document 4";
-            testFour.serverpath = "Testclass/HTMLMarshallerTest/testFour";
-            testFour.Project_id = 4;
-            testFour.UserEmail = "morr@itu.com";
-            testFour.FileMetaDatas.Add(authorTypeValue);
+            testFour = new FileInstance();
+            testFour.id = 2147483647;
+            testFour.File.name = "!#¤%&/()=?+}@£½§€{][";
+            testFour.File.serverpath = "!#¤%&/()=?+}@£½§€{][";
+            testFour.File.Project_id = 2147483647;
+            testFour.UserEmail = "!#¤%&/()=?+}@£½§€{][jio";
+            testFour.File.FileMetaDatas.Add(authorTypeValue);
 
-            testFive = new File();
-            testFive.id = 5;
-            testFive.name = "Document 5";
-            testFive.serverpath = "Testclass/HTMLMarshallerTest/testFive";
-            testFive.Project_id = 5;
+            testFive = new FileInstance();
+            testFive.id = -2147483648;
+            testFive.File.name = "Document 5";
+            testFive.File.serverpath = "Testclass/HTMLMarshallerTest/testFive";
+            testFive.File.Project_id = 2147483647;
             testFive.UserEmail = "morr@itu.com";
-            testFive.FileMetaDatas.Add(authorTypeValue);
+            testFive.File.FileMetaDatas.Add(authorTypeValue);
             
             //test files added to list.
             testInput.Add(testOne);
@@ -90,17 +90,17 @@ namespace SliceOfPie_Testing
         public void TestMarshalling()
         {
 
-            foreach (File testFile in testInput)
+            foreach (FileInstance testFileInstance in testInput)
             {
-                String marshalledFile = HtmlMarshalUtil.MarshallFile(testFile);
-                File unmarshalledFile = HtmlMarshalUtil.UnmarshallFile(marshalledFile);
+                String marshalledFile = HtmlMarshalUtil.MarshallFile(testFileInstance);
+                FileInstance unmarshalledFile = HtmlMarshalUtil.UnmarshallDocument(marshalledFile);
 
-                Assert.AreEqual(unmarshalledFile.id, testFile.id);
-                Assert.AreEqual(unmarshalledFile.name, testFile.name);
-                Assert.AreEqual(unmarshalledFile.serverpath, testFile.serverpath);
-                Assert.AreEqual(unmarshalledFile.Project_id, testFile.Project_id);
-                Assert.AreEqual(unmarshalledFile.UserEmail, testFile.UserEmail);
-                Assert.AreEqual(unmarshalledFile.FileMetaDatas, testFile.FileMetaDatas);
+                Assert.AreEqual(unmarshalledFile.id, testFileInstance.id);
+                Assert.AreEqual(unmarshalledFile.File.name, testFileInstance.File.name);
+                Assert.AreEqual(unmarshalledFile.File.serverpath, testFileInstance.File.serverpath);
+                Assert.AreEqual(unmarshalledFile.File.Project_id, testFileInstance.File.Project_id);
+                Assert.AreEqual(unmarshalledFile.UserEmail, testFileInstance.UserEmail);
+                Assert.AreEqual(unmarshalledFile.File.FileMetaDatas, testFileInstance.File.FileMetaDatas);
 
                 Assert.AreNotEqual(unmarshalledFile.id, 99999);
             }

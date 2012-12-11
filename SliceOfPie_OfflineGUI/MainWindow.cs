@@ -10,12 +10,12 @@ using SliceOfPie_Model.Exceptions;
 
 namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form {
-   
+
     private readonly Dictionary<String, long> _pathsToId;
 
-    public Document CurrentDocument
-    { private get;
-        set;
+    public Document CurrentDocument {
+      private get;
+      set;
     }
 
     public event FileRequestHandler FileRequested;
@@ -31,31 +31,29 @@ namespace SliceOfPie_OfflineGUI {
      
     }
 
-    private void DocumentSavedInEditor(object sender, string newContent)
-    {
-        CurrentDocument.Content = newContent;
+    private void DocumentSavedInEditor(object sender, string newContent) {
+      CurrentDocument.Content = newContent;
 
-        FileSaved(CurrentDocument);
+      FileSaved(CurrentDocument);
     }
-    
-      /// <summary>
-      /// Builds a tree structure from the full file paths of all files located in the
-      /// FileListHandler. 
-      /// </summary>
+
+    /// <summary>
+    /// Builds a tree structure from the full file paths of all files located in the
+    /// FileListHandler. 
+    /// </summary>
     private void InitializeTree() {
-        var root = new TreeNode("Files");
+      var root = new TreeNode("Files");
       TreeNode node = root;
       treeView1.Nodes.Add(root);
-        List<String> allPaths = _pathsToId.Keys.ToList();
-        allPaths.Sort();
+      List<String> allPaths = _pathsToId.Keys.ToList();
+      allPaths.Sort();
       foreach (string filePath in allPaths) {
         filePath.Split('/').Aggregate(root, AddNode);
       }
       treeView1.ExpandAll();
 
     }
-    private TreeNode AddNode(TreeNode node, string key)
-    {
+    private TreeNode AddNode(TreeNode node, string key) {
       if (node.Nodes.ContainsKey(key)) {
         return node.Nodes[key];
       }
@@ -65,8 +63,7 @@ namespace SliceOfPie_OfflineGUI {
     private void AddNode(XmlNode inXmlNode, TreeNode inTreeNode) {
       // Loop through the XML nodes until the leaf is reached.
       // Add the nodes to the TreeView during the looping process.
-      if (inXmlNode.HasChildNodes)
-      {
+      if (inXmlNode.HasChildNodes) {
         XmlNodeList nodeList = inXmlNode.ChildNodes;
         int i;
         for (i = 0; i <= nodeList.Count - 1; i++) {
@@ -75,8 +72,7 @@ namespace SliceOfPie_OfflineGUI {
           TreeNode tNode = inTreeNode.Nodes[i];
           AddNode(xNode, tNode);
         }
-      }
-      else {
+      } else {
         // Just add our outer text for now
         inTreeNode.Text = (inXmlNode.OuterXml).Trim();
       }
@@ -86,31 +82,28 @@ namespace SliceOfPie_OfflineGUI {
       InitializeTree();
     }
 
-    private void Form3_Load(object sender, EventArgs e) 
-    {
+    private void Form3_Load(object sender, EventArgs e) {
 
     }
 
-      /// <summary>
-      /// Returns the ID of file located in the NOde that's currently
-      /// selected in the tree
-      /// </summary>
-      /// <returns>ID of the file connected to the node</returns>
-    private long IdFromCurrentNode()
-    {
-        var fullPath = new List<String>();
-        TreeNode current = treeView1.SelectedNode;
-        if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
-        fullPath.Add(current.Name);
+    /// <summary>
+    /// Returns the ID of file located in the NOde that's currently
+    /// selected in the tree
+    /// </summary>
+    /// <returns>ID of the file connected to the node</returns>
+    private long IdFromCurrentNode() {
+      var fullPath = new List<String>();
+      TreeNode current = treeView1.SelectedNode;
+      if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
+      fullPath.Add(current.Name);
 
-        while (current.Parent != null)
-        {
-            fullPath.Add(current.Parent.Name);
-            current = current.Parent;
-        }
-        fullPath.Reverse();
-        String cPath = System.IO.Path.Combine(fullPath.ToArray());
-        return _pathsToId[cPath];
+      while (current.Parent != null) {
+        fullPath.Add(current.Parent.Name);
+        current = current.Parent;
+      }
+      fullPath.Reverse();
+      String cPath = System.IO.Path.Combine(fullPath.ToArray());
+      return _pathsToId[cPath];
     }
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -144,6 +137,7 @@ namespace SliceOfPie_OfflineGUI {
         {
             Console.Out.WriteLine(ex);
         }
+
     }
 
     /// <summary>
@@ -151,28 +145,24 @@ namespace SliceOfPie_OfflineGUI {
     /// save the current file in the editor (TODO).
     /// </summary>
     /// <param name="e">FormClosingEventArgs (not used)</param>
-    protected override void OnFormClosing(FormClosingEventArgs e)
-    {
-        if (InterfaceClosing != null)
-            InterfaceClosing(this, null);
+    protected override void OnFormClosing(FormClosingEventArgs e) {
+      if (InterfaceClosing != null)
+        InterfaceClosing(this, null);
 
-        base.OnFormClosing(e);
+      base.OnFormClosing(e);
     }
 
-    private void button_synchronize_Click(object sender, EventArgs e)
-    {
-        SynchronizationRequested(this, null);
+    private void button_synchronize_Click(object sender, EventArgs e) {
+      SynchronizationRequested(this, null);
     }
 
-    public EditorWindow EditorWindow
-    {
-      get
-        {
-            throw new NotImplementedException();
-        }
+    public EditorWindow EditorWindow {
+      get {
+        throw new NotImplementedException();
+      }
       set { throw new NotImplementedException(); }
     }
   }
-   
+
 }
 

@@ -1,13 +1,88 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SliceOfPie_Model;
 using System.Collections.Generic;
 using SliceOfPie_Model.Persistence;
+using SliceOfPie_Model;
+using System.Diagnostics;
 namespace SliceOfPie_Testing
 {
     [TestClass]
     public class LoggingTests
     {
+        HTMLMarshallerTest marshallerTest;
+        List<FileInstance> fileInstanceInput;
+        CommunicatorOfflineAdapter communicatorOfflineAdaptor = CommunicatorOfflineAdapter.GetCommunicatorInstance();
+
+        private void GetTestFiles()
+        {
+            //instans of HTMLMarshallerTest clas to get test files.
+            marshallerTest = new HTMLMarshallerTest();
+            fileInstanceInput = marshallerTest.FileInstanceTestInput();
+        }
+        
+
+        [TestMethod]
+        public void TestAddOffLineCreatedFiles(List<FileInstance> fileInstanceInput)
+        {
+            // Add all test files to local disc.
+            foreach (FileInstance testFileInstance in fileInstanceInput)
+            {
+                communicatorOfflineAdaptor.AddOfflineCreatedFile(testFileInstance);
+            }
+        }
+        
+
+        [TestMethod]
+        public void TestRenameFiles(List<FileInstance> fileInstanceInput)
+        {
+            int i = 1;
+            foreach (FileInstance testFile in fileInstanceInput)
+            {
+                communicatorOfflineAdaptor.RenameFile(testFile, "Document" + i);
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void TestMoveFiles(List<FileInstance> fileInstanceInput)
+        {
+            foreach (FileInstance testFileInstance in fileInstanceInput)
+            {
+                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.File.serverpath + "/newTestFolder");
+            }
+        }
+
+
+        [TestMethod]
+        public void CheckEntries(List<FileInstance> fileInstanceInput)
+        {
+            int i = 0;
+            IFileListHandler fileListHandler = communicatorOfflineAdaptor.FileListHandler;
+            FileList fileList = fileListHandler.FileList;
+
+            Debug.WriteLine("Document" + i + "'s path is" + fileList.List[i].Path);
+
+            TestAddOffLineCreatedFiles(fileInstanceInput);
+
+            foreach (FileInstance testFileInstance in fileInstanceInput)
+            {
+                Assert.AreEqual(fileList.List[i].Id, testFileInstance.id);
+                Assert.AreEqual(fileList.List[i].Version, testFileInstance.File.Version);
+                Assert.AreEqual(fileList.List[i].Name, testFileInstance.File.name);
+                Assert.AreEqual(fileList.List[i].Path, testFileInstance.File.serverpath);
+                i++;
+            }
+
+            
+        }
+
+
+
+
+
+
+
+
     //    private FileList BasicFileList(bool saveLog)
     //    {
     //        List<File> rig = FileCommunicatorTests.GetTestRig();
@@ -28,6 +103,8 @@ namespace SliceOfPie_Testing
     //        return l.FileList;
 
     //    }
+
+
 
     }
 }

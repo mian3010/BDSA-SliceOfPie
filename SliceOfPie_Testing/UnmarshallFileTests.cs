@@ -14,17 +14,17 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestUnmarshallFile()
         {
-            List<File> rig = FileCommunicatorTests.GetTestRig();
-            List<File> results = new List<File>();
-            foreach (File file in rig)
+            List<FileInstance> rig = FileCommunicatorTests.GetTestRig();
+            List<FileInstance> results = new List<FileInstance>();
+            foreach (FileInstance fileInstance in rig)
             {
                 /// We assume that the marshalls of file works. TO-DO MAke manual XML to
                 /// remove this dependency.
-                String xml = HtmlMarshalUtil.MarshallFile(file);
-                File resfile = HtmlMarshalUtil.UnmarshallFile(xml);
+                String xml = HtmlMarshalUtil.MarshallFile(fileInstance);
+                FileInstance resfile = HtmlMarshalUtil.UnmarshallDocument(xml);
                 results.Add(resfile);
             
-                Debug.WriteLine(resfile.id + " " + resfile.name + " " + resfile.serverpath);
+                Debug.WriteLine(resfile.id + " " + resfile.File.name + " " + resfile.File.serverpath);
             }
             
 
