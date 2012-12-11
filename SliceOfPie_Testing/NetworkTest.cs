@@ -1,4 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SliceOfPie_Model;
+using System.Collections.Generic;
 
 namespace SliceOfPie_Testing
 {

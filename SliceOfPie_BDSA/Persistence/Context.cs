@@ -14,14 +14,17 @@ namespace SliceOfPie_Model {
       var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   select u;
+      if (!query.Any<User>()) return null;
       return query.ToArray<User>();
     }
 
     public static User GetUsers(string email) {
+      if (email == null || email.Trim() == "") return null;
       var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
+      if (!query.Any<User>()) return null;
       return (User)query;
     }
 
@@ -31,10 +34,12 @@ namespace SliceOfPie_Model {
       var query = from meta in DbContext.FileMetaDatas
                   where meta.File_id == FileId
                   select meta;
+      if (!query.Any<FileMetaData>()) return null;
       return query.ToArray<FileMetaData>();
     }
 
     public static void AddUser(string email){
+      if (email == null || email.Trim() == "") return;
       var DbContext = new SliceOfLifeEntities();
       User user = User.CreateUser(email);
       DbContext.AddToUsers(user);
@@ -42,19 +47,24 @@ namespace SliceOfPie_Model {
     }
 
     public static void DeleteUser(string email) {
+      if (email == null || email.Trim() == "") return;
       var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
+      if (!query.Any<User>()) return;
       DbContext.DeleteObject(query.First<User>());
       DbContext.SaveChanges();
     }
 
-    public static Dictionary<long, FileListEntry> GetServerFileList(string email) {
+    public static Dictionary<long, FileListEntry> GetServerFileList(string email)
+    {
+      if (email == null || email.Trim() == "") return null;
       var DbContext = new SliceOfLifeEntities();
       var query = from e in DbContext.FileInstances
                   where e.User_email == email
                   select e;
+      if (!query.Any<FileInstance>()) return null;
       foreach (var e in query.ToArray()) {
         Console.WriteLine(e.ToString());
       }
@@ -66,10 +76,13 @@ namespace SliceOfPie_Model {
       var query = from f in DbContext.Files
                   where f.id == fileId
                   select f;
+      if (!query.Any<File>()) return null;
       return query.First<File>();
     }
 
-    public static long SaveFile(File file) {
+    public static long SaveFile(File file)
+    {
+      if (file == null) return -2;
       var DbContext = new SliceOfLifeEntities();
       DbContext.Files.AddObject(file);
       DbContext.SaveChanges();
@@ -78,6 +91,7 @@ namespace SliceOfPie_Model {
       var query = from f in DbContext.Files
                   where f.id == file.id
                   select f;
+      if (!query.Any<File>()) return -1;
       File tempFile = query.First<File>();
       if(tempFile.Equals(file)) return file.id;
       else return -1;
@@ -85,6 +99,7 @@ namespace SliceOfPie_Model {
 
     public static long UpdateFile(File file) {
       //TODO Change instaead of delete'n'add
+      if (file == null) return -2;
       var DbContext = new SliceOfLifeEntities();
       DbContext.Files.DeleteObject(file);
       DbContext.Files.AddObject(file);
@@ -94,6 +109,7 @@ namespace SliceOfPie_Model {
       var query = from f in DbContext.Files
                   where f.id == file.id
                   select f;
+      if (!query.Any<File>()) return -1;
       File tempFile = query.First<File>();
       if (tempFile.Equals(file)) return file.id;
       else return -1;
