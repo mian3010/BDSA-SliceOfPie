@@ -64,8 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\MergeImpossibleException.cs" />
     <Compile Include="Exceptions\NoNodeSelectedException.cs" />
+    <Compile Include="Exceptions\NotADocumentException.cs" />
     <Compile Include="FileList\FileListEntry.cs" />
+    <Compile Include="MergePolicy.cs" />
     <Compile Include="Networking\INetClient.cs" />
     <Compile Include="Persistence\Database.Designer.cs">
       <AutoGen>True</AutoGen>

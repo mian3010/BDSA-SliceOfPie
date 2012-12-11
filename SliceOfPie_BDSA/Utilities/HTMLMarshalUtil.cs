@@ -119,7 +119,7 @@ namespace SliceOfPie_Model
                 entry.Id = Int64.Parse(m.Element("ID").Value);
                 entry.Name = m.Element("fileName").Value;
                 entry.Path = m.Element("filePath").Value;
-                entry.Version = float.Parse(m.Element("version").Value);
+                entry.Version = decimal.Parse(m.Element("version").Value);
                 entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
                 switch (m.Element("type").Value)
                 {

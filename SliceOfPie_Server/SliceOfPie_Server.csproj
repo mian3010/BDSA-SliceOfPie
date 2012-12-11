@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileReceiver.cs" />
+    <Compile Include="FileReviewer.cs" />
     <Compile Include="HTTPProcessor.cs" />
     <Compile Include="NetworkServer.cs" />
     <Compile Include="RequestHandler.cs" />
