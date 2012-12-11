@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SliceOfPie_Model;
+
 using SliceOfPie_Model.Persistence;
+
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
 

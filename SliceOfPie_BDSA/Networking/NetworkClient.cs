@@ -14,7 +14,9 @@ namespace SliceOfPie_Model
 {
     public class NetworkClient : INetClient
     {
-        private int port = 8080;
+        private bool is_active;
+        private const int port = 8080;
+
 
         /// <summary>
         /// Sends the FileList to the Server and initializes the synchronization process

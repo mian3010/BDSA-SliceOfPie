@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="dbc2e765-1e27-4dc7-90a4-fab530a85e69"
+  name="Persistence"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="1f41c5d1-b24a-49af-add1-0deeda68f399"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DSliceOfPie_Model.Persistence"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="505f5538-2077-4f5c-939e-b7357e04f2d5"
+        name="File"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="315c6ec5-4a33-429c-9e45-1ddb8f40c2a5"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FMagnus%2FDropbox%2FITU%2FBDSA%2FSliceOfPie%2FSliceOfPie_BDSA%2Fbin%2FDebug%2FSliceOfPie_Model.dll Namespace%3DSliceOfPie_Model.Persistence Type%3DFile"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="91e948ba-8422-4521-95b0-bacbd5000bd9"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2a8af10a-1572-4643-a9ba-a2d81c141003">
+                <propertyInstance
+                  Id="76140b7c-9d4d-4888-82d5-2a0f7e36bcbb"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2422bf42-2c6f-4378-af79-37213c17c43e">
+                <propertyInstance
+                  Id="cd632075-ad5f-4aa9-8533-bb89fa652101"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0fb178ca-7199-4741-b72b-df1827bf458f">
+                <propertyInstance
+                  Id="70b56887-eb1c-4cec-baf6-a47301bf7e60"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2f9044f2-5bb5-41f8-829a-8bf531724264">
+                <propertyInstance
+                  Id="cd4304ee-56bc-4d94-8c28-4ac82e44bd95"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="eba7fcc6-6078-40a6-b648-e12b8a18672b">
+                <propertyInstance
+                  Id="5914d1b7-358f-4209-9d7b-24fd416d6040"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="cf6d0df1-6a0f-4d25-95d6-3defbed17240"
+        name="User"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="084c84d8-b651-4daf-a38e-22b6ec37c80b"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FMagnus%2FDropbox%2FITU%2FBDSA%2FSliceOfPie%2FSliceOfPie_BDSA%2Fbin%2FDebug%2FSliceOfPie_Model.dll Namespace%3DSliceOfPie_Model.Persistence Type%3DUser"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="c43d1bb6-9a03-43e3-b70d-d611e6a8e8ff"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="dd8ad40a-6426-4364-baa2-3395ac4ae14b">
+                <propertyInstance
+                  Id="cae1fa1f-94cc-43e7-84a8-b5af3a2aebf4"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="712aeb7b-3d92-48fb-a738-d05806f03a2d">
+                <propertyInstance
+                  Id="3e4839ac-9624-4c4f-9427-836b8c600460"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="091e3fe9-0aac-48fd-8666-ca937900a833">
+                <propertyInstance
+                  Id="03d3e1dc-bc96-4380-ae83-59945d412353"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="eae263e9-61f9-42a6-9a5e-608212b1daa5">
+                <propertyInstance
+                  Id="e491e18b-b699-492e-88a7-df4256950d64"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="53c02fe1-2a0a-41d5-8ad9-4d908ae36e3c">
+                <propertyInstance
+                  Id="4e0d763a-4278-4e23-a49c-9039e47992e3"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2693e81e-2828-4866-9469-a1c2ccab8f53"
+        name="FileMetaData"
+        visibility="Private"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="a9d3249b-5c83-4b31-9a18-4001f7e6bc2d"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FMagnus%2FDropbox%2FITU%2FBDSA%2FSliceOfPie%2FSliceOfPie_BDSA%2Fbin%2FDebug%2FSliceOfPie_Model.dll Namespace%3DSliceOfPie_Model.Persistence Type%3D(Name%3DFileMetaData ArrayRank%3D1 ParentType%3DFileMetaData)"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="420c3933-29e8-40b8-ad59-817fb9dfff89"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="459e6745-567d-49ec-8022-e0d3e001357e">
+                <propertyInstance
+                  Id="15004aef-c963-4113-afbc-5546dab1c7e0"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="489c6689-fcb2-4b4a-bbff-6526bf585c55">
+                <propertyInstance
+                  Id="45e92f36-e5bf-4d96-bdee-a5e49aa19df3"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="44c7fffb-b9a6-4592-bfeb-3cc0a57984ac">
+                <propertyInstance
+                  Id="420f696b-afbb-4da8-a56d-32453af0eaaa"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f3bb0f67-ab15-4913-b1e9-31d1f003b015">
+                <propertyInstance
+                  Id="d99b3d36-b7fa-4128-a707-ab013186fab0"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8868eace-1cb1-4546-9f2a-58d0870924c0">
+                <propertyInstance
+                  Id="3f3aa805-a5a3-473a-b764-2940b6497711"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b221a291-a707-4c6b-a3d8-40a2c80ef4d5"
+        name="Document"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="a305ccf9-b7da-4be5-9d23-d827b89ae7d6"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FMagnus%2FDropbox%2FITU%2FBDSA%2FSliceOfPie%2FSliceOfPie_BDSA%2Fbin%2FDebug%2FSliceOfPie_Model.dll Namespace%3DSliceOfPie_Model.Persistence Type%3DDocument"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="d8d84ff5-1ad5-4067-9224-9349fab23ae4"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="374a1b35-9b0a-4368-8893-54c972fd677e">
+                <propertyInstance
+                  Id="ccd4028b-3373-4a68-b18a-7b1e1c2309b8"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="27a641c1-ddb4-4b7d-b6f7-26748c475a10">
+                <propertyInstance
+                  Id="e1a7c200-7eb5-451e-a0a2-ec39f9d8f9b2"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="44b89cbd-a61e-41e0-937e-4271656a6be2">
+                <propertyInstance
+                  Id="6bd824a6-4b16-44de-a0bd-5da7c096f36c"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="31608c49-7a5e-48d7-a5ab-efc8c59f7011">
+                <propertyInstance
+                  Id="0184cb55-ac22-4e38-b4a1-48160d252520"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0a8687b7-01dd-4426-9803-c8d5aaa3d90a">
+                <propertyInstance
+                  Id="9eb9bd28-8a1f-43d1-94ad-e19f6dd4cced"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="c19e7716-482b-4c48-9f6c-90a7f17db27d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="505f5538-2077-4f5c-939e-b7357e04f2d5"
+              LastKnownName="File"
+              LastKnownLocation="Package1_0952.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

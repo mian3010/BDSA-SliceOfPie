@@ -72,7 +72,7 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestAddFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
+            CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
             List<File> rig = GetTestRig();
        
             foreach (File file in rig)
@@ -85,7 +85,7 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestRenameFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
+            CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
             List<File> rig = GetTestRig();
             AddFileRig(ts, rig);
             foreach (File file in rig)
@@ -102,7 +102,7 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestDeleteFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
+            CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
             foreach (File file in GetTestRig())
             {
                 ts.DeleteFile(file);
@@ -114,7 +114,7 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestMoveFile()
         {
-            CommunicatorOfflineAdapter ts = new CommunicatorOfflineAdapter();
+            CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
             List<File> rig = GetTestRig();
             AddFileRig(ts, rig);
             foreach (File file in rig)

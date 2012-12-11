@@ -29,7 +29,7 @@ namespace SliceOfPie_Model {
     }
     public FileListType Type { get; set; }
     public bool IsDeleted { get; set; }
-
+    
     /// <summary>
     /// Author: Claus35-DK - clih@itu.dk
     /// </summary>
