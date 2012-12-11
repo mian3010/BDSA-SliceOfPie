@@ -25,7 +25,7 @@ CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`File` (
   `name` VARCHAR(400) NOT NULL ,
   `serverpath` VARCHAR(400) NOT NULL ,
   `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
-  `Project_id` INT NOT NULL ,
+  `Project_id` INT NULL ,
   `Version` DECIMAL(30,30) NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_File_Project1_idx` (`Project_id` ASC) ,
@@ -156,6 +156,5 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 \end{spverbatim}
 \newpage
