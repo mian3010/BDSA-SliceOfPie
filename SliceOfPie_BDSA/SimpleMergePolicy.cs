@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,15 +17,15 @@ namespace SliceOfPie_Model
         /// The original document before changes</param>
         /// <param name="latest">The latest document with changes made</param>
         /// <returns>A copy of the document metadata along with the new content.</returns>
-        internal override Document MergeDocuments(Document original, Document latest)
+        protected override Document MergeDocuments(Document original, Document latest)
         {
             const string splitPattern = @"(?<=[.])";
-            Regex splitter = new Regex(splitPattern);
+            var splitter = new Regex(splitPattern);
 
-            string[] originalArray = splitter.Split(original.Content.ToString()).Where(s => s != String.Empty).ToArray<string>();
-            string[] latestArray = splitter.Split(latest.Content.ToString()).Where(s => s != String.Empty).ToArray<string>();
+            string[] originalArray = splitter.Split(original.Content.ToString()).Where(s => s != String.Empty).ToArray();
+            string[] latestArray = splitter.Split(latest.Content.ToString()).Where(s => s != String.Empty).ToArray();
        
-            StringBuilder merged = new StringBuilder();
+            var merged = new StringBuilder();
 
             int o = 0;
             int n = 0;

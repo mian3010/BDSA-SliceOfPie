@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
-using System.Net.Sockets;
 using System.IO;
 using SliceOfPie_Model;
-using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Server
 {
@@ -18,15 +13,15 @@ namespace SliceOfPie_Server
     /// </summary>
     public class HttpProcessor
     {
-        private readonly HttpListenerRequest request;
-        private readonly HttpListenerResponse response;
-        private readonly RequestHandler handler;
+        private readonly HttpListenerRequest _request;
+        private readonly HttpListenerResponse _response;
+        private readonly RequestHandler _handler;
 
         public HttpProcessor(HttpListenerContext context, RequestHandler handler)
         {
-            request = context.Request;
-            response = context.Response;
-            this.handler = handler;
+            _request = context.Request;
+            _response = context.Response;
+            _handler = handler;
         }
 
         /// <summary>
@@ -36,31 +31,31 @@ namespace SliceOfPie_Server
         public void Process()
         {
             Console.Out.WriteLine("starting to process");
-            string httpMethod = request.HttpMethod;
-            Stream inputStream = request.InputStream;
+            string httpMethod = _request.HttpMethod;
+            Stream inputStream = _request.InputStream;
             // Determines which http-method is called.
             try
             {
                 if (httpMethod == "PUT")
                 {
-                    StreamReader reader = new StreamReader(inputStream);
+                    var reader = new StreamReader(inputStream);
                     string xml = reader.ReadToEnd();
                     SliceOfPie_Model.Persistence.File file = HtmlMarshalUtil.UnmarshallFile(xml);
-                    handler.ReceiveFile(file, this);
+                    _handler.ReceiveFile(file, this);
                 }
                 else if (httpMethod == "POST")
                 {
-                    StreamReader reader = new StreamReader(inputStream);
+                    var reader = new StreamReader(inputStream);
                     string s = reader.ReadToEnd();
                     if (s.Contains("FileID"))
                     {
                         long id = HtmlMarshalUtil.UnMarshallId(s);
-                        handler.GetFile(id, this);
+                        _handler.GetFile(id, this);
                     }
                     else
                     {
                         FileList list = HtmlMarshalUtil.UnMarshallFileList(s);
-                        handler.ReceiveFileList(list, this);
+                        _handler.ReceiveFileList(list, this);
                     }
                 }
                 else
@@ -82,11 +77,11 @@ namespace SliceOfPie_Server
         public void RecieveFileList(FileList list)
         {
             string responseString = HtmlMarshalUtil.MarshallFileList(list);
-            StreamReader content = new StreamReader(request.InputStream);
+            var content = new StreamReader(_request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
-            response.ContentLength64 = responseString.Length;
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }
@@ -98,11 +93,11 @@ namespace SliceOfPie_Server
         public void RecieveFile(SliceOfPie_Model.Persistence.File file)
         {
             string responseString = HtmlMarshalUtil.MarshallFile(file);
-            StreamReader content = new StreamReader(request.InputStream);
+            var content = new StreamReader(_request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
-            response.ContentLength64 = responseString.Length;
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }
@@ -115,11 +110,11 @@ namespace SliceOfPie_Server
         public void RecieveConfirmation(long id)
         {
             string responseString = id.ToString(CultureInfo.InvariantCulture);
-            StreamReader content = new StreamReader(request.InputStream);
+            var content = new StreamReader(_request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
-            response.ContentLength64 = responseString.Length;
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }

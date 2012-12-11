@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using SliceOfPie_Model.Persistence;
@@ -52,26 +47,23 @@ namespace SliceOfPie_OfflineGUI {
       /// FileListHandler. 
       /// </summary>
     private void InitializeTree() {
-        TreeNode root = new TreeNode("Files");
+        var root = new TreeNode("Files");
       TreeNode node = root;
       treeView1.Nodes.Add(root);
         List<String> allPaths = _pathsToId.Keys.ToList();
         allPaths.Sort();
       foreach (string filePath in allPaths) {
-        node = root;
-        foreach (string pathBits in filePath.Split('/')) {
-          node = AddNode(node, pathBits);
-        }
+        filePath.Split('/').Aggregate(root, AddNode);
       }
       treeView1.ExpandAll();
 
     }
-    private TreeNode AddNode(TreeNode node, string key) {
+    private TreeNode AddNode(TreeNode node, string key)
+    {
       if (node.Nodes.ContainsKey(key)) {
         return node.Nodes[key];
-      } else {
-        return node.Nodes.Add(key, key);
       }
+      return node.Nodes.Add(key, key);
     }
 
     private void AddNode(XmlNode inXmlNode, TreeNode inTreeNode) {
@@ -110,7 +102,7 @@ namespace SliceOfPie_OfflineGUI {
       /// <returns>ID of the file connected to the node</returns>
     private long IdFromCurrentNode()
     {
-        List<String> fullPath = new List<String>();
+        var fullPath = new List<String>();
         TreeNode current = treeView1.SelectedNode;
         if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
         fullPath.Add(current.Name);
@@ -170,17 +162,12 @@ namespace SliceOfPie_OfflineGUI {
 
     public EditorWindow EditorWindow
     {
-        get
+      get
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-        set
-        {
-        }
+      set { throw new NotImplementedException(); }
     }
-
-  
-  
   }
    
 }

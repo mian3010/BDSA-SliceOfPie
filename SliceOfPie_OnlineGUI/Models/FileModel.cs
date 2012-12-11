@@ -1,36 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Globalization;
-using System.Text;
-using System.Web.Security;
+﻿using System.Collections.Generic;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OnlineGUI.Models {
   public class FileModel {
     private IDictionary<int, File> _fileList;
     public static Document GetFile(int id) {
-      Document d = new Document();
+      var d = new Document();
 
-      MetaDataType metaDataType1 = new MetaDataType();
-      metaDataType1.Type = "Created date";
-      FileMetaData fileMetaData1 = new FileMetaData();
-      fileMetaData1.MetaDataType = metaDataType1;
-      fileMetaData1.value = "2012-11-27 10:23:11";
+      var metaDataType1 = new MetaDataType {Type = "Created date"};
+      var fileMetaData1 = new FileMetaData {MetaDataType = metaDataType1, value = "2012-11-27 10:23:11"};
 
-      MetaDataType metaDataType2 = new MetaDataType();
-      metaDataType2.Type = "Owner";
-      FileMetaData fileMetaData2 = new FileMetaData();
-      fileMetaData2.MetaDataType = metaDataType2;
-      fileMetaData2.value = "Michael Søby Andersen";
+      var metaDataType2 = new MetaDataType {Type = "Owner"};
+      var fileMetaData2 = new FileMetaData {MetaDataType = metaDataType2, value = "Michael Søby Andersen"};
 
-      MetaDataType metaDataType3 = new MetaDataType();
-      metaDataType3.Type = "Type";
-      FileMetaData fileMetaData3 = new FileMetaData();
-      fileMetaData3.MetaDataType = metaDataType3;
-      fileMetaData3.value = "Document";
+      var metaDataType3 = new MetaDataType {Type = "Type"};
+      var fileMetaData3 = new FileMetaData {MetaDataType = metaDataType3, value = "Document"};
 
       d.FileMetaDatas.Add(fileMetaData1);
       d.FileMetaDatas.Add(fileMetaData2);

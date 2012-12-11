@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
@@ -12,28 +9,24 @@ namespace SliceOfPie_Model
       private const String Logpath = @"C:\test\log";
       private const String Logfile = "filelist.xml";
 
-      private readonly FileList p_fileList;
+      private readonly FileList _pFileList;
         public FileList FileList   {
             get
             {
-                return p_fileList;
+                return _pFileList;
             }
         }
 
         public FileList FileList1
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
+          get {
+            throw new System.NotImplementedException();
+          }
+          set { throw new NotImplementedException(); }
         }
 
 
-
-        public OfflineFileListHandler(ICommunicator cm)
+      public OfflineFileListHandler(ICommunicator cm)
         {
             cm.FileAdded += FileAdded;
             cm.FileChanged += FileChangedOnDisk;
@@ -50,12 +43,12 @@ namespace SliceOfPie_Model
             if (System.IO.File.Exists(fullLogPath))
             {
                 String logXml = System.IO.File.ReadAllText(fullLogPath);
-                p_fileList = HtmlMarshalUtil.UnMarshallFileList(logXml);
+                _pFileList = HtmlMarshalUtil.UnMarshallFileList(logXml);
 
             }
             else
             {
-                p_fileList = new FileList();
+                _pFileList = new FileList();
                 FileList.List = new Dictionary<long, FileListEntry>();
                 FileList.IncrementCounter = -1;
             }
@@ -71,11 +64,8 @@ namespace SliceOfPie_Model
 
         private FileListEntry StandardFileEntry(File file)
         {
-            FileListEntry entry = new FileListEntry();
-            entry.Name = file.name;
-            entry.Path = file.serverpath;
-            entry.IsDeleted = false;
-            return entry;
+            var entry = new FileListEntry {Name = file.name, Path = file.serverpath, IsDeleted = false};
+          return entry;
         }
 
       private void FileAdded(File file)
@@ -121,7 +111,7 @@ namespace SliceOfPie_Model
 
         public Dictionary<String, long> GetPathsWithId()
         {
-            Dictionary<String, long> dic = new Dictionary<String, long>();
+            var dic = new Dictionary<String, long>();
 
             foreach (FileListEntry entry in FileList.List.Values)
             {

@@ -4,7 +4,6 @@ using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
 using SliceOfPie_Server;
 using System.Threading;
-using System.Data.Entity;
 using System.Collections.Generic;
 
 namespace ServerTest
@@ -64,7 +63,7 @@ namespace ServerTest
             var serverT = new Thread(server.Listen);
             serverT.Start();
             Thread.Sleep(1000);
-            FileList returnList = client.SyncServer(list);
+            client.SyncServer(list);
         }
     }
 }

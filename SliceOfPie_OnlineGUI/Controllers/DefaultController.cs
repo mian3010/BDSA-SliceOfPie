@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SliceOfPie_Model.Persistence;
 
@@ -27,7 +24,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     public ActionResult History() {
       File fileToView = Models.FileModel.GetFile(0);
       try {
-        Document documentToView = (Document)fileToView;
+        var documentToView = (Document)fileToView;
         @ViewBag.Title = documentToView.Title;
       } catch (InvalidCastException e) {
         @ViewBag.Title = "File: "+fileToView.name;

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Web.WebPages.OAuth;
-using SliceOfPie_OnlineGUI.Models;
-
-namespace SliceOfPie_OnlineGUI {
+﻿namespace SliceOfPie_OnlineGUI {
   public static class AuthConfig {
     public static void RegisterAuth() {
       // To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,

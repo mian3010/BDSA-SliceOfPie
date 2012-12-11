@@ -5,8 +5,8 @@ using SliceOfPie_Model.Persistence;
 namespace SliceOfPie_Model {
   public class OfflineAdministrator : IAdministrator {
 
-    private ICommunicator _communicator;
-    private INetClient _netClient;
+    private readonly ICommunicator _communicator;
+    private readonly INetClient _netClient;
      
     //singleton instance
     private static OfflineAdministrator _administrator;
@@ -54,7 +54,7 @@ namespace SliceOfPie_Model {
         FileList responseList = _netClient.SyncServer(oFileList);
         // Receive fileList
 
-        List<File> conflictFiles = new List<File>();
+        var conflictFiles = new List<File>();
         foreach (FileListEntry entry in responseList.List.Values)
         {
             switch (entry.Type)

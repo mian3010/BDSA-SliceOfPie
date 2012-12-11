@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
@@ -21,7 +17,7 @@ namespace SliceOfPie_Model {
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
         private readonly OfflineFileListHandler _fileListHandler;
 
-        private static CommunicatorOfflineAdapter adapter;
+        private static CommunicatorOfflineAdapter _adapter;
 
         public IFileListHandler FileListHandler
         {
@@ -32,7 +28,7 @@ namespace SliceOfPie_Model {
 
         public static CommunicatorOfflineAdapter GetCommunicatorInstance()
         {
-            return adapter ?? (adapter = new CommunicatorOfflineAdapter());
+            return _adapter ?? (_adapter = new CommunicatorOfflineAdapter());
         }
 
         private CommunicatorOfflineAdapter()
@@ -46,18 +42,17 @@ namespace SliceOfPie_Model {
         /// <param name="file">The file to add from a remote location</param>
         /// <returns>True if successful, false otherwise</returns>
       public bool AddFileFromRemote(File file)
-      {
+        {
           if (AddNewFile(file))
           {
               if (FilePulled != null)
                   FilePulled(file);
               return true;
           }
-          else return false;    
+          return false;
+        }
 
-      }
-
-    private bool AddNewFile(File file) {
+      private bool AddNewFile(File file) {
 
         if(!System.IO.Directory.Exists(file.serverpath)) {
             System.IO.Directory.CreateDirectory(file.serverpath);
@@ -69,14 +64,10 @@ namespace SliceOfPie_Model {
             System.IO.File.WriteAllText(fullpath, fileHtml);
             return true;
         }
-        else
-        {
-            // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
-            System.IO.File.WriteAllText(fullpath, fileHtml);
-            return true;
-        }
-
-    }
+        // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
+        System.IO.File.WriteAllText(fullpath, fileHtml);
+        return true;
+      }
 
       /// <summary>
       /// Add a new file to the disk with either the serverpath specified in the file or the default rootpath.
@@ -94,8 +85,7 @@ namespace SliceOfPie_Model {
                 FileAdded(file);
             return true;
         }
-        else return false;    
-
+        return false;
     }
 
     /// <summary>
@@ -220,10 +210,7 @@ namespace SliceOfPie_Model {
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
 

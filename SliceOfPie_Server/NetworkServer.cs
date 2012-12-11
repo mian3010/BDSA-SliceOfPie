@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
-using System.Threading;
+﻿using System.Threading;
 using System.Net;
 
 namespace SliceOfPie_Server
@@ -16,18 +10,16 @@ namespace SliceOfPie_Server
         HttpListener _listener;
         bool _isActive = true;
         private static NetworkServer _server;
-      readonly RequestHandler handler;
+      readonly RequestHandler _handler;
 
         public static NetworkServer GetInstance()
         {
-            if (_server == null)
-                _server = new NetworkServer(8080, RequestHandler.Instance);
-            return _server;
+          return _server ?? (_server = new NetworkServer(8080, RequestHandler.Instance));
         }
-   
-        private NetworkServer(int port, RequestHandler handler) {
-            this._port = port;
-            this.handler = handler;
+
+      private NetworkServer(int port, RequestHandler handler) {
+            _port = port;
+            _handler = handler;
         }
     
         /// <summary>
@@ -39,8 +31,8 @@ namespace SliceOfPie_Server
             _listener.Start();
             while (_isActive) {
                 HttpListenerContext context = _listener.GetContext();
-                HttpProcessor processor = new HttpProcessor(context, handler);
-                Thread thread = new Thread(() => processor.Process());
+                var processor = new HttpProcessor(context, _handler);
+                var thread = new Thread(processor.Process);
                 thread.Start();
                 Thread.Sleep(1);
              }

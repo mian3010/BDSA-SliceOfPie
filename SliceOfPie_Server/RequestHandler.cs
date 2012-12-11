@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SliceOfPie_Model;
 using System.Threading;
 using SliceOfPie_Model.Persistence;
@@ -37,12 +33,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     private List<long> _newFileList;
     public List<long> PendingNewFileList {
-      get {
-        if (_newFileList == null) {
-          _newFileList = new List<long>();
-        }
-        return _newFileList;
-      }
+      get { return _newFileList ?? (_newFileList = new List<long>()); }
     }
 
     /// <summary>
@@ -50,12 +41,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     private Dictionary<long, FileListEntry> _modFileList;
     public Dictionary<long, FileListEntry> PendingModFileList {
-      get {
-        if (_modFileList == null) {
-          _modFileList = new Dictionary<long, FileListEntry>();
-        }
-        return _modFileList;
-      }
+      get { return _modFileList ?? (_modFileList = new Dictionary<long, FileListEntry>()); }
     }
 
     /// <summary>
@@ -63,12 +49,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     private static RequestHandler _tinstance;
     public static RequestHandler Instance {
-      get {
-        if (_tinstance == null) {
-          _tinstance = new RequestHandler();
-        }
-        return _tinstance;
-      }
+      get { return _tinstance ?? (_tinstance = new RequestHandler()); }
     }
 
     /// <summary>
@@ -77,8 +58,8 @@ namespace SliceOfPie_Server {
     /// <param name="file"></param>
     /// <param name="hp"></param>
     public void ReceiveFile(File file, HttpProcessor hp) {
-      FileReceiver fr = new FileReceiver(file, hp);
-      Thread thread = new Thread(() => fr.Receive());
+      var fr = new FileReceiver(file, hp);
+      var thread = new Thread(fr.Receive);
       thread.Start();
     }
 
@@ -92,8 +73,8 @@ namespace SliceOfPie_Server {
     }
 
     private void ReviewFileList(FileList fileList, HttpProcessor hp) {
-      FileListReviewer fr = new FileListReviewer(fileList, hp);
-      Thread thread = new Thread(() => fr.Review());
+      var fr = new FileListReviewer(fileList, hp);
+      var thread = new Thread(fr.Review);
       thread.Start();
     }
 

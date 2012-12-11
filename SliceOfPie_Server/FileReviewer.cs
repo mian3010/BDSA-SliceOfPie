@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
 
@@ -14,8 +10,8 @@ namespace SliceOfPie_Server {
   /// Author: mian3010 - msoa@itu.dk
   /// </summary>
   class FileListReviewer {
-    private FileList fileList;
-    private HttpProcessor hp;
+    private readonly FileList _fileList;
+    private HttpProcessor _hp;
 
     /// <summary>
     /// Constructor. 
@@ -24,34 +20,37 @@ namespace SliceOfPie_Server {
     /// <param name="fileList"></param>
     /// <param name="hp"></param>
     public FileListReviewer(FileList fileList, HttpProcessor hp) {
-      this.fileList = fileList;
-      this.hp = hp;
+      _fileList = fileList;
+      _hp = hp;
     }
 
     public void Review() {
-      FileList UsersFilesFromServer = Context.GetFileList("lala"); //hp.user
-      foreach (FileListEntry Entry in fileList.List.Values) {
+      FileList usersFilesFromServer = Context.GetFileList("lala"); //hp.user
+      foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
-        File FileFromDb = Context.GetFile(Entry.Id);
-        if (FileFromDb != null) {
-          int MajorEntryVersion = (int)Math.Truncate(Entry.Version);
-          int MinorEntryVersion = (int)(Entry.Version - Math.Truncate(Entry.Version) * 10);
-          int MajorDbVersion = (int)Math.Truncate((decimal)FileFromDb.version);
-          int MinorDbVersion = (int)(Entry.Version - Math.Truncate((decimal)FileFromDb.version) * 10);
-          if ((MajorEntryVersion == MajorDbVersion && MinorEntryVersion != MinorDbVersion) || (MajorEntryVersion < MajorDbVersion && MinorEntryVersion > 0)) {
-            //Client must push their file for merging
-            RequestHandler.Instance.PendingModFileList.Add(Entry.Id, Entry);
-            UsersFilesFromServer.List[Entry.Id].Type = FileListType.Push;
-          } else if (MajorEntryVersion < MajorDbVersion && MinorEntryVersion == 0) {
-            //Client does not have the latest file, and must pull it.
-            RequestHandler.Instance.PendingModFileList.Add(Entry.Id, Entry);
-            UsersFilesFromServer.List[Entry.Id].Type = FileListType.Pull;
-          } else UsersFilesFromServer.List.Remove(Entry.Id); //File on client and server is the same
+        File fileFromDb = Context.GetFile(entry.Id);
+        if (fileFromDb != null) {
+          var majorEntryVersion = (int)Math.Truncate(entry.Version);
+          var minorEntryVersion = (int)(entry.Version - Math.Truncate(entry.Version) * 10);
+          if (fileFromDb.version != null)
+          {
+            var majorDbVersion = (int)Math.Truncate((decimal)fileFromDb.version);
+            var minorDbVersion = (int)(entry.Version - Math.Truncate((decimal)fileFromDb.version) * 10);
+            if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
+              //Client must push their file for merging
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+              usersFilesFromServer.List[entry.Id].Type = FileListType.Push;
+            } else if (majorEntryVersion < majorDbVersion && minorEntryVersion == 0) {
+              //Client does not have the latest file, and must pull it.
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+              usersFilesFromServer.List[entry.Id].Type = FileListType.Pull;
+            } else usersFilesFromServer.List.Remove(entry.Id); //File on client and server is the same
+          }
         } else {
           //Server does not have file, Client must therefore push it.
-          RequestHandler.Instance.PendingNewFileList.Add(Entry.Id);
-          Entry.Type = FileListType.Push;
-          UsersFilesFromServer.List.Add(Entry.Id, Entry);
+          RequestHandler.Instance.PendingNewFileList.Add(entry.Id);
+          entry.Type = FileListType.Push;
+          usersFilesFromServer.List.Add(entry.Id, entry);
         }
       }
       //hp.something(fileList);

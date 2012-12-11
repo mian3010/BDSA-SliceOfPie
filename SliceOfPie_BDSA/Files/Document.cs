@@ -14,17 +14,13 @@ namespace SliceOfPie_Model.Persistence {
     public IList<String> Authors { get; set; }
 
 
-        public Document()
-        {
-        }
-
-        public override string GetContent()
+    public override string GetContent()
         {
             return Content.ToString();
         }
 
         public override string ToString() {
-          StringBuilder output = new StringBuilder();
+          var output = new StringBuilder();
           output.Append("<div class=\"document\">");
           output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
           output.Append("<div class=\"document-view\">");
@@ -39,7 +35,7 @@ namespace SliceOfPie_Model.Persistence {
         }
 
     public new string HistoryToString() {
-      StringBuilder output = new StringBuilder();
+      var output = new StringBuilder();
       output.Append("<ol>");
       output.Append("<li>Document created</li>");
       output.Append("<li>Document saved</li>");
@@ -48,7 +44,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     static internal Document CreateTestDocument(String s) {
-      Document d = new Document();
+      var d = new Document();
       d.Content.Append(s);
       return d;
     }

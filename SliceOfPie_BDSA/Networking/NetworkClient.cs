@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Net;
-using System.Net.Sockets;
 using SliceOfPie_Model.Persistence;
-using System.Diagnostics;
-using SliceOfPie_Model;
-using System.Threading;
 
 namespace SliceOfPie_Model
 {
@@ -61,7 +53,7 @@ namespace SliceOfPie_Model
         /// <returns>A response from the server to be returned</returns>
         private HttpWebResponse Send(string xml, string method)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:"+ Port + "/");
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:"+ Port + "/");
             request.Accept = "text/xml,text/html";
             request.Method = method;
             // Creates a byteversion of the XML string
@@ -84,7 +76,7 @@ namespace SliceOfPie_Model
         {
           if (response != null)
           {
-            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            var reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
             FileList list = HtmlMarshalUtil.UnMarshallFileList(xml);
             return list;
@@ -100,7 +92,7 @@ namespace SliceOfPie_Model
       {
         if (response != null)
           {
-            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            var reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
             File file = HtmlMarshalUtil.UnmarshallFile(xml);
             return file;
@@ -117,7 +109,7 @@ namespace SliceOfPie_Model
       {
         if (response != null)
           {
-            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            var reader = new System.IO.StreamReader(response.GetResponseStream());
             string xml = reader.ReadToEnd();
             long id = HtmlMarshalUtil.UnMarshallId(xml);
             return id;
