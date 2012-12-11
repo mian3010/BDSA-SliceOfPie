@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
@@ -31,7 +30,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public ActionResult Login(LoginModel model, string returnUrl) {
-      if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)) {
+      if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, model.RememberMe)) {
         return RedirectToLocal(returnUrl);
       }
 
@@ -141,9 +140,8 @@ namespace SliceOfPie_OnlineGUI.Controllers {
 
           if (changePasswordSucceeded) {
             return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-          } else {
-            ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
           }
+          ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
         }
       } else {
         // User does not have a local password so remove any validation errors caused by a missing
@@ -195,13 +193,12 @@ namespace SliceOfPie_OnlineGUI.Controllers {
         // If the current user is logged in add the new account
         OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
         return RedirectToLocal(returnUrl);
-      } else {
-        // User is new, ask for their desired membership name
-        string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-        ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-        ViewBag.ReturnUrl = returnUrl;
-        return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
       }
+      // User is new, ask for their desired membership name
+      string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+      ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+      ViewBag.ReturnUrl = returnUrl;
+      return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
     }
 
     //
@@ -211,8 +208,8 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl) {
-      string provider = null;
-      string providerUserId = null;
+      string provider;
+      string providerUserId;
 
       if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId)) {
         return RedirectToAction("Manage");
@@ -220,7 +217,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
 
       if (ModelState.IsValid) {
         // Insert a new user into the database
-        using (UsersContext db = new UsersContext()) {
+        using (var db = new UsersContext()) {
           UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
           // Check if user already exists
           if (user == null) {
@@ -232,9 +229,8 @@ namespace SliceOfPie_OnlineGUI.Controllers {
             OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
             return RedirectToLocal(returnUrl);
-          } else {
-            ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
           }
+          ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
         }
       }
 
@@ -261,28 +257,24 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     [ChildActionOnly]
     public ActionResult RemoveExternalLogins() {
       ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-      List<ExternalLogin> externalLogins = new List<ExternalLogin>();
-      foreach (OAuthAccount account in accounts) {
-        AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
-
-        externalLogins.Add(new ExternalLogin {
-          Provider = account.Provider,
-          ProviderDisplayName = clientData.DisplayName,
-          ProviderUserId = account.ProviderUserId,
-        });
-      }
+      var externalLogins = (from account in accounts
+                            let clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider)
+                            select new ExternalLogin
+                              {
+                                Provider = account.Provider, ProviderDisplayName = clientData.DisplayName, ProviderUserId = account.ProviderUserId,
+                              }).ToList();
 
       ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
       return PartialView("_RemoveExternalLoginsPartial", externalLogins);
     }
 
     #region Helpers
-    private ActionResult RedirectToLocal(string returnUrl) {
+    private ActionResult RedirectToLocal(string returnUrl)
+    {
       if (Url.IsLocalUrl(returnUrl)) {
         return Redirect(returnUrl);
-      } else {
-        return RedirectToAction("Index", "Default");
       }
+      return RedirectToAction("Index", "Default");
     }
 
     public enum ManageMessageId {
@@ -291,14 +283,14 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       RemoveLoginSuccess,
     }
 
-    internal class ExternalLoginResult : ActionResult {
+    private class ExternalLoginResult : ActionResult {
       public ExternalLoginResult(string provider, string returnUrl) {
         Provider = provider;
         ReturnUrl = returnUrl;
       }
 
-      public string Provider { get; private set; }
-      public string ReturnUrl { get; private set; }
+      private string Provider { get; set; }
+      private string ReturnUrl { get; set; }
 
       public override void ExecuteResult(ControllerContext context) {
         OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);

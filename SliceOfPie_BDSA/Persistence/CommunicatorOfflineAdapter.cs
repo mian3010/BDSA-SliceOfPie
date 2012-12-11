@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
@@ -19,18 +15,25 @@ namespace SliceOfPie_Model {
     public class CommunicatorOfflineAdapter : ICommunicator {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
-        private OfflineFileListHandler fileListHandler;
-        
+        private readonly OfflineFileListHandler _fileListHandler;
+
+        private static CommunicatorOfflineAdapter _adapter;
+
         public IFileListHandler FileListHandler
         {
-            get { return fileListHandler; } 
+            get { return _fileListHandler; } 
         }
     
       public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
-      public CommunicatorOfflineAdapter()
+        public static CommunicatorOfflineAdapter GetCommunicatorInstance()
+        {
+            return _adapter ?? (_adapter = new CommunicatorOfflineAdapter());
+        }
+
+        private CommunicatorOfflineAdapter()
       {
-          fileListHandler = new OfflineFileListHandler(this);
+          _fileListHandler = new OfflineFileListHandler(this);
       }
 
         /// <summary>
@@ -38,38 +41,33 @@ namespace SliceOfPie_Model {
         /// </summary>
         /// <param name="file">The file to add from a remote location</param>
         /// <returns>True if successful, false otherwise</returns>
-      public bool AddFileFromRemote(File file)
-      {
+      public bool AddFileFromRemote(FileInstance file)
+        {
           if (AddNewFile(file))
           {
               if (FilePulled != null)
                   FilePulled(file);
               return true;
           }
-          else return false;    
-
-      }
-
-    private bool AddNewFile(File file) {
-
-        if(!System.IO.Directory.Exists(file.serverpath)) {
-            System.IO.Directory.CreateDirectory(file.serverpath);
+          return false;
         }
-        string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
-        String fileHTML = HTMLMarshalUtil.MarshallFile(file);
+
+      private bool AddNewFile(FileInstance file) {
+
+        if(!System.IO.Directory.Exists(file.File.serverpath)) {
+            System.IO.Directory.CreateDirectory(file.File.serverpath);
+        }
+        string fullpath = System.IO.Path.Combine(file.File.serverpath, file.File.name);
+        String fileHtml = HtmlMarshalUtil.MarshallFile(file);
         if (!System.IO.File.Exists(fullpath))
         {
-            System.IO.File.WriteAllText(fullpath, fileHTML);
+            System.IO.File.WriteAllText(fullpath, fileHtml);
             return true;
         }
-        else
-        {
-            // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
-            System.IO.File.WriteAllText(fullpath, fileHTML);
-            return true;
-        }
-
-    }
+        // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
+        System.IO.File.WriteAllText(fullpath, fileHtml);
+        return true;
+      }
 
       /// <summary>
       /// Add a new file to the disk with either the serverpath specified in the file or the default rootpath.
@@ -78,17 +76,16 @@ namespace SliceOfPie_Model {
       /// <param name="file">The file to be added. Does not need a id or a path. Has to be created with an offline client.
       /// </param>
       /// <returns>Boolean indicating whether the creation was succesful</returns>
-    public bool AddOfflineCreatedFile(File file)
+    public bool AddOfflineCreatedFile(FileInstance file)
     {
-        file.id = FileListHandler.FileList.incrementCounter--;
+        file.id = FileListHandler.FileList.IncrementCounter--;
         if (AddNewFile(file))
         {
             if (FileAdded != null)
                 FileAdded(file);
             return true;
         }
-        else return false;    
-
+        return false;
     }
 
     /// <summary>
@@ -97,7 +94,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="file">The file to modify</param>
     /// <returns></returns>
-    public bool ModifyFile(File file) {
+    public bool ModifyFile(FileInstance file) {
 
         if(file == null){
             throw new ArgumentException();
@@ -119,7 +116,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="file">The file to be deleted. Need a full path to work</param>
     /// <returns>True if sucessful, failure in any exception case</returns>
-    public bool DeleteFile(File file)
+    public bool DeleteFile(FileInstance file)
     {
         //Is metadata availible.
         if (file.deleted <= 0)
@@ -131,7 +128,7 @@ namespace SliceOfPie_Model {
         {
     
             //Delete the file through System.IO.File class, not Slice Of Pie File class.
-            String deletePath = System.IO.Path.Combine(file.serverpath, file.name);
+            String deletePath = System.IO.Path.Combine(file.File.serverpath, file.File.name);
             Debug.WriteLine(deletePath); 
             System.IO.File.Delete(deletePath);
 
@@ -141,7 +138,7 @@ namespace SliceOfPie_Model {
         }
         catch (System.IO.IOException e)
         {
-            throw new System.IO.IOException("Deleting File on disk :" + file.name + " failed."); 
+            throw new System.IO.IOException("Deleting File on disk :" + file.File.name + " failed."); 
         }
       
     }
@@ -152,18 +149,18 @@ namespace SliceOfPie_Model {
       /// </summary>
       /// <param name="file">The old file path and name</param>
       /// <param name="newName">The new name of the file. NB: THIS IS ONLY THE FILENAME NOT PATH</param>
-    public void RenameFile(File file, string newName)
+    public void RenameFile(FileInstance file, string newName)
     {
         // Should be less than zero, flag for deleted. If zero might not be initialized.
         if (file.deleted < 0)
         {
             throw new ArgumentException();
         }
-        string fullPath = System.IO.Path.Combine(file.serverpath, file.name);
-        string newFullPath = System.IO.Path.Combine(file.serverpath, newName);
+        string fullPath = System.IO.Path.Combine(file.File.serverpath, file.File.name);
+        string newFullPath = System.IO.Path.Combine(file.File.serverpath, newName);
        
         MoveFile(fullPath, newFullPath);
-        file.name = newName;
+        file.File.name = newName;
 
         if (FileRenamed != null)
             FileRenamed(file);
@@ -180,7 +177,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="file">The file to move and it's old path</param>
     /// <param name="newPath">The new path</param>
-    public void MoveFile(File file, string newPath) {
+    public void MoveFile(FileInstance file, string newPath) {
         if (file.deleted < 0)
         {
             throw new ArgumentException();
@@ -189,13 +186,13 @@ namespace SliceOfPie_Model {
         {
             System.IO.Directory.CreateDirectory(newPath);
         }
-        string fullPath = System.IO.Path.Combine(file.serverpath, file.name);
-        string newFullPath = System.IO.Path.Combine(newPath, file.name);
+        string fullPath = System.IO.Path.Combine(file.File.serverpath, file.File.name);
+        string newFullPath = System.IO.Path.Combine(newPath, file.File.name);
 
         MoveFile(fullPath, newFullPath);
 
         // Change the file path... in the old file [good idea yet?]
-        file.serverpath = newPath;
+        file.File.serverpath = newPath;
         if (FileMoved != null)
             FileMoved(file);
     }
@@ -204,19 +201,16 @@ namespace SliceOfPie_Model {
       /// </summary>
       /// <param name="file">The file to search for</param>
       /// <returns>True if the file is found, false if not existing (at least not in root path)</returns>
-    public Boolean FindFile(File file)
+    public Boolean FindFile(FileInstance file)
     {
-        String searchPath = file.serverpath;
-        searchPath = System.IO.Path.Combine(searchPath, file.name);
+        String searchPath = file.File.serverpath;
+        searchPath = System.IO.Path.Combine(searchPath, file.File.name);
 
         if (System.IO.File.Exists(searchPath))
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
 
@@ -226,22 +220,22 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="id">The id of the file to retrieve</param>
     /// <returns></returns>
-    public File GetFile(long id)
+    public FileInstance GetFile(long id)
     {
-        FileListEntry fileInfo = fileListHandler.FileList.List[id];
+        FileListEntry fileInfo = _fileListHandler.FileList.List[id];
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
-        File loadedFile = HTMLMarshalUtil.UnmarshallFile(html);
-        loadedFile.serverpath = fileInfo.Path;
-        loadedFile.name = fileInfo.Name;
+        FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
+        loadedFile.File.serverpath = fileInfo.Path;
+        loadedFile.File.name = fileInfo.Name;
 
         return loadedFile;
     
     }
 
 
-    public void UpdateFileID(File file, long newID)
+    public void UpdateFileId(FileInstance file, long newId)
     {
         throw new NotImplementedException();
     }

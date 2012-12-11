@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.IO;
 
 namespace SliceOfPie_Model.Persistence {
-  public partial class File {
+  
+  public partial class FileInstance {
 
     public String UserEmail {
       get;
       set;
     }
 
-    private StringBuilder priv_Content;
-    public StringBuilder Content {
-      get {
-        if (priv_Content == null) {
-          priv_Content = new StringBuilder();
-        }
-        return priv_Content;
-      }
-      set {
-        priv_Content = value;
-      }
+    internal byte[] PrivContent;
+    public byte[] Content {
+      get { return PrivContent; }
+      set { PrivContent = value; }
     }
 
     public virtual String GetContent() {
@@ -32,10 +23,10 @@ namespace SliceOfPie_Model.Persistence {
 
 
     public override string ToString() {
-        return Content.ToString();
+      return Content.ToString();
     }
     public string HistoryToString() {
-      StringBuilder output = new StringBuilder();
+      var output = new StringBuilder();
       output.Append("<ol>");
       output.Append("<li>File created</li>");
       output.Append("<li>File saved</li>");

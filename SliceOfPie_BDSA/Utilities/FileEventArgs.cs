@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SliceOfPie_Model
 {
     public class FileEventArgs : EventArgs
     {
-        public long FileID;
+        public readonly long FileId;
 
-        public FileEventArgs(long FileID)
+        public FileEventArgs(long fileId)
         {
-            this.FileID = FileID;
+            FileId = fileId;
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Windows.Forms;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
@@ -23,25 +18,35 @@ namespace SliceOfPie_OfflineGUI
             //Makes the html editable
             webBrowser1.Navigate("about:blank");
             Application.DoEvents();
-            webBrowser1.Document.OpenNew(false).Write("<html><body><div id=\"editable\">Edit this text</div></body></html>");
+          if (webBrowser1.Document != null)
+          {
+            var htmlDocument = webBrowser1.Document.OpenNew(false);
+            if (htmlDocument != null)
+              htmlDocument.Write("<html><body><div id=\"editable\">Edit this text</div></body></html>");
 
             foreach (HtmlElement el in webBrowser1.Document.All)
             {
-                el.SetAttribute("unselectable", "on");
-                el.SetAttribute("contenteditable", "false");
+              el.SetAttribute("unselectable", "on");
+              el.SetAttribute("contenteditable", "false");
             }
 
-            webBrowser1.Document.Body.SetAttribute("width", this.Width.ToString() + "px");
-            webBrowser1.Document.Body.SetAttribute("height", "100%");
-            webBrowser1.Document.Body.SetAttribute("contenteditable", "true");
+            if (webBrowser1.Document.Body != null)
+            {
+              webBrowser1.Document.Body.SetAttribute("width", Width.ToString(CultureInfo.InvariantCulture) + "px");
+              webBrowser1.Document.Body.SetAttribute("height", "100%");
+              webBrowser1.Document.Body.SetAttribute("contenteditable", "true");
+            }
             webBrowser1.Document.DomDocument.GetType().GetProperty("designMode").SetValue(webBrowser1.Document.DomDocument, "On", null);
-            webBrowser1.IsWebBrowserContextMenuEnabled = false;  
+          }
+          webBrowser1.IsWebBrowserContextMenuEnabled = false;  
         }
 
-        public void LoadDocContent(File doc)
+        public void LoadDocContent(FileInstance doc)
         {
             if (doc != null)
-                webBrowser1.Document.Write(doc.ToString());
+            {
+              if (webBrowser1.Document != null) webBrowser1.Document.Write(doc.ToString());
+            }
             else
                 MessageBox.Show("No document selected");
         }
@@ -53,11 +58,17 @@ namespace SliceOfPie_OfflineGUI
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            String text = webBrowser1.Document.Body.InnerHtml;
-            if (DocumentSaved != null)
+          if (webBrowser1.Document != null)
+          {
+            if (webBrowser1.Document.Body != null)
             {
+              String text = webBrowser1.Document.Body.InnerHtml;
+              if (DocumentSaved != null)
+              {
                 DocumentSaved(this, text);
+              }
             }
+          }
         }
     }
 }

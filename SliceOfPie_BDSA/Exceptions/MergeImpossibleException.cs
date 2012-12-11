@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SliceOfPie_Model {
+﻿namespace SliceOfPie_Model {
   /// <summary>
   /// Exception cast in administrator, if an persistence exception has occured.
   /// Author: mian3010 - msoa@itu.dk

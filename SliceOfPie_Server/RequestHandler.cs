@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SliceOfPie_Model;
 using System.Threading;
 using SliceOfPie_Model.Persistence;
@@ -11,48 +7,54 @@ namespace SliceOfPie_Server {
   public class RequestHandler {
     private RequestHandler() { }
     public static void Main(string[] args) {
-      FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
+      /* FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
       new SliceOfLifeEntities().AddToFileInstances(fi);
-      Context.GetServerFileList("test");
+      Context.GetServerFileList("test"); */
+
+      // Fill database with test content
+      // Add user
+      var user = User.CreateUser("test@example.com");
+      Context.AddUser(user);
+
+      // Add files
+      File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
+      var document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+
+      document.Content = "This is a test file. Does this work? \n New line";
+      Context.AddFile(document);
+
+      // Add FileInstance, bind to user
+      var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
+      Context.AddFileInstance(fileInstance);
+
+      // Add MetaData to file
+      var metaDataType = MetaDataType.CreateMetaDataType("Test type");
+      var fileMetaData = FileMetaData.CreateFileMetaData(1, metaDataType.ToString(), file.id);
+      Context.AddFileMetaData(fileMetaData);
     }
 
     /// <summary>
     /// Get the list of approved to receive new files
     /// </summary>
-    private List<long> NewFileList;
+    private List<long> _newFileList;
     public List<long> PendingNewFileList {
-      get {
-        if (NewFileList == null) {
-          NewFileList = new List<long>();
-        }
-        return NewFileList;
-      }
+      get { return _newFileList ?? (_newFileList = new List<long>()); }
     }
 
     /// <summary>
     /// Get the list of approved to receive modified files
     /// </summary>
-    private List<long> ModFileList;
-    public List<long> PendingModFileList {
-      get {
-        if (ModFileList == null) {
-          ModFileList = new List<long>();
-        }
-        return ModFileList;
-      }
+    private Dictionary<long, FileListEntry> _modFileList;
+    public Dictionary<long, FileListEntry> PendingModFileList {
+      get { return _modFileList ?? (_modFileList = new Dictionary<long, FileListEntry>()); }
     }
 
     /// <summary>
     /// Get this singleon instance
     /// </summary>
-    private static RequestHandler tinstance;
-    public static RequestHandler instance {
-      get {
-        if (tinstance == null) {
-          tinstance = new RequestHandler();
-        }
-        return tinstance;
-      }
+    private static RequestHandler _tinstance;
+    public static RequestHandler Instance {
+      get { return _tinstance ?? (_tinstance = new RequestHandler()); }
     }
 
     /// <summary>
@@ -60,9 +62,9 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HTTPProcessor hp) {
-      FileReceiver fr = new FileReceiver(file, hp);
-      Thread thread = new Thread(() => fr.Receive());
+    public void ReceiveFile(FileInstance file, HttpProcessor hp) {
+      var fr = new FileReceiver(file, hp);
+      var thread = new Thread(fr.Receive);
       thread.Start();
     }
 
@@ -71,13 +73,13 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="fileList"></param>
     /// <param name="hp"></param>
-    public void ReceiveFileList(FileList fileList, HTTPProcessor hp) {
+    public void ReceiveFileList(FileList fileList, HttpProcessor hp) {
       ReviewFileList(fileList, hp);
     }
 
-    private void ReviewFileList(FileList fileList, HTTPProcessor hp) {
-      FileListReviewer fr = new FileListReviewer(fileList, hp);
-      Thread thread = new Thread(() => fr.Review());
+    private void ReviewFileList(FileList fileList, HttpProcessor hp) {
+      var fr = new FileListReviewer(fileList, hp);
+      var thread = new Thread(fr.Review);
       thread.Start();
     }
 
@@ -85,131 +87,14 @@ namespace SliceOfPie_Server {
     /// Get a file from the server
     /// </summary>
     /// <param name="id"></param>
+    /// /// <param name="processor"></param>
     /// <returns></returns>
-    public void GetFile(long id, HTTPProcessor processor) {
+    public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
-      File file = Context.GetFile(id);
+      FileInstance file = Context.GetFile(id);
       processor.RecieveFile(file);
     }
   }
-
-  /// <summary>
-  /// This class handles file receives.
-  /// This will usually be started in a seperate thread.
-  /// </summary>
-  class FileReceiver {
-    HTTPProcessor hp;
-    File file;
-
-    /// <summary>
-    /// Constructor. 
-    /// This will call a method upon the HTTPProcessor, to tell wether this was succesful
-    /// </summary>
-    /// <param name="file"></param>
-    /// <param name="hp"></param>
-    public FileReceiver(File file, HTTPProcessor hp) {
-      this.file = file;
-      this.hp = hp;
-    }
-
-    public void Receive() {
-      long succes = -2; // will be returned
-      // succes == id if succes
-      // -1 if failed
-      // -2 if reject
-
-      // Determin new or mod
-      // If new file
-      if (RequestHandler.instance.PendingNewFileList.Contains(file.id)) {
-         succes = Context.SaveFile(file);
-
-        // else if mod file
-      } else if (RequestHandler.instance.PendingModFileList.Contains(file.id)) {
-        succes = Context.UpdateFile(file);
-
-        // else reject
-      } else {
-
-      }
-      hp.RecieveConfirmation(succes);
-    }
-  }
-
-  /// <summary>
-  /// This class handles FileList receives.
-  /// This will usually be started in a seperate thread.
-  /// </summary>
-  class FileListReviewer {
-    private FileList fileList;
-    private HTTPProcessor hp;
-
-    /// <summary>
-    /// Constructor. 
-    /// This will call a method upon the HTTPProcessor, to tell wether this was succesful
-    /// </summary>
-    /// <param name="fileList"></param>
-    /// <param name="hp"></param>
-    public FileListReviewer(FileList fileList, HTTPProcessor hp) {
-      this.fileList = fileList;
-      this.hp = hp;
-    }
-
-    public void Review() {
-      foreach (FileListEntry Entry in fileList.List.Values) {
-        // if file exists
-        if (Context.GetFile(Entry.Id) != null) {
-
-        } else {
-
-        }
-      }
-      //hp.something(fileList);
-    }
-
-    //Get the servers filelist for compare
-    private FileList ServerFileList() {
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileRename(FileListEntry Entry) {
-      // Add change to change table in db
-      // Do rename
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileMove(FileListEntry Entry) {
-      // Add change to change table in db
-      // Change FileInstance path
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileModify(FileList Entry) {
-      // Check if okay
-      // Add to okay to modify list
-      // Program.instance.AddToModifyList(Entry.id); // TODO file id
-      // Tell client to PUT file
-      throw new NotImplementedException();
-    }
-
-    private void HandleMergeReady(FileList Entry) {
-      //Context.
-      throw new NotImplementedException();
-    }
-
-    private void HandleDeleteFile(FileList Entry) {
-      // Add change to change table in db
-      // Do delete
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleAddFile(FileList Entry) {
-      // Check if okay
-      // Add to okay to add list // Temp ID?
-      // Tell client to PUT file
-      throw new NotImplementedException();
-    }
-  }
 }
+
+

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SliceOfPie_Model.Persistence;
+﻿using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
@@ -10,10 +6,10 @@ namespace SliceOfPie_Model
     {
         FileList SyncServer(FileList list);
 
-        File PullFile(long fileID);
+        FileInstance PullFile(long fileId);
 
         // Returns new ID of the File you want to push
-        long PushFile(File file);
+        long PushFile(FileInstance file);
 
     }
 }

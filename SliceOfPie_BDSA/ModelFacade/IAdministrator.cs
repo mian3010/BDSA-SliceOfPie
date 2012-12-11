@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
   public interface IAdministrator {
 
 
-    File GetFile(long id);
+    FileInstance GetFile(long id);
     
       /// <summary>
     /// Initializes the Synchroization process.
@@ -16,7 +13,7 @@ namespace SliceOfPie_Model {
     void Synchronize();
 
 
-    void SaveFile(File file);
+    void SaveFile(FileInstance file);
 
     /// <summary>
     /// Tells the model to persist any information gracefully.

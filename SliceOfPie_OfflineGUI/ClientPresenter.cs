@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SliceOfPie_Model;
-using SliceOfPie_OfflineGUI;
 using System.Windows.Forms;
-using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OfflineGUI
 {
@@ -18,9 +12,10 @@ namespace SliceOfPie_OfflineGUI
     /// </summary>
     public class ClientPresenter
     {
-        private MainWindow view;
-        private OfflineAdministrator model;
+        private readonly MainWindow _view;
+        private readonly OfflineAdministrator _model;
 
+        [STAThread]
         public static void Main(String[] args)
         {
             new ClientPresenter();
@@ -28,27 +23,27 @@ namespace SliceOfPie_OfflineGUI
         }
 
 
-        public ClientPresenter()
+      private ClientPresenter()
         {
-            model = OfflineAdministrator.GetInstance();
+            _model = OfflineAdministrator.GetInstance();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initiate main window with filepaths from the Model.
-            view = new MainWindow(model.GetPathsAndIDs());
+            _view = new MainWindow(_model.GetPathsAndIDs());
   
             // Bind update to FileRequested event
-            view.FileRequested += UpdateFileInGUI;
+            _view.FileRequested += UpdateFileInGui;
 
             // Bind the closing event of the GUI to the model persisting its data.
-            view.InterfaceClosing += model.ExitGracefully;
+            _view.InterfaceClosing += _model.ExitGracefully;
 
             // Bind the request for a file save in the model.
-            view.FileSaved += model.SaveFile;
+            _view.FileSaved += _model.SaveFile;
 
-            view.SynchronizationRequested += SynchronizeFiles;
+            _view.SynchronizationRequested += SynchronizeFiles;
 
-            Application.Run(view);
+            Application.Run(_view);
 
      
 
@@ -56,7 +51,7 @@ namespace SliceOfPie_OfflineGUI
 
         private void SynchronizeFiles(object sender, EventArgs e)
         {
-            model.Synchronize();
+            _model.Synchronize();
         }
 
 
@@ -65,11 +60,18 @@ namespace SliceOfPie_OfflineGUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void UpdateFileInGUI(object sender, FileEventArgs e)
+        private void UpdateFileInGui(object sender, FileEventArgs e)
         {
             // TO DO IMPLEMENT DOCUMENT CHECKING
-            view.CurrentDocument = model.GetFile(e.FileID);
+            _view.CurrentDocument = (SliceOfPie_Model.Persistence.Document)_model.GetFile(e.FileId);
         }
 
+        public MainWindow MainWindow
+        {
+          get {
+            throw new NotImplementedException();
+          }
+          set { throw new NotImplementedException(); }
+        }
     }
 }
