@@ -163,7 +163,7 @@ namespace SliceOfPie_Server {
 
         }
       }
-      //hp.something(fileList);
+      
     }
 
     //Get the servers filelist for compare
