@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SliceOfPie_Model;
-using SliceOfPie_Network;
+using SliceOfPie_Model.Persistence;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -107,6 +107,15 @@ namespace SliceOfPie_Testing
 
                 Assert.AreNotEqual(unmarshalledFile.id, 99999);
             }
+        }
+
+        [TestMethod]
+        public void TestMarshallId()
+        {
+            long id = 1;
+            string marshalledFile = HTMLMarshalUtil.MarshallId(id);
+            long UnmarshallFile = HTMLMarshalUtil.UnMarshallId(marshalledFile);
+            Assert.AreEqual(id, UnmarshallFile);
         }
 
     }
