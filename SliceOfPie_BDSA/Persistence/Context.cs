@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace SliceOfPie_Model.Persistence {
@@ -34,10 +35,14 @@ namespace SliceOfPie_Model.Persistence {
         return 1;
       }
       DbContext.Users.AddObject(user);
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
     }
 
-    public static List<FileMetaData> GetMetaData(long fileId) {
+    public static List<FileMetaData> GetMetaDataFromFile(long fileId) {
       var query = from meta in DbContext.FileMetaDatas
                   where meta.File_id == fileId
                   select meta;
@@ -69,34 +74,54 @@ namespace SliceOfPie_Model.Persistence {
                   select fmd;
       if (!query.Any()) return -2;
       DbContext.FileMetaDatas.DeleteObject(query.First());
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
+    }
+
+    public static FileMetaData GetMetaData(long metaDataId) {
+      var query = from md in DbContext.FileMetaDatas
+                  where md.id == metaDataId
+                  select md;
+      return !query.Any() ? null : query.First();
     }
 
     public static long AddFileMetaData(FileMetaData fileMetaData) {
       if (fileMetaData == null) return -2;
+      if (fileMetaData.MetaDataType_Type == null) return -2;
       if (GetMetaData(fileMetaData.id) != null) return ModifyMetaData(fileMetaData);
       AddMetaDataType(fileMetaData.MetaDataType_Type);
       DbContext.FileMetaDatas.AddObject(fileMetaData);
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
     }
 
     public static long AddFileInstance(FileInstance fileInstance) {
-      if (fileInstance == null) return -2;
+      if (fileInstance == null || fileInstance.File == null) return -2;
       if (GetFileInstance(fileInstance.id) != null) {
         return ModifyFileInstance(fileInstance);
       }
       DbContext.FileInstances.AddObject(fileInstance);
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
     }
 
     public static long ModifyFileInstance(FileInstance fileInstance) {
-      if (fileInstance == null) return -2;
+      if (fileInstance == null || fileInstance.File == null) return -2;
       DeleteFileInstance(fileInstance);
       return AddFileInstance(fileInstance);
     }
 
     public static long DeleteFileInstance(FileInstance fileInstance) {
-      if (fileInstance == null) return -2;
+      if (fileInstance == null || fileInstance.File == null) return -2;
       return DeleteFileInstance(fileInstance.id);
     }
 
@@ -106,7 +131,11 @@ namespace SliceOfPie_Model.Persistence {
                   select fi;
       if (!query.Any()) return -1;
       DbContext.FileInstances.DeleteObject(query.First());
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
     }
 
     public static FileInstance GetFileInstance(long fileInstanceId) {
@@ -135,25 +164,29 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static long AddFile(FileInstance file) {
-      if (file == null) return -2;
-      if (GetFile(file.id) != null) {
-        return UpdateFile(file);
+    public static long AddFile(FileInstance fileInstance) {
+      if (fileInstance == null || fileInstance.File == null) return -2;
+      if (GetFile(fileInstance.id) != null) {
+        return UpdateFile(fileInstance);
       }
-      DbContext.Files.AddObject(file.File);
-      return DbContext.SaveChanges();
+      DbContext.Files.AddObject(fileInstance.File);
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        return -1;
+      }
     }
 
-    public static long UpdateFile(FileInstance file) {
-      if (file == null) return -2;
-      DbContext.Files.DeleteObject(file.File);
-      return AddFile(file);
+    public static long UpdateFile(FileInstance fileInstance) {
+      if (fileInstance == null || fileInstance.File == null) return -2;
+      DbContext.Files.DeleteObject(fileInstance.File);
+      return AddFile(fileInstance);
     }
 
     private static MetaDataType GetMetaDataType(string type) {
       var inputType = MetaDataType.CreateMetaDataType(type);
       var query = from mt in DbContext.MetaDataTypes
-                  where mt == inputType
+                  where mt.Type == inputType.Type
                   select mt;
       return !query.Any() ? null : query.First();
     }
@@ -162,6 +195,11 @@ namespace SliceOfPie_Model.Persistence {
       if(GetMetaDataType(type) != null) return;
       var metaType = MetaDataType.CreateMetaDataType(type);
       DbContext.MetaDataTypes.AddObject(metaType);
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        
+      }
     }
   }
 }
