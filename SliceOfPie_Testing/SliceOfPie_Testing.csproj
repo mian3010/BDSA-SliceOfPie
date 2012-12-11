@@ -90,10 +90,6 @@
       <Project>{48b6328a-33a1-4ffd-b6b4-ed75e380e68c}</Project>
       <Name>SliceOfPie_Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SliceOfPie_Network\SliceOfPie_Network.csproj">
-      <Project>{ca26713a-cb23-4706-a44c-f20add431dd5}</Project>
-      <Name>SliceOfPie_Network</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

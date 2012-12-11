@@ -16,7 +16,7 @@ using SliceOfPie_Model.Exceptions;
 namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form {
    
-    private Dictionary<String, long> pathsToID;
+    private readonly Dictionary<String, long> pathsToID;
 
     public File CurrentDocument
     {
@@ -169,6 +169,17 @@ namespace SliceOfPie_OfflineGUI {
     private void button_synchronize_Click(object sender, EventArgs e)
     {
         SynchronizationRequested(this, null);
+    }
+
+    public EditorWindow EditorWindow
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        set
+        {
+        }
     }
 
   

@@ -28,5 +28,16 @@ namespace SliceOfPie_Model {
     }
     public FileListType Type { get; set; }
     public bool IsDeleted { get; set; }
+
+    public FileListType FileListType
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        set
+        {
+        }
+    }
   }
 }

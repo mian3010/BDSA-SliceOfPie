@@ -15,7 +15,7 @@ namespace SliceOfPie_Model
     public class NetworkClient : INetClient
     {
         private bool is_active;
-        private int port = 8080;
+        private const int port = 8080;
 
 
         public FileList SyncServer(FileList list)
