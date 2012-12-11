@@ -40,7 +40,7 @@ namespace SliceOfPie_Server
                 {
                     var reader = new StreamReader(inputStream);
                     string xml = reader.ReadToEnd();
-                    SliceOfPie_Model.Persistence.FileInstance file = HtmlMarshalUtil.UnmarshallFile(xml);
+                    SliceOfPie_Model.Persistence.FileInstance file = HtmlMarshalUtil.UnmarshallDocument(xml);
                     _handler.ReceiveFile(file, this);
                 }
                 else if (httpMethod == "POST")

@@ -57,9 +57,9 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="xml">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static FileInstance UnmarshallFile(String xml)
+        public static Document UnmarshallDocument(String xml)
         {
-            var file = new FileInstance();
+            var file = new Document();
             XElement doc = XElement.Parse(xml);
 
             IEnumerable<XElement> metaData = doc.Elements("meta");
@@ -77,7 +77,7 @@ namespace SliceOfPie_Model
           if (id != null) file.id = long.Parse(id.Value);
 
           XElement body = doc.Element("body");
-          if (body != null) file.Content.Append(body.Value);
+          if (body != null) file.Content = body.Value;
 
           return file;
         }

@@ -226,7 +226,7 @@ namespace SliceOfPie_Model {
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
-        FileInstance loadedFile = HtmlMarshalUtil.UnmarshallFile(html);
+        FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
         loadedFile.File.serverpath = fileInfo.Path;
         loadedFile.File.name = fileInfo.Name;
 

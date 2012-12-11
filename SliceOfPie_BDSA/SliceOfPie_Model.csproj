@@ -67,18 +67,18 @@
     <Compile Include="Exceptions\MergeImpossibleException.cs" />
     <Compile Include="Exceptions\NoNodeSelectedException.cs" />
     <Compile Include="Exceptions\NotADocumentException.cs" />
+    <Compile Include="FileList\FileList.cs" />
     <Compile Include="FileList\FileListEntry.cs" />
+    <Compile Include="FileList\FileListType.cs" />
     <Compile Include="MergePolicy.cs" />
     <Compile Include="Networking\INetClient.cs" />
+    <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Persistence\Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
     <Compile Include="Files\FileInstance.cs" />
-    <Compile Include="FileList\FileList.cs" />
-    <Compile Include="FileList\FileListType.cs" />
-    <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Persistence\IFileListHandler.cs" />
     <Compile Include="ModelFacade\OfflineAdministrator.cs" />
     <Compile Include="Exceptions\FilePersistenceException.cs" />
@@ -101,22 +101,18 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="Persistence\Database.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Database.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="FileListHandler_CD.cd" />
     <None Include="FileOverviewRep_CD.cd" />
     <None Include="ModelFacade_CD.cd" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\SliceOfLifeEntities.datasource" />
-    <None Include="Properties\DataSources\SliceOfLifeEntities1.datasource" />
+    <EntityDeploy Include="Persistence\Database.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Database.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Persistence\Database.edmx.sql" />
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

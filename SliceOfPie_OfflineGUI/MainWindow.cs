@@ -13,7 +13,7 @@ namespace SliceOfPie_OfflineGUI {
    
     private readonly Dictionary<String, long> _pathsToId;
 
-    public FileInstance CurrentDocument
+    public Document CurrentDocument
     { private get;
         set;
     }
@@ -36,8 +36,7 @@ namespace SliceOfPie_OfflineGUI {
 
     private void DocumentSavedInEditor(object sender, string newContent)
     {
-        CurrentDocument.Content.Clear();
-        CurrentDocument.Content.Append(newContent);
+        CurrentDocument.Content = newContent;
 
         FileSaved(CurrentDocument);
     }

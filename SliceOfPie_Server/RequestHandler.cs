@@ -13,22 +13,24 @@ namespace SliceOfPie_Server {
 
       // Fill database with test content
       // Add user
-      User user = User.CreateUser("test@example.com");
+      var user = User.CreateUser("test@example.com");
       Context.AddUser(user);
 
       // Add files
       File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
-      FileInstance fileInstance = FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+      Document document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
 
-      fileInstance.Content.Append("This is a test file. Does this work? \n New line");
-      Context.AddFile(fileInstance);
+      document.Content = "This is a test file. Does this work? \n New line";
+      Context.AddFile(document);
 
       // Add FileInstance, bind to user
-      FileInstance fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
+      var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
       Context.AddFileInstance(fileInstance);
 
       // Add MetaData to file
-
+      var metaDataType = MetaDataType.CreateMetaDataType("Test type");
+      var fileMetaData = FileMetaData.CreateFileMetaData(1, metaDataType.ToString(), file.id);
+      Context.AddFileMetaData(fileMetaData);
     }
 
     /// <summary>

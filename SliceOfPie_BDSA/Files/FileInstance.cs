@@ -9,12 +9,10 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
-    private StringBuilder _privContent;
-    public StringBuilder Content {
-      get { return _privContent ?? (_privContent = new StringBuilder()); }
-      set {
-        _privContent = value;
-      }
+    internal byte[] _privContent;
+    public byte[] Content {
+      get { return _privContent; }
+      set { _privContent = value; }
     }
 
     public virtual String GetContent() {

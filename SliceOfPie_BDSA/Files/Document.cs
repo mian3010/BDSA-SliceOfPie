@@ -10,29 +10,33 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   public class Document : FileInstance {
     public String Title { get; set; }
-  
+
     public IList<String> Authors { get; set; }
 
+    public string Content {
+      get { return Encoding.UTF8.GetString(_privContent, 0, _privContent.Length); }
+      set { _privContent = Encoding.UTF8.GetBytes(value); }
+    }
 
-    public override string GetContent()
-        {
-            return Content.ToString();
-        }
 
-        public override string ToString() {
-          var output = new StringBuilder();
-          output.Append("<div class=\"document\">");
-          output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-          output.Append("<div class=\"document-view\">");
-          output.Append("<ul class=\"metadata-view\">");
-          foreach (FileMetaData metaData in File.FileMetaDatas) {
-            output.Append("<li>"+metaData.MetaDataType+": "+metaData+"</li>");
-          }
-          output.Append("</ul>");
-          output.Append(Content);
-          output.Append("</div>");
-          return output.ToString();
-        }
+    public override string GetContent() {
+      return Content.ToString();
+    }
+
+    public override string ToString() {
+      var output = new StringBuilder();
+      output.Append("<div class=\"document\">");
+      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+      output.Append("<div class=\"document-view\">");
+      output.Append("<ul class=\"metadata-view\">");
+      foreach (FileMetaData metaData in File.FileMetaDatas) {
+        output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
+      }
+      output.Append("</ul>");
+      output.Append(Content);
+      output.Append("</div>");
+      return output.ToString();
+    }
 
     public new string HistoryToString() {
       var output = new StringBuilder();
@@ -45,7 +49,7 @@ namespace SliceOfPie_Model.Persistence {
 
     static internal Document CreateTestDocument(String s) {
       var d = new Document();
-      d.Content.Append(s);
+      d.Content = s;
       return d;
     }
 

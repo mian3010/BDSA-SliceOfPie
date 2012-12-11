@@ -34,20 +34,17 @@ namespace SliceOfPie_Server {
         if (fileFromDb != null) {
           var majorEntryVersion = (int)Math.Truncate(entry.Version);
           var minorEntryVersion = (int)(entry.Version - Math.Truncate(entry.Version) * 10);
-          if (fileFromDb.File.version != null)
-          {
-            var majorDbVersion = (int)Math.Truncate((decimal)fileFromDb.File.version);
-            var minorDbVersion = (int)(entry.Version - Math.Truncate((decimal)fileFromDb.File.version) * 10);
-            if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
-              //Client must push their file for merging
-              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
-              usersFilesFromServer.List[entry.Id].Type = FileListType.Push;
-            } else if (majorEntryVersion < majorDbVersion && minorEntryVersion == 0) {
-              //Client does not have the latest file, and must pull it.
-              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
-              usersFilesFromServer.List[entry.Id].Type = FileListType.Pull;
-            } else usersFilesFromServer.List.Remove(entry.Id); //File on client and server is the same
-          }
+          var majorDbVersion = (int)Math.Truncate((decimal)fileFromDb.File.Version);
+          var minorDbVersion = (int)(entry.Version - Math.Truncate((decimal)fileFromDb.File.Version) * 10);
+          if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
+            //Client must push their file for merging
+            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            usersFilesFromServer.List[entry.Id].Type = FileListType.Push;
+          } else if (majorEntryVersion < majorDbVersion && minorEntryVersion == 0) {
+            //Client does not have the latest file, and must pull it.
+            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            usersFilesFromServer.List[entry.Id].Type = FileListType.Pull;
+          } else usersFilesFromServer.List.Remove(entry.Id); //File on client and server is the same
         } else {
           //Server does not have file, Client must therefore push it.
           RequestHandler.Instance.PendingNewFileList.Add(entry.Id);
