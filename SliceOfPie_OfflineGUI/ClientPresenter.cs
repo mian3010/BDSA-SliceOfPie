@@ -15,6 +15,7 @@ namespace SliceOfPie_OfflineGUI
         private readonly MainWindow _view;
         private readonly OfflineAdministrator _model;
 
+        [STAThread]
         public static void Main(String[] args)
         {
             new ClientPresenter();
@@ -62,13 +63,13 @@ namespace SliceOfPie_OfflineGUI
         private void UpdateFileInGui(object sender, FileEventArgs e)
         {
             // TO DO IMPLEMENT DOCUMENT CHECKING
-            _view.CurrentDocument = _model.GetFile(e.FileId);
+            _view.CurrentDocument = (SliceOfPie_Model.Persistence.Document)_model.GetFile(e.FileId);
         }
 
         public MainWindow MainWindow
         {
           get {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
           }
           set { throw new NotImplementedException(); }
         }

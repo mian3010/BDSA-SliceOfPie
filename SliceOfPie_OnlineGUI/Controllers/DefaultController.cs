@@ -16,18 +16,18 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     }
 
     public ActionResult Viewer() {
-      File fileToView = Models.FileModel.GetFile(0);
+      FileInstance fileToView = Models.FileModel.GetFile(0);
       @ViewBag.Document = fileToView.ToString();
       return View();
     }
 
     public ActionResult History() {
-      File fileToView = Models.FileModel.GetFile(0);
+      FileInstance fileToView = Models.FileModel.GetFile(0);
       try {
         var documentToView = (Document)fileToView;
         @ViewBag.Title = documentToView.Title;
       } catch (InvalidCastException e) {
-        @ViewBag.Title = "File: "+fileToView.name;
+        @ViewBag.Title = "File: "+fileToView.File.name;
       }
       @ViewBag.DocumentHistory = fileToView.HistoryToString();
       return View();

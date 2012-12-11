@@ -6,5 +6,5 @@ namespace SliceOfPie_Model
   /// Custom delegate to handle file events. 
   /// </summary>
   /// <param name="file"></param>
-  public delegate void FileEventHandler(File file);
+  public delegate void FileEventHandler(FileInstance file);
 }

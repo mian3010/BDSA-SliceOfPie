@@ -1,9 +1,7 @@
-﻿using SliceOfPie_Model.Persistence;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SliceOfPie_Model {
+namespace SliceOfPie_Model.Persistence {
   /// <summary>
   /// Context has methods for operating on the database
   /// </summary>
@@ -24,55 +22,91 @@ namespace SliceOfPie_Model {
       return !query.Any() ? null : query.First();
     }
 
-    // Does this return object hold a list of MetaDataTypes?
-    public static FileMetaData[] GetMetaData(long fileId) {
+    public static long AddUser(string email) {
+      if (email == null || email.Trim() == "") return -2;
+      var user = User.CreateUser(email);
+      return AddUser(user);
+    }
+
+    public static long AddUser(User user) {
+      if (user == null) return -2;
+      if (GetUser(user.email) != null) {
+        return 1;
+      }
+      DbContext.Users.AddObject(user);
+      return DbContext.SaveChanges();
+    }
+
+    public static List<FileMetaData> GetMetaData(long fileId) {
       var query = from meta in DbContext.FileMetaDatas
                   where meta.File_id == fileId
                   select meta;
-      return !query.Any() ? null : query.ToArray();
-    }
+      if (!query.Any()) return null;
 
-    public static void AddUser(User user) {
-      if (user == null) return;
-      if (GetUser(user.email) != null) {
-        ModifyUser(user);
-      } else {
-        DbContext.AddToUsers(user);
-        DbContext.SaveChanges();
+      var metaDataList = new List<FileMetaData>();
+      foreach (var fileMetaData in query) {
+        var metaData = FileMetaData.CreateFileMetaData(fileMetaData.id, fileMetaData.MetaDataType.ToString(), fileMetaData.File_id);
+        metaData.value = fileMetaData.value;
+        metaDataList.Add(metaData);
       }
+      return metaDataList;
     }
 
-    public static void ModifyUser(User user) {
-      DeleteUser(user);
-      AddUser(user);
+    public static long ModifyMetaData(FileMetaData fileMetaData) {
+      if (fileMetaData == null) return -2;
+      DeleteFileMetaData(fileMetaData);
+      return AddFileMetaData(fileMetaData);
     }
 
-    public static void AddFileInstance(FileInstance fileInstance) {
-      if (fileInstance == null) return;
+    public static long DeleteFileMetaData(FileMetaData fileMetaData) {
+      if (fileMetaData == null) return -2;
+      return DeleteFileMetaData(fileMetaData.id);
+    }
+
+    public static long DeleteFileMetaData(long fileMetaDataId) {
+      var query = from fmd in DbContext.FileMetaDatas
+                  where fmd.id == fileMetaDataId
+                  select fmd;
+      if (!query.Any()) return -2;
+      DbContext.FileMetaDatas.DeleteObject(query.First());
+      return DbContext.SaveChanges();
+    }
+
+    public static long AddFileMetaData(FileMetaData fileMetaData) {
+      if (fileMetaData == null) return -2;
+      if (GetMetaData(fileMetaData.id) != null) return ModifyMetaData(fileMetaData);
+      AddMetaDataType(fileMetaData.MetaDataType_Type);
+      DbContext.FileMetaDatas.AddObject(fileMetaData);
+      return DbContext.SaveChanges();
+    }
+
+    public static long AddFileInstance(FileInstance fileInstance) {
+      if (fileInstance == null) return -2;
       if (GetFileInstance(fileInstance.id) != null) {
-        ModifyFileInstance(fileInstance);
-      } else {
-        DbContext.AddToFileInstances(fileInstance);
-        DbContext.SaveChanges();
+        return ModifyFileInstance(fileInstance);
       }
+      DbContext.FileInstances.AddObject(fileInstance);
+      return DbContext.SaveChanges();
     }
 
-    public static void ModifyFileInstance(FileInstance fileInstance) {
+    public static long ModifyFileInstance(FileInstance fileInstance) {
+      if (fileInstance == null) return -2;
       DeleteFileInstance(fileInstance);
-      AddFileInstance(fileInstance);
+      return AddFileInstance(fileInstance);
     }
 
-    public static void DeleteFileInstance(FileInstance fileInstance) {
-      DeleteFileInstance(fileInstance.id);
+    public static long DeleteFileInstance(FileInstance fileInstance) {
+      if (fileInstance == null) return -2;
+      return DeleteFileInstance(fileInstance.id);
     }
 
-    public static void DeleteFileInstance(long fileInstanceId) {
+    public static long DeleteFileInstance(long fileInstanceId) {
       var query = from fi in DbContext.FileInstances
                   where fi.id == fileInstanceId
                   select fi;
-      if (!query.Any()) return;
-      DbContext.DeleteObject(query.First());
-      DbContext.SaveChanges();
+      if (!query.Any()) return -1;
+      DbContext.FileInstances.DeleteObject(query.First());
+      return DbContext.SaveChanges();
     }
 
     public static FileInstance GetFileInstance(long fileInstanceId) {
@@ -82,71 +116,9 @@ namespace SliceOfPie_Model {
       return !query.Any() ? null : query.First();
     }
 
-    public static void AddUser(string email) {
-      if (email == null || email.Trim() == "") return;
-      User user = User.CreateUser(email);
-      DbContext.AddToUsers(user);
-      DbContext.SaveChanges();
-    }
-
-    public static void DeleteUser(User user) {
-      DeleteUser(user.email);
-    }
-
-    public static void DeleteUser(string email) {
-      if (email == null || email.Trim() == "") return;
-      var query = from u in DbContext.Users
-                  where u.email == email
-                  select u;
-      if (!query.Any()) return;
-      DbContext.DeleteObject(query.First());
-      DbContext.SaveChanges();
-    }
-
-    public static File GetFile(long fileId) {
-      var query = from f in DbContext.Files
-                  where f.id == fileId
-                  select f;
-      if (!query.Any()) return null;
-      return query.First();
-    }
-
-    public static long SaveFile(File file) {
-      if (file == null) return -2;
-      DbContext.Files.AddObject(file);
-      DbContext.SaveChanges();
-
-      // Make sure it was added correctly
-      var query = from f in DbContext.Files
-                  where f.id == file.id
-                  select f;
-      if (!query.Any()) return -1;
-      var tempFile = query.First();
-      if (tempFile.Equals(file)) return file.id;
-      return -1;
-    }
-
-    public static long UpdateFile(File file) {
-      //TODO Change instaead of delete'n'add
-      if (file == null) return -2;
-      DbContext.Files.DeleteObject(file);
-      DbContext.Files.AddObject(file);
-      DbContext.SaveChanges();
-
-      // Make sure it was added correctly
-      var query = from f in DbContext.Files
-                  where f.id == file.id
-                  select f;
-      if (!query.Any()) return -1;
-      var tempFile = query.First();
-      if (tempFile.Equals(file)) return file.id;
-      return -1;
-    }
-
     public static FileList GetFileList(string userEmail) {
       var usersFilesOnServer = new FileList();
-      IDictionary<long, FileListEntry> list = usersFilesOnServer.List;
-
+      var list = usersFilesOnServer.List;
       var query = from f in DbContext.FileInstances
                   where f.User_email == userEmail
                   select f;
@@ -154,6 +126,42 @@ namespace SliceOfPie_Model {
         list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
       }
       return usersFilesOnServer;
+    }
+
+    public static FileInstance GetFile(long fileId) {
+      var query = from f in DbContext.FileInstances
+                  where f.id == fileId
+                  select f;
+      return !query.Any() ? null : query.First();
+    }
+
+    public static long AddFile(FileInstance file) {
+      if (file == null) return -2;
+      if (GetFile(file.id) != null) {
+        return UpdateFile(file);
+      }
+      DbContext.Files.AddObject(file.File);
+      return DbContext.SaveChanges();
+    }
+
+    public static long UpdateFile(FileInstance file) {
+      if (file == null) return -2;
+      DbContext.Files.DeleteObject(file.File);
+      return AddFile(file);
+    }
+
+    private static MetaDataType GetMetaDataType(string type) {
+      var inputType = MetaDataType.CreateMetaDataType(type);
+      var query = from mt in DbContext.MetaDataTypes
+                  where mt == inputType
+                  select mt;
+      return !query.Any() ? null : query.First();
+    }
+
+    private static void AddMetaDataType(string type) {
+      if(GetMetaDataType(type) != null) return;
+      var metaType = MetaDataType.CreateMetaDataType(type);
+      DbContext.MetaDataTypes.AddObject(metaType);
     }
   }
 }
