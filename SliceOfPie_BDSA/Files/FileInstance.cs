@@ -9,10 +9,10 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
-    internal byte[] _privContent;
+    internal byte[] PrivContent;
     public byte[] Content {
-      get { return _privContent; }
-      set { _privContent = value; }
+      get { return PrivContent; }
+      set { PrivContent = value; }
     }
 
     public virtual String GetContent() {

@@ -13,14 +13,14 @@ namespace SliceOfPie_Model.Persistence {
 
     public IList<String> Authors { get; set; }
 
-    public string Content {
-      get { return Encoding.UTF8.GetString(_privContent, 0, _privContent.Length); }
-      set { _privContent = Encoding.UTF8.GetBytes(value); }
+    public new string Content {
+      get { return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
+      set { PrivContent = Encoding.UTF8.GetBytes(value); }
     }
 
 
     public override string GetContent() {
-      return Content.ToString();
+      return Content;
     }
 
     public override string ToString() {
@@ -48,8 +48,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     static internal Document CreateTestDocument(String s) {
-      var d = new Document();
-      d.Content = s;
+      var d = new Document {Content = s};
       return d;
     }
 

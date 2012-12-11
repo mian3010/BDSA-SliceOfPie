@@ -73,10 +73,8 @@ namespace ServerTest
             FileListEntry ref1 = returnList.List[1];
             FileListEntry ref2 = returnList.List[2];
             FileListEntry ref3 = returnList.List[3];
-            FileInstance file = new FileInstance();
-            file.id = 1;
-            file.File.name = "TESTFIL";
-            FileMetaData data = new FileMetaData();
+            var file = new FileInstance {id = 1, File = {name = "TESTFIL"}};
+          var data = new FileMetaData();
             long id = client.PushFile(file);
             
         }

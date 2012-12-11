@@ -18,7 +18,7 @@ namespace SliceOfPie_Server {
 
       // Add files
       File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
-      Document document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+      var document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
 
       document.Content = "This is a test file. Does this work? \n New line";
       Context.AddFile(document);
