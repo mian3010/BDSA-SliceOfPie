@@ -1,8 +1,7 @@
-﻿using SliceOfPie_Model.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SliceOfPie_Model {
+namespace SliceOfPie_Model.Persistence {
   /// <summary>
   /// Context has methods for operating on the database
   /// </summary>
@@ -25,7 +24,7 @@ namespace SliceOfPie_Model {
 
     public static long AddUser(string email) {
       if (email == null || email.Trim() == "") return -2;
-      User user = User.CreateUser(email);
+      var user = User.CreateUser(email);
       return AddUser(user);
     }
 
@@ -97,15 +96,16 @@ namespace SliceOfPie_Model {
     public static long AddFileMetaData(FileMetaData fileMetaData) {
       if (fileMetaData == null) return -2;
       if (GetMetaData(fileMetaData.id) != null) return ModifyMetaData(fileMetaData);
-        DbContext.FileMetaDatas.AddObject(fileMetaData);
-        return DbContext.SaveChanges();
+      AddMetaDataType(fileMetaData.MetaDataType.ToString());
+      DbContext.FileMetaDatas.AddObject(fileMetaData);
+      return DbContext.SaveChanges();
     }
 
     public static long AddFileInstance(FileInstance fileInstance) {
       if (fileInstance == null) return -2;
       if (GetFileInstance(fileInstance.id) != null) {
         return ModifyFileInstance(fileInstance);
-      } 
+      }
       DbContext.FileInstances.AddObject(fileInstance);
       return DbContext.SaveChanges();
     }
@@ -169,6 +169,19 @@ namespace SliceOfPie_Model {
       if (file == null) return -2;
       DbContext.Files.DeleteObject(file.File);
       return AddFile(file);
+    }
+
+    private static MetaDataType GetMetaDataType(string type) {
+      var query = from mt in DbContext.MetaDataTypes
+                  where mt.ToString() == type
+                  select mt;
+      return !query.Any() ? null : query.First();
+    }
+
+    private static void AddMetaDataType(string type) {
+      if(GetMetaDataType(type) != null) return;
+      var metaType = MetaDataType.CreateMetaDataType(type);
+      DbContext.MetaDataTypes.AddObject(metaType);
     }
   }
 }
