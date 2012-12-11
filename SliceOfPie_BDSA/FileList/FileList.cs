@@ -10,14 +10,5 @@ namespace SliceOfPie_Model {
         get;
         set; 
     }
-
-    public FileListEntry FileListEntry
-    {
-      get
-        {
-            throw new System.NotImplementedException();
-        }
-      set { throw new NotImplementedException(); }
-    }
   }
 }

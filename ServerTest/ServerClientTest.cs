@@ -25,8 +25,11 @@ namespace ServerTest
             server.Close();
         }
 
+        /// <summary>
+        /// Tests that you cannot save a file that is not in the FileList
+        /// </summary>
         [TestMethod]
-        public void TestSaveFile()
+        public void TestSaveFileNegative()
         {
             NetworkServer server = NetworkServer.GetInstance();
             var client = new NetworkClient();
@@ -40,7 +43,7 @@ namespace ServerTest
             serverT.Start();
             Thread.Sleep(1000);
             long id = client.PushFile(doc);
-            Assert.AreEqual(1, id);
+            Assert.AreEqual(-2, id);
             server.Close();
 
         }
@@ -51,7 +54,7 @@ namespace ServerTest
             NetworkServer server = NetworkServer.GetInstance();
             var client = new NetworkClient();
             var list = new FileList {List = new Dictionary<long, FileListEntry>()};
-          var e1 = new FileListEntry();
+            var e1 = new FileListEntry();
             var e2 = new FileListEntry();
             var e3 = new FileListEntry();
             e1.Id = 1;
@@ -63,7 +66,19 @@ namespace ServerTest
             var serverT = new Thread(server.Listen);
             serverT.Start();
             Thread.Sleep(1000);
-            client.SyncServer(list);
+            FileList returnList = client.SyncServer(list);
+            ICollection<long> col = returnList.List.Keys;
+            foreach(long l in col)
+                Assert.AreEqual(returnList.List[l].Id, list.List[l].Id);
+            FileListEntry ref1 = returnList.List[1];
+            FileListEntry ref2 = returnList.List[2];
+            FileListEntry ref3 = returnList.List[3];
+            File file = new File();
+            file.id = 1;
+            file.name = "TESTFIL";
+            FileMetaData data = new FileMetaData();
+            long id = client.PushFile(file);
+            
         }
     }
 }

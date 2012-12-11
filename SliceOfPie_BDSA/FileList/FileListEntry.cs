@@ -9,9 +9,9 @@ namespace SliceOfPie_Model {
     public string Path { 
         get { 
             if(_path == null) return "none";
-            else return Path;
+            else return _path;
             }
-        set { _path = Path; }
+        set { _path = value; }
     }
     private string _name;
     public string Name { 
@@ -21,7 +21,7 @@ namespace SliceOfPie_Model {
             }
         set
         {
-            _name = Name;
+            _name = value;
         }
     }
     public FileListType Type { get; set; }
