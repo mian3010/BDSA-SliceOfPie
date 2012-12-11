@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using SliceOfPie_Model;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Xml.Linq;
-using System.Data.Entity;
 using SliceOfPie_Model.Persistence;
 
 
 
 namespace SliceOfPie_Model
 {
-    public static class HTMLMarshalUtil
+    public static class HtmlMarshalUtil
     {
 
-        public static string MarshallFile(SliceOfPie_Model.Persistence.File file)
+        public static string MarshallFile(File file)
         {
-            XmlWriterSettings set = new XmlWriterSettings();
-            set.Indent = true;
-            StringBuilder builder = new StringBuilder();
+            var set = new XmlWriterSettings {Indent = true};
+          var builder = new StringBuilder();
             using(XmlWriter writer = XmlWriter.Create(builder, set))
             {
                 writer.WriteStartDocument();
@@ -41,7 +36,7 @@ namespace SliceOfPie_Model
 
                 // Write a custom ID tag which we can use later for database purposes.
                 writer.WriteStartElement("ID");
-                writer.WriteString(file.id.ToString());
+                writer.WriteString(file.id.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
@@ -60,28 +55,30 @@ namespace SliceOfPie_Model
         /// <summary>
         /// Unmarshals a File according to the loosely defined XML format used in Slice of Pie.
         /// </summary>
-        /// <param name="XML">The xml to unmarshal</param>
+        /// <param name="xml">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
-        public static SliceOfPie_Model.Persistence.File UnmarshallFile(String XML)
+        public static File UnmarshallFile(String xml)
         {
-            SliceOfPie_Model.Persistence.File file = new SliceOfPie_Model.Persistence.File();
-            XElement doc = XElement.Parse(XML);
+            var file = new File();
+            XElement doc = XElement.Parse(xml);
 
             IEnumerable<XElement> metaData = doc.Elements("meta");
             foreach (XElement meta in metaData)
             {
-                FileMetaData fmd = new FileMetaData();
-                fmd.MetaDataType_Type = meta.Attribute("name").Value;
-                fmd.value = meta.Attribute("content").Value;
+                var fmd = new FileMetaData
+                  {
+                    MetaDataType_Type = meta.Attribute("name").Value,
+                    value = meta.Attribute("content").Value
+                  };
             }
 
             XElement id = doc.Element("ID");
-            file.id = long.Parse(id.Value);
+          if (id != null) file.id = long.Parse(id.Value);
 
-            XElement body = doc.Element("body");
-            file.Content.Append(body.Value);
-            
-            return file;
+          XElement body = doc.Element("body");
+          if (body != null) file.Content.Append(body.Value);
+
+          return file;
         }
 
 
@@ -89,18 +86,18 @@ namespace SliceOfPie_Model
         public static string MarshallFileList(FileList fileList)
         {
             List<FileListEntry> fList = fileList.List.Values.ToList();
-            XElement doc = new XElement("logInfo", 
+            var doc = new XElement("logInfo", 
                                 new XElement("fileList",
                                                  from a in fList
                                                  select
                                                      new XElement("listEntry",
-                                                     new XElement("ID", a.Id.ToString()),
+                                                     new XElement("ID", a.Id.ToString(CultureInfo.InvariantCulture)),
                                                      new XElement("fileName", a.Name),
-                                                     new XElement("filePath", a.Path.ToString()),
-                                                     new XElement("version", a.Version.ToString()),
+                                                     new XElement("filePath", a.Path.ToString(CultureInfo.InvariantCulture)),
+                                                     new XElement("version", a.Version.ToString(CultureInfo.InvariantCulture)),
                                                      new XElement("type", a.Type.ToString()),
                                                      new XElement("isDeleted", a.IsDeleted.ToString())))
-                               ,new XElement("incrementCounter", fileList.incrementCounter.ToString()) );
+                               ,new XElement("incrementCounter", fileList.IncrementCounter.ToString(CultureInfo.InvariantCulture)) );
                                                  
             return doc.ToString();
         }
@@ -108,34 +105,62 @@ namespace SliceOfPie_Model
         public static FileList UnMarshallFileList(string xml)
         {
 
-            Dictionary<long, FileListEntry> fileList = new Dictionary<long, FileListEntry>();
+            var fileList = new Dictionary<long, FileListEntry>();
             XElement doc = XElement.Parse(xml);
 
             XElement root = doc.Element("fileList");
+          if (root != null)
+          {
             XElement m = root.Element("listEntry");
             while (m != null)
             {
-                FileListEntry entry = new FileListEntry();
-                entry.Id = Int64.Parse(m.Element("ID").Value);
-                entry.Name = m.Element("fileName").Value;
-                entry.Path = m.Element("filePath").Value;
-                entry.Version = decimal.Parse(m.Element("version").Value);
-                entry.IsDeleted = bool.Parse(m.Element("isDeleted").Value);
-                switch (m.Element("type").Value)
+              var xElement = m.Element("ID");
+              if (xElement != null)
+              {
+                var element = m.Element("fileName");
+                if (element != null)
                 {
-                    case "Push": entry.Type = FileListType.Push; break;
-                    case "Pull": entry.Type = FileListType.Pull; break;
-                    case "Conflict": entry.Type = FileListType.Conflict; break;
+                  var xElement1 = m.Element("filePath");
+                  if (xElement1 != null)
+                  {
+                    var element1 = m.Element("version");
+                    if (element1 != null)
+                    {
+                      var xElement2 = m.Element("isDeleted");
+                      var entry = new FileListEntry
+                        {
+                          Id = Int64.Parse(xElement.Value),
+                          Name = element.Value,
+                          Path = xElement1.Value,
+                          Version = decimal.Parse(element1.Value),
+                          IsDeleted = xElement2 != null && bool.Parse(xElement2.Value)
+                        };
+                      var element2 = m.Element("type");
+                      if (element2 != null)
+                        switch (element2.Value)
+                        {
+                          case "Push": entry.Type = FileListType.Push; break;
+                          case "Pull": entry.Type = FileListType.Pull; break;
+                          case "Conflict": entry.Type = FileListType.Conflict; break;
+                        }
+
+                      fileList.Add(entry.Id, entry);
+                    }
+                  }
                 }
-
-                fileList.Add(entry.Id, entry);
-                m = m.ElementsAfterSelf().FirstOrDefault();
+              }
+              m = m.ElementsAfterSelf().FirstOrDefault();
             }
+          }
 
-            XElement e = doc.Element("incrementCounter");
+          XElement e = doc.Element("incrementCounter");
+          if (e != null)
+          {
             String inc = e.Value;
             long incCounter = Int64.Parse(inc);
-            return new FileList() { List = fileList, incrementCounter = incCounter };
+            return new FileList { List = fileList, IncrementCounter = incCounter };
+          }
+          return null;
         }
 
         /// <summary>
@@ -145,7 +170,7 @@ namespace SliceOfPie_Model
         /// <returns></returns>
         public static String MarshallId(long id)
         {
-            XElement doc = new XElement("IDResponse",
+            var doc = new XElement("IDResponse",
                                                   new XElement("FileID", id)
                                         );
             return doc.ToString();
@@ -160,8 +185,12 @@ namespace SliceOfPie_Model
         {
             XElement doc = XElement.Parse(xml);
             XElement root = doc.Element("FileID");
+          if (root != null)
+          {
             long id = long.Parse(root.Value);
             return id;
+          }
+          return 0;
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SliceOfPie_Model {
   public class FileList {
     public IDictionary<long, FileListEntry> List { get; set; }
 
-    public Int64 incrementCounter
+    public Int64 IncrementCounter
     {
         get;
         set; 
@@ -15,17 +13,11 @@ namespace SliceOfPie_Model {
 
     public FileListEntry FileListEntry
     {
-        get
+      get
         {
             throw new System.NotImplementedException();
         }
-        set
-        {
-        }
+      set { throw new NotImplementedException(); }
     }
-
-
- 
-
   }
 }

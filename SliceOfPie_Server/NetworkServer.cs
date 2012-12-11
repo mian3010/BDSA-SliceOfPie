@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
-using System.Threading;
+﻿using System.Threading;
 using System.Net;
 
 namespace SliceOfPie_Server
@@ -12,35 +6,33 @@ namespace SliceOfPie_Server
     public class NetworkServer
     {
         //Default port = 8080
-        protected int port;
-        HttpListener listener;
-        bool is_active = true;
-        private static NetworkServer server;
-        RequestHandler handler;
+      private int _port;
+        HttpListener _listener;
+        bool _isActive = true;
+        private static NetworkServer _server;
+      readonly RequestHandler _handler;
 
         public static NetworkServer GetInstance()
         {
-            if (server == null)
-                server = new NetworkServer(8080, RequestHandler.instance);
-            return server;
+          return _server ?? (_server = new NetworkServer(8080, RequestHandler.Instance));
         }
-   
-        private NetworkServer(int port, RequestHandler handler) {
-            this.port = port;
-            this.handler = handler;
+
+      private NetworkServer(int port, RequestHandler handler) {
+            _port = port;
+            _handler = handler;
         }
     
         /// <summary>
         /// Start the listening loop. Listens for requests from clients.
         /// </summary>
-        public void listen() {
-            listener = new HttpListener();
-            listener.Prefixes.Add("http://localhost:8080/");
-            listener.Start();
-            while (is_active) {
-                HttpListenerContext context = listener.GetContext();
-                HTTPProcessor processor = new HTTPProcessor(context, handler);
-                Thread thread = new Thread(() => processor.Process());
+        public void Listen() {
+            _listener = new HttpListener();
+            _listener.Prefixes.Add("http://localhost:8080/");
+            _listener.Start();
+            while (_isActive) {
+                HttpListenerContext context = _listener.GetContext();
+                var processor = new HttpProcessor(context, _handler);
+                var thread = new Thread(processor.Process);
                 thread.Start();
                 Thread.Sleep(1);
              }
@@ -51,7 +43,7 @@ namespace SliceOfPie_Server
         /// </summary>
         public void Close()
         {
-            is_active = false;
+            _isActive = false;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SliceOfPie_Model.Persistence;
+﻿using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
@@ -56,8 +52,8 @@ namespace SliceOfPie_Model
         /// Gives a file a new ID in storage
         /// </summary>
         /// <param name="file">The file which id should be updated ( should contain original id )</param>
-        /// <param name="newID">The new id of the file</param>
-        void UpdateFileID(File file, long newID);
+        /// <param name="newId">The new id of the file</param>
+        void UpdateFileId(File file, long newId);
 
         /// <summary>
         /// Loads a file from storage

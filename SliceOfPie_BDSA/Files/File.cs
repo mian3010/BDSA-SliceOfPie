@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.IO;
 
 namespace SliceOfPie_Model.Persistence {
   public partial class File {
@@ -12,16 +9,11 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
-    private StringBuilder priv_Content;
+    private StringBuilder _privContent;
     public StringBuilder Content {
-      get {
-        if (priv_Content == null) {
-          priv_Content = new StringBuilder();
-        }
-        return priv_Content;
-      }
+      get { return _privContent ?? (_privContent = new StringBuilder()); }
       set {
-        priv_Content = value;
+        _privContent = value;
       }
     }
 
@@ -35,7 +27,7 @@ namespace SliceOfPie_Model.Persistence {
         return Content.ToString();
     }
     public string HistoryToString() {
-      StringBuilder output = new StringBuilder();
+      var output = new StringBuilder();
       output.Append("<ol>");
       output.Append("<li>File created</li>");
       output.Append("<li>File saved</li>");

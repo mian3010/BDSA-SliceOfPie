@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SliceOfPie_Model {
   /// <summary>
@@ -14,24 +13,23 @@ namespace SliceOfPie_Model {
     public static User[] GetUsers() {
       var query = from u in DbContext.Users
                   select u;
-      return !query.Any<User>() ? null : query.ToArray<User>();
+      return !query.Any() ? null : query.ToArray();
     }
 
     public static User GetUsers(string email) {
       if (email == null || email.Trim() == "") return null;
-      var DbContext = new SliceOfLifeEntities();
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
-      return !query.Any<User>() ? null : (User) query.First<User>();
+      return !query.Any() ? null : query.First();
     }
 
     // Does this return object hold a list of MetaDataTypes?
-    public static FileMetaData[] GetMetaData(long FileId) {
+    public static FileMetaData[] GetMetaData(long fileId) {
       var query = from meta in DbContext.FileMetaDatas
-                  where meta.File_id == FileId
+                  where meta.File_id == fileId
                   select meta;
-      return !query.Any<FileMetaData>() ? null : query.ToArray<FileMetaData>();
+      return !query.Any() ? null : query.ToArray();
     }
 
     public static void AddUser(string email){
@@ -46,8 +44,8 @@ namespace SliceOfPie_Model {
       var query = from u in DbContext.Users
                   where u.email == email
                   select u;
-      if (!query.Any<User>()) return;
-      DbContext.DeleteObject(query.First<User>());
+      if (!query.Any()) return;
+      DbContext.DeleteObject(query.First());
       DbContext.SaveChanges();
     }
 
@@ -57,7 +55,7 @@ namespace SliceOfPie_Model {
       var query = from e in DbContext.FileInstances
                   where e.User_email == email
                   select e;
-      if (!query.Any<FileInstance>()) return null;
+      if (!query.Any()) return null;
       foreach (var e in query.ToArray()) {
         Console.WriteLine(e.ToString());
       }
@@ -69,7 +67,7 @@ namespace SliceOfPie_Model {
                   where f.id == fileId
                   select f;
       if (!query.Any<File>()) return null;
-      return query.First<File>();
+      return query.First();
     }
 
     public static long SaveFile(File file)
@@ -82,10 +80,10 @@ namespace SliceOfPie_Model {
       var query = from f in DbContext.Files
                   where f.id == file.id
                   select f;
-      if (!query.Any<File>()) return -1;
-      File tempFile = query.First<File>();
+      if (!query.Any()) return -1;
+      var tempFile = query.First();
       if(tempFile.Equals(file)) return file.id;
-      else return -1;
+      return -1;
     }
 
     public static long UpdateFile(File file) {
@@ -99,23 +97,23 @@ namespace SliceOfPie_Model {
       var query = from f in DbContext.Files
                   where f.id == file.id
                   select f;
-      if (!query.Any<File>()) return -1;
-      File tempFile = query.First<File>();
+      if (!query.Any()) return -1;
+      var tempFile = query.First();
       if (tempFile.Equals(file)) return file.id;
-      else return -1;
+      return -1;
     }
 
     public static FileList GetFileList(string userEmail) {
-      FileList UsersFilesOnServer = new FileList();
-      IDictionary<long, FileListEntry> List = UsersFilesOnServer.List;
+      var usersFilesOnServer = new FileList();
+      IDictionary<long, FileListEntry> list = usersFilesOnServer.List;
 
       var query = from f in DbContext.FileInstances
                   where f.User_email == userEmail
                   select f;
       foreach (FileInstance fi in query) {
-        List.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
+        list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
       }
-      return UsersFilesOnServer;
+      return usersFilesOnServer;
     }
   }
 }

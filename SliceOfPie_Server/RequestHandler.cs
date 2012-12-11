@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SliceOfPie_Model;
 using System.Threading;
 using SliceOfPie_Model.Persistence;
@@ -35,40 +31,25 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get the list of approved to receive new files
     /// </summary>
-    private List<long> NewFileList;
+    private List<long> _newFileList;
     public List<long> PendingNewFileList {
-      get {
-        if (NewFileList == null) {
-          NewFileList = new List<long>();
-        }
-        return NewFileList;
-      }
+      get { return _newFileList ?? (_newFileList = new List<long>()); }
     }
 
     /// <summary>
     /// Get the list of approved to receive modified files
     /// </summary>
-    private Dictionary<long, FileListEntry> ModFileList;
+    private Dictionary<long, FileListEntry> _modFileList;
     public Dictionary<long, FileListEntry> PendingModFileList {
-      get {
-        if (ModFileList == null) {
-          ModFileList = new Dictionary<long, FileListEntry>();
-        }
-        return ModFileList;
-      }
+      get { return _modFileList ?? (_modFileList = new Dictionary<long, FileListEntry>()); }
     }
 
     /// <summary>
     /// Get this singleon instance
     /// </summary>
-    private static RequestHandler tinstance;
-    public static RequestHandler instance {
-      get {
-        if (tinstance == null) {
-          tinstance = new RequestHandler();
-        }
-        return tinstance;
-      }
+    private static RequestHandler _tinstance;
+    public static RequestHandler Instance {
+      get { return _tinstance ?? (_tinstance = new RequestHandler()); }
     }
 
     /// <summary>
@@ -76,9 +57,9 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HTTPProcessor hp) {
-      FileReceiver fr = new FileReceiver(file, hp);
-      Thread thread = new Thread(() => fr.Receive());
+    public void ReceiveFile(File file, HttpProcessor hp) {
+      var fr = new FileReceiver(file, hp);
+      var thread = new Thread(fr.Receive);
       thread.Start();
     }
 
@@ -87,13 +68,13 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="fileList"></param>
     /// <param name="hp"></param>
-    public void ReceiveFileList(FileList fileList, HTTPProcessor hp) {
+    public void ReceiveFileList(FileList fileList, HttpProcessor hp) {
       ReviewFileList(fileList, hp);
     }
 
-    private void ReviewFileList(FileList fileList, HTTPProcessor hp) {
-      FileListReviewer fr = new FileListReviewer(fileList, hp);
-      Thread thread = new Thread(() => fr.Review());
+    private void ReviewFileList(FileList fileList, HttpProcessor hp) {
+      var fr = new FileListReviewer(fileList, hp);
+      var thread = new Thread(fr.Review);
       thread.Start();
     }
 
@@ -101,8 +82,9 @@ namespace SliceOfPie_Server {
     /// Get a file from the server
     /// </summary>
     /// <param name="id"></param>
+    /// /// <param name="processor"></param>
     /// <returns></returns>
-    public void GetFile(long id, HTTPProcessor processor) {
+    public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
       File file = Context.GetFile(id);
       processor.RecieveFile(file);

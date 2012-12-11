@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SliceOfPie_Model;
+﻿using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Server {
@@ -14,18 +9,18 @@ namespace SliceOfPie_Server {
   /// Author: mian3010 - msoa@itu.dk
   /// </summary>
   class FileReceiver {
-    private HTTPProcessor hp;
-    private File file;
+    private HttpProcessor _hp;
+    private readonly File _file;
 
     /// <summary>
     /// Constructor. 
-    /// This will call a method upon the HTTPProcessor, to tell wether this was succesful
+    /// This will call a method upon the HttpProcessor, to tell wether this was succesful
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public FileReceiver(File file, HTTPProcessor hp) {
-      this.file = file;
-      this.hp = hp;
+    public FileReceiver(File file, HttpProcessor hp) {
+      _file = file;
+      _hp = hp;
     }
 
     public void Receive() {
@@ -36,21 +31,19 @@ namespace SliceOfPie_Server {
 
       // Determin new or mod
       // If new file
-      if (RequestHandler.instance.PendingNewFileList.Contains(file.id)) {
-        success = Context.SaveFile(file);
+      if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
+        Context.SaveFile(_file);
 
         // else if mod file
-      } else if (RequestHandler.instance.PendingModFileList.ContainsKey(file.id)) {
+      } else if (RequestHandler.Instance.PendingModFileList.ContainsKey(_file.id)) {
         try {
           //Document DocumentFromFile = Document.CreateDocument(file);
           //Document DocumentFromDb = Document.CreateDocument(Context.GetFile(file.id));
           //Document DocumentMerged = MergePolicy.Merge(DocumentFromFile, DocumentFromDb);
         } catch (NotADocumentException e) { } catch (MergeImpossibleException e) { }
-        success = Context.UpdateFile(file);
+        Context.UpdateFile(_file);
 
         // else reject
-      } else {
-
       }
       // hp.something(succes);
     }

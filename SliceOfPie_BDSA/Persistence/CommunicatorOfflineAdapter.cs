@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
@@ -19,25 +15,25 @@ namespace SliceOfPie_Model {
     public class CommunicatorOfflineAdapter : ICommunicator {
 
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
-        private readonly OfflineFileListHandler fileListHandler;
+        private readonly OfflineFileListHandler _fileListHandler;
 
-        private static CommunicatorOfflineAdapter adapter;
+        private static CommunicatorOfflineAdapter _adapter;
 
         public IFileListHandler FileListHandler
         {
-            get { return fileListHandler; } 
+            get { return _fileListHandler; } 
         }
     
       public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
         public static CommunicatorOfflineAdapter GetCommunicatorInstance()
         {
-            return adapter ?? (adapter = new CommunicatorOfflineAdapter());
+            return _adapter ?? (_adapter = new CommunicatorOfflineAdapter());
         }
 
         private CommunicatorOfflineAdapter()
       {
-          fileListHandler = new OfflineFileListHandler(this);
+          _fileListHandler = new OfflineFileListHandler(this);
       }
 
         /// <summary>
@@ -46,37 +42,32 @@ namespace SliceOfPie_Model {
         /// <param name="file">The file to add from a remote location</param>
         /// <returns>True if successful, false otherwise</returns>
       public bool AddFileFromRemote(File file)
-      {
+        {
           if (AddNewFile(file))
           {
               if (FilePulled != null)
                   FilePulled(file);
               return true;
           }
-          else return false;    
+          return false;
+        }
 
-      }
-
-    private bool AddNewFile(File file) {
+      private bool AddNewFile(File file) {
 
         if(!System.IO.Directory.Exists(file.serverpath)) {
             System.IO.Directory.CreateDirectory(file.serverpath);
         }
         string fullpath = System.IO.Path.Combine(file.serverpath, file.name);
-        String fileHTML = HTMLMarshalUtil.MarshallFile(file);
+        String fileHtml = HtmlMarshalUtil.MarshallFile(file);
         if (!System.IO.File.Exists(fullpath))
         {
-            System.IO.File.WriteAllText(fullpath, fileHTML);
+            System.IO.File.WriteAllText(fullpath, fileHtml);
             return true;
         }
-        else
-        {
-            // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
-            System.IO.File.WriteAllText(fullpath, fileHTML);
-            return true;
-        }
-
-    }
+        // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
+        System.IO.File.WriteAllText(fullpath, fileHtml);
+        return true;
+      }
 
       /// <summary>
       /// Add a new file to the disk with either the serverpath specified in the file or the default rootpath.
@@ -87,15 +78,14 @@ namespace SliceOfPie_Model {
       /// <returns>Boolean indicating whether the creation was succesful</returns>
     public bool AddOfflineCreatedFile(File file)
     {
-        file.id = FileListHandler.FileList.incrementCounter--;
+        file.id = FileListHandler.FileList.IncrementCounter--;
         if (AddNewFile(file))
         {
             if (FileAdded != null)
                 FileAdded(file);
             return true;
         }
-        else return false;    
-
+        return false;
     }
 
     /// <summary>
@@ -220,10 +210,7 @@ namespace SliceOfPie_Model {
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
 
@@ -235,11 +222,11 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     public File GetFile(long id)
     {
-        FileListEntry fileInfo = fileListHandler.FileList.List[id];
+        FileListEntry fileInfo = _fileListHandler.FileList.List[id];
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
-        File loadedFile = HTMLMarshalUtil.UnmarshallFile(html);
+        File loadedFile = HtmlMarshalUtil.UnmarshallFile(html);
         loadedFile.serverpath = fileInfo.Path;
         loadedFile.name = fileInfo.Name;
 
@@ -248,7 +235,7 @@ namespace SliceOfPie_Model {
     }
 
 
-    public void UpdateFileID(File file, long newID)
+    public void UpdateFileId(File file, long newId)
     {
         throw new NotImplementedException();
     }

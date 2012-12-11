@@ -1,39 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
     public class OfflineFileListHandler : IFileListHandler
     {
-        public readonly String logpath = @"C:\test\log";
-        public readonly String logfile = "filelist.xml";
+      private const String Logpath = @"C:\test\log";
+      private const String Logfile = "filelist.xml";
 
-        private FileList p_fileList;
+      private readonly FileList _pFileList;
         public FileList FileList   {
             get
             {
-                return p_fileList;
+                return _pFileList;
             }
         }
 
         public FileList FileList1
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
+          get {
+            throw new System.NotImplementedException();
+          }
+          set { throw new NotImplementedException(); }
         }
 
 
-
-        public OfflineFileListHandler(ICommunicator cm)
+      public OfflineFileListHandler(ICommunicator cm)
         {
             cm.FileAdded += FileAdded;
             cm.FileChanged += FileChangedOnDisk;
@@ -42,26 +35,26 @@ namespace SliceOfPie_Model
             cm.FileRenamed += FileRenamed;
             cm.FilePulled += FilePulled;
 
-            String fullLogPath = System.IO.Path.Combine(logpath, logfile);
-            if (!System.IO.Directory.Exists(logpath))
+            String fullLogPath = System.IO.Path.Combine(Logpath, Logfile);
+            if (!System.IO.Directory.Exists(Logpath))
             {
-                System.IO.Directory.CreateDirectory(logpath);
+                System.IO.Directory.CreateDirectory(Logpath);
             }
             if (System.IO.File.Exists(fullLogPath))
             {
-                String logXML = System.IO.File.ReadAllText(fullLogPath);
-                p_fileList = HTMLMarshalUtil.UnMarshallFileList(logXML);
+                String logXml = System.IO.File.ReadAllText(fullLogPath);
+                _pFileList = HtmlMarshalUtil.UnMarshallFileList(logXml);
 
             }
             else
             {
-                p_fileList = new FileList();
+                _pFileList = new FileList();
                 FileList.List = new Dictionary<long, FileListEntry>();
-                FileList.incrementCounter = -1;
+                FileList.IncrementCounter = -1;
             }
         }
 
-        public void FilePulled(File file)
+      private void FilePulled(File file)
         {
             FileListEntry entry = StandardFileEntry(file);
             entry.Id = file.id;
@@ -71,14 +64,11 @@ namespace SliceOfPie_Model
 
         private FileListEntry StandardFileEntry(File file)
         {
-            FileListEntry entry = new FileListEntry();
-            entry.Name = file.name;
-            entry.Path = file.serverpath;
-            entry.IsDeleted = false;
-            return entry;
+            var entry = new FileListEntry {Name = file.name, Path = file.serverpath, IsDeleted = false};
+          return entry;
         }
 
-        public void FileAdded(File file)
+      private void FileAdded(File file)
         {
             FileListEntry entry =  StandardFileEntry(file);
             entry.Id = file.id;
@@ -86,12 +76,12 @@ namespace SliceOfPie_Model
             FileList.List.Add(entry.Id, entry);  
         }
 
-        public void FileDeleted(File file)
+      private void FileDeleted(File file)
         {
             FileList.List.Remove(file.id);
         }
 
-        public void FileRenamed(File file)
+      private void FileRenamed(File file)
         {
             FileList.List[file.id].Name = file.name;
         }
@@ -99,12 +89,12 @@ namespace SliceOfPie_Model
 
         public void PersistFileList()
         {
-            String fullPath = System.IO.Path.Combine(logpath, logfile);
-            String logXML = HTMLMarshalUtil.MarshallFileList(FileList);
-            System.IO.File.WriteAllText(fullPath, logXML);
+            String fullPath = System.IO.Path.Combine(Logpath, Logfile);
+            String logXml = HtmlMarshalUtil.MarshallFileList(FileList);
+            System.IO.File.WriteAllText(fullPath, logXml);
         }
 
-        public void FileChangedOnDisk(File file)
+      private void FileChangedOnDisk(File file)
         {
             FileList.List[file.id].Version += 0.001m;          
         }
@@ -114,14 +104,14 @@ namespace SliceOfPie_Model
             // We need version, possibly passed on from file?
         }
 
-        public void FileMoved(File file)
+      private void FileMoved(File file)
         {
             FileList.List[file.id].Path = file.serverpath;
         }
 
-        public Dictionary<String, long> GetPathsWithID()
+        public Dictionary<String, long> GetPathsWithId()
         {
-            Dictionary<String, long> dic = new Dictionary<String, long>();
+            var dic = new Dictionary<String, long>();
 
             foreach (FileListEntry entry in FileList.List.Values)
             {

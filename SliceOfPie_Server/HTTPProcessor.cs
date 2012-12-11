@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
-using System.Net.Sockets;
 using System.IO;
 using SliceOfPie_Model;
-using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Server
 {
@@ -15,17 +11,17 @@ namespace SliceOfPie_Server
     /// Class responsible for processing the HTTP requests from the Network Server.
     /// Is created in a new thread for every new client.
     /// </summary>
-    public class HTTPProcessor
+    public class HttpProcessor
     {
-        private HttpListenerRequest request;
-        private HttpListenerResponse response;
-        private RequestHandler handler;
+        private readonly HttpListenerRequest _request;
+        private readonly HttpListenerResponse _response;
+        private readonly RequestHandler _handler;
 
-        public HTTPProcessor(HttpListenerContext context, RequestHandler handler)
+        public HttpProcessor(HttpListenerContext context, RequestHandler handler)
         {
-            request = context.Request;
-            response = context.Response;
-            this.handler = handler;
+            _request = context.Request;
+            _response = context.Response;
+            _handler = handler;
         }
 
         /// <summary>
@@ -35,31 +31,31 @@ namespace SliceOfPie_Server
         public void Process()
         {
             Console.Out.WriteLine("starting to process");
-            string http_method = request.HttpMethod;
-            Stream inputStream = request.InputStream;
+            string httpMethod = _request.HttpMethod;
+            Stream inputStream = _request.InputStream;
             // Determines which http-method is called.
             try
             {
-                if (http_method == "PUT")
+                if (httpMethod == "PUT")
                 {
-                    StreamReader reader = new StreamReader(inputStream);
+                    var reader = new StreamReader(inputStream);
                     string xml = reader.ReadToEnd();
-                    SliceOfPie_Model.Persistence.File file = HTMLMarshalUtil.UnmarshallFile(xml);
-                    handler.ReceiveFile(file, this);
+                    SliceOfPie_Model.Persistence.File file = HtmlMarshalUtil.UnmarshallFile(xml);
+                    _handler.ReceiveFile(file, this);
                 }
-                else if (http_method == "POST")
+                else if (httpMethod == "POST")
                 {
-                    StreamReader reader = new StreamReader(inputStream);
+                    var reader = new StreamReader(inputStream);
                     string s = reader.ReadToEnd();
                     if (s.Contains("FileID"))
                     {
-                        long id = HTMLMarshalUtil.UnMarshallId(s);
-                        handler.GetFile(id, this);
+                        long id = HtmlMarshalUtil.UnMarshallId(s);
+                        _handler.GetFile(id, this);
                     }
                     else
                     {
-                        FileList list = HTMLMarshalUtil.UnMarshallFileList(s);
-                        handler.ReceiveFileList(list, this);
+                        FileList list = HtmlMarshalUtil.UnMarshallFileList(s);
+                        _handler.ReceiveFileList(list, this);
                     }
                 }
                 else
@@ -80,12 +76,12 @@ namespace SliceOfPie_Server
         /// <param name="list">FileList</param>
         public void RecieveFileList(FileList list)
         {
-            string responseString = HTMLMarshalUtil.MarshallFileList(list);
-            StreamReader content = new StreamReader(request.InputStream);
+            string responseString = HtmlMarshalUtil.MarshallFileList(list);
+            var content = new StreamReader(_request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
-            response.ContentLength64 = responseString.Length;
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }
@@ -96,12 +92,12 @@ namespace SliceOfPie_Server
         /// <param name="file">File</param>
         public void RecieveFile(SliceOfPie_Model.Persistence.File file)
         {
-            string responseString = HTMLMarshalUtil.MarshallFile(file);
-            StreamReader content = new StreamReader(request.InputStream);
+            string responseString = HtmlMarshalUtil.MarshallFile(file);
+            var content = new StreamReader(_request.InputStream);
             Console.Out.WriteLine(content.ReadToEnd());
-            response.ContentLength64 = responseString.Length;
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }
@@ -113,11 +109,12 @@ namespace SliceOfPie_Server
         /// <param name="id"></param>
         public void RecieveConfirmation(long id)
         {
-            string responseString = HTMLMarshalUtil.MarshallId(id);
-            StreamReader content = new StreamReader(request.InputStream);
-            response.ContentLength64 = responseString.Length;
+            string responseString = id.ToString(CultureInfo.InvariantCulture);
+            var content = new StreamReader(_request.InputStream);
+            Console.Out.WriteLine(content.ReadToEnd());
+            _response.ContentLength64 = responseString.Length;
             byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
-            Stream stream = response.OutputStream;
+            Stream stream = _response.OutputStream;
             stream.Write(byteVersion, 0, byteVersion.Length);
             stream.Close();
         }

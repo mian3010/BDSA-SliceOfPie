@@ -1,11 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SliceOfPie_Model;
-
 using SliceOfPie_Model.Persistence;
-
 using System.Collections.Generic;
-using SliceOfPie_Model.Persistence;
 
 
 namespace SliceOfPie_Testing
@@ -95,8 +92,8 @@ namespace SliceOfPie_Testing
 
             foreach (File testFile in testInput)
             {
-                String marshalledFile = HTMLMarshalUtil.MarshallFile(testFile);
-                File unmarshalledFile = HTMLMarshalUtil.UnmarshallFile(marshalledFile);
+                String marshalledFile = HtmlMarshalUtil.MarshallFile(testFile);
+                File unmarshalledFile = HtmlMarshalUtil.UnmarshallFile(marshalledFile);
 
                 Assert.AreEqual(unmarshalledFile.id, testFile.id);
                 Assert.AreEqual(unmarshalledFile.name, testFile.name);
@@ -113,8 +110,8 @@ namespace SliceOfPie_Testing
         public void TestMarshallId()
         {
             long id = 1;
-            string marshalledFile = HTMLMarshalUtil.MarshallId(id);
-            long UnmarshallFile = HTMLMarshalUtil.UnMarshallId(marshalledFile);
+            string marshalledFile = HtmlMarshalUtil.MarshallId(id);
+            long UnmarshallFile = HtmlMarshalUtil.UnMarshallId(marshalledFile);
             Assert.AreEqual(id, UnmarshallFile);
         }
 
