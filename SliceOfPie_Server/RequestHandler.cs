@@ -14,17 +14,18 @@ namespace SliceOfPie_Server {
       // Fill database with test content
       // Add user
       User user = User.CreateUser("test@example.com");
-      //Context.AddUser(user);
+      Context.AddUser(user);
 
       // Add files
       File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
       file.Content.Append("This is a test file. Does this work? \n New line");
-      Context.SaveFile(file);
+      Context.AddFile(file);
 
       // Add FileInstance, bind to user
+      FileInstance fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
+      Context.AddFileInstance(fileInstance);
 
-
-      // Add MetaData and MetaDataType to file
+      // Add MetaData to file
 
     }
 
