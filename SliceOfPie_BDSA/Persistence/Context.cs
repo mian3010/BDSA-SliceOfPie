@@ -31,31 +31,10 @@ namespace SliceOfPie_Model.Persistence {
     public static long AddUser(User user) {
       if (user == null) return -2;
       if (GetUser(user.email) != null) {
-        return ModifyUser(user);
+        return 1;
       }
       DbContext.Users.AddObject(user);
       return DbContext.SaveChanges();
-    }
-
-    public static long DeleteUser(User user) {
-      if (user == null) return -2;
-      return DeleteUser(user.email);
-    }
-
-    public static long DeleteUser(string email) {
-      if (email == null || email.Trim() == "") return -2;
-      var query = from u in DbContext.Users
-                  where u.email == email
-                  select u;
-      if (!query.Any()) return -2;
-      DbContext.Users.DeleteObject(query.First());
-      return DbContext.SaveChanges();
-    }
-
-    public static long ModifyUser(User user) {
-      if (user == null) return -2;
-      DeleteUser(user);
-      return AddUser(user);
     }
 
     public static List<FileMetaData> GetMetaData(long fileId) {
@@ -96,7 +75,7 @@ namespace SliceOfPie_Model.Persistence {
     public static long AddFileMetaData(FileMetaData fileMetaData) {
       if (fileMetaData == null) return -2;
       if (GetMetaData(fileMetaData.id) != null) return ModifyMetaData(fileMetaData);
-      AddMetaDataType(fileMetaData.MetaDataType.ToString());
+      AddMetaDataType(fileMetaData.MetaDataType_Type);
       DbContext.FileMetaDatas.AddObject(fileMetaData);
       return DbContext.SaveChanges();
     }
@@ -172,8 +151,9 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     private static MetaDataType GetMetaDataType(string type) {
+      var inputType = MetaDataType.CreateMetaDataType(type);
       var query = from mt in DbContext.MetaDataTypes
-                  where mt.ToString() == type
+                  where mt == inputType
                   select mt;
       return !query.Any() ? null : query.First();
     }
