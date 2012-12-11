@@ -111,11 +111,5 @@ namespace SliceOfPie_Model
             long id = HTMLMarshalUtil.UnMarshallId(xml);
             return id;
         }
-
-
-        public static void Main(String[] args)
-        {
-           
-        }
     }
 }

@@ -138,14 +138,30 @@ namespace SliceOfPie_Model
             return new FileList() { List = fileList, incrementCounter = incCounter };
         }
 
+        /// <summary>
+        /// Responsible for marshalling id to XML
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static String MarshallId(long id)
         {
-            throw new NotImplementedException();
+            XElement doc = new XElement("IDResponse",
+                                                  new XElement("FileID", id)
+                                        );
+            return doc.ToString();
         }
 
-          public static long UnMarshallId(String id)
+        /// <summary>
+        /// Responsible for unmarshalling xml to an ID
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+          public static long UnMarshallId(String xml)
         {
-            throw new NotImplementedException();
+            XElement doc = XElement.Parse(xml);
+            XElement root = doc.Element("FileID");
+            long id = long.Parse(root.Value);
+            return id;
         }
     }
 }
