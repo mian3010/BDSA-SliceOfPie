@@ -11,9 +11,25 @@ namespace SliceOfPie_Server {
   public class RequestHandler {
     private RequestHandler() { }
     public static void Main(string[] args) {
-      FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
+      /* FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
       new SliceOfLifeEntities().AddToFileInstances(fi);
-      Context.GetServerFileList("test");
+      Context.GetServerFileList("test"); */
+
+      // Fill database with test content
+      // Add user
+      User user = User.CreateUser("test@example.com");
+      //Context.AddUser(user);
+
+      // Add files
+      File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
+      file.Content.Append("This is a test file. Does this work? \n New line");
+      Context.SaveFile(file);
+
+      // Add FileInstance, bind to user
+
+
+      // Add MetaData and MetaDataType to file
+
     }
 
     /// <summary>
@@ -32,11 +48,11 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get the list of approved to receive modified files
     /// </summary>
-    private List<long> _modFileList;
-    public List<long> PendingModFileList {
+    private Dictionary<long, FileListEntry> _modFileList;
+    public Dictionary<long, FileListEntry> PendingModFileList {
       get {
         if (_modFileList == null) {
-          _modFileList = new List<long>();
+          _modFileList = new Dictionary<long, FileListEntry>();
         }
         return _modFileList;
       }
@@ -91,126 +107,6 @@ namespace SliceOfPie_Server {
       //TODO: Test this
       File file = Context.GetFile(id);
       processor.RecieveFile(file);
-    }
-  }
-
-  /// <summary>
-  /// This class handles file receives.
-  /// This will usually be started in a seperate thread.
-  /// </summary>
-  class FileReceiver {
-    readonly HttpProcessor _hp;
-    readonly File _file;
-
-    /// <summary>
-    /// Constructor. 
-    /// This will call a method upon the HTTPProcessor, to tell wether this was succesful
-    /// </summary>
-    /// <param name="file"></param>
-    /// <param name="hp"></param>
-    public FileReceiver(File file, HttpProcessor hp) {
-      this._file = file;
-      this._hp = hp;
-    }
-
-    public void Receive() {
-      long succes = -2; // will be returned
-      // succes == id if succes
-      // -1 if failed
-      // -2 if reject
-
-      // Determin new or mod
-      // If new file
-      if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
-         succes = Context.SaveFile(_file);
-
-        // else if mod file
-      } else if (RequestHandler.Instance.PendingModFileList.Contains(_file.id)) {
-        succes = Context.UpdateFile(_file);
-
-        // else reject
-      } else {
-
-      }
-      _hp.RecieveConfirmation(succes);
-    }
-  }
-
-  /// <summary>
-  /// This class handles FileList receives.
-  /// This will usually be started in a seperate thread.
-  /// </summary>
-  class FileListReviewer {
-    private readonly FileList _fileList;
-    private HttpProcessor _hp;
-
-    /// <summary>
-    /// Constructor. 
-    /// This will call a method upon the HTTPProcessor, to tell wether this was succesful
-    /// </summary>
-    /// <param name="fileList"></param>
-    /// <param name="hp"></param>
-    public FileListReviewer(FileList fileList, HttpProcessor hp) {
-      this._fileList = fileList;
-      this._hp = hp;
-    }
-
-    public void Review() {
-      foreach (FileListEntry entry in _fileList.List.Values) {
-        // if file exists
-        if (Context.GetFile(entry.Id) != null) {
-
-        } else {
-
-        }
-      }
-      //hp.something(fileList);
-    }
-
-    //Get the servers filelist for compare
-    private FileList ServerFileList() {
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileRename(FileListEntry entry) {
-      // Add change to change table in db
-      // Do rename
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileMove(FileListEntry entry) {
-      // Add change to change table in db
-      // Change FileInstance path
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleFileModify(FileList entry) {
-      // Check if okay
-      // Add to okay to modify list
-      // Program.instance.AddToModifyList(Entry.id); // TODO file id
-      // Tell client to PUT file
-      throw new NotImplementedException();
-    }
-
-    private void HandleMergeReady(FileList entry) {
-      //Context.
-      throw new NotImplementedException();
-    }
-
-    private void HandleDeleteFile(FileList entry) {
-      // Add change to change table in db
-      // Do delete
-      // Add change to server log
-      throw new NotImplementedException();
-    }
-
-    private void HandleAddFile(FileList entry) {
-      // Check if okay
-      // Add to okay to add list // Temp ID?
-      // Tell client to PUT file
-      throw new NotImplementedException();
     }
   }
 }
