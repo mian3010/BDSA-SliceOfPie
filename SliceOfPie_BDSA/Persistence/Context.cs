@@ -16,7 +16,7 @@ namespace SliceOfPie_Model {
       return !query.Any() ? null : query.ToArray();
     }
 
-    public static User GetUsers(string email) {
+    public static User GetUser(string email) {
       if (email == null || email.Trim() == "") return null;
       var query = from u in DbContext.Users
                   where u.email == email
@@ -32,11 +32,65 @@ namespace SliceOfPie_Model {
       return !query.Any() ? null : query.ToArray();
     }
 
-    public static void AddUser(string email){
+    public static void AddUser(User user) {
+      if (user == null) return;
+      if (GetUser(user.email) != null) {
+        ModifyUser(user);
+      } else {
+        DbContext.AddToUsers(user);
+        DbContext.SaveChanges();
+      }
+    }
+
+    public static void ModifyUser(User user) {
+      DeleteUser(user);
+      AddUser(user);
+    }
+
+    public static void AddFileInstance(FileInstance fileInstance) {
+      if (fileInstance == null) return;
+      if (GetFileInstance(fileInstance.id) != null) {
+        ModifyFileInstance(fileInstance);
+      } else {
+        DbContext.AddToFileInstances(fileInstance);
+        DbContext.SaveChanges();
+      }
+    }
+
+    public static void ModifyFileInstance(FileInstance fileInstance) {
+      DeleteFileInstance(fileInstance);
+      AddFileInstance(fileInstance);
+    }
+
+    public static void DeleteFileInstance(FileInstance fileInstance) {
+      DeleteFileInstance(fileInstance.id);
+    }
+
+    public static void DeleteFileInstance(long fileInstanceId) {
+      var query = from fi in DbContext.FileInstances
+                  where fi.id == fileInstanceId
+                  select fi;
+      if (!query.Any()) return;
+      DbContext.DeleteObject(query.First());
+      DbContext.SaveChanges();
+    }
+
+    public static FileInstance GetFileInstance(long fileInstanceId) {
+      var query = from fi in DbContext.FileInstances
+                  where fi.id == fileInstanceId
+                  select fi;
+      return !query.Any() ? null : query.First();
+    }
+
+    public static void AddUser(string email) {
       if (email == null || email.Trim() == "") return;
       User user = User.CreateUser(email);
       DbContext.AddToUsers(user);
       DbContext.SaveChanges();
+    }
+
+    public static void DeleteUser(User user) {
+      DeleteUser(user.email);
     }
 
     public static void DeleteUser(string email) {
@@ -49,29 +103,15 @@ namespace SliceOfPie_Model {
       DbContext.SaveChanges();
     }
 
-    public static Dictionary<long, FileListEntry> GetServerFileList(string email)
-    {
-      if (email == null || email.Trim() == "") return null;
-      var query = from e in DbContext.FileInstances
-                  where e.User_email == email
-                  select e;
-      if (!query.Any()) return null;
-      foreach (var e in query.ToArray()) {
-        Console.WriteLine(e.ToString());
-      }
-      throw new NotImplementedException();
-    }
-
-    public static File GetFile(long fileId){
+    public static File GetFile(long fileId) {
       var query = from f in DbContext.Files
                   where f.id == fileId
                   select f;
-      if (!query.Any<File>()) return null;
+      if (!query.Any()) return null;
       return query.First();
     }
 
-    public static long SaveFile(File file)
-    {
+    public static long SaveFile(File file) {
       if (file == null) return -2;
       DbContext.Files.AddObject(file);
       DbContext.SaveChanges();
@@ -82,7 +122,7 @@ namespace SliceOfPie_Model {
                   select f;
       if (!query.Any()) return -1;
       var tempFile = query.First();
-      if(tempFile.Equals(file)) return file.id;
+      if (tempFile.Equals(file)) return file.id;
       return -1;
     }
 
