@@ -20,8 +20,8 @@ namespace SliceOfPie_Testing
             {
                 /// We assume that the marshalls of file works. TO-DO MAke manual XML to
                 /// remove this dependency.
-                String xml = HTMLMarshalUtil.MarshallFile(file);
-                File resfile = HTMLMarshalUtil.UnmarshallFile(xml);
+                String xml = HtmlMarshalUtil.MarshallFile(file);
+                File resfile = HtmlMarshalUtil.UnmarshallFile(xml);
                 results.Add(resfile);
             
                 Debug.WriteLine(resfile.id + " " + resfile.name + " " + resfile.serverpath);

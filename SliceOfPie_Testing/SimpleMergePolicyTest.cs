@@ -32,7 +32,7 @@ namespace SliceOfPie_Testing
             String original = "This test should have a simple merged output.";
             String latest = "This test should have a simple merged output.";
 
-            Document result = SimpleMergePolicy.Merge(Document.createTestDocument(original), Document.createTestDocument(latest));
+            Document result = SimpleMergePolicy.Merge(Document.CreateTestDocument(original), Document.CreateTestDocument(latest));
             Assert.AreEqual(result.Content.ToString(), latest);
         }
 
@@ -43,7 +43,7 @@ namespace SliceOfPie_Testing
             String latest = "We are testing to see if our merger can add lines. It's gonna be exciting. And we should" +
                             "throw a party afterwards. Yay!";
 
-            Assert.AreEqual(SimpleMergePolicy.Merge(Document.createTestDocument(original), Document.createTestDocument(latest)).Content
+            Assert.AreEqual(SimpleMergePolicy.Merge(Document.CreateTestDocument(original), Document.CreateTestDocument(latest)).Content
                 .ToString(), latest);
         }
 
@@ -53,7 +53,7 @@ namespace SliceOfPie_Testing
             String original = "Something has to be deleted. Something has to go from here. And it's youuuuuuuuuuuuuuuuu";
             String latest = "Something has to be deleted. Something has to go from here.";
 
-            Assert.AreEqual(SimpleMergePolicy.Merge(Document.createTestDocument(original), Document.createTestDocument(latest)).Content
+            Assert.AreEqual(SimpleMergePolicy.Merge(Document.CreateTestDocument(original), Document.CreateTestDocument(latest)).Content
                 .ToString(), latest);
         }
 
@@ -63,7 +63,7 @@ namespace SliceOfPie_Testing
             String original = "We are testing. That some sentence is removed. From. ORIGINAL. And is now not in the latest";
             String latest = "We are testing. That some sentence is removed. From. And is now not in the latest";
 
-            Assert.AreEqual(SimpleMergePolicy.Merge(Document.createTestDocument(original), Document.createTestDocument(latest)).Content
+            Assert.AreEqual(SimpleMergePolicy.Merge(Document.CreateTestDocument(original), Document.CreateTestDocument(latest)).Content
                 .ToString(), latest);
         }
 
@@ -74,7 +74,7 @@ namespace SliceOfPie_Testing
             String latest = "We rode a nice little ride. Then we saw the sunshine. We ate some ice cream. And drove out to the mountains."
                                + "\"Hey, fuck you\", he yelled. Fuck you too. And it was good.";
 
-            Assert.AreEqual(SimpleMergePolicy.Merge(Document.createTestDocument(original), Document.createTestDocument(latest)).Content
+            Assert.AreEqual(SimpleMergePolicy.Merge(Document.CreateTestDocument(original), Document.CreateTestDocument(latest)).Content
                     .ToString(), latest);
         }
     }

@@ -95,8 +95,8 @@ namespace SliceOfPie_Testing
 
             foreach (File testFile in testInput)
             {
-                String marshalledFile = HTMLMarshalUtil.MarshallFile(testFile);
-                File unmarshalledFile = HTMLMarshalUtil.UnmarshallFile(marshalledFile);
+                String marshalledFile = HtmlMarshalUtil.MarshallFile(testFile);
+                File unmarshalledFile = HtmlMarshalUtil.UnmarshallFile(marshalledFile);
 
                 Assert.AreEqual(unmarshalledFile.id, testFile.id);
                 Assert.AreEqual(unmarshalledFile.name, testFile.name);
@@ -113,8 +113,8 @@ namespace SliceOfPie_Testing
         public void TestMarshallId()
         {
             long id = 1;
-            string marshalledFile = HTMLMarshalUtil.MarshallId(id);
-            long UnmarshallFile = HTMLMarshalUtil.UnMarshallId(marshalledFile);
+            string marshalledFile = HtmlMarshalUtil.MarshallId(id);
+            long UnmarshallFile = HtmlMarshalUtil.UnMarshallId(marshalledFile);
             Assert.AreEqual(id, UnmarshallFile);
         }
 
