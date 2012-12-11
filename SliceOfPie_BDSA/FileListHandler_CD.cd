@@ -3,38 +3,29 @@
   <Class Name="SliceOfPie_Model.FileList">
     <Position X="6" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAI=</HashCode>
       <FileName>FileList\FileList.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="FileListEntry" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="SliceOfPie_Model.FileListEntry">
     <Position X="8" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAACAAAAAAAAAAIAAQACAAQAAAAEAAAAAQAAAQAAAAA=</HashCode>
+      <HashCode>IAACIAAAAAACAAIAAAAAAAQAAAAAAAAAAQAAAQAAAAI=</HashCode>
       <FileName>FileList\FileListEntry.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="FileListType" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="SliceOfPie_Model.OfflineFileListHandler">
     <Position X="3" Y="2.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAABAAABAEAQAAACAEBCAAACAAAAQAJAAEAE=</HashCode>
+      <HashCode>EAAAAAAAAABAAABAEAQAAACAEACAAACAgAAQARAAEAA=</HashCode>
       <FileName>Persistence\OfflineFileListHandler.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="FileList1" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SliceOfPie_Model.CommunicatorOfflineAdapter">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AASMAAAAAQAgAABAEASCAAIIAAAAAAAAAAUEADAAGAA=</HashCode>
+      <HashCode>AASMAAAAAQAgAABAEASAAIIIAAAAAAAAAAUEADAAEBA=</HashCode>
       <FileName>Persistence\CommunicatorOfflineAdapter.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -45,7 +36,7 @@
   <Interface Name="SliceOfPie_Model.IFileListHandler">
     <Position X="3.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABCAAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Persistence\IFileListHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>

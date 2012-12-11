@@ -6,17 +6,18 @@ namespace SliceOfPie_Model
 {
     public class OfflineFileListHandler : IFileListHandler
     {
+
       public const String Logpath = @"C:\test\log";
       public const String Logfile = "filelist.xml";
 
       private readonly FileList _pFileList;
+
         public FileList FileList   {
             get
             {
                 return _pFileList;
             }
         }
-
 
         public OfflineFileListHandler(ICommunicator cm)
         {
@@ -82,8 +83,9 @@ namespace SliceOfPie_Model
         public void PersistFileList()
         {
             String fullPath = System.IO.Path.Combine(Logpath, Logfile);
-            String logXml = HtmlMarshalUtil.MarshallFileList(FileList);
-            System.IO.File.WriteAllText(fullPath, logXml);
+            String logXML = HtmlMarshalUtil.MarshallFileList(FileList);
+            System.IO.File.WriteAllText(fullPath, logXML);
+
         }
 
         public void FileChangedOnDisk(FileInstance file)
