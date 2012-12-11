@@ -46,35 +46,35 @@ namespace SliceOfPie_Testing
             testOne.FileMetaDatas.Add(authorTypeValue);
 
             testTwo = new File();
-            testTwo.id = 2;
-            testTwo.name = "Document 2";
-            testTwo.serverpath = "Testclass/HTMLMarshallerTest/testTwo";
-            testTwo.Project_id = 2;
-            testTwo.UserEmail = "morr@itu.com";
+            testTwo.id = 0;
+            testTwo.name = "";
+            testTwo.serverpath = "";
+            testTwo.Project_id = 0;
+            testTwo.UserEmail = "";
             testTwo.FileMetaDatas.Add(authorTypeValue);
 
             testThree = new File();
-            testThree.id = 3;
-            testThree.name = "Document 3";
-            testThree.serverpath = "Testclass/HTMLMarshallerTest/testthree";
+            testThree.id = -3;
+            testThree.name = "33333333333";
+            testThree.serverpath = "333333333333333333333333333";
             testThree.Project_id = 3;
-            testThree.UserEmail = "morr@itu.com";
+            testThree.UserEmail = "33333333333";
             testThree.FileMetaDatas.Add(authorTypeValue);
             testThree.FileMetaDatas.Add(authorTypeValue);
 
             testFour = new File();
-            testFour.id = 4;
-            testFour.name = "Document 4";
-            testFour.serverpath = "Testclass/HTMLMarshallerTest/testFour";
-            testFour.Project_id = 4;
-            testFour.UserEmail = "morr@itu.com";
+            testFour.id = 2147483647;
+            testFour.name = "!#¤%&/()=?+}@£½§€{][";
+            testFour.serverpath = "!#¤%&/()=?+}@£½§€{][";
+            testFour.Project_id = 2147483647;
+            testFour.UserEmail = "!#¤%&/()=?+}@£½§€{][jio";
             testFour.FileMetaDatas.Add(authorTypeValue);
 
             testFive = new File();
-            testFive.id = 5;
+            testFive.id = -2147483648;
             testFive.name = "Document 5";
             testFive.serverpath = "Testclass/HTMLMarshallerTest/testFive";
-            testFive.Project_id = 5;
+            testFive.Project_id = 2147483647;
             testFive.UserEmail = "morr@itu.com";
             testFive.FileMetaDatas.Add(authorTypeValue);
             
