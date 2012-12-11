@@ -2,6 +2,7 @@
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
+  
   public partial class FileInstance {
 
     public String UserEmail {
@@ -22,7 +23,7 @@ namespace SliceOfPie_Model.Persistence {
 
 
     public override string ToString() {
-        return Content.ToString();
+      return Content.ToString();
     }
     public string HistoryToString() {
       var output = new StringBuilder();

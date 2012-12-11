@@ -60,12 +60,12 @@ namespace SliceOfPie_Server
                 }
                 else
                 {
-                    throw new System.ArgumentException("Illegal XML method");
+                    throw new ArgumentException("Illegal XML method");
                 }
             }
             catch (Exception e)
             {
-                Exception ex = new System.ArgumentException("Error in Process()", e);
+                Exception ex = new ArgumentException("Error in Process()", e);
                 throw ex;
             }
         }

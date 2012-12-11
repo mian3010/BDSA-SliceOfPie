@@ -69,7 +69,7 @@ namespace SliceOfPie_OfflineGUI
         public MainWindow MainWindow
         {
           get {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
           }
           set { throw new NotImplementedException(); }
         }
