@@ -13,7 +13,7 @@ namespace SliceOfPie_Testing
         List<FileInstance> fileInstanceInput;
         CommunicatorOfflineAdapter communicatorOfflineAdaptor = CommunicatorOfflineAdapter.GetCommunicatorInstance();
 
-        private void GetTestFiles1()
+        private void GetTestFiles()
         {
             //instans of HTMLMarshallerTest clas to get test files.
             marshallerTest = new HTMLMarshallerTest();
@@ -22,7 +22,7 @@ namespace SliceOfPie_Testing
         
 
         [TestMethod]
-        public void TestAddOffLineCreatedFiles1(List<FileInstance> fileInstanceInput)
+        public void TestAddOffLineCreatedFiles(List<FileInstance> fileInstanceInput)
         {
             // Add all test files to local disc.
             foreach (FileInstance testFileInstance in fileInstanceInput)
@@ -33,7 +33,7 @@ namespace SliceOfPie_Testing
         
 
         [TestMethod]
-        public void TestRenameFiles1(List<FileInstance> fileInstanceInput)
+        public void TestRenameFiles(List<FileInstance> fileInstanceInput)
         {
             int i = 1;
             foreach (FileInstance testFile in fileInstanceInput)
@@ -44,7 +44,7 @@ namespace SliceOfPie_Testing
         }
 
         [TestMethod]
-        public void TestMoveFiles1(List<FileInstance> fileInstanceInput)
+        public void TestMoveFiles(List<FileInstance> fileInstanceInput)
         {
             foreach (FileInstance testFileInstance in fileInstanceInput)
             {
@@ -54,7 +54,7 @@ namespace SliceOfPie_Testing
 
 
         [TestMethod]
-        public void CheckEntries1(List<FileInstance> fileInstanceInput)
+        public void CheckEntries(List<FileInstance> fileInstanceInput)
         {
             int i = 0;
             IFileListHandler fileListHandler = communicatorOfflineAdaptor.FileListHandler;
@@ -62,7 +62,7 @@ namespace SliceOfPie_Testing
 
             Debug.WriteLine("Document" + i + "'s path is" + fileList.List[i].Path);
 
-            TestAddOffLineCreatedFiles1(fileInstanceInput);
+            TestAddOffLineCreatedFiles(fileInstanceInput);
 
             foreach (FileInstance testFileInstance in fileInstanceInput)
             {
