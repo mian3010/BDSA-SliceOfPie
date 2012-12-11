@@ -8,6 +8,7 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
+  [Serializable()]
   public class Document : FileInstance {
     public String Title { get; set; }
 

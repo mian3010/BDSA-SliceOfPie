@@ -28,7 +28,7 @@ namespace SliceOfPie_Model {
     /// <param name="fileId">ID</param>
     /// <returns>File</returns>
     public FileInstance PullFile(long fileId) {
-      var fileIdByte = Encoding.ASCII.GetBytes(fileId.ToString(CultureInfo.InvariantCulture));
+      var fileIdByte = Encoding.UTF8.GetBytes("id=" + fileId.ToString(CultureInfo.InvariantCulture));
       var responseFromServer = Send(fileIdByte, "GET");
 
       //Read the file instance object from response
@@ -59,12 +59,18 @@ namespace SliceOfPie_Model {
     /// <param name="data">The data to send</param>
     /// <param name="method">The REST method</param>
     /// <returns>A response from the server to be returned</returns>
-    private System.IO.Stream Send(byte[] data, string method) {
-      var request = WebRequest.Create("http://localhost:" + Port + "/");
-      request.Method = method;
-      var requestStream = request.GetRequestStream();
-      requestStream.Write(data, 0, data.Length);
-      requestStream.Close();
+    private static System.IO.Stream Send(byte[] data, string method) {
+      WebRequest request;
+      if (method != "GET") {
+        request = WebRequest.Create("http://localhost:" + Port + "/");
+        request.Method = method;
+        var requestStream = request.GetRequestStream();
+        requestStream.Write(data, 0, data.Length);
+        requestStream.Close();
+      } else {
+        request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        request.Method = method;
+      }
       return request.GetResponse().GetResponseStream();
     }
 
