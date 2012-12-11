@@ -4,6 +4,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using SliceOfPie_Model;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SliceOfPie_Server
 {
@@ -34,38 +35,35 @@ namespace SliceOfPie_Server
             string httpMethod = _request.HttpMethod;
             Stream inputStream = _request.InputStream;
             // Determines which http-method is called.
+            var formatter = new BinaryFormatter();
             try
             {
                 if (httpMethod == "PUT")
                 {
-                    var reader = new StreamReader(inputStream);
-                    string xml = reader.ReadToEnd();
-                    SliceOfPie_Model.Persistence.File file = HtmlMarshalUtil.UnmarshallFile(xml);
+                    var file = (SliceOfPie_Model.Persistence.FileInstance)formatter.Deserialize(inputStream);
                     _handler.ReceiveFile(file, this);
                 }
                 else if (httpMethod == "POST")
                 {
-                    var reader = new StreamReader(inputStream);
-                    string s = reader.ReadToEnd();
-                    if (s.Contains("FileID"))
-                    {
-                        long id = HtmlMarshalUtil.UnMarshallId(s);
-                        _handler.GetFile(id, this);
-                    }
-                    else
-                    {
-                        FileList list = HtmlMarshalUtil.UnMarshallFileList(s);
-                        _handler.ReceiveFileList(list, this);
-                    }
+                    var fileList = (FileList)formatter.Deserialize(inputStream);
+                    _handler.ReceiveFileList(fileList, this);
+                }
+                else if (httpMethod == "GET")
+                {
+                    var idStream = new MemoryStream();
+                    inputStream.CopyTo(idStream);
+                    byte[] idByte = idStream.ToArray();
+                    long id = BitConverter.ToInt64(idByte, 0);
+                    _handler.GetFile(id, this);
                 }
                 else
                 {
-                    throw new System.ArgumentException("Illegal XML method");
+                    throw new ArgumentException("Illegal XML method");
                 }
             }
             catch (Exception e)
             {
-                Exception ex = new System.ArgumentException("Error in Process()", e);
+                Exception ex = new ArgumentException("Error in Process()", e);
                 throw ex;
             }
         }
@@ -76,13 +74,12 @@ namespace SliceOfPie_Server
         /// <param name="list">FileList</param>
         public void RecieveFileList(FileList list)
         {
-            string responseString = HtmlMarshalUtil.MarshallFileList(list);
-            var content = new StreamReader(_request.InputStream);
-            Console.Out.WriteLine(content.ReadToEnd());
-            _response.ContentLength64 = responseString.Length;
-            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
+            var formatter = new BinaryFormatter();
+            var fileListStream = new System.IO.MemoryStream();
+            formatter.Serialize(fileListStream, list);
             Stream stream = _response.OutputStream;
-            stream.Write(byteVersion, 0, byteVersion.Length);
+            byte[] data = fileListStream.ToArray();
+            stream.Write(data , 0, data.Length);
             stream.Close();
         }
 
@@ -90,15 +87,14 @@ namespace SliceOfPie_Server
         /// Responsible for sending the Files back to the client
         /// </summary>
         /// <param name="file">File</param>
-        public void RecieveFile(SliceOfPie_Model.Persistence.File file)
+        public void RecieveFile(SliceOfPie_Model.Persistence.FileInstance file)
         {
-            string responseString = HtmlMarshalUtil.MarshallFile(file);
-            var content = new StreamReader(_request.InputStream);
-            Console.Out.WriteLine(content.ReadToEnd());
-            _response.ContentLength64 = responseString.Length;
-            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
+            var formatter = new BinaryFormatter();
+            var fileListStream = new System.IO.MemoryStream();
+            formatter.Serialize(fileListStream, file);
             Stream stream = _response.OutputStream;
-            stream.Write(byteVersion, 0, byteVersion.Length);
+            byte[] data = fileListStream.ToArray();
+            stream.Write(data, 0, data.Length);
             stream.Close();
         }
 
@@ -109,13 +105,12 @@ namespace SliceOfPie_Server
         /// <param name="id"></param>
         public void RecieveConfirmation(long id)
         {
-            string responseString = id.ToString(CultureInfo.InvariantCulture);
-            var content = new StreamReader(_request.InputStream);
-            Console.Out.WriteLine(content.ReadToEnd());
-            _response.ContentLength64 = responseString.Length;
-            byte[] byteVersion = Encoding.ASCII.GetBytes(responseString);
+            var formatter = new BinaryFormatter();
+            var fileListStream = new System.IO.MemoryStream();
+            formatter.Serialize(fileListStream, id);
             Stream stream = _response.OutputStream;
-            stream.Write(byteVersion, 0, byteVersion.Length);
+            byte[] data = fileListStream.ToArray();
+            stream.Write(data, 0, data.Length);
             stream.Close();
         }
     }

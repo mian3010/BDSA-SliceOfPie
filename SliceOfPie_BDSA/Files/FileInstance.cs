@@ -2,19 +2,18 @@
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
-  public partial class File {
+  
+  public partial class FileInstance {
 
     public String UserEmail {
       get;
       set;
     }
 
-    private StringBuilder _privContent;
-    public StringBuilder Content {
-      get { return _privContent ?? (_privContent = new StringBuilder()); }
-      set {
-        _privContent = value;
-      }
+    internal byte[] PrivContent;
+    public byte[] Content {
+      get { return PrivContent; }
+      set { PrivContent = value; }
     }
 
     public virtual String GetContent() {
@@ -24,7 +23,7 @@ namespace SliceOfPie_Model.Persistence {
 
 
     public override string ToString() {
-        return Content.ToString();
+      return Content.ToString();
     }
     public string HistoryToString() {
       var output = new StringBuilder();

@@ -13,19 +13,24 @@ namespace SliceOfPie_Server {
 
       // Fill database with test content
       // Add user
-      User user = User.CreateUser("test@example.com");
-      //Context.AddUser(user);
+      var user = User.CreateUser("test@example.com");
+      Context.AddUser(user);
 
       // Add files
       File file = File.CreateFile(1, "test file.txt", @"C:\ServerFiles\", 0);
-      file.Content.Append("This is a test file. Does this work? \n New line");
-      Context.SaveFile(file);
+      var document = (Document)FileInstance.CreateFileInstance(1, "davs", @"C:\ClientFiles\", file.id);
+
+      document.Content = "This is a test file. Does this work? \n New line";
+      Context.AddFile(document);
 
       // Add FileInstance, bind to user
+      var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
+      Context.AddFileInstance(fileInstance);
 
-
-      // Add MetaData and MetaDataType to file
-
+      // Add MetaData to file
+      var metaDataType = MetaDataType.CreateMetaDataType("Test type");
+      var fileMetaData = FileMetaData.CreateFileMetaData(1, metaDataType.ToString(), file.id);
+      Context.AddFileMetaData(fileMetaData);
     }
 
     /// <summary>
@@ -57,7 +62,7 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="file"></param>
     /// <param name="hp"></param>
-    public void ReceiveFile(File file, HttpProcessor hp) {
+    public void ReceiveFile(FileInstance file, HttpProcessor hp) {
       var fr = new FileReceiver(file, hp);
       var thread = new Thread(fr.Receive);
       thread.Start();
@@ -86,7 +91,7 @@ namespace SliceOfPie_Server {
     /// <returns></returns>
     public void GetFile(long id, HttpProcessor processor) {
       //TODO: Test this
-      File file = Context.GetFile(id);
+      FileInstance file = Context.GetFile(id);
       processor.RecieveFile(file);
     }
   }

@@ -22,8 +22,8 @@ namespace SliceOfPie_Model
             const string splitPattern = @"(?<=[.])";
             var splitter = new Regex(splitPattern);
 
-            string[] originalArray = splitter.Split(original.Content.ToString()).Where(s => s != String.Empty).ToArray();
-            string[] latestArray = splitter.Split(latest.Content.ToString()).Where(s => s != String.Empty).ToArray();
+            string[] originalArray = splitter.Split(original.Content).Where(s => s != String.Empty).ToArray();
+            string[] latestArray = splitter.Split(latest.Content).Where(s => s != String.Empty).ToArray();
        
             var merged = new StringBuilder();
 
@@ -96,8 +96,7 @@ namespace SliceOfPie_Model
             
             // Since we use stringbuilder, we'll reuse the latest documents metadata.
             // Maybe change this later?
-            latest.Content.Clear();
-            latest.Content.Append(merged.ToString());
+            latest.Content = merged.ToString();
             return latest;
         }
 

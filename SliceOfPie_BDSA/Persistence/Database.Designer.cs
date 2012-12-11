@@ -21,7 +21,7 @@ using System.Xml.Serialization;
 
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Change), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_Change_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "Change", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Change), true)]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.File), true)]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project1", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SliceOfPie_Model.Persistence.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.File), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_File1", "File", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.File), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileMetaData), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
@@ -517,14 +517,14 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="name">Initial value of the name property.</param>
         /// <param name="serverpath">Initial value of the serverpath property.</param>
-        /// <param name="project_id">Initial value of the Project_id property.</param>
-        public static File CreateFile(global::System.Int64 id, global::System.String name, global::System.String serverpath, global::System.Int32 project_id)
+        /// <param name="version">Initial value of the Version property.</param>
+        public static File CreateFile(global::System.Int64 id, global::System.String name, global::System.String serverpath, global::System.Decimal version)
         {
             File file = new File();
             file.id = id;
             file.name = name;
             file.serverpath = serverpath;
-            file.Project_id = project_id;
+            file.Version = version;
             return file;
         }
 
@@ -634,9 +634,9 @@ namespace SliceOfPie_Model.Persistence
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 Project_id
+        public Nullable<global::System.Int32> Project_id
         {
             get
             {
@@ -651,33 +651,33 @@ namespace SliceOfPie_Model.Persistence
                 OnProject_idChanged();
             }
         }
-        private global::System.Int32 _Project_id;
-        partial void OnProject_idChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _Project_id;
+        partial void OnProject_idChanging(Nullable<global::System.Int32> value);
         partial void OnProject_idChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Decimal> version
+        public global::System.Decimal Version
         {
             get
             {
-                return _version;
+                return _Version;
             }
             set
             {
-                OnversionChanging(value);
-                ReportPropertyChanging("version");
-                _version = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("version");
-                OnversionChanged();
+                OnVersionChanging(value);
+                ReportPropertyChanging("Version");
+                _Version = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Version");
+                OnVersionChanged();
             }
         }
-        private Nullable<global::System.Decimal> _version;
-        partial void OnversionChanging(Nullable<global::System.Decimal> value);
-        partial void OnversionChanged();
+        private global::System.Decimal _Version;
+        partial void OnVersionChanging(global::System.Decimal value);
+        partial void OnVersionChanged();
 
         #endregion
 

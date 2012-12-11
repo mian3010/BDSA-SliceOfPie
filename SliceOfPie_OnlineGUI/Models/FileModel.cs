@@ -16,12 +16,11 @@ namespace SliceOfPie_OnlineGUI.Models {
       var metaDataType3 = new MetaDataType {Type = "Type"};
       var fileMetaData3 = new FileMetaData {MetaDataType = metaDataType3, value = "Document"};
 
-      d.FileMetaDatas.Add(fileMetaData1);
-      d.FileMetaDatas.Add(fileMetaData2);
-      d.FileMetaDatas.Add(fileMetaData3);
-      d.Content.Clear();
-      d.Content.Append("Awesome text document here!<br /><strong>This should be bold</strong><br />OMG PIE:<br /><img src=\"http://www.seriouseats.com/images/potd_pi-pie.jpg\" />");
-      d.Content.Append("<br /><br />Testing wrappingggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+      d.File.FileMetaDatas.Add(fileMetaData1);
+      d.File.FileMetaDatas.Add(fileMetaData2);
+      d.File.FileMetaDatas.Add(fileMetaData3);
+      d.Content = "Awesome text document here!<br /><strong>This should be bold</strong><br />OMG PIE:<br /><img src=\"http://www.seriouseats.com/images/potd_pi-pie.jpg\" />";
+      d.Content += "<br /><br />Testing wrappingggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
       d.Title = "The awesome title";
       return d;
     }

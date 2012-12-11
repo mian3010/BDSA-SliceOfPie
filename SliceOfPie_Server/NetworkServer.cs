@@ -27,7 +27,7 @@ namespace SliceOfPie_Server
         /// </summary>
         public void Listen() {
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://localhost:8080/");
+            _listener.Prefixes.Add("http://localhost:"+_port+"/");
             _listener.Start();
             while (_isActive) {
                 HttpListenerContext context = _listener.GetContext();
