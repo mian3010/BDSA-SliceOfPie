@@ -14,23 +14,42 @@ namespace SliceOfPie_Model
 {
     public class NetworkClient : INetClient
     {
-        private bool is_active;
         private int port = 8080;
 
-
+        /// <summary>
+        /// Sends the FileList to the Server and initializes the synchronization process
+        /// </summary>
+        /// <param name="list">FileList</param>
+        /// <returns>FileList</returns>
         public FileList SyncServer(FileList list)
         {
-            return SendFileList(list);
+            string xml = HTMLMarshalUtil.MarshallFileList(list);
+            HttpWebResponse response = Send(xml, "POST");
+            return HandleFileListResponse(response);
         }
 
+        /// <summary>
+        /// Gets a File from the server
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>File</returns>
         public File PullFile(long id)
         {
-            return GetFile(id);
+            string xml = HTMLMarshalUtil.MarshallId(id);
+            HttpWebResponse response = Send(xml, "POST");
+            return HandleFileResponse(response);
         }
 
+        /// <summary>
+        /// Pushes a File from the Client to the Server
+        /// </summary>
+        /// <param name="file">File</param>
+        /// <returns>ID</returns>
         public long PushFile(File file)
         {
-            return SendFile(file);
+            string xml = HTMLMarshalUtil.MarshallFile(file);
+            HttpWebResponse response = Send(xml, "PUT");
+            return HandleIdResponse(response);
         }
 
         /// <summary>
@@ -56,41 +75,16 @@ namespace SliceOfPie_Model
             return (HttpWebResponse)request.GetResponse();
         }
 
-        private SliceOfPie_Model.Persistence.File GetFile(long id)
-        {
-            string xml = HTMLMarshalUtil.MarshallId(id);
-            HttpWebResponse response = Send(xml, "POST");
-            return HandleFileResponse(response);
-        }
-
-        /// <summary>
-        /// Sends HTML using a HTTP protocol.
-        /// </summary>
-        /// <param name="msg"></param>
-        private FileList SendFileList(FileList log)
-        {
-            string xml = HTMLMarshalUtil.MarshallFileList(log);
-            HttpWebResponse response = Send(xml, "POST");
-            return HandleFileListResponse(response);
-        }
-
-        private long SendFile(SliceOfPie_Model.Persistence.File file)
-        {
-            string xml = HTMLMarshalUtil.MarshallFile(file);
-            HttpWebResponse response = Send(xml, "PUT");
-            return HandleIdResponse(response);
-        }
-
         /// <summary>
         /// Handles the resultcomming from the server.
         /// </summary>
         /// <param name="response">The response from the server</param>
         private FileList HandleFileListResponse(HttpWebResponse response)
         {
-            Console.Out.WriteLine(response.Server);
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
-            Console.Out.WriteLine(reader.ReadToEnd());
-            return null;
+            string xml = reader.ReadToEnd();
+            FileList list = HTMLMarshalUtil.UnMarshallFileList(xml);
+            return list;
         }
 
         /// <summary>
@@ -99,27 +93,29 @@ namespace SliceOfPie_Model
         /// <param name="response">The response from the server</param>
         private SliceOfPie_Model.Persistence.File HandleFileResponse(HttpWebResponse response)
         {
-            Console.Out.WriteLine(response.Server);
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
-            Console.Out.WriteLine(reader.ReadToEnd());
-            return null;
+            string xml = reader.ReadToEnd();
+            File file = HTMLMarshalUtil.UnmarshallFile(xml);
+            return file;
         }
 
+        /// <summary>
+        /// Handles the ID comming from the Server
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         private long HandleIdResponse(HttpWebResponse response)
         {
-            return 0;
+            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            string xml = reader.ReadToEnd();
+            long id = HTMLMarshalUtil.UnMarshallId(xml);
+            return id;
         }
 
 
         public static void Main(String[] args)
         {
-            //NetworkServer server = NetworkServer.GetInstance();
-           // NetworkClient client = new NetworkClient();
-            // Testdata
-           // Thread thread = new Thread(() => server.listen());
-           // thread.Start();
-            //client.SendLog(list);
-           // server.Close();
+           
         }
     }
 }
