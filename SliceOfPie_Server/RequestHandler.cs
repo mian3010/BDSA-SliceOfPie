@@ -23,7 +23,6 @@ namespace SliceOfPie_Server {
         Title = "Test document title",
       };
 
-
       Context.AddFile(instance);
 
       // Add FileInstance, bind to user

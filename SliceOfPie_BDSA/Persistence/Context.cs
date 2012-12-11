@@ -37,7 +37,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.Users.AddObject(user);
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -76,7 +76,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.FileMetaDatas.DeleteObject(query.First());
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -96,7 +96,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.FileMetaDatas.AddObject(fileMetaData);
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -109,7 +109,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.FileInstances.AddObject(fileInstance);
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -133,7 +133,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.FileInstances.DeleteObject(query.First());
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -172,7 +172,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.Files.AddObject(fileInstance.File);
       try {
         return DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         return -1;
       }
     }
@@ -197,7 +197,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.MetaDataTypes.AddObject(metaType);
       try {
         DbContext.SaveChanges();
-      } catch (UpdateException e) {
+      } catch (UpdateException) {
         
       }
     }
