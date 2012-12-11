@@ -1,6 +1,7 @@
 ﻿using System;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
+using System.Collections.Generic;
 
 namespace SliceOfPie_Server {
   /// <summary>
@@ -26,6 +27,7 @@ namespace SliceOfPie_Server {
 
     public void Review() {
       FileList usersFilesFromServer = Context.GetFileList("lala"); //hp.user
+      if (usersFilesFromServer.List == null) usersFilesFromServer.List = new Dictionary<long, FileListEntry>();
       foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
         File fileFromDb = Context.GetFile(entry.Id);
@@ -53,7 +55,7 @@ namespace SliceOfPie_Server {
           usersFilesFromServer.List.Add(entry.Id, entry);
         }
       }
-      //hp.something(fileList);
+      _hp.RecieveFileList(usersFilesFromServer);
     }
   }
 }
