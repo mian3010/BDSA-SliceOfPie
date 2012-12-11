@@ -1,6 +1,8 @@
-﻿using SliceOfPie_Model.Persistence;
+﻿using System;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
+  [Serializable()]
   public class FileListEntry {
     public long Id { get; set; }
 

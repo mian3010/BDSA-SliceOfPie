@@ -49,7 +49,7 @@ namespace SliceOfPie_Model {
       fileObjectStream.Read(fileObject, 0, fileObject.Length);
 
       //Send byte array to server
-      var responseFromRequest = Send(fileObject, "POST");
+      var responseFromRequest = Send(fileObject, "PUT");
       return HandleIdResponse(responseFromRequest);
     }
 
