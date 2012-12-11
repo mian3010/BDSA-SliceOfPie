@@ -17,7 +17,7 @@ namespace ServerTest
             NetworkServer server = NetworkServer.GetInstance();
             var client = new NetworkClient();
             const long id = new long();
-            var serverT = new Thread(server.Listen());
+            var serverT = new Thread(server.Listen);
             serverT.Start();
             Thread.Sleep(1000);
             var file = client.PullFile(id);

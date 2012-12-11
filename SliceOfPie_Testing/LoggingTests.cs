@@ -10,33 +10,33 @@ namespace SliceOfPie_Testing
     public class LoggingTests
     {
         HTMLMarshallerTest marshallerTest;
-        List<File> fileInput;
-        CommunicatorOfflineAdapter communicatorOfflineAdaptor = new CommunicatorOfflineAdapter();
+        List<FileInstance> fileInstanceInput;
+        CommunicatorOfflineAdapter communicatorOfflineAdaptor = CommunicatorOfflineAdapter.GetCommunicatorInstance();
 
         private void GetTestFiles1()
         {
             //instans of HTMLMarshallerTest clas to get test files.
             marshallerTest = new HTMLMarshallerTest();
-            fileInput = marshallerTest.FileTestInput();
+            fileInstanceInput = marshallerTest.FileInstanceTestInput();
         }
-
+        
 
         [TestMethod]
-        public void TestAddOffLineCreatedFiles1(List<File> fileInput)
+        public void TestAddOffLineCreatedFiles1(List<FileInstance> fileInstanceInput)
         {
             // Add all test files to local disc.
-            foreach (File testFile in fileInput)
+            foreach (FileInstance testFileInstance in fileInstanceInput)
             {
-                communicatorOfflineAdaptor.AddOfflineCreatedFile(testFile);
+                communicatorOfflineAdaptor.AddOfflineCreatedFile(testFileInstance);
             }
         }
         
 
         [TestMethod]
-        public void TestRenameFiles1(List<File> fileInput)
+        public void TestRenameFiles1(List<FileInstance> fileInstanceInput)
         {
             int i = 1;
-            foreach (File testFile in fileInput)
+            foreach (FileInstance testFile in fileInstanceInput)
             {
                 communicatorOfflineAdaptor.RenameFile(testFile, "Document" + i);
                 i++;
@@ -44,17 +44,17 @@ namespace SliceOfPie_Testing
         }
 
         [TestMethod]
-        public void TestMoveFiles1(List<File> fileInput)
+        public void TestMoveFiles1(List<FileInstance> fileInstanceInput)
         {
-            foreach (File testFile in fileInput)
+            foreach (FileInstance testFileInstance in fileInstanceInput)
             {
-                communicatorOfflineAdaptor.MoveFile(testFile, testFile.serverpath + "/newTestFolder");
+                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.File.serverpath + "/newTestFolder");
             }
         }
 
 
         [TestMethod]
-        public void CheckEntries1(List<File> fileInput)
+        public void CheckEntries1(List<FileInstance> fileInstanceInput)
         {
             int i = 0;
             IFileListHandler fileListHandler = communicatorOfflineAdaptor.FileListHandler;
@@ -62,14 +62,14 @@ namespace SliceOfPie_Testing
 
             Debug.WriteLine("Document" + i + "'s path is" + fileList.List[i].Path);
 
-            TestAddOffLineCreatedFiles1(fileInput);
+            TestAddOffLineCreatedFiles1(fileInstanceInput);
 
-            foreach (File testFile in fileInput)
+            foreach (FileInstance testFileInstance in fileInstanceInput)
             {
-                Assert.AreEqual(fileList.List[i].Id, testFile.id);
-                Assert.AreEqual(fileList.List[i].Version, testFile.version);
-                Assert.AreEqual(fileList.List[i].Name, testFile.name);
-                Assert.AreEqual(fileList.List[i].Path, testFile.serverpath);
+                Assert.AreEqual(fileList.List[i].Id, testFileInstance.id);
+                Assert.AreEqual(fileList.List[i].Version, testFileInstance.File.Version);
+                Assert.AreEqual(fileList.List[i].Name, testFileInstance.File.name);
+                Assert.AreEqual(fileList.List[i].Path, testFileInstance.File.serverpath);
                 i++;
             }
 
