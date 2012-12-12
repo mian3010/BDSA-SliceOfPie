@@ -326,7 +326,7 @@
             <PropertyRef Name="MetaDataType_Type" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="value" Type="String" MaxLength="400" Unicode="false" FixedLength="false" />
+          <Property Name="value" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
           <Property Name="MetaDataType_Type" Type="String" Nullable="false" MaxLength="400" Unicode="false" FixedLength="false" />
           <Property Name="File_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="File" Relationship="SliceOfLifeModel.fk_FileMetaData_File1" FromRole="FileMetaData" ToRole="File" />

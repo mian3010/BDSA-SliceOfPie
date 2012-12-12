@@ -66,6 +66,9 @@ namespace SliceOfPie_Model.Persistence {
       // File Version
       if (fileInstance.File.Version < 0) return -1;
 
+      // File in db?
+      if(GetFile(fileInstance.File_id) == null) AddFile(fileInstance.File);
+
       if (deleteBeforeAdd) {
         DbContext.FileInstances.DeleteObject(fileInstance);
       }
@@ -95,6 +98,22 @@ namespace SliceOfPie_Model.Persistence {
         list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
       }
       return usersFilesOnServer;
+    }
+
+    private static File GetFile(long fileId) {
+      if (fileId < 0) return null;
+      var query = from f in DbContext.Files
+                  where f.id == fileId
+                  select f;
+      return !query.Any() ? null : query.First();
+    }
+
+    private static void AddFile(File file) {
+      file.FileMetaDatas.Clear();
+      DbContext.Files.AddObject(file);
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException){}
     }
   }
 }
