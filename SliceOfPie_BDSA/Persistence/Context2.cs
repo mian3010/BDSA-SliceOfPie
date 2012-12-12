@@ -36,9 +36,37 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static long AddFileInstance(FileInstance fileInstance) {
+      //TODO Throw exceptions
       if (fileInstance == null) return -2;
+      bool deleteBeforeAdd = false;
       // Check for lots of constraints
-      if (GetFileInstance(fileInstance.id) != null) {
+      // Id
+      if (fileInstance.id < 1) return -1;
+      if (GetFileInstance(fileInstance.id) != null) deleteBeforeAdd = true;
+
+      // Path
+      if (fileInstance.path == null || fileInstance.path.Trim().Equals("")) return -1;
+
+      // User
+      if (fileInstance.UserEmail == null || fileInstance.UserEmail.Trim().Equals("")) return -1;
+      if (GetUser(fileInstance.UserEmail) != null) return -1;
+
+      // File
+      if (fileInstance.File == null) return -1;
+
+      // File id
+      if (fileInstance.File_id < 0) return -1;
+
+      // File name
+      if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals("")) return -1;
+
+      // File serverpath
+      if (fileInstance.File.serverpath == null || fileInstance.File.serverpath.Trim().Equals("")) return -1;
+
+      // File Version
+      if (fileInstance.File.Version < 0) return -1;
+
+      if (deleteBeforeAdd) {
         DbContext.FileInstances.DeleteObject(fileInstance);
       }
       DbContext.FileInstances.AddObject(fileInstance);
