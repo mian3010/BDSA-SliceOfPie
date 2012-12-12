@@ -28,20 +28,17 @@ namespace SliceOfPie_Server {
     /// right place.
     /// </summary>
     public void Process() {
+      Console.Out.WriteLine("starting to process");
       string httpMethod = _request.HttpMethod;
       Stream inputStream = _request.InputStream;
-      var memoryStream = new MemoryStream();
-      memoryStream.Position = 0;
-      inputStream.CopyTo(memoryStream);
-
       // Determines which http-method is called.
       var formatter = new BinaryFormatter();
       //try {
         if (httpMethod == "PUT") {
-          var file = (SliceOfPie_Model.Persistence.FileInstance)formatter.Deserialize(memoryStream);
+          var file = (SliceOfPie_Model.Persistence.FileInstance)formatter.Deserialize(inputStream);
           _handler.ReceiveFile(file, this);
         } else if (httpMethod == "POST") {
-          var fileList = (FileList)formatter.Deserialize(memoryStream);
+          var fileList = (FileList)formatter.Deserialize(inputStream);
           _handler.ReceiveFileList(fileList, this);
         } else if (httpMethod == "GET")
         {
