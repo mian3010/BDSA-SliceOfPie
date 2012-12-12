@@ -74,7 +74,7 @@ namespace ServerTest {
       data.value = "testd234atatype";
       MetaDataType type = new MetaDataType();
       type.Type = "He234y";
-      data.MetaDataType_Type = type.Type;
+      // data.MetaDataType_Type = type.Type;
       data.MetaDataType = type;
       User user = new User();
       user.email = "superman123@gm44ail.com";
@@ -86,7 +86,7 @@ namespace ServerTest {
       file.Version = 0.0m;
       file.FileMetaDatas.Add(data);
       var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
-        fileInstance.User = user;
+       fileInstance.User = user;
       fileInstance.File = file;
       
       int id = client.PushFile(fileInstance);
