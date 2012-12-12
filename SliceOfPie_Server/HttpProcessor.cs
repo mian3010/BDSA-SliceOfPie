@@ -31,8 +31,8 @@ namespace SliceOfPie_Server {
       string httpMethod = _request.HttpMethod;
       Stream inputStream = _request.InputStream;
       var memoryStream = new MemoryStream();
-      memoryStream.Position = 0;
       inputStream.CopyTo(memoryStream);
+      inputStream.Flush();
 
       // Determines which http-method is called.
       var formatter = new BinaryFormatter();

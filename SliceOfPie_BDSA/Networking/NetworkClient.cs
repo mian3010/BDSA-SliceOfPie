@@ -64,7 +64,8 @@ namespace SliceOfPie_Model {
         request = WebRequest.Create("http://localhost:" + Port + "/");
         request.Method = method;
         var requestStream = request.GetRequestStream();
-        requestStream.Write(data, 0, data.Length);
+        int length = data.Length;
+        requestStream.Write(data, 0, length);
         requestStream.Flush();
         requestStream.Close();
       } else {
