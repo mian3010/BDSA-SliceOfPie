@@ -11,6 +11,9 @@ namespace SliceOfPie_Server {
       new SliceOfLifeEntities().AddToFileInstances(fi);
       Context.GetServerFileList("test"); */
 
+      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+
+      /*
       // Fill database with test content
       // Add user
       var user = User.CreateUser("test2@example.com");
@@ -34,6 +37,7 @@ namespace SliceOfPie_Server {
       var fileMetaData = FileMetaData.CreateFileMetaData(1, metaDataType.ToString(), file.id);
       fileMetaData.value = "42";
       Context.AddFileMetaData(fileMetaData);
+       */
     }
 
     /// <summary>

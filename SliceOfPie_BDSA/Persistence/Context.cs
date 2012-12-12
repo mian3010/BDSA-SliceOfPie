@@ -183,9 +183,11 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
+
     public static long AddFile(File file) {
       if (file == null) return -2;
       if (GetFile(file.id) != null) {
+
       }
       DbContext.Files.AddObject(file);
       try {
