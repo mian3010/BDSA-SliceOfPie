@@ -24,16 +24,17 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public List<FileInstance> FileInstanceTestInput()
         {
+            //Creates a new author meta data type
             MetaDataType authorType = new MetaDataType();
             authorType.Type = "Author";
 
-
+            //Creates a value for the author type
             FileMetaData authorTypeValue = new FileMetaData();
             authorTypeValue.value = "morr";
             authorTypeValue.MetaDataType = authorType;
 
 
-            //Test input for test file
+            //Test input for test file instance
             testOne = new FileInstance();
             testOne.id = 1;
             testOne.File.name = "Document 1";

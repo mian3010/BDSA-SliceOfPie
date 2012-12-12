@@ -61,8 +61,16 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void CheckEntries()
         {
-            int i = 0;
+            int i = 1;
             List<FileInstance> testFiles = GetTestFiles();
+            foreach (FileInstance testFileInstance in testFiles)
+            {
+                Debug.WriteLine("id: " + testFileInstance.id);
+                Debug.WriteLine("name: " + testFileInstance.File.name);
+                Debug.WriteLine("ServerPath: " + testFileInstance.File.serverpath);
+            }
+
+
             IFileListHandler fileListHandler = communicatorOfflineAdaptor.FileListHandler;
             FileList fileList = fileListHandler.FileList;
 
