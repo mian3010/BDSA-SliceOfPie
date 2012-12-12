@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace SliceOfPie_Model.Persistence {
@@ -18,7 +19,11 @@ namespace SliceOfPie_Model.Persistence {
       if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
       if (GetUser(user.email) != null) return 0;
       DbContext.Users.AddObject(user);
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException) {
+        return -1;
+      }
     }
 
     // FileInstance
@@ -37,7 +42,11 @@ namespace SliceOfPie_Model.Persistence {
         DbContext.FileInstances.DeleteObject(fileInstance);
       }
       DbContext.FileInstances.AddObject(fileInstance);
-      return DbContext.SaveChanges();
+      try {
+        return DbContext.SaveChanges();
+      } catch (UpdateException) {
+        return -1;
+      }
     }
 
     public static List<FileInstance> GetFiles(string useremail) {
