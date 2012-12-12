@@ -54,15 +54,15 @@ namespace ServerTest {
       var e1 = new FileListEntry();
       var e2 = new FileListEntry();
       var e3 = new FileListEntry();
-      e1.Id = 1;
-      e2.Id = 2;
-      e3.Id = 3;
+      e1.Id = 30;
+      e2.Id = 31;
+      e3.Id = 32;
       list.List.Add(e1.Id, e1);
       list.List.Add(e2.Id, e2);
       list.List.Add(e3.Id, e3);
       var serverT = new Thread(server.Listen);
       serverT.Start();
-      Thread.Sleep(5000);
+      //Thread.Sleep(5000);
       FileList returnList = client.SyncServer(list);
       ICollection<long> col = returnList.List.Keys;
       foreach (long l in col)
@@ -75,12 +75,13 @@ namespace ServerTest {
       User user = new User();
       user.email = "superman@gmail.com";
       File file = new File();
-      file.id = 1;
+      file.id = 30;
       file.name = "TESTFIL"; 
       file.serverpath = "testServerpath"; 
       file.Version = 0.0m;
       file.FileMetaDatas.Add(data);
-      var fileInstance = new FileInstance {id = 2, File = file, User = user};
+      var fileInstance = FileInstance.CreateFileInstance(30, user.email, @"C:\ClientFiles\Test\", file.id);
+      fileInstance.File = file;
       
       long id = client.PushFile(fileInstance);
 
