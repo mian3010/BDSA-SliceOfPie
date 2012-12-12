@@ -15,6 +15,15 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.ToArray();
     }
 
+    public static List<User> GetUsers(File file) {
+      if (file == null) return null;
+      var query = from f in DbContext.FileInstances
+                  where f.File_id == file.id
+                  select f;
+      if (!query.Any()) return null;
+      return query.Select(fileInstance => User.CreateUser(fileInstance.UserEmail)).ToList();
+    }
+
     public static User GetUser(string email) {
       if (email == null || email.Trim() == "") return null;
       var query = from u in DbContext.Users
@@ -55,6 +64,13 @@ namespace SliceOfPie_Model.Persistence {
         metaDataList.Add(metaData);
       }
       return metaDataList;
+    }
+
+    public static FileMetaData GetFileMetaData(File file, string metaDataType) {
+      var query = from meta in file.FileMetaDatas
+                  where meta.MetaDataType_Type.Equals(metaDataType)
+                  select meta;
+      return !query.Any() ? null : query.First();
     }
 
     public static long ModifyMetaData(FileMetaData fileMetaData) {
@@ -192,13 +208,100 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     private static void AddMetaDataType(string type) {
-      if(GetMetaDataType(type) != null) return;
+      if (GetMetaDataType(type) != null) return;
       var metaType = MetaDataType.CreateMetaDataType(type);
       DbContext.MetaDataTypes.AddObject(metaType);
       try {
         DbContext.SaveChanges();
       } catch (UpdateException) {
-        
+
+      }
+    }
+
+    public static void CleanUp(string password) {
+      if (!password.Equals("VerySecretPasswordYoureNeverGonnaGuess")) return;
+      // Change
+      var query = from e in DbContext.Changes
+                  select e;
+      if (query.Any()) {
+        foreach (var element in query) {
+          DbContext.Changes.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) {}
+      }
+
+      // Project
+      var query2 = from e in DbContext.Projects
+                  select e;
+      if (query2.Any()) {
+        foreach (var element in query2) {
+          DbContext.Projects.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
+      }
+
+      // MetaDataType
+      var query3 = from e in DbContext.MetaDataTypes
+                  select e;
+      if (query3.Any()) {
+        foreach (var element in query3) {
+          DbContext.MetaDataTypes.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
+      }
+
+      // FileMetaData
+      var query4 = from e in DbContext.FileMetaDatas
+                  select e;
+      if (query4.Any()) {
+        foreach (var element in query4) {
+          DbContext.FileMetaDatas.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
+      }
+
+      // FileInstace
+      var query5 = from e in DbContext.FileInstances
+                  select e;
+      if (query5.Any()) {
+        foreach (var element in query5) {
+          DbContext.FileInstances.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
+      }
+
+      // File
+      var query6 = from e in DbContext.Files
+                  select e;
+      if (query6.Any()) {
+        foreach (var element in query6) {
+          DbContext.Files.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
+      }
+
+      // Users
+      var query7 = from e in DbContext.Users
+                  select e;
+      if (query7.Any()) {
+        foreach (var element in query7) {
+          DbContext.Users.DeleteObject(element);
+        }
+        try {
+          DbContext.SaveChanges();
+        } catch (UpdateException) { }
       }
     }
   }
