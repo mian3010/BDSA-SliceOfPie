@@ -14,7 +14,7 @@ namespace SliceOfPie_Model
     public static class HtmlMarshalUtil
     {
 
-        public static string MarshallFile(FileInstance file)
+        public static string MarshallFile(FileInstance fileInstance)
         {
             var set = new XmlWriterSettings {Indent = true};
           var builder = new StringBuilder();
@@ -24,7 +24,7 @@ namespace SliceOfPie_Model
                 writer.WriteStartElement("html");
 
                 // Write filemetadata 
-                foreach (FileMetaData types in file.File.FileMetaDatas)
+                foreach (FileMetaData types in fileInstance.File.FileMetaDatas)
                 {
                     writer.WriteStartElement("meta");
                     writer.WriteAttributeString("name", types.MetaDataType.Type);
@@ -36,12 +36,12 @@ namespace SliceOfPie_Model
 
                 // Write a custom ID tag which we can use later for database purposes.
                 writer.WriteStartElement("ID");
-                writer.WriteString(file.id.ToString(CultureInfo.InvariantCulture));
+                writer.WriteString(fileInstance.id.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
                 writer.WriteStartElement("body");
-                writer.WriteString(file.ToString());
+                writer.WriteString(fileInstance.ToString());
                 writer.WriteEndElement();
 
                 // writer.WriteStartElement("

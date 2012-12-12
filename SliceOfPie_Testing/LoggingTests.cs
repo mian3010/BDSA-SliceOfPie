@@ -53,7 +53,7 @@ namespace SliceOfPie_Testing
             List<FileInstance> testFiles = GetTestFiles();
             foreach (FileInstance testFileInstance in testFiles)
             {
-                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.File.serverpath + "/newTestFolder");
+                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.File.serverpath + @"\newTestFolder");
             }
         }
 
@@ -63,18 +63,21 @@ namespace SliceOfPie_Testing
         {
             int i = 1;
             List<FileInstance> testFiles = GetTestFiles();
-            foreach (FileInstance testFileInstance in testFiles)
+            //for debuging.
+/*            foreach (FileInstance testFileInstance in testFiles)
             {
                 Debug.WriteLine("id: " + testFileInstance.id);
                 Debug.WriteLine("name: " + testFileInstance.File.name);
                 Debug.WriteLine("ServerPath: " + testFileInstance.File.serverpath);
+                Debug.WriteLine("Project id: " + testFileInstance.File.Project_id);
+                Debug.WriteLine("User e-mail: " + testFileInstance.UserEmail);
             }
 
-
+*/
             IFileListHandler fileListHandler = communicatorOfflineAdaptor.FileListHandler;
             FileList fileList = fileListHandler.FileList;
 
-            Debug.WriteLine("Document" + i + "'s path is" + fileList.List[i].Path);
+//            Debug.WriteLine("Document" + i + "'s path is" + fileList.List[i].Path);
 
             TestAddOffLineCreatedFiles();
 
@@ -85,7 +88,7 @@ namespace SliceOfPie_Testing
                 Assert.AreEqual(fileList.List[i].Name, testFileInstance.File.name);
                 Assert.AreEqual(fileList.List[i].Path, testFileInstance.File.serverpath);
                 break;
-                i--;
+//                i--;
             }            
         }
     }
