@@ -27,7 +27,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="fileId">ID</param>
     /// <returns>File</returns>
-    public FileInstance PullFile(long fileId) {
+    public FileInstance PullFile(int fileId) {
       var fileIdByte = Encoding.UTF8.GetBytes("id=" + fileId.ToString(CultureInfo.InvariantCulture));
       var responseFromServer = Send(fileIdByte, "GET");
 
@@ -40,7 +40,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="file">File</param>
     /// <returns>ID</returns>
-    public long PushFile(FileInstance file) {
+    public int PushFile(FileInstance file) {
       var formatter = new BinaryFormatter();
       var fileObjectStream = new System.IO.MemoryStream();
       formatter.Serialize(fileObjectStream, file);
@@ -104,10 +104,10 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="response"></param>
     /// <returns></returns>
-    private static long HandleIdResponse(System.IO.Stream response) {
+    private static int HandleIdResponse(System.IO.Stream response) {
       if (response != null) {
           var formatter = new BinaryFormatter();
-          return (long)formatter.Deserialize(response);
+          return (int)formatter.Deserialize(response);
       }
       return 0;
     }

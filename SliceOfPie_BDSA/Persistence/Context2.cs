@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static long AddUser(User user) {
+    public static int AddUser(User user) {
       if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
       if (GetUser(user.email) != null) return 0;
       DbContext.Users.AddObject(user);
@@ -26,8 +27,13 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
+    public static FileMetaData GetFileMetaData(File lol, string merlol)
+    {
+        throw new NotImplementedException();
+    }
+
     // FileInstance
-    public static FileInstance GetFileInstance(long fileInstanceId) {
+    public static FileInstance GetFileInstance(int fileInstanceId) {
       if (fileInstanceId < 1) return null;
       var query = from f in DbContext.FileInstances
                   where f.id == fileInstanceId
@@ -35,7 +41,7 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static long AddFileInstance(FileInstance fileInstance) {
+    public static int AddFileInstance(FileInstance fileInstance) {
       //TODO Throw exceptions
       if (fileInstance == null) return -2;
       bool deleteBeforeAdd = false;
@@ -98,7 +104,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     //TODO Should be private or removed
-    public static File GetFile(long fileId) {
+    public static File GetFile(int fileId) {
       if (fileId < 0) return null;
       var query = from f in DbContext.Files
                   where f.id == fileId

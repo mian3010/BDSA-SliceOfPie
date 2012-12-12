@@ -108,9 +108,9 @@ namespace SliceOfPie_Testing
         [TestMethod]
         public void TestMarshallId()
         {
-            long id = 1;
+            int id = 1;
             string marshalledFile = HtmlMarshalUtil.MarshallId(id);
-            long UnmarshallFile = HtmlMarshalUtil.UnMarshallId(marshalledFile);
+            int UnmarshallFile = HtmlMarshalUtil.UnMarshallId(marshalledFile);
             Assert.AreEqual(id, UnmarshallFile);
         }
 

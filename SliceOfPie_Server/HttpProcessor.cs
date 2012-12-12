@@ -44,7 +44,7 @@ namespace SliceOfPie_Server {
         } else if (httpMethod == "GET")
         {
           NameValueCollection queryDict = HttpUtility.ParseQueryString(_request.Url.Query);
-          var id = long.Parse(queryDict.Get("id"));
+          var id = int.Parse(queryDict.Get("id"));
           _handler.GetFile(id, this);
         } else {
           throw new ArgumentException("Illegal XML method");
@@ -88,7 +88,7 @@ namespace SliceOfPie_Server {
     /// Recieves a id on the file that has been pulled to the server.
     /// </summary>
     /// <param name="id"></param>
-    public void RecieveConfirmation(long id) {
+    public void RecieveConfirmation(int id) {
       var formatter = new BinaryFormatter();
       var fileListStream = new MemoryStream();
       formatter.Serialize(fileListStream, id);

@@ -11,7 +11,7 @@ using SliceOfPie_Model.Exceptions;
 namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form {
 
-    private readonly Dictionary<String, long> _pathsToId;
+    private readonly Dictionary<String, int> _pathsToId;
 
     public Document CurrentDocument {
       private get;
@@ -24,7 +24,7 @@ namespace SliceOfPie_OfflineGUI {
 
     private EditorWindow _editWindow;
 
-    public MainWindow(Dictionary<String, long> fileTree) {
+    public MainWindow(Dictionary<String, int> fileTree) {
       InitializeComponent();
       _pathsToId = fileTree;
 
@@ -91,7 +91,7 @@ namespace SliceOfPie_OfflineGUI {
     /// selected in the tree
     /// </summary>
     /// <returns>ID of the file connected to the node</returns>
-    private long IdFromCurrentNode() {
+    private int IdFromCurrentNode() {
       var fullPath = new List<String>();
       TreeNode current = treeView1.SelectedNode;
       if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
@@ -115,7 +115,7 @@ namespace SliceOfPie_OfflineGUI {
       /// File has been requested by the user. Also includes the ID of the file that's requested.
       /// </summary>
       /// <param name="sender"></param>
-      /// <param name="e">Not used, instead uses FileEventArgs which contains a long</param>
+      /// <param name="e">Not used, instead uses FileEventArgs which contains a int</param>
     private void button_load_Click(object sender, EventArgs e)
     {
           if (_editWindow == null)
@@ -156,12 +156,6 @@ namespace SliceOfPie_OfflineGUI {
       SynchronizationRequested(this, null);
     }
 
-    public EditorWindow EditorWindow {
-      get {
-        throw new NotImplementedException();
-      }
-      set { throw new NotImplementedException(); }
-    }
   }
 
 }

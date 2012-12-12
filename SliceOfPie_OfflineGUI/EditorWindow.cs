@@ -9,7 +9,7 @@ namespace SliceOfPie_OfflineGUI
     public partial class EditorWindow : Form
     {
         public event DocumentHandler DocumentSaved;
-       
+        private FileInstance currentDocument;
  
         public EditorWindow()
         {
@@ -45,7 +45,11 @@ namespace SliceOfPie_OfflineGUI
         {
             if (doc != null)
             {
-              if (webBrowser1.Document != null) webBrowser1.Document.Write(doc.ToString());
+                currentDocument = doc;
+                if (webBrowser1.Document != null) webBrowser1.Document.Write(doc.ToString());
+
+                if (doc.File.name != null)
+                    docnameBox.Text = doc.File.name;
             }
             else
                 MessageBox.Show("No document selected");
@@ -70,5 +74,7 @@ namespace SliceOfPie_OfflineGUI
             }
           }
         }
+
+  
     }
 }

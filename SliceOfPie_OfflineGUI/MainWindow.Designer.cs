@@ -33,6 +33,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.button_load = new System.Windows.Forms.Button();
             this.button_synchronize = new System.Windows.Forms.Button();
+            this.button_Create = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // treeView1
@@ -81,11 +82,22 @@
             this.button_synchronize.UseVisualStyleBackColor = true;
             this.button_synchronize.Click += new System.EventHandler(this.button_synchronize_Click);
             // 
+            // button_Create
+            // 
+            this.button_Create.Location = new System.Drawing.Point(359, 179);
+            this.button_Create.Name = "button_Create";
+            this.button_Create.Size = new System.Drawing.Size(75, 23);
+            this.button_Create.TabIndex = 6;
+            this.button_Create.Text = "Create Document";
+            this.button_Create.UseVisualStyleBackColor = true;
+            this.button_Create.Click += new System.EventHandler(this.button_Create_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 386);
+            this.Controls.Add(this.button_Create);
             this.Controls.Add(this.button_synchronize);
             this.Controls.Add(this.button_load);
             this.Controls.Add(this.button_tree);
@@ -107,5 +119,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.Button button_synchronize;
+        private System.Windows.Forms.Button button_Create;
     }
 }

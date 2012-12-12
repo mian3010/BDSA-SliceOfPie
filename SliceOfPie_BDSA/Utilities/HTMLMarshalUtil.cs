@@ -74,7 +74,7 @@ namespace SliceOfPie_Model
             }
 
             XElement id = doc.Element("ID");
-          if (id != null) file.id = long.Parse(id.Value);
+          if (id != null) file.id = int.Parse(id.Value);
 
           XElement body = doc.Element("body");
           if (body != null) file.Content = body.Value;
@@ -106,7 +106,7 @@ namespace SliceOfPie_Model
         public static FileList UnMarshallFileList(string xml)
         {
 
-            var fileList = new Dictionary<long, FileListEntry>();
+            var fileList = new Dictionary<int, FileListEntry>();
             XElement doc = XElement.Parse(xml);
 
             XElement root = doc.Element("fileList");
@@ -130,7 +130,7 @@ namespace SliceOfPie_Model
                       var xElement2 = m.Element("isDeleted");
                       var entry = new FileListEntry
                         {
-                          Id = Int64.Parse(xElement.Value),
+                          Id = Int32.Parse(xElement.Value),
                           Name = element.Value,
                           Path = xElement1.Value,
                           Version = decimal.Parse(element1.Value),
@@ -158,7 +158,7 @@ namespace SliceOfPie_Model
           if (e != null)
           {
             String inc = e.Value;
-            long incCounter = Int64.Parse(inc);
+            int incCounter = Int32.Parse(inc);
             return new FileList { List = fileList, IncrementCounter = incCounter };
           }
           return null;
@@ -169,7 +169,7 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static String MarshallId(long id)
+        public static String MarshallId(int id)
         {
             var doc = new XElement("IDResponse",
                                                   new XElement("FileID", id)
@@ -182,13 +182,13 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-          public static long UnMarshallId(String xml)
+          public static int UnMarshallId(String xml)
         {
             XElement doc = XElement.Parse(xml);
             XElement root = doc.Element("FileID");
           if (root != null)
           {
-            long id = long.Parse(root.Value);
+            int id = int.Parse(root.Value);
             return id;
           }
           return 0;

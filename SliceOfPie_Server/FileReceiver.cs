@@ -24,7 +24,7 @@ namespace SliceOfPie_Server {
     }
 
     public void Receive() {
-      long success = -2; // will be returned
+      int success = -2; // will be returned
       // success == id if succes
       // -1 if failed
       // -2 if reject
