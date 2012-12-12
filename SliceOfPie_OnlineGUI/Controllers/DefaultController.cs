@@ -26,7 +26,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       try {
         var documentToView = (Document)fileToView;
         @ViewBag.Title = documentToView.Title;
-      } catch (InvalidCastException e) {
+      } catch (InvalidCastException) {
         @ViewBag.Title = "File: "+fileToView.File.name;
       }
       @ViewBag.DocumentHistory = fileToView.HistoryToString();

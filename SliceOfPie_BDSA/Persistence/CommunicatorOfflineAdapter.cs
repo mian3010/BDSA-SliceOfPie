@@ -136,7 +136,7 @@ namespace SliceOfPie_Model {
                 FileDeleted(file);
             return true;
         }
-        catch (System.IO.IOException e)
+        catch (System.IO.IOException)
         {
             throw new System.IO.IOException("Deleting File on disk :" + file.File.name + " failed."); 
         }
