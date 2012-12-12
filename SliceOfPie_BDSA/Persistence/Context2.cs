@@ -97,7 +97,8 @@ namespace SliceOfPie_Model.Persistence {
       return usersFilesOnServer;
     }
 
-    private static File GetFile(long fileId) {
+    //TODO Should be private or removed
+    public static File GetFile(long fileId) {
       if (fileId < 0) return null;
       var query = from f in DbContext.Files
                   where f.id == fileId
@@ -105,7 +106,8 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    private static void AddFile(File file) {
+    //TODO Should be private or removed
+    public static void AddFile(File file) {
       file.FileMetaDatas.Clear();
       DbContext.Files.AddObject(file);
       try {
