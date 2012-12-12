@@ -9,6 +9,8 @@ namespace SliceOfPie_Model.Persistence {
   public static class Context {
     private static readonly SliceOfLifeEntities DbContext = new SliceOfLifeEntities();
 
+    //TODO If serverpath == null, add serverpath
+
     public static User[] GetUsers() {
       var query = from u in DbContext.Users
                   select u;
