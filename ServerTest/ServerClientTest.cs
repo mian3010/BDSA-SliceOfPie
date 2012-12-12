@@ -66,9 +66,22 @@ namespace ServerTest {
       ICollection<long> col = returnList.List.Keys;
       foreach (long l in col)
         Assert.AreEqual(returnList.List[l].Id, list.List[l].Id);
-      var file = new FileInstance {id = 2, File = new File{name = "TESTFIL", serverpath = "testServerpath"}};
       var data = new FileMetaData();
-      long id = client.PushFile(file);
+      data.value = "testdatatype";
+      MetaDataType type = new MetaDataType();
+      type.Type = "Hey";
+      data.MetaDataType_Type = type.Type;
+      User user = new User();
+      user.email = "superman@gmail.com";
+      File file = new File();
+      file.id = 1;
+      file.name = "TESTFIL"; 
+      file.serverpath = "testServerpath"; 
+      file.Version = 0.0m;
+      file.FileMetaDatas.Add(data);
+      var fileInstance = new FileInstance {id = 2, File = file, User = user};
+      
+      long id = client.PushFile(fileInstance);
 
     }
   }
