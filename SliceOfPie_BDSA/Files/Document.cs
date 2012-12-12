@@ -10,15 +10,17 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   [Serializable()]
   public class Document : FileInstance {
-    public String Title { get; set; }
+    public String Title {
+      get { return Context.GetFileMetaData(File, "Title").value; }
+      set { Context.GetFileMetaData(File, "Title").value = value; }
+    }
 
-    public IList<String> Authors { get; set; }
+    public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
       get { return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
       set { PrivContent = Encoding.UTF8.GetBytes(value); }
     }
-
 
     public override string GetContent() {
       return Content;
@@ -48,8 +50,15 @@ namespace SliceOfPie_Model.Persistence {
       return output.ToString();
     }
 
+    public static Document CreateDocument(FileInstance file) {
+      if (Context.GetFileMetaData(file.File, "Type").value == "Document") {
+        return (Document)file;
+      }
+      throw new NotADocumentException();
+    }
+
     static internal Document CreateTestDocument(String s) {
-      var d = new Document {Content = s};
+      var d = new Document { Content = s };
       return d;
     }
 
