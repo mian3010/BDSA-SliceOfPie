@@ -23,6 +23,17 @@ namespace ServerTest {
       server.Close();
     }
 
+      [TestMethod]
+      public void TestAddFile()
+      {
+          File f = new File();
+          f.name = " Newfile";
+          f.serverpath = "Lolpath";
+          Context2.AddFile(f);
+      
+
+      }
+
     /// <summary>
     /// Tests that you cannot save a file that is not in the FileList
     /// </summary>
