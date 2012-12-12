@@ -91,6 +91,7 @@ namespace SliceOfPie_Model.Persistence {
       var query = from f in DbContext.FileInstances
                   where f.User_email == useremail
                   select f;
+      if (!query.Any()) return null;
       foreach (FileInstance fi in query) {
         list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
       }
