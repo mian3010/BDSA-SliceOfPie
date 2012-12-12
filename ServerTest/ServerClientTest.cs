@@ -54,9 +54,9 @@ namespace ServerTest {
       var e1 = new FileListEntry();
       var e2 = new FileListEntry();
       var e3 = new FileListEntry();
-      e1.Id = 1;
-      e2.Id = 2;
-      e3.Id = 3;
+      e1.Id = 30;
+      e2.Id = 40;
+      e3.Id = 350;
       list.List.Add(e1.Id, e1);
       list.List.Add(e2.Id, e2);
       list.List.Add(e3.Id, e3);
@@ -75,12 +75,12 @@ namespace ServerTest {
       User user = new User();
       user.email = "superman@gmail.com";
       File file = new File();
-      file.id = 1;
+      file.id = 30;
       file.name = "TESTFIL"; 
       file.serverpath = "testServerpath"; 
-      file.Version = 0.0m;
+      file.Version = 10.0m;
       file.FileMetaDatas.Add(data);
-      var fileInstance = new FileInstance {id = 2, File = file, User = user};
+      var fileInstance = new FileInstance {id = 30, File = file, User = user};
       
       long id = client.PushFile(fileInstance);
 
