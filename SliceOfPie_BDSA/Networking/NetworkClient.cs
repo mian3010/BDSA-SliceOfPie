@@ -106,9 +106,8 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     private static long HandleIdResponse(System.IO.Stream response) {
       if (response != null) {
-        var streamToLong = new System.IO.MemoryStream();
-        response.CopyTo(streamToLong);
-        return BitConverter.ToInt64(streamToLong.ToArray(), 0);
+          var formatter = new BinaryFormatter();
+          return (long)formatter.Deserialize(response);
       }
       return 0;
     }

@@ -45,7 +45,7 @@ namespace SliceOfPie_Server {
 
         // else reject
       }
-      // hp.something(succes);
+      _hp.RecieveConfirmation(success);
     }
   }
 }
