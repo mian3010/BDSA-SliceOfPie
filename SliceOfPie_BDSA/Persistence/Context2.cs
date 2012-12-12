@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 
 namespace SliceOfPie_Model.Persistence {
-  class Context2 {
+  public static class Context2 {
     private static readonly SliceOfLifeEntities DbContext = new SliceOfLifeEntities();
 
     // User
@@ -48,8 +48,8 @@ namespace SliceOfPie_Model.Persistence {
       if (fileInstance.path == null || fileInstance.path.Trim().Equals("")) return -1;
 
       // User
-      if (fileInstance.UserEmail == null || fileInstance.UserEmail.Trim().Equals("")) return -1;
-      if (GetUser(fileInstance.UserEmail) != null) return -1;
+      if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals("")) return -1;
+      if (GetUser(fileInstance.User_email) != null) return -1;
 
       // File
       if (fileInstance.File == null) return -1;
@@ -80,9 +80,21 @@ namespace SliceOfPie_Model.Persistence {
     public static List<FileInstance> GetFiles(string useremail) {
       if (useremail == null || useremail.Trim().Equals("")) return null;
       var query = from f in DbContext.FileInstances
-                  where f.UserEmail.Equals(useremail)
+                  where f.User_email.Equals(useremail)
                   select f;
       return !query.Any() ? null : query.ToList();
+    }
+
+    public static FileList GetFileList(string useremail) {
+      var usersFilesOnServer = new FileList();
+      var list = usersFilesOnServer.List;
+      var query = from f in DbContext.FileInstances
+                  where f.User_email == useremail
+                  select f;
+      foreach (FileInstance fi in query) {
+        list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
+      }
+      return usersFilesOnServer;
     }
   }
 }

@@ -32,16 +32,16 @@ namespace SliceOfPie_Server {
       // Determin new or mod
       // If new file
       if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
-        success = Context.AddFileInstance(_file);
+        success = Context2.AddFileInstance(_file);
 
         // else if mod file
       } else if (RequestHandler.Instance.PendingModFileList.ContainsKey(_file.id)) {
         try {
           var documentFromFile = Document.CreateDocument(_file);
-          var documentFromDb = Document.CreateDocument(Context.GetFile(_file.id));
+          var documentFromDb = Document.CreateDocument(Context2.GetFileInstance(_file.id));
           _file = MergePolicy.Merge(documentFromFile, documentFromDb);
         } catch (NotADocumentException) { } catch (MergeImpossibleException) { }
-        success = Context.UpdateFile(_file);
+        success = Context2.AddFileInstance(_file);
 
         // else reject
       }
