@@ -89,8 +89,8 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get a file from the server
     /// </summary>
-    /// <param name="id"></param>
-    /// /// <param name="processor"></param>
+    /// <param name="id">FileId</param>
+    /// /// <param name="processor">processor</param>
     /// <returns></returns>
     public void GetFile(long id, HttpProcessor processor) {
       var file = Context.GetFile(id);

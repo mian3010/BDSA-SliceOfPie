@@ -31,6 +31,7 @@ namespace SliceOfPie_Server {
       Console.Out.WriteLine("starting to process");
       string httpMethod = _request.HttpMethod;
       Stream inputStream = _request.InputStream;
+
       // Determines which http-method is called.
       var formatter = new BinaryFormatter();
       //try {

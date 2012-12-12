@@ -45,8 +45,7 @@ namespace SliceOfPie_Model {
       var fileObjectStream = new System.IO.MemoryStream();
       formatter.Serialize(fileObjectStream, file);
       //Write file object after this
-      var fileObject = new byte[fileObjectStream.Length];
-      fileObjectStream.Read(fileObject, 0, fileObject.Length);
+      var fileObject = fileObjectStream.ToArray();
 
       //Send byte array to server
       var responseFromRequest = Send(fileObject, "PUT");
@@ -65,7 +64,9 @@ namespace SliceOfPie_Model {
         request = WebRequest.Create("http://localhost:" + Port + "/");
         request.Method = method;
         var requestStream = request.GetRequestStream();
-        requestStream.Write(data, 0, data.Length);
+        int length = data.Length;
+        requestStream.Write(data, 0, length);
+        requestStream.Flush();
         requestStream.Close();
       } else {
         request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
@@ -105,9 +106,8 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     private static long HandleIdResponse(System.IO.Stream response) {
       if (response != null) {
-        var streamToLong = new System.IO.MemoryStream();
-        response.CopyTo(streamToLong);
-        return BitConverter.ToInt64(streamToLong.ToArray(), 0);
+          var formatter = new BinaryFormatter();
+          return (long)formatter.Deserialize(response);
       }
       return 0;
     }
