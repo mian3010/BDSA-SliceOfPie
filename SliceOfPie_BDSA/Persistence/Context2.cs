@@ -66,9 +66,6 @@ namespace SliceOfPie_Model.Persistence {
       // File Version
       if (fileInstance.File.Version < 0) return -1;
 
-      // File in db?
-      if(GetFile(fileInstance.File_id) == null) AddFile(fileInstance.File);
-
       if (deleteBeforeAdd) {
         DbContext.FileInstances.DeleteObject(fileInstance);
       }
