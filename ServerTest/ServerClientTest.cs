@@ -23,6 +23,17 @@ namespace ServerTest {
       server.Close();
     }
 
+      [TestMethod]
+      public void TestAddFile()
+      {
+          File f = new File();
+          f.name = " Newfile";
+          f.serverpath = "Lolpath";
+          Context2.AddFile(f);
+      
+
+      }
+
     /// <summary>
     /// Tests that you cannot save a file that is not in the FileList
     /// </summary>
@@ -57,12 +68,14 @@ namespace ServerTest {
       e1.Id = 30;
       e2.Id = 40;
       e3.Id = 350;
+      e2.Id = 31;
+      e3.Id = 32;
       list.List.Add(e1.Id, e1);
       list.List.Add(e2.Id, e2);
       list.List.Add(e3.Id, e3);
       var serverT = new Thread(server.Listen);
       serverT.Start();
-      Thread.Sleep(5000);
+      //Thread.Sleep(5000);
       FileList returnList = client.SyncServer(list);
       ICollection<long> col = returnList.List.Keys;
       foreach (long l in col)
@@ -80,7 +93,9 @@ namespace ServerTest {
       file.serverpath = "testServerpath"; 
       file.Version = 10.0m;
       file.FileMetaDatas.Add(data);
-      var fileInstance = new FileInstance {id = 30, File = file, User = user};
+
+      var fileInstance = FileInstance.CreateFileInstance(30, user.email, @"C:\ClientFiles\Test\", file.id);
+      fileInstance.File = file;
       
       long id = client.PushFile(fileInstance);
 
