@@ -122,8 +122,9 @@ namespace SliceOfPie_Model.Persistence {
     public static long AddFileInstance(FileInstance fileInstance) {
       if (fileInstance == null || fileInstance.File == null) return -2;
       if (GetFileInstance(fileInstance.id) != null) {
-        return ModifyFileInstance(fileInstance);
       }
+      AddUser(fileInstance.User);
+      AddFile(fileInstance.File);
       DbContext.FileInstances.AddObject(fileInstance);
       try {
         return DbContext.SaveChanges();
@@ -182,13 +183,13 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    // TODO
-    public static long AddFile(FileInstance fileInstance) {
-      if (fileInstance == null || fileInstance.File == null) return -2;
-      if (GetFile(fileInstance.id) != null) {
-        return UpdateFile(fileInstance);
+
+    public static long AddFile(File file) {
+      if (file == null) return -2;
+      if (GetFile(file.id) != null) {
+
       }
-      DbContext.Files.AddObject(fileInstance.File);
+      DbContext.Files.AddObject(file);
       try {
         return DbContext.SaveChanges();
       } catch (UpdateException) {
@@ -196,10 +197,10 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-    public static long UpdateFile(FileInstance fileInstance) {
-      if (fileInstance == null || fileInstance.File == null) return -2;
-      DbContext.Files.DeleteObject(fileInstance.File);
-      return AddFile(fileInstance);
+    public static long UpdateFile(FileInstance file) {
+      if (file == null || file.File == null) return -2;
+      DbContext.Files.DeleteObject(file.File);
+      return AddFile(file.File);
     }
 
     private static MetaDataType GetMetaDataType(string type) {

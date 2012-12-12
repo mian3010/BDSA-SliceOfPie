@@ -32,7 +32,7 @@ namespace SliceOfPie_Server {
       // Determin new or mod
       // If new file
       if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
-        success = Context.AddFile(_file);
+        success = Context.AddFileInstance(_file);
 
         // else if mod file
       } else if (RequestHandler.Instance.PendingModFileList.ContainsKey(_file.id)) {
