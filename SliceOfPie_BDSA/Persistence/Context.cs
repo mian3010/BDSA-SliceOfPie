@@ -182,6 +182,7 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
+    // TODO
     public static long AddFile(FileInstance fileInstance) {
       if (fileInstance == null || fileInstance.File == null) return -2;
       if (GetFile(fileInstance.id) != null) {

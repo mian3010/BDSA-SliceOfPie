@@ -7,6 +7,7 @@ using System.Threading;
 using System.Collections.Generic;
 
 namespace ServerTest {
+
   [TestClass]
   public class ServerClientTest {
     [TestMethod]
