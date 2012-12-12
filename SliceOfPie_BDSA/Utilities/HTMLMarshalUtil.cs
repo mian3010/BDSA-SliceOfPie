@@ -61,7 +61,7 @@ namespace SliceOfPie_Model
         {
             var file = new Document();
             XElement doc = XElement.Parse(xml);
-
+            file.File = new File();
             IEnumerable<XElement> metaData = doc.Elements("meta");
             foreach (XElement meta in metaData)
             {

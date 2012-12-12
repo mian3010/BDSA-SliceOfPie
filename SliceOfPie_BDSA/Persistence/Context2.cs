@@ -36,6 +36,8 @@ namespace SliceOfPie_Model.Persistence {
     public static FileInstance GetFileInstance(int fileInstanceId) {
       if (fileInstanceId < 1) return null;
       var query = from f in DbContext.FileInstances
+                  .Include("File")
+                  .Include("File.Change")
                   where f.id == fileInstanceId
                   select f;
       return !query.Any() ? null : query.First();

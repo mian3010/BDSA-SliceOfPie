@@ -23,24 +23,6 @@ namespace ServerTest {
       server.Close();
     }
 
-      [TestMethod]
-      public void TestAddFile()
-      {
-          File f = new File();
-          f.name = " Newfile";
-          f.serverpath = "Lolpath";
-          Context2.AddFile(f);
-      
-
-      }
-
-      [TestMethod]
-      public void TestAddUser()
-      {
-          User u = new User();
-          u.email = "yo@yo.dk";
-          Context2.AddUser(u);
-      }
 
     /// <summary>
     /// Tests that you cannot save a file that is not in the FileList
@@ -87,19 +69,20 @@ namespace ServerTest {
       foreach (int l in col)
         Assert.AreEqual(returnList.List[l].Id, list.List[l].Id);
       var data = new FileMetaData();
-      data.value = "testdatatype";
+      data.value = "testd234atatype";
       MetaDataType type = new MetaDataType();
-      type.Type = "Hey";
+      type.Type = "He234y";
       data.MetaDataType_Type = type.Type;
+      data.MetaDataType = type;
       User user = new User();
-      user.email = "superman123@gmail.com";
+      user.email = "superman123@gm44ail.com";
       File file = new File();
-      file.id = 31;
-      file.name = "TES123TFIL"; 
-      file.serverpath = "test123Serverpath"; 
+      file.id = 32;
+      file.name = "TES34123TFIL"; 
+      file.serverpath = "test123Se234rverpath"; 
       file.Version = 0.0m;
- //      file.FileMetaDatas.Add(data);
-      var fileInstance = FileInstance.CreateFileInstance(31, user.email, @"C:\ClientFiles\Test\", file.id);
+      file.FileMetaDatas.Add(data);
+      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
         fileInstance.User = user;
 
       fileInstance.File = file;
