@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using SliceOfPie_Model.Persistence;
+﻿using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OnlineGUI.Models {
   public class FileModel {
-    private IDictionary<int, File> _fileList;
     public static Document GetFile(int id) {
       var d = new Document();
 

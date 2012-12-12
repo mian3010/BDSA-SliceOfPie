@@ -10,7 +10,7 @@ namespace SliceOfPie_Server {
   /// </summary>
   class FileReceiver {
     private HttpProcessor _hp;
-    private readonly FileInstance _file;
+    private FileInstance _file;
 
     /// <summary>
     /// Constructor. 
@@ -32,16 +32,16 @@ namespace SliceOfPie_Server {
       // Determin new or mod
       // If new file
       if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
-        Context.AddFile(_file);
+        success = Context.AddFile(_file);
 
         // else if mod file
       } else if (RequestHandler.Instance.PendingModFileList.ContainsKey(_file.id)) {
         try {
-          //Document DocumentFromFile = Document.CreateDocument(file);
-          //Document DocumentFromDb = Document.CreateDocument(Context.GetFile(file.id));
-          //Document DocumentMerged = MergePolicy.Merge(DocumentFromFile, DocumentFromDb);
-        } catch (NotADocumentException e) { } catch (MergeImpossibleException e) { }
-        Context.UpdateFile(_file);
+          var documentFromFile = Document.CreateDocument(_file);
+          var documentFromDb = Document.CreateDocument(Context.GetFile(_file.id));
+          _file = MergePolicy.Merge(documentFromFile, documentFromDb);
+        } catch (NotADocumentException) { } catch (MergeImpossibleException) { }
+        success = Context.UpdateFile(_file);
 
         // else reject
       }
