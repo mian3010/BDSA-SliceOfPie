@@ -76,6 +76,7 @@
     <Compile Include="MergePolicy.cs" />
     <Compile Include="Networking\INetClient.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Persistence\Context2.cs" />
     <Compile Include="Persistence\Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

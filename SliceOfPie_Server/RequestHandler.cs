@@ -26,7 +26,7 @@ namespace SliceOfPie_Server {
         Title = "Test document title",
       };
 
-      Context.AddFile(instance);
+      Context.AddFileInstance(instance);
 
       // Add FileInstance, bind to user
       var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
