@@ -55,9 +55,9 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get this singleon instance
     /// </summary>
-    private static RequestHandler _tinstance;
+    private static RequestHandler _instance;
     public static RequestHandler Instance {
-      get { return _tinstance ?? (_tinstance = new RequestHandler()); }
+      get { return _instance ?? (_instance = new RequestHandler()); }
     }
 
     /// <summary>
@@ -89,11 +89,10 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get a file from the server
     /// </summary>
-    /// <param name="id"></param>
-    /// /// <param name="processor"></param>
+    /// <param name="id">FileId</param>
+    /// /// <param name="processor">processor</param>
     /// <returns></returns>
     public void GetFile(long id, HttpProcessor processor) {
-      //TODO: Test this
       var file = Context.GetFile(id);
       processor.RecieveFile(file);
     }
