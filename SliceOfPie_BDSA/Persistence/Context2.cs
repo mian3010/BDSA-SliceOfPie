@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 
 namespace SliceOfPie_Model.Persistence {
-  class Context2 {
+  public class Context2 {
     private static readonly SliceOfLifeEntities DbContext = new SliceOfLifeEntities();
 
     // User
@@ -52,7 +52,7 @@ namespace SliceOfPie_Model.Persistence {
     public static List<FileInstance> GetFiles(string useremail) {
       if (useremail == null || useremail.Trim().Equals("")) return null;
       var query = from f in DbContext.FileInstances
-                  where f.UserEmail.Equals(useremail)
+                  where f.User_email.Equals(useremail)
                   select f;
       return !query.Any() ? null : query.ToList();
     }

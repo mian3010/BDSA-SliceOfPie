@@ -4,7 +4,9 @@ using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_OnlineGUI.Controllers {
   public class DefaultController : Controller {
-    public ActionResult Index() {
+    public ActionResult Index()
+    {
+      @ViewBag.FileList = Models.FileModel.FileListToTree(Context2.GetFiles("test@example.com"));
       return View();
     }
 
