@@ -42,8 +42,7 @@ namespace SliceOfPie_Model.Persistence {
       using (var dbContext = new SliceOfLifeEntities()) {
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
-                                       .Include("File")
-                                       .Include("File.Change")
+                                       .Include("File.FileMetaDatas")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
