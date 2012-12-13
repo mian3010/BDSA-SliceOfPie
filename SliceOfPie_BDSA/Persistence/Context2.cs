@@ -62,13 +62,17 @@ namespace SliceOfPie_Model.Persistence {
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
-
         // User
         if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
-        if (fileInstance.User == null) fileInstance.User = GetUser(fileInstance.User_email);
+
+            fileInstance.User = GetUser(fileInstance.User_email);
+        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
+        // File
+        if (fileInstance.File == null)
+          throw new ConstraintException("Database handler received an empty file reference");
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
@@ -80,7 +84,6 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -261,6 +264,7 @@ namespace SliceOfPie_Model.Persistence {
             throw new ConstraintException("Problem with adding test entries", e);
           }
         }
+
       }
     }
   }
