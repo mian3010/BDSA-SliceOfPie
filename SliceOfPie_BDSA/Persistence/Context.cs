@@ -314,13 +314,19 @@ namespace SliceOfPie_Model.Persistence {
         var user = User.CreateUser("testuser" + i + "@example.com");
         DbContext.Users.AddObject(user);
       }
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException) { }
 
       // Add Files
       for (int i = 0; i < 10; i++) {
         var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-        if (i%2 == 0) file.serverpath += "Subfolder";
+        if (i % 2 == 0) file.serverpath += "Subfolder";
         DbContext.Files.AddObject(file);
       }
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException) { }
 
       // Add FileInstances
       for (int i = 0; i < 10; i++) {
@@ -328,7 +334,9 @@ namespace SliceOfPie_Model.Persistence {
         if (i % 2 == 0) fileInstance.path += "Subfolder";
         DbContext.FileInstances.AddObject(fileInstance);
       }
-      DbContext.SaveChanges();
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException) { }
     }
   }
 }

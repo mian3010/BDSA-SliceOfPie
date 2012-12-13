@@ -113,25 +113,25 @@ namespace SliceOfPie_Model.Persistence {
     public static int GetNextFileId() {
       var query = (from f in DbContext.Files
                    select f.id).Max();
-      return query;
+      return query + 1;
     }
 
     public static int GetNextFileInstanceId() {
       var query = (from f in DbContext.FileInstances
                    select f.id).Max();
-      return query;
+      return query + 1;
     }
 
     public static int GetNextChangeId() {
       var query = (from e in DbContext.Changes
                    select e.id).Max();
-      return query;
+      return query + 1;
     }
 
     public static int GetNextProjectId() {
       var query = (from e in DbContext.Projects
                    select e.id).Max();
-      return query;
+      return query+1;
     }
 
     //TODO Should be private or removed
@@ -245,12 +245,23 @@ namespace SliceOfPie_Model.Persistence {
         var user = User.CreateUser("testuser" + i + "@example.com");
         DbContext.Users.AddObject(user);
       }
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        throw new ConstraintException("Problem with adding test Users", e);
+      }
 
       // Add Files
-      for (int i = 0; i < 10; i++) {
+      int fId = GetNextFileId();
+      for (int i = fId; i < fId+10; i++) {
         var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
         if (i % 2 == 0) file.serverpath += "Subfolder";
         DbContext.Files.AddObject(file);
+      }
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        throw new ConstraintException("Problem with adding test Files", e);
       }
 
       // Add FileInstances
@@ -259,7 +270,11 @@ namespace SliceOfPie_Model.Persistence {
         if (i % 2 == 0) fileInstance.path += "Subfolder";
         DbContext.FileInstances.AddObject(fileInstance);
       }
-      DbContext.SaveChanges();
+      try {
+        DbContext.SaveChanges();
+      } catch (UpdateException e) {
+        throw new ConstraintException("Problem with adding test fileInstances", e);
+      }
     }
   }
 }
