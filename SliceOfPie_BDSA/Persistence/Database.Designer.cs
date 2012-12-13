@@ -347,7 +347,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int64> timestamp
+        public global::System.String timestamp
         {
             get
             {
@@ -357,13 +357,13 @@ namespace SliceOfPie_Model.Persistence
             {
                 OntimestampChanging(value);
                 ReportPropertyChanging("timestamp");
-                _timestamp = StructuralObject.SetValidValue(value);
+                _timestamp = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("timestamp");
                 OntimestampChanged();
             }
         }
-        private Nullable<global::System.Int64> _timestamp;
-        partial void OntimestampChanging(Nullable<global::System.Int64> value);
+        private global::System.String _timestamp;
+        partial void OntimestampChanging(global::System.String value);
         partial void OntimestampChanged();
     
         /// <summary>

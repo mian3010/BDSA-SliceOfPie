@@ -34,6 +34,8 @@
             this.docnameBox = new System.Windows.Forms.TextBox();
             this.EditorBox = new System.Windows.Forms.TextBox();
             this.historyButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,9 +64,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.Size = new System.Drawing.Size(90, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Document name:";
+            this.label2.Text = "Document Name:";
             // 
             // docnameBox
             // 
@@ -83,6 +85,7 @@
             this.EditorBox.Size = new System.Drawing.Size(698, 427);
             this.EditorBox.TabIndex = 6;
             this.EditorBox.Text = "Enter html here!";
+            this.EditorBox.TextChanged += new System.EventHandler(this.EditorBox_TextChanged);
             // 
             // historyButton
             // 
@@ -94,11 +97,29 @@
             this.historyButton.UseVisualStyleBackColor = true;
             this.historyButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(179, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(133, 20);
+            this.textBox1.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(179, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Document Title:";
+            // 
             // EditorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(725, 536);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.EditorBox);
             this.Controls.Add(this.docnameBox);
             this.Controls.Add(this.label2);
@@ -120,5 +141,7 @@
         private System.Windows.Forms.TextBox docnameBox;
         private System.Windows.Forms.TextBox EditorBox;
         private System.Windows.Forms.Button historyButton;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }

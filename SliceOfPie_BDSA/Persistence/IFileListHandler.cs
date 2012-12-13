@@ -14,7 +14,7 @@ namespace SliceOfPie_Model
         }
 
         /// <summary>
-        /// Saves the FileList property in storage
+        /// Saves the FileList property in storage.
         /// </summary>
         void PersistFileList();
 
@@ -23,5 +23,10 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <returns>The dictionary mentioned in the Summary</returns>
         Dictionary<String, int> GetPathsWithId();
+
+        /// <summary>
+        /// Persists changes made to files in storage.
+        /// </summary>
+        void PersistChangeList();
     }
 }

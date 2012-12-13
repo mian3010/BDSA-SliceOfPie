@@ -3,6 +3,8 @@ using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
-    public delegate void DocumentHandler(object sender, Document doc);
-    public delegate void FileRequestHandler(object sender, FileEventArgs args);
+    public delegate void FileInstanceEventHandler(FileInstance file);
+
+    public delegate void DocumentHandler(Document doc);
+    public delegate void FileInstanceRequestHandler(object sender, FileEventArgs args);
 }

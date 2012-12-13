@@ -18,10 +18,6 @@
             <End Role="File" EntitySet="File" />
             <End Role="Change" EntitySet="Change" />
           </AssociationSet>
-          <AssociationSet Name="Change_ibfk_2" Association="SliceOfLifeModel.Store.Change_ibfk_2">
-            <End Role="File" EntitySet="File" />
-            <End Role="Change" EntitySet="Change" />
-          </AssociationSet>
           <AssociationSet Name="FileInstance_ibfk_1" Association="SliceOfLifeModel.Store.FileInstance_ibfk_1">
             <End Role="File" EntitySet="File" />
             <End Role="FileInstance" EntitySet="FileInstance" />
@@ -63,7 +59,7 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="User_email" Type="varchar" Nullable="false" MaxLength="400" />
-          <Property Name="timestamp" Type="bigint" />
+          <Property Name="timestamp" Type="varchar" MaxLength="255" />
           <Property Name="change" Type="text" />
           <Property Name="File_id" Type="int" Nullable="false" />
         </EntityType>
@@ -84,7 +80,7 @@
             <PropertyRef Name="User_email" />
             <PropertyRef Name="File_id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="User_email" Type="varchar" Nullable="false" MaxLength="400" />
           <Property Name="path" Type="varchar" Nullable="false" MaxLength="400" />
           <Property Name="deleted" Type="utinyint" />
@@ -95,7 +91,7 @@
             <PropertyRef Name="id" />
             <PropertyRef Name="MetaDataType_Type" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="value" Type="varchar" MaxLength="400" />
           <Property Name="MetaDataType_Type" Type="varchar" Nullable="false" MaxLength="400" />
           <Property Name="File_id" Type="int" Nullable="false" />
@@ -128,18 +124,6 @@
           <Property Name="email" Type="varchar" Nullable="false" MaxLength="400" />
         </EntityType>
         <Association Name="Change_ibfk_1">
-          <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="1" />
-          <End Role="Change" Type="SliceOfLifeModel.Store.Change" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Change">
-              <PropertyRef Name="File_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Change_ibfk_2">
           <End Role="File" Type="SliceOfLifeModel.Store.File" Multiplicity="1" />
           <End Role="Change" Type="SliceOfLifeModel.Store.Change" Multiplicity="*" />
           <ReferentialConstraint>
@@ -304,7 +288,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="User_email" Type="String" Nullable="false" MaxLength="400" Unicode="false" FixedLength="false" />
-          <Property Name="timestamp" Type="Int64" />
+          <Property Name="timestamp" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="change1" Type="String" MaxLength="65535" Unicode="false" FixedLength="false" />
           <Property Name="File_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="File" Relationship="SliceOfLifeModel.fk_Change_File1" FromRole="Change" ToRole="File" />
@@ -580,8 +564,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram DiagramId="bedff1449a59482195696a8f97513849" Name="Diagram1">
-        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="6" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="6.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3.625" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="1.625" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="6.875" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3.5" PointY="0.875" IsExpanded="true" />

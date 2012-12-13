@@ -27,7 +27,7 @@ namespace SliceOfPie_Model {
             get { return _fileListHandler; } 
         }
     
-      public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
+      public event FileInstanceEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
         public static CommunicatorOfflineAdapter GetCommunicatorInstance()
         {
@@ -59,10 +59,10 @@ namespace SliceOfPie_Model {
       private bool AddNewFile(FileInstance file)
       {
           cache.Add(file);
-        if(!System.IO.Directory.Exists(file.File.serverpath)) {
-            System.IO.Directory.CreateDirectory(file.File.serverpath);
+        if(!System.IO.Directory.Exists(file.path)) {
+            System.IO.Directory.CreateDirectory(file.path);
         }
-        string fullpath = System.IO.Path.Combine(file.File.serverpath, file.File.name);
+        string fullpath = System.IO.Path.Combine(file.path, file.File.name);
         String fileHtml = HtmlMarshalUtil.MarshallFile(file);
         if (!System.IO.File.Exists(fullpath))
         {
@@ -222,7 +222,7 @@ namespace SliceOfPie_Model {
 
 
     /// <summary>
-    /// Retrieves a file from storage using the File's path
+    /// Retrieves a file from storage using the File's path. Also loads the history of the file using FileListHandler
     /// </summary>
     /// <param name="id">The id of the file to retrieve</param>
     /// <returns></returns>
@@ -241,6 +241,16 @@ namespace SliceOfPie_Model {
         loadedFile.File = new File();
         loadedFile.File.serverpath = fileInfo.Path;
         loadedFile.File.name = fileInfo.Name;
+
+        // Load changes
+        if (_fileListHandler.ChangeList.ContainsKey(id))
+        {
+            foreach (Change change in _fileListHandler.ChangeList[id])
+            {
+                loadedFile.File.Changes.Add(change);
+            }
+        }
+
         cache.Add(loadedFile);
         return loadedFile;
     
