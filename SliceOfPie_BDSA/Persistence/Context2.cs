@@ -239,31 +239,36 @@ namespace SliceOfPie_Model.Persistence {
         var metaType = MetaDataType.CreateMetaDataType("Type");
         const string metaValue = "Document";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
           // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
 
-          // Add Files
-          var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-          if (i % 2 == 0) file.serverpath += "Subfolder";
-          dbContext.Files.AddObject(file);
+          for (int k = 0; k < 30; k++) {
+            // Add Files
+            var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
+            if (i % 2 == 0) file.serverpath += "Subfolder";
+            dbContext.Files.AddObject(file);
 
-          // Meta
-          var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
-          meta.value = metaValue;
+            // Meta
+            var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
+            meta.value = metaValue;
 
-          // Add FileInstances
-          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
-          if (i % 2 == 0) fileInstance.path += "Subfolder";
-          fileInstance.File = file;
-          fileInstance.User = user;
-          dbContext.FileInstances.AddObject(fileInstance);
+            // Add FileInstances
+            var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
+            if (i % 2 == 0) fileInstance.path += @"Subfolder\";
+            if (i % 3 == 0) fileInstance.path += @"AnotherSubFolder\";
+            if (i % 7 == 0) fileInstance.path += @"YetAnotherSubFolder\";
+            if (i % 5 == 0) fileInstance.path += @"SomeSubFolder\";
+            fileInstance.File = file;
+            fileInstance.User = user;
+            dbContext.FileInstances.AddObject(fileInstance);
 
-          try {
-            dbContext.SaveChanges();
-          } catch (UpdateException e) {
-            throw new ConstraintException("Problem with adding test entries", e);
+            try {
+              dbContext.SaveChanges();
+            } catch (UpdateException e) {
+              throw new ConstraintException("Problem with adding test entries", e);
+            }
           }
         }
 
