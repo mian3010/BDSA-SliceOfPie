@@ -17,7 +17,7 @@ namespace SliceOfPie_Model
         public static string MarshallFile(FileInstance fileInstance)
         {
             var set = new XmlWriterSettings {Indent = true};
-          var builder = new StringBuilder();
+            var builder = new StringBuilder();
             using(XmlWriter writer = XmlWriter.Create(builder, set))
             {
                 writer.WriteStartDocument();
@@ -41,7 +41,8 @@ namespace SliceOfPie_Model
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
                 writer.WriteStartElement("body");
-                writer.WriteString(fileInstance.ToString());
+                string s = fileInstance.GetContent();
+                writer.WriteString(s);
                 writer.WriteEndElement();
 
                 // writer.WriteStartElement("

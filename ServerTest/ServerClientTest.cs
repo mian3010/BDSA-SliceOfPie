@@ -12,9 +12,9 @@ namespace ServerTest {
   public class ServerClientTest {
 
       private FileList list;
-      private FileInstance i1;
-      private FileInstance i2;
-      private FileInstance i3;
+      private Document i1;
+      private Document i2;
+      private Document i3;
 
       public void CreateTestList()
       {
@@ -35,9 +35,12 @@ namespace ServerTest {
           User user = new User();
           user.email = "superman123@gm44ail.com";
           Context2.AddUser(user);
-          i1 = FileInstance.CreateFileInstance(-1, "superman123@gm44ail.com", "//TestPath", -1);
-          i2 = FileInstance.CreateFileInstance(-2, "superman123@gm44ail.com", "//TestPath", -2);
-          i3 = FileInstance.CreateFileInstance(-3, "superman123@gm44ail.com", "//TestPath", -3);
+          i1 = new Document();
+          i2 = new Document();
+          i3 = new Document();
+          i1.path = "docTestPath1";
+          i2.path = "docTestPath2";
+          i3.path = "docTestPath3";
           File file1 = new File();
           file1.name = "TestName1";
           file1.serverpath = "TestPath2";
@@ -140,11 +143,12 @@ namespace ServerTest {
     [TestMethod]
     public void TestSynchronizeFull()
     {
-        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
         CreateTestList();
         NetworkServer server = NetworkServer.GetInstance();
         var serverT = new Thread(server.Listen);
         serverT.Start();
+        Thread.Sleep(1000);
         OfflineAdministrator admin = OfflineAdministrator.GetInstance();
         CreateTestFiles();
         admin.AddFile(i1);

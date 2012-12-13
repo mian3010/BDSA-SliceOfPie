@@ -26,13 +26,14 @@ namespace SliceOfPie_Model.Persistence {
     //public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
-      get { return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
+        get { if (PrivContent.Length == 0)return ""; 
+              else return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
       set { PrivContent = Encoding.UTF8.GetBytes(value); }
     }
     
       public Document() : base()
       {
-          PrivContent = new byte[200];
+          PrivContent = new byte[0];
       }
 
     public override string GetContent() {
