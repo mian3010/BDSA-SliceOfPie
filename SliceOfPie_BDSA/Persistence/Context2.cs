@@ -236,7 +236,7 @@ namespace SliceOfPie_Model.Persistence {
 
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
-        var metaValue = "Document";
+        const string metaValue = "Document";
 
         for (int i = 0; i < 10; i++) {
           // Add Users
