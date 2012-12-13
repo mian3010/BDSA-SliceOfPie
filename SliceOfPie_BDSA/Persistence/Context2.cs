@@ -68,7 +68,7 @@ namespace SliceOfPie_Model.Persistence {
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
 
-            fileInstance.User = GetUser(fileInstance.User_email);
+        fileInstance.User = GetUser(fileInstance.User_email);
         if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File
         if (fileInstance.File == null)
