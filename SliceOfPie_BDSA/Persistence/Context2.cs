@@ -18,7 +18,6 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static int AddUser(User user) {
-
       using (var dbContext = new SliceOfLifeEntities()) {
         if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
         if (GetUser(user.email) != null) return 0;
@@ -31,9 +30,8 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-    public static FileMetaData GetFileMetaData(File lol, string merlol)
-    {
-        throw new NotImplementedException();
+    public static FileMetaData GetFileMetaData(File lol, string merlol) {
+      throw new NotImplementedException();
     }
 
     // FileInstance
@@ -55,16 +53,18 @@ namespace SliceOfPie_Model.Persistence {
 
         // Check for lots of constraints
 
+        // File
+        if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
 
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
-          throw new ConstraintException("Invalid file path"); 
-
+          throw new ConstraintException("Invalid file path");
         // User
         if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
+
             fileInstance.User = GetUser(fileInstance.User_email);
         if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File
@@ -155,7 +155,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // Project
@@ -167,7 +167,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // MetaDataType
@@ -179,7 +179,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // FileMetaData
@@ -191,7 +191,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // FileInstace
@@ -203,7 +203,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // File
@@ -215,7 +215,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // Users
@@ -227,46 +227,32 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
-        // Add Users
         for (int i = 0; i < 10; i++) {
+          // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
-        }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test Users", e);
-        }
 
-        // Add Files
-        for (int i = 0; i < 10; i++) {
+          // Add Files
           var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-          if (i%2 == 0) file.serverpath += "Subfolder";
+          if (i % 2 == 0) file.serverpath += "Subfolder";
           dbContext.Files.AddObject(file);
-        }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test Files", e);
-        }
 
-        /*
-        // Add FileInstances
-        for (int i = 0; i < 10; i++) {
-          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", i);
+          // Add FileInstances
+          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
           if (i % 2 == 0) fileInstance.path += "Subfolder";
+          fileInstance.File = file;
+          fileInstance.User = user;
           dbContext.FileInstances.AddObject(fileInstance);
         }
         try {
           dbContext.SaveChanges();
         } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test fileInstances", e);
+          throw new ConstraintException("Problem with adding test entries", e);
         }
-         * */
-         
+
       }
     }
   }
