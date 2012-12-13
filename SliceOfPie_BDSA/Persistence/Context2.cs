@@ -43,12 +43,12 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static int AddFileInstance(FileInstance fileInstance) {
+    public static FileInstance AddFileInstance(FileInstance fileInstance) {
       if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
       bool deleteBeforeAdd = false;
       // Check for lots of constraints
       // Id
-      if (fileInstance.id < 1) throw new ConstraintException("ID must be greater than 0");
+      if (fileInstance.id < 1) fileInstance.id = GetNextFileInstanceId();
       if (GetFileInstance(fileInstance.id) != null) deleteBeforeAdd = true;
         
       // Path
@@ -57,14 +57,15 @@ namespace SliceOfPie_Model.Persistence {
       // User
       if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals("")) throw new ConstraintException("Invalid user");
       if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
-        //Sets the user from fileInstance to the user from the database
+      //Sets the user from fileInstance to the user from the database
       fileInstance.User = GetUser(fileInstance.User_email);
 
       // File
       if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
+      if (fileInstance.File.id < 0) fileInstance.File.id = GetNextFileId();
 
       // File id
-      if (fileInstance.File_id < 0) throw new ConstraintException("FileID must be greater than 0");
+      if (fileInstance.File_id < 0) fileInstance.File_id = fileInstance.File.id;
 
       // File name
       if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals("")) throw new ConstraintException("Invalid file name");
@@ -80,10 +81,11 @@ namespace SliceOfPie_Model.Persistence {
       }
       DbContext.FileInstances.AddObject(fileInstance);
       try {
-        return DbContext.SaveChanges();
+        DbContext.SaveChanges();
       } catch (UpdateException e) {
         throw new ConstraintException("Database handler received an error when trying saving changes to the database", e);
       }
+      return fileInstance;
     }
 
     public static List<FileInstance> GetFiles(string useremail) {
