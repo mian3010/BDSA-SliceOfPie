@@ -65,7 +65,7 @@ namespace SliceOfPie_Model.Persistence {
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
-        fileInstance.User = GetUser(fileInstance.User_email);
+        if(fileInstance.User == null) fileInstance.User = GetUser(fileInstance.User_email);
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
@@ -227,42 +227,28 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
-        // Add Users
         for (int i = 0; i < 10; i++) {
+          // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
-        }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test Users", e);
-        }
 
-        // Add Files
-        for (int i = 0; i < 10; i++) {
+          // Add Files
           var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
           if (i % 2 == 0) file.serverpath += "Subfolder";
           dbContext.Files.AddObject(file);
-        }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test Files", e);
-        }
 
-        /*
-        // Add FileInstances
-        for (int i = 0; i < 10; i++) {
-          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", i);
+          // Add FileInstances
+          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
           if (i % 2 == 0) fileInstance.path += "Subfolder";
+          fileInstance.File = file;
+          fileInstance.User = user;
           dbContext.FileInstances.AddObject(fileInstance);
         }
         try {
           dbContext.SaveChanges();
         } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test fileInstances", e);
+          throw new ConstraintException("Problem with adding test entries", e);
         }
-         */
       }
     }
   }
