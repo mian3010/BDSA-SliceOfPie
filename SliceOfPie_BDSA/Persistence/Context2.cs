@@ -235,35 +235,47 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
+        // Reset AI
+
+
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
         const string metaValue = "Document";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
           // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
 
-          // Add Files
-          var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-          if (i % 2 == 0) file.serverpath += "Subfolder";
-          dbContext.Files.AddObject(file);
+          var count = 1;
+          for (int k = 0; k < 10; k++) {
+            // Add Files
+            var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
+            if (i % 2 == 0) file.serverpath += "Subfolder";
 
-          // Meta
-          var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
-          meta.value = metaValue;
+            // Meta
+            var meta = new FileMetaData(){ 
+              id = count, 
+              value = metaValue,
+              MetaDataType = metaType};
+            file.FileMetaDatas.Add(meta);
+            dbContext.Files.AddObject(file);
 
-          // Add FileInstances
-          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
-          if (i % 2 == 0) fileInstance.path += "Subfolder";
-          fileInstance.File = file;
-          fileInstance.User = user;
-          dbContext.FileInstances.AddObject(fileInstance);
+            // Add FileInstances
+            var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
+            if (k % 2 == 0) fileInstance.path += @"Subfolder\";
+            if (k % 3 == 0) fileInstance.path += @"AnotherSubFolder\";
+            if (k % 7 == 0) fileInstance.path += @"YetAnotherSubFolder\";
+            if (k % 5 == 0) fileInstance.path += @"SomeSubFolder\";
+            fileInstance.File = file;
+            fileInstance.User = user;
+            dbContext.FileInstances.AddObject(fileInstance);
 
-          try {
-            dbContext.SaveChanges();
-          } catch (UpdateException e) {
-            throw new ConstraintException("Problem with adding test entries", e);
+            try {
+              dbContext.SaveChanges();
+            } catch (UpdateException e) {
+              throw new ConstraintException("Problem with adding test entries", e);
+            }
           }
         }
 
