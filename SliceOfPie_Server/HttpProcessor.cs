@@ -5,6 +5,7 @@ using System.Net;
 using System.IO;
 using System.Web;
 using SliceOfPie_Model;
+using SliceOfPie_Model.Persistence;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SliceOfPie_Server {
@@ -88,10 +89,10 @@ namespace SliceOfPie_Server {
     /// Recieves a id on the file that has been pulled to the server.
     /// </summary>
     /// <param name="id"></param>
-    public void RecieveConfirmation(int id) {
+    public void RecieveConfirmation(FileInstance file) {
       var formatter = new BinaryFormatter();
       var fileListStream = new MemoryStream();
-      formatter.Serialize(fileListStream, id);
+      formatter.Serialize(fileListStream, file);
       Stream stream = _response.OutputStream;
       byte[] data = fileListStream.ToArray();
       stream.Write(data, 0, data.Length);
