@@ -235,6 +235,9 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
+        // Reset AI
+
+
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
         const string metaValue = "Document";
@@ -249,11 +252,14 @@ namespace SliceOfPie_Model.Persistence {
             // Add Files
             var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
             if (i % 2 == 0) file.serverpath += "Subfolder";
-            dbContext.Files.AddObject(file);
 
             // Meta
-            var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
-            meta.value = metaValue;
+            var meta = new FileMetaData(){ 
+              id = count, 
+              value = metaValue,
+              MetaDataType = metaType};
+            file.FileMetaDatas.Add(meta);
+            dbContext.Files.AddObject(file);
 
             // Add FileInstances
             var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
