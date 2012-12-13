@@ -111,21 +111,20 @@ namespace ServerTest {
       data.value = "testd234atatype";
       MetaDataType type = new MetaDataType();
       type.Type = "He234y";
-      data.MetaDataType_Type = type.Type;
+      // data.MetaDataType_Type = type.Type;
       data.MetaDataType = type;
       User user = new User();
-      user.email = "superman123@gm44ail.com";
-      Context2.AddUser(user);
+        Context2.AddUser(user);
+        user.email = "superman123@gmail.com";
+
       File file = new File();
       file.name = "TES34123TFIL"; 
       file.serverpath = "test123Se234rverpath"; 
       file.Version = 0.0m;
-      //file.FileMetaDatas.Add(data);
-      var fileInstance = new FileInstance();
-      fileInstance.id = -40;
-      fileInstance.path = "//test";
-      fileInstance.User = user;
-      fileInstance.File = file;
+      file.FileMetaDatas.Add(data);
+      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
+       fileInstance.User = user;
+
       FileInstance instance = client.PushFile(fileInstance);
       if (instance != null)
       {

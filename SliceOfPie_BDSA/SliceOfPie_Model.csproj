@@ -91,7 +91,6 @@
     <Compile Include="Persistence\Context.cs" />
     <Compile Include="Utilities\EventDelegates.cs" />
     <Compile Include="Utilities\FileEventArgs.cs" />
-    <Compile Include="Utilities\FileEventHandler.cs" />
     <Compile Include="Utilities\HtmlMarshalUtil.cs" />
     <Compile Include="ModelFacade\IAdministrator.cs" />
     <Compile Include="Persistence\ICommunicator.cs" />
