@@ -9,7 +9,7 @@ namespace SliceOfPie_Model
         FileInstance PullFile(int fileId);
 
         // Returns new ID of the File you want to push
-        int PushFile(FileInstance file);
+        FileInstance PushFile(FileInstance file);
 
     }
 }
