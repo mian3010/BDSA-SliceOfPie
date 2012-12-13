@@ -18,16 +18,6 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static int AddUser(User user) {
-<<<<<<< HEAD
-      if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
-      if (GetUser(user.email) != null) return 0;
-      DbContext.Users.AddObject(user);
-      try {
-        return DbContext.SaveChanges();
-
-      } catch (UpdateException) {
-        return -1;
-=======
       using (var dbContext = new SliceOfLifeEntities()) {
         if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
         if (GetUser(user.email) != null) return 0;
@@ -37,13 +27,11 @@ namespace SliceOfPie_Model.Persistence {
         } catch (UpdateException) {
           return -1;
         }
->>>>>>> f779a6c485a1ed5c3419b6d8af444b43f902487a
       }
     }
 
-    public static FileMetaData GetFileMetaData(File lol, string merlol)
-    {
-        throw new NotImplementedException();
+    public static FileMetaData GetFileMetaData(File lol, string merlol) {
+      throw new NotImplementedException();
     }
 
     // FileInstance
@@ -65,15 +53,12 @@ namespace SliceOfPie_Model.Persistence {
 
         // Check for lots of constraints
 
-<<<<<<< HEAD
-      // File
-      if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
-      //if (fileInstance.File.id < 0) fileInstance.File.id = GetNextFileId();
-=======
+        // File
+        if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
+
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
->>>>>>> f779a6c485a1ed5c3419b6d8af444b43f902487a
 
         // User
         if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
@@ -81,10 +66,6 @@ namespace SliceOfPie_Model.Persistence {
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
         fileInstance.User = GetUser(fileInstance.User_email);
-
-        // File
-        if (fileInstance.File == null)
-          throw new ConstraintException("Database handler received an empty file reference");
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
@@ -171,7 +152,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // Project
@@ -183,7 +164,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // MetaDataType
@@ -195,7 +176,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // FileMetaData
@@ -207,7 +188,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // FileInstace
@@ -219,7 +200,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // File
@@ -231,7 +212,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // Users
@@ -243,7 +224,7 @@ namespace SliceOfPie_Model.Persistence {
           }
           try {
             dbContext.SaveChanges();
-          } catch (UpdateException) {}
+          } catch (UpdateException) { }
         }
 
         // Add Users
@@ -260,7 +241,7 @@ namespace SliceOfPie_Model.Persistence {
         // Add Files
         for (int i = 0; i < 10; i++) {
           var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-          if (i%2 == 0) file.serverpath += "Subfolder";
+          if (i % 2 == 0) file.serverpath += "Subfolder";
           dbContext.Files.AddObject(file);
         }
         try {
