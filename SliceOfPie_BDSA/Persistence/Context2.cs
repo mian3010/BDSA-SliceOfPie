@@ -30,8 +30,11 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-    public static FileMetaData GetFileMetaData(File lol, string merlol) {
-      throw new NotImplementedException();
+    public static FileMetaData GetFileMetaData(File file, string metaDataType) {
+      var query = from meta in file.FileMetaDatas
+                  where meta.MetaDataType_Type.Equals(metaDataType)
+                  select meta;
+      return !query.Any() ? null : query.First();
     }
 
     // FileInstance
@@ -65,7 +68,7 @@ namespace SliceOfPie_Model.Persistence {
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
-        if(fileInstance.User == null) fileInstance.User = GetUser(fileInstance.User_email);
+        if (fileInstance.User == null) fileInstance.User = GetUser(fileInstance.User_email);
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
