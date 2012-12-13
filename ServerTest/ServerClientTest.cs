@@ -114,8 +114,9 @@ namespace ServerTest {
       // data.MetaDataType_Type = type.Type;
       data.MetaDataType = type;
       User user = new User();
-      user.email = "superman123@gm44ail.com";
-      Context2.AddUser(user);
+        Context2.AddUser(user);
+        user.email = "superman123@gmail.com";
+
       File file = new File();
       file.name = "TES34123TFIL"; 
       file.serverpath = "test123Se234rverpath"; 

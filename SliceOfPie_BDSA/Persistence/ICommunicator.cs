@@ -72,7 +72,7 @@ namespace SliceOfPie_Model
         /// <summary>
         /// Events that the communicator should fire whenever the methods are called. 
         /// </summary>
-        event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
+        event FileInstanceEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
     }
 
    
