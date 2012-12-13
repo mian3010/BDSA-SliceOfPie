@@ -67,6 +67,7 @@
     <Compile Include="CompositeStructure\File.cs" />
     <Compile Include="CompositeStructure\Folder.cs" />
     <Compile Include="CompositeStructure\ICompositeStructure.cs" />
+    <Compile Include="Exceptions\ConstraintException.cs" />
     <Compile Include="Exceptions\MergeImpossibleException.cs" />
     <Compile Include="Exceptions\NoNodeSelectedException.cs" />
     <Compile Include="Exceptions\NotADocumentException.cs" />
