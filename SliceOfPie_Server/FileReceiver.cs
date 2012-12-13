@@ -32,7 +32,7 @@ namespace SliceOfPie_Server {
       // Determin new or mod
       // If new file
       if (RequestHandler.Instance.PendingNewFileList.Contains(_file.id)) {
-        //success = Context2.AddFileInstance(_file);
+        success = Context2.AddFileInstance(_file);
 
         // else if mod file
       } else if (RequestHandler.Instance.PendingModFileList.ContainsKey(_file.id)) {
@@ -41,7 +41,7 @@ namespace SliceOfPie_Server {
           var documentFromDb = Document.CreateDocument(Context2.GetFileInstance(_file.id));
           _file = MergePolicy.Merge(documentFromFile, documentFromDb);
         } catch (NotADocumentException) { } catch (MergeImpossibleException) { }
-        //success = Context2.AddFileInstance(_file);
+        success = Context2.AddFileInstance(_file);
 
         // else reject
       }
