@@ -49,7 +49,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronize() {
-      //Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
       var list = new FileList { List = new Dictionary<int, FileListEntry>() };
