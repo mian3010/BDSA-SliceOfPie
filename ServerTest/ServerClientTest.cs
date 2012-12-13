@@ -41,8 +41,8 @@ namespace ServerTest {
       var serverT = new Thread(server.Listen);
       serverT.Start();
       Thread.Sleep(1000);
-      int id = client.PushFile(doc);
-      Assert.AreEqual(-2, id);
+      FileInstance instance = client.PushFile(doc);
+      Assert.AreEqual(-2, instance.id);
       server.Close();
 
     }
@@ -91,8 +91,8 @@ namespace ServerTest {
         fileInstance.User = user;
       fileInstance.File = file;
       
-      int id = client.PushFile(fileInstance);
-      Assert.AreEqual(id, fileInstance.id);
+      FileInstance instance = client.PushFile(fileInstance);
+      Assert.AreEqual(instance.id, fileInstance.id);
       
 
     }

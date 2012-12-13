@@ -65,7 +65,7 @@ namespace SliceOfPie_Model {
                     _communicator.AddOfflineCreatedFile(_netClient.PullFile(entry.Id)); break;
                 case FileListType.Push: 
                     FileInstance toPush = _communicator.GetFile(entry.Id);
-                    _communicator.UpdateFileId(toPush, _netClient.PushFile(toPush)); 
+                    _communicator.UpdateFileId(toPush, _netClient.PushFile(toPush).id); 
                     break;
                     
             }
