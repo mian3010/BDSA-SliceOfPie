@@ -171,7 +171,6 @@ namespace SliceOfPie_Model
                 ChangeList.Add(file_id, list);
             }
     
->>>>>>> newB
         }
 
         public void FileChangedOnServer(FileInstance file)
