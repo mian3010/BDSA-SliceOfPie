@@ -30,8 +30,11 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-    public static FileMetaData GetFileMetaData(File lol, string merlol) {
-      throw new NotImplementedException();
+    public static FileMetaData GetFileMetaData(File file, string metaDataType) {
+      var query = from meta in file.FileMetaDatas
+                  where meta.MetaDataType_Type.Equals(metaDataType)
+                  select meta;
+      return !query.Any() ? null : query.First();
     }
 
     // FileInstance
