@@ -236,6 +236,10 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
+        // Add MetaType
+        var metaType = MetaDataType.CreateMetaDataType("Type");
+        var metaValue = "Document";
+
         for (int i = 0; i < 10; i++) {
           // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
@@ -246,17 +250,22 @@ namespace SliceOfPie_Model.Persistence {
           if (i % 2 == 0) file.serverpath += "Subfolder";
           dbContext.Files.AddObject(file);
 
+          // Meta
+          var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
+          meta.value = metaValue;
+
           // Add FileInstances
           var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
           if (i % 2 == 0) fileInstance.path += "Subfolder";
           fileInstance.File = file;
           fileInstance.User = user;
           dbContext.FileInstances.AddObject(fileInstance);
-        }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test entries", e);
+
+          try {
+            dbContext.SaveChanges();
+          } catch (UpdateException e) {
+            throw new ConstraintException("Problem with adding test entries", e);
+          }
         }
 
       }
