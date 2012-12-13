@@ -9,18 +9,17 @@ namespace SliceOfPie_Model.Persistence {
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
-          return GetUserWithContext(email, dbContext);
+        return GetUserWithContext(email, dbContext);
       }
     }
 
-    private static User GetUserWithContext(string email, SliceOfLifeEntities dbContext)
-    {
-        if (email == null || email.Trim().Equals("")) 
-             return null;
-        var query = from u in dbContext.Users
-                    where u.email == email
-                    select u;
-        return !query.Any() ? null : query.First();
+    private static User GetUserWithContext(string email, SliceOfLifeEntities dbContext) {
+      if (email == null || email.Trim().Equals(""))
+        return null;
+      var query = from u in dbContext.Users
+                  where u.email == email
+                  select u;
+      return !query.Any() ? null : query.First();
     }
 
     public static int AddUser(User user) {
@@ -74,7 +73,7 @@ namespace SliceOfPie_Model.Persistence {
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
 
-            fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
+        fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
         if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
@@ -238,7 +237,7 @@ namespace SliceOfPie_Model.Persistence {
 
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
-        var metaValue = "Document";
+        const string metaValue = "Document";
 
         for (int i = 0; i < 10; i++) {
           // Add Users
