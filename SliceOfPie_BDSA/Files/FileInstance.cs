@@ -10,7 +10,7 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
-    internal byte[] PrivContent;
+    internal byte[] PrivContent = new byte[0];
     public byte[] Content {
       get { return PrivContent; }
       set { PrivContent = value; }
