@@ -106,6 +106,30 @@ namespace SliceOfPie_Model.Persistence {
       return usersFilesOnServer;
     }
 
+    public static int GetNextFileId() {
+      var query = (from f in DbContext.Files
+                   select f.id).Max();
+      return query;
+    }
+
+    public static int GetNextFileInstanceId() {
+      var query = (from f in DbContext.FileInstances
+                   select f.id).Max();
+      return query;
+    }
+
+    public static int GetNextChangeId() {
+      var query = (from e in DbContext.Changes
+                   select e.id).Max();
+      return query;
+    }
+
+    public static int GetNextProjectId() {
+      var query = (from e in DbContext.Projects
+                   select e.id).Max();
+      return query;
+    }
+
     //TODO Should be private or removed
     public static File GetFile(int fileId) {
       if (fileId < 0) return null;
