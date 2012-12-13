@@ -18,16 +18,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static int AddUser(User user) {
-<<<<<<< HEAD
-      if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
-      if (GetUser(user.email) != null) return 0;
-      DbContext.Users.AddObject(user);
-      try {
-        return DbContext.SaveChanges();
 
-      } catch (UpdateException) {
-        return -1;
-=======
       using (var dbContext = new SliceOfLifeEntities()) {
         if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
         if (GetUser(user.email) != null) return 0;
@@ -37,7 +28,6 @@ namespace SliceOfPie_Model.Persistence {
         } catch (UpdateException) {
           return -1;
         }
->>>>>>> f779a6c485a1ed5c3419b6d8af444b43f902487a
       }
     }
 
@@ -65,23 +55,18 @@ namespace SliceOfPie_Model.Persistence {
 
         // Check for lots of constraints
 
-<<<<<<< HEAD
-      // File
-      if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
-      //if (fileInstance.File.id < 0) fileInstance.File.id = GetNextFileId();
-=======
+
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
-          throw new ConstraintException("Invalid file path");
->>>>>>> f779a6c485a1ed5c3419b6d8af444b43f902487a
+          throw new ConstraintException("Invalid file path"); 
 
         // User
         if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
-        fileInstance.User = GetUser(fileInstance.User_email);
-
+            fileInstance.User = GetUser(fileInstance.User_email);
+        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File
         if (fileInstance.File == null)
           throw new ConstraintException("Database handler received an empty file reference");
@@ -96,7 +81,6 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -281,7 +265,8 @@ namespace SliceOfPie_Model.Persistence {
         } catch (UpdateException e) {
           throw new ConstraintException("Problem with adding test fileInstances", e);
         }
-         */
+         * */
+         
       }
     }
   }

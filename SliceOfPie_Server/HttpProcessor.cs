@@ -90,9 +90,14 @@ namespace SliceOfPie_Server {
     /// </summary>
     /// <param name="id"></param>
     public void RecieveConfirmation(FileInstance file) {
-      var formatter = new BinaryFormatter();
-      var fileListStream = new MemoryStream();
-      formatter.Serialize(fileListStream, file);
+        var formatter = new BinaryFormatter();
+        var fileListStream = new MemoryStream();
+      if(file == null)
+        // if there is no fileinstance response from the database
+        formatter.Serialize(fileListStream, "No response");
+      else {
+        formatter.Serialize(fileListStream, file);
+      }
       Stream stream = _response.OutputStream;
       byte[] data = fileListStream.ToArray();
       stream.Write(data, 0, data.Length);
