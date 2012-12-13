@@ -43,7 +43,7 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static int AddFileInstance(FileInstance fileInstance) {
+    public static FileInstance AddFileInstance(FileInstance fileInstance) {
       if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
       bool deleteBeforeAdd = false;
       // Check for lots of constraints
@@ -81,10 +81,11 @@ namespace SliceOfPie_Model.Persistence {
       }
       DbContext.FileInstances.AddObject(fileInstance);
       try {
-        return DbContext.SaveChanges();
+        DbContext.SaveChanges();
       } catch (UpdateException e) {
         throw new ConstraintException("Database handler received an error when trying saving changes to the database", e);
       }
+      return fileInstance;
     }
 
     public static List<FileInstance> GetFiles(string useremail) {
