@@ -25,9 +25,13 @@ namespace ServerTest {
     private static readonly FileMetaData FileMetaData32 = FileMetaData.CreateFileMetaData(1, MetaDataType2.ToString(), Fi3.File.id);
     private static readonly FileMetaData FileMetaData33 = FileMetaData.CreateFileMetaData(1, MetaDataType3.ToString(), Fi3.File.id);
 
+
+
     [TestInitialize] [TestCleanup]
     public static void CleanUp() {
-      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      //Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      
+
     }
     
     // User test 
@@ -40,9 +44,29 @@ namespace ServerTest {
       Assert.AreEqual(TestUser.email, tempUser.email);
     }
 
+    [TestMethod]
+    public void AddAndGetUser2() {
+      Console.WriteLine("Adding user " + "");
+      var success = Context.AddUser("");
+      Console.WriteLine(success);
+      Assert.AreEqual(-2, success);
+    }
+
     // MetaData test
     [TestMethod]
-    public void AddFileMetaData() {}
+    public void AddFileMetaData() {
+      Context.AddFileMetaData(FileMetaData11);
+      var temp = Context.GetMetaData(FileMetaData11.id);
+      Assert.AreEqual(FileMetaData11, temp);
+    }
+
+    [TestMethod]
+    public void AddFileMetaData2() {
+      FileMetaData toAdd = FileMetaData11;
+      toAdd.id = -200;
+      var success = Context.AddFileMetaData(toAdd);
+      Assert.AreEqual(success, -1);
+    }
 
     [TestMethod]
     public void AddSomething() {

@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileMetaData), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.User))]
+[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project11", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SliceOfPie_Model.Persistence.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.File), true)]
 
 #endregion
 
@@ -274,7 +275,7 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="user_email">Initial value of the User_email property.</param>
         /// <param name="file_id">Initial value of the File_id property.</param>
-        public static Change CreateChange(global::System.Int64 id, global::System.String user_email, global::System.Int64 file_id)
+        public static Change CreateChange(global::System.Int32 id, global::System.String user_email, global::System.Int32 file_id)
         {
             Change change = new Change();
             change.id = id;
@@ -292,7 +293,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int32 id
         {
             get
             {
@@ -310,8 +311,8 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
         partial void OnidChanged();
     
         /// <summary>
@@ -394,7 +395,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 File_id
+        public global::System.Int32 File_id
         {
             get
             {
@@ -412,8 +413,8 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-        private global::System.Int64 _File_id;
-        partial void OnFile_idChanging(global::System.Int64 value);
+        private global::System.Int32 _File_id;
+        partial void OnFile_idChanging(global::System.Int32 value);
         partial void OnFile_idChanged();
 
         #endregion
@@ -518,7 +519,7 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="name">Initial value of the name property.</param>
         /// <param name="serverpath">Initial value of the serverpath property.</param>
         /// <param name="version">Initial value of the Version property.</param>
-        public static File CreateFile(global::System.Int64 id, global::System.String name, global::System.String serverpath, global::System.Decimal version)
+        public static File CreateFile(global::System.Int32 id, global::System.String name, global::System.String serverpath, global::System.Decimal version)
         {
             File file = new File();
             file.id = id;
@@ -537,7 +538,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int32 id
         {
             get
             {
@@ -555,8 +556,8 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
         partial void OnidChanged();
     
         /// <summary>
@@ -634,30 +635,6 @@ namespace SliceOfPie_Model.Persistence
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> Project_id
-        {
-            get
-            {
-                return _Project_id;
-            }
-            set
-            {
-                OnProject_idChanging(value);
-                ReportPropertyChanging("Project_id");
-                _Project_id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Project_id");
-                OnProject_idChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _Project_id;
-        partial void OnProject_idChanging(Nullable<global::System.Int32> value);
-        partial void OnProject_idChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Decimal Version
@@ -678,6 +655,30 @@ namespace SliceOfPie_Model.Persistence
         private global::System.Decimal _Version;
         partial void OnVersionChanging(global::System.Decimal value);
         partial void OnVersionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Project_id
+        {
+            get
+            {
+                return _Project_id;
+            }
+            set
+            {
+                OnProject_idChanging(value);
+                ReportPropertyChanging("Project_id");
+                _Project_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Project_id");
+                OnProject_idChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Project_id;
+        partial void OnProject_idChanging(Nullable<global::System.Int32> value);
+        partial void OnProject_idChanged();
 
         #endregion
 
@@ -787,6 +788,44 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SliceOfLifeModel", "fk_File_Project11", "Project")]
+        public Project Project1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Project> Project1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -809,7 +848,7 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="user_email">Initial value of the User_email property.</param>
         /// <param name="path">Initial value of the path property.</param>
         /// <param name="file_id">Initial value of the File_id property.</param>
-        public static FileInstance CreateFileInstance(global::System.Int64 id, global::System.String user_email, global::System.String path, global::System.Int64 file_id)
+        public static FileInstance CreateFileInstance(global::System.Int32 id, global::System.String user_email, global::System.String path, global::System.Int32 file_id)
         {
             FileInstance fileInstance = new FileInstance();
             fileInstance.id = id;
@@ -828,7 +867,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 id
+        public global::System.Int32 id
         {
             get
             {
@@ -846,8 +885,8 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-        private global::System.Int64 _id;
-        partial void OnidChanging(global::System.Int64 value);
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
         partial void OnidChanged();
     
         /// <summary>
@@ -930,7 +969,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 File_id
+        public global::System.Int32 File_id
         {
             get
             {
@@ -948,8 +987,8 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-        private global::System.Int64 _File_id;
-        partial void OnFile_idChanging(global::System.Int64 value);
+        private global::System.Int32 _File_id;
+        partial void OnFile_idChanging(global::System.Int32 value);
         partial void OnFile_idChanged();
 
         #endregion
@@ -1053,7 +1092,7 @@ namespace SliceOfPie_Model.Persistence
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="metaDataType_Type">Initial value of the MetaDataType_Type property.</param>
         /// <param name="file_id">Initial value of the File_id property.</param>
-        public static FileMetaData CreateFileMetaData(global::System.Int32 id, global::System.String metaDataType_Type, global::System.Int64 file_id)
+        public static FileMetaData CreateFileMetaData(global::System.Int32 id, global::System.String metaDataType_Type, global::System.Int32 file_id)
         {
             FileMetaData fileMetaData = new FileMetaData();
             fileMetaData.id = id;
@@ -1149,7 +1188,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 File_id
+        public global::System.Int32 File_id
         {
             get
             {
@@ -1164,8 +1203,8 @@ namespace SliceOfPie_Model.Persistence
                 OnFile_idChanged();
             }
         }
-        private global::System.Int64 _File_id;
-        partial void OnFile_idChanging(global::System.Int64 value);
+        private global::System.Int32 _File_id;
+        partial void OnFile_idChanging(global::System.Int32 value);
         partial void OnFile_idChanged();
 
         #endregion
@@ -1459,6 +1498,28 @@ namespace SliceOfPie_Model.Persistence
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("SliceOfLifeModel.ProjectHasUser", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SliceOfLifeModel", "fk_File_Project11", "File")]
+        public EntityCollection<File> File
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<File>("SliceOfLifeModel.fk_File_Project11", "File");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<File>("SliceOfLifeModel.fk_File_Project11", "File", value);
                 }
             }
         }

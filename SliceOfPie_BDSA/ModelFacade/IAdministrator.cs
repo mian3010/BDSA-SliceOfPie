@@ -5,7 +5,7 @@ namespace SliceOfPie_Model {
   public interface IAdministrator {
 
 
-    FileInstance GetFile(long id);
+    FileInstance GetFile(int id);
     
       /// <summary>
     /// Initializes the Synchroization process.

@@ -22,6 +22,6 @@ namespace SliceOfPie_Model
         /// Returns a dictionary containing paths of all file in the system as key and their ID's as value.
         /// </summary>
         /// <returns>The dictionary mentioned in the Summary</returns>
-        Dictionary<String, long> GetPathsWithId();
+        Dictionary<String, int> GetPathsWithId();
     }
 }

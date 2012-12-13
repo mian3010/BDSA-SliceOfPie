@@ -53,14 +53,14 @@ namespace SliceOfPie_Model
         /// </summary>
         /// <param name="file">The file which id should be updated ( should contain original id )</param>
         /// <param name="newId">The new id of the file</param>
-        void UpdateFileId(FileInstance file, long newId);
+        void UpdateFileId(FileInstance file, int newId);
 
         /// <summary>
         /// Loads a file from storage
         /// </summary>
         /// <param name="id">The identifier of the file</param>
         /// <returns></returns>
-        FileInstance GetFile(long id);
+        FileInstance GetFile(int id);
 
         /// <summary>
         /// Moves a file from its old path to a new path.

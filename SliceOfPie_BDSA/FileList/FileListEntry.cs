@@ -4,7 +4,7 @@ using SliceOfPie_Model.Persistence;
 namespace SliceOfPie_Model {
   [Serializable()]
   public class FileListEntry {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public decimal Version { get; set; }
     private string _path;

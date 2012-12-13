@@ -27,7 +27,7 @@ namespace SliceOfPie_Model {
       return _administrator ?? (_administrator = new OfflineAdministrator());
     }
 
-    public FileInstance GetFile(long id)
+    public FileInstance GetFile(int id)
     {
         return _communicator.GetFile(id);
     }
@@ -85,7 +85,7 @@ namespace SliceOfPie_Model {
     }
 
   
-    public Dictionary<String, long> GetPathsAndIDs()
+    public Dictionary<String, int> GetPathsAndIDs()
     {
         return _communicator.FileListHandler.GetPathsWithId();
     }

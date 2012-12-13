@@ -4,9 +4,9 @@ namespace SliceOfPie_Model
 {
     public class FileEventArgs : EventArgs
     {
-        public readonly long FileId;
+        public readonly int FileId;
 
-        public FileEventArgs(long fileId)
+        public FileEventArgs(int fileId)
         {
             FileId = fileId;
         }

@@ -220,7 +220,7 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="id">The id of the file to retrieve</param>
     /// <returns></returns>
-    public FileInstance GetFile(long id)
+    public FileInstance GetFile(int id)
     {
         FileListEntry fileInfo = _fileListHandler.FileList.List[id];
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
@@ -235,7 +235,9 @@ namespace SliceOfPie_Model {
     }
 
 
-    public void UpdateFileId(FileInstance fileInstance, long newId)
+
+
+    public void UpdateFileId(FileInstance file, int newId)
     {
         throw new NotImplementedException();
     }

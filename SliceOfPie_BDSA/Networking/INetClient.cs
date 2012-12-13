@@ -6,10 +6,10 @@ namespace SliceOfPie_Model
     {
         FileList SyncServer(FileList list);
 
-        FileInstance PullFile(long fileId);
+        FileInstance PullFile(int fileId);
 
         // Returns new ID of the File you want to push
-        long PushFile(FileInstance file);
+        int PushFile(FileInstance file);
 
     }
 }

@@ -90,7 +90,7 @@ namespace SliceOfPie_Model
 
         public void FileChangedOnDisk(FileInstance file)
         {
-            FileList.List[file.id].Version += 0.001m;          
+            FileList.List[file.id].Version += 0.001m;
         }
 
         public void FileChangedOnServer(FileInstance file)
