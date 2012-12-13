@@ -12,9 +12,9 @@ namespace ServerTest {
   public class ServerClientTest {
 
       private FileList list;
-      private Document i1;
-      private Document i2;
-      private Document i3;
+      private FileInstance i1;
+      private FileInstance i2;
+      private FileInstance i3;
 
       public void CreateTestList()
       {

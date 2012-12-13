@@ -6,6 +6,14 @@ using System.Linq;
 namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
+
+      private static FileInstance CreateFileInstance(FileInstance doc)
+      {
+          FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
+          instance.File = doc.File;
+          instance.User = doc.User;
+          return instance;
+      }
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -15,7 +23,7 @@ namespace SliceOfPie_Model.Persistence {
 
     private static User GetUserWithContext(string email, SliceOfLifeEntities dbContext) {
       if (email == null || email.Trim().Equals(""))
-        return null;
+        return null; 
       var query = from u in dbContext.Users
                   where u.email == email
                   select u;
@@ -56,9 +64,9 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static FileInstance AddFileInstance(FileInstance Instance) {
-        FileInstance fileInstance = (FileInstance)Instance;
+        FileInstance fileInstance = CreateFileInstance(Instance);
       using (var dbContext = new SliceOfLifeEntities()) {
-          dbContext.MetadataWorkspace.LoadFromAssembly(System.Reflection.Assembly.Load("SliceOfPie_Model"));
+          // dbContext.MetadataWorkspace.LoadFromAssembly(System.Reflection.Assembly.Load("SliceOfPie_Model"));
         if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
 
         // Check for lots of constraints
