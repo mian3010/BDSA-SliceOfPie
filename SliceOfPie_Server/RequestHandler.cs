@@ -43,17 +43,17 @@ namespace SliceOfPie_Server {
     /// <summary>
     /// Get the list of approved to receive new files
     /// </summary>
-    private List<long> _newFileList;
-    public List<long> PendingNewFileList {
-      get { return _newFileList ?? (_newFileList = new List<long>()); }
+    private List<int> _newFileList;
+    public List<int> PendingNewFileList {
+      get { return _newFileList ?? (_newFileList = new List<int>()); }
     }
 
     /// <summary>
     /// Get the list of approved to receive modified files
     /// </summary>
-    private Dictionary<long, FileListEntry> _modFileList;
-    public Dictionary<long, FileListEntry> PendingModFileList {
-      get { return _modFileList ?? (_modFileList = new Dictionary<long, FileListEntry>()); }
+    private Dictionary<int, FileListEntry> _modFileList;
+    public Dictionary<int, FileListEntry> PendingModFileList {
+      get { return _modFileList ?? (_modFileList = new Dictionary<int, FileListEntry>()); }
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ namespace SliceOfPie_Server {
     /// <param name="id">FileId</param>
     /// /// <param name="processor">processor</param>
     /// <returns></returns>
-    public void GetFile(long id, HttpProcessor processor) {
+    public void GetFile(int id, HttpProcessor processor) {
       var file = Context.GetFile(id);
       processor.RecieveFile(file);
     }

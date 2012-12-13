@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
@@ -10,10 +11,14 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   [Serializable()]
   public class Document : FileInstance {
-    public String Title {
-      get { return Context.GetFileMetaData(File, "Title").value; }
-      set { Context.GetFileMetaData(File, "Title").value = value; }
-    }
+     
+      
+      public String Title
+      {
+          get { return Context.GetFileMetaData(File, "Title").value; }
+          set { Context.GetFileMetaData(File, "Title").value = value; }
+      }
+
 
     public IList<User> Authors { get { return Context.GetUsers(File); } }
 
@@ -51,7 +56,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static Document CreateDocument(FileInstance file) {
-      if (Context.GetFileMetaData(file.File, "Type").value == "Document") {
+      if (Context2.GetFileMetaData(file.File, "Type").value == "Document") {
         return (Document)file;
       }
       throw new NotADocumentException();

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace SliceOfPie_Model {
   [Serializable()]
   public class FileList {
-    public IDictionary<long, FileListEntry> List { get; set; }
+    public IDictionary<int, FileListEntry> List { get; set; }
 
-    public Int64 IncrementCounter {
+    public int IncrementCounter {
       get;
       set;
     }

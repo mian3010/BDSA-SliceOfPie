@@ -42,7 +42,7 @@ namespace SliceOfPie_Model
             else
             {
                 _pFileList = new FileList();
-                FileList.List = new Dictionary<long, FileListEntry>();
+                FileList.List = new Dictionary<int, FileListEntry>();
                 FileList.IncrementCounter = -1;
             }
         }
@@ -103,9 +103,9 @@ namespace SliceOfPie_Model
             FileList.List[file.id].Path = file.File.serverpath;
         }
 
-        public Dictionary<String, long> GetPathsWithId()
+        public Dictionary<String, int> GetPathsWithId()
         {
-            var dic = new Dictionary<String, long>();
+            var dic = new Dictionary<String, int>();
 
             foreach (FileListEntry entry in FileList.List.Values)
             {

@@ -14,7 +14,7 @@ namespace ServerTest {
     public void TestGetFile() {
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
-      const long id = 1L;
+      const int id = 1;
       var serverT = new Thread(server.Listen);
       serverT.Start();
       Thread.Sleep(1000);
@@ -23,16 +23,6 @@ namespace ServerTest {
       server.Close();
     }
 
-      [TestMethod]
-      public void TestAddFile()
-      {
-          File f = new File();
-          f.name = " Newfile";
-          f.serverpath = "Lolpath";
-          Context2.AddFile(f);
-      
-
-      }
 
     /// <summary>
     /// Tests that you cannot save a file that is not in the FileList
@@ -51,7 +41,7 @@ namespace ServerTest {
       var serverT = new Thread(server.Listen);
       serverT.Start();
       Thread.Sleep(1000);
-      long id = client.PushFile(doc);
+      int id = client.PushFile(doc);
       Assert.AreEqual(-2, id);
       server.Close();
 
@@ -61,7 +51,7 @@ namespace ServerTest {
     public void TestSynchronize() {
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
-      var list = new FileList { List = new Dictionary<long, FileListEntry>() };
+      var list = new FileList { List = new Dictionary<int, FileListEntry>() };
       var e1 = new FileListEntry();
       var e2 = new FileListEntry();
       var e3 = new FileListEntry();
@@ -77,27 +67,29 @@ namespace ServerTest {
       serverT.Start();
       //Thread.Sleep(5000);
       FileList returnList = client.SyncServer(list);
-      ICollection<long> col = returnList.List.Keys;
-      foreach (long l in col)
+      ICollection<int> col = returnList.List.Keys;
+      foreach (int l in col)
         Assert.AreEqual(returnList.List[l].Id, list.List[l].Id);
       var data = new FileMetaData();
-      data.value = "testdatatype";
+      data.value = "testd234atatype";
       MetaDataType type = new MetaDataType();
-      type.Type = "Hey";
+      type.Type = "He234y";
       data.MetaDataType_Type = type.Type;
+      data.MetaDataType = type;
       User user = new User();
-      user.email = "superman@gmail.com";
+      user.email = "superman123@gm44ail.com";
       File file = new File();
-      file.id = 30;
-      file.name = "TESTFIL"; 
-      file.serverpath = "testServerpath"; 
-      file.Version = 10.0m;
-      file.FileMetaDatas.Add(data);
 
-      var fileInstance = FileInstance.CreateFileInstance(30, user.email, @"C:\ClientFiles\Test\", file.id);
+      file.id = 32;
+      file.name = "TES34123TFIL"; 
+      file.serverpath = "test123Se234rverpath"; 
+      file.Version = 0.0m;
+      file.FileMetaDatas.Add(data);
+      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
+        fileInstance.User = user;
       fileInstance.File = file;
       
-      long id = client.PushFile(fileInstance);
+      int id = client.PushFile(fileInstance);
 
     }
   }
