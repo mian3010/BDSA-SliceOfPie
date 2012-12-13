@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
@@ -17,6 +18,8 @@ namespace SliceOfPie_Model {
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
         private readonly OfflineFileListHandler _fileListHandler;
 
+        private HashSet<FileInstance> cache;
+
         private static CommunicatorOfflineAdapter _adapter;
 
         public IFileListHandler FileListHandler
@@ -34,7 +37,8 @@ namespace SliceOfPie_Model {
         private CommunicatorOfflineAdapter()
       {
           _fileListHandler = new OfflineFileListHandler(this);
-      }
+           cache = new HashSet<FileInstance>();
+        }
 
         /// <summary>
         /// Adds a file from remote storage. Should be used during synchronization.
@@ -52,8 +56,9 @@ namespace SliceOfPie_Model {
           return false;
         }
 
-      private bool AddNewFile(FileInstance file) {
-
+      private bool AddNewFile(FileInstance file)
+      {
+          cache.Add(file);
         if(!System.IO.Directory.Exists(file.File.serverpath)) {
             System.IO.Directory.CreateDirectory(file.File.serverpath);
         }
@@ -66,7 +71,8 @@ namespace SliceOfPie_Model {
         }
         // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
         System.IO.File.WriteAllText(fullpath, fileHtml);
-        return true;
+
+          return true;
       }
 
       /// <summary>
@@ -222,14 +228,20 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     public FileInstance GetFile(int id)
     {
+        foreach (var fileInstance in cache)
+        {
+            if (fileInstance.id == id)
+                return fileInstance;
+        }
         FileListEntry fileInfo = _fileListHandler.FileList.List[id];
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
         FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
+        loadedFile.File = new File();
         loadedFile.File.serverpath = fileInfo.Path;
         loadedFile.File.name = fileInfo.Name;
-
+        cache.Add(loadedFile);
         return loadedFile;
     
     }

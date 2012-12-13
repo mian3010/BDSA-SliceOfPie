@@ -11,39 +11,52 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   [Serializable()]
   public class Document : FileInstance {
-     
-      
-      public String Title
-      {
-          get { return Context.GetFileMetaData(File, "Title").value; }
-          set { Context.GetFileMetaData(File, "Title").value = value; }
-      }
 
 
-    public IList<User> Authors { get { return Context.GetUsers(File); } }
+      //public String Title
+      //{
+      //    get { return Context.GetFileMetaData(File, "Title").value; }
+      //    set { Context.GetFileMetaData(File, "Title").value = value; }
+      //}
+
+      public String Title { get; set; }
+
+      public String Author { get; set; }
+
+    //public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
       get { return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
       set { PrivContent = Encoding.UTF8.GetBytes(value); }
     }
+    
+      public Document() : base()
+      {
+          PrivContent = new byte[200];
+      }
 
     public override string GetContent() {
       return Content;
     }
 
-    public override string ToString() {
-      var output = new StringBuilder();
-      output.Append("<div class=\"document\">");
-      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-      output.Append("<div class=\"document-view\">");
-      output.Append("<ul class=\"metadata-view\">");
-      foreach (FileMetaData metaData in File.FileMetaDatas) {
-        output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
-      }
-      output.Append("</ul>");
-      output.Append(Content);
-      output.Append("</div>");
-      return output.ToString();
+    //public override string ToString() {
+    //  var output = new StringBuilder();
+    //  output.Append("<div class=\"document\">");
+    //  output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+    //  output.Append("<div class=\"document-view\">");
+    //  output.Append("<ul class=\"metadata-view\">");
+    //  foreach (FileMetaData metaData in File.FileMetaDatas) {
+    //    output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
+    //  }
+    //  output.Append("</ul>");
+    //  output.Append(Content);
+    //  output.Append("</div>");
+    //  return output.ToString();
+    //}
+
+    public override string ToString()
+    {
+        return GetContent();
     }
 
     public new string HistoryToString() {

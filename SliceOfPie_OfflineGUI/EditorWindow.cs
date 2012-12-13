@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
@@ -9,45 +10,22 @@ namespace SliceOfPie_OfflineGUI
     public partial class EditorWindow : Form
     {
         public event DocumentHandler DocumentSaved;
-        private FileInstance currentDocument;
- 
+        private Document currentDocument;
+
+        public bool KeepAlive { get; set; }
+
         public EditorWindow()
         {
             InitializeComponent();
-
-            //Makes the html editable
-            webBrowser1.Navigate("about:blank");
-            Application.DoEvents();
-          if (webBrowser1.Document != null)
-          {
-            var htmlDocument = webBrowser1.Document.OpenNew(false);
-            if (htmlDocument != null)
-              htmlDocument.Write("<html><body><div id=\"editable\">Edit this text</div></body></html>");
-
-            foreach (HtmlElement el in webBrowser1.Document.All)
-            {
-              el.SetAttribute("unselectable", "on");
-              el.SetAttribute("contenteditable", "false");
-            }
-
-            if (webBrowser1.Document.Body != null)
-            {
-              webBrowser1.Document.Body.SetAttribute("width", Width.ToString(CultureInfo.InvariantCulture) + "px");
-              webBrowser1.Document.Body.SetAttribute("height", "100%");
-              webBrowser1.Document.Body.SetAttribute("contenteditable", "true");
-            }
-            webBrowser1.Document.DomDocument.GetType().GetProperty("designMode").SetValue(webBrowser1.Document.DomDocument, "On", null);
-          }
-          webBrowser1.IsWebBrowserContextMenuEnabled = false;  
+            KeepAlive = true;
         }
 
-        public void LoadDocContent(FileInstance doc)
+        public void LoadDocContent(Document doc)
         {
             if (doc != null)
             {
                 currentDocument = doc;
-                if (webBrowser1.Document != null) webBrowser1.Document.Write(doc.ToString());
-
+                EditorBox.Text = doc.GetContent();
                 if (doc.File.name != null)
                     docnameBox.Text = doc.File.name;
             }
@@ -55,26 +33,55 @@ namespace SliceOfPie_OfflineGUI
                 MessageBox.Show("No document selected");
         }
 
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-
-        }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-          if (webBrowser1.Document != null)
-          {
-            if (webBrowser1.Document.Body != null)
-            {
-              String text = webBrowser1.Document.Body.InnerHtml;
-              if (DocumentSaved != null)
-              {
-                DocumentSaved(this, text);
-              }
-            }
-          }
+            KeepAlive = true;
+            currentDocument.Content = EditorBox.Text;
+            DocumentSaved(this, currentDocument);
+            this.Hide();
         }
 
-  
+        private void docnameBox_TextChanged(object sender, EventArgs e)
+        {
+            currentDocument.Content = EditorBox.Text;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (currentDocument.File.Changes.Count == 0)
+            {
+                MessageBox.Show("This document have no history.");
+            }
+
+            else
+            {
+                StringBuilder history = new StringBuilder();
+                foreach (Change change in currentDocument.File.Changes)
+                {
+                    history.Append("User : " + change.User_email + "made a change at :" + change.timestamp + "\n");
+                }
+                MessageBox.Show(history.ToString());
+            }
+
+        }
+
+        private void EditorWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// A method that gracefully exists the program. For now just persists the FileLog. Maybe it should also 
+        /// save the current file in the editor (TODO).
+        /// </summary>
+        /// <param name="e">FormClosingEventArgs (not used)</param>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = KeepAlive;
+           // base.OnFormClosing(e);
+        }
+
     }
 }

@@ -90,7 +90,15 @@ namespace SliceOfPie_Model
 
         public void FileChangedOnDisk(FileInstance file)
         {
-            FileList.List[file.id].Version += 0.001m;          
+            FileList.List[file.id].Version += 0.001m;         
+            Change change = new Change();
+            if (file.UserEmail == null)
+                change.User_email = "Unknown";
+            else
+                change.User.email = file.User_email;
+            change.timestamp = DateTime.Now.ToString();
+            change.File_id = file.File.id;
+            file.File.Changes.Add(change);
         }
 
         public void FileChangedOnServer(FileInstance file)

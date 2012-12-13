@@ -27,14 +27,15 @@ namespace SliceOfPie_OfflineGUI {
     public MainWindow(Dictionary<String, int> fileTree) {
       InitializeComponent();
       _pathsToId = fileTree;
-
+      InitializeTree();
      
     }
 
-    private void DocumentSavedInEditor(object sender, string newContent) {
-      CurrentDocument.Content = newContent;
+    private void DocumentSavedInEditor(object sender, Document doc)
+    {
+        CurrentDocument = doc;
 
-      FileSaved(CurrentDocument);
+       FileSaved(doc);
     }
 
     /// <summary>
@@ -42,8 +43,8 @@ namespace SliceOfPie_OfflineGUI {
     /// FileListHandler. 
     /// </summary>
     private void InitializeTree() {
-      var root = new TreeNode("Files");
-      TreeNode node = root;
+        var root = new TreeNode("Files");
+        TreeNode node = root;
       treeView1.Nodes.Add(root);
       List<String> allPaths = _pathsToId.Keys.ToList();
       allPaths.Sort();
@@ -92,18 +93,33 @@ namespace SliceOfPie_OfflineGUI {
     /// </summary>
     /// <returns>ID of the file connected to the node</returns>
     private int IdFromCurrentNode() {
-      var fullPath = new List<String>();
+      
       TreeNode current = treeView1.SelectedNode;
       if (current == null) throw new NoNodeSelectedException("No node selected in TreeView");
-      fullPath.Add(current.Name);
+      
+        try
+        {
+            return _pathsToId[PathOfNode(current)];
 
-      while (current.Parent != null) {
-        fullPath.Add(current.Parent.Name);
-        current = current.Parent;
-      }
-      fullPath.Reverse();
-      String cPath = System.IO.Path.Combine(fullPath.ToArray());
-      return _pathsToId[cPath];
+        }
+        catch (Exception e)
+        {
+            throw new NotADocumentException();
+        }
+    }
+
+    private String PathOfNode(TreeNode node)
+    {
+        var fullPath = new List<String>();
+        fullPath.Add(node.Name);
+
+        while (node.Parent != null)
+        {
+            fullPath.Add(node.Parent.Name);
+            node = node.Parent;
+        }
+        fullPath.Reverse();
+        return System.IO.Path.Combine(fullPath.ToArray());
     }
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -118,18 +134,10 @@ namespace SliceOfPie_OfflineGUI {
       /// <param name="e">Not used, instead uses FileEventArgs which contains a int</param>
     private void button_load_Click(object sender, EventArgs e)
     {
-          if (_editWindow == null)
-          {
-              // We only use 1 instance of our Editor.
-              _editWindow = new EditorWindow();
-              _editWindow.Hide();
-              _editWindow.DocumentSaved += DocumentSavedInEditor;
-          }
-        
+        TryCreateEditor();
           try
         {
             FileRequested(this, new FileEventArgs(IdFromCurrentNode()));
-
             _editWindow.LoadDocContent(CurrentDocument);
             _editWindow.Show();
         }
@@ -139,6 +147,18 @@ namespace SliceOfPie_OfflineGUI {
         }
 
     }
+
+      private void TryCreateEditor()
+      {
+          if (_editWindow == null)
+          {
+              // We only use 1 instance of our Editor.
+              _editWindow = new EditorWindow();
+              _editWindow.Hide();
+              _editWindow.DocumentSaved += DocumentSavedInEditor;
+          }
+        
+      }
 
     /// <summary>
     /// A method that gracefully exists the program. For now just persists the FileLog. Maybe it should also 
@@ -156,6 +176,29 @@ namespace SliceOfPie_OfflineGUI {
       SynchronizationRequested(this, null);
     }
 
+    private void button_Create_Click(object sender, EventArgs e)
+    {
+        CurrentDocument = new Document();
+        CurrentDocument.File = new File();
+        String path = "";
+        TreeNode current = treeView1.SelectedNode;
+        try
+        {
+            IdFromCurrentNode();
+            path = PathOfNode(current);
+        }
+        catch (NotADocumentException ex)
+        {
+            if(current.Parent != null) 
+            path = PathOfNode(treeView1.SelectedNode.Parent);
+            
+        }
+        CurrentDocument.path = path;
+        TryCreateEditor();
+        _editWindow.LoadDocContent(CurrentDocument);
+        _editWindow.Show();
+        
+    }
   }
 
 }
