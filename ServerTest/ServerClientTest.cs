@@ -49,7 +49,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronize() {
-      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      //Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
       var list = new FileList { List = new Dictionary<int, FileListEntry>() };
@@ -93,6 +93,9 @@ namespace ServerTest {
       
       FileInstance instance = client.PushFile(fileInstance);
       Assert.AreEqual(instance.id, fileInstance.id);
+      Assert.AreEqual(instance.File.id, file.id);
+      Assert.AreEqual(instance.User.email, user.email);
+      server.Close();
       
 
     }

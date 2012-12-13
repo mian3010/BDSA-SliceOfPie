@@ -22,6 +22,7 @@ namespace SliceOfPie_Model.Persistence {
       DbContext.Users.AddObject(user);
       try {
         return DbContext.SaveChanges();
+
       } catch (UpdateException) {
         return -1;
       }
@@ -62,7 +63,7 @@ namespace SliceOfPie_Model.Persistence {
 
       // File
       if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
-      if (fileInstance.File.id < 0) fileInstance.File.id = GetNextFileId();
+      //if (fileInstance.File.id < 0) fileInstance.File.id = GetNextFileId();
 
       // File id
       if (fileInstance.File_id < 0) fileInstance.File_id = fileInstance.File.id;
