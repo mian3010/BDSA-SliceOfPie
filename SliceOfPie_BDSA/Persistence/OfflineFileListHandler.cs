@@ -93,7 +93,7 @@ namespace SliceOfPie_Model
 
         private FileListEntry StandardFileEntry(FileInstance file)
         {
-            var entry = new FileListEntry {Name = file.File.name, Path = file.File.serverpath, IsDeleted = false};
+            var entry = new FileListEntry {Name = file.File.name, Path = file.path, IsDeleted = false};
             return entry;
         }
 
@@ -141,6 +141,7 @@ namespace SliceOfPie_Model
 
             FileList.List[file.id].Version += 0.001m;         
             Change change = new Change();
+            change.User = new User();
             if (file.User.email == null)
                 change.User.email = "Unknown";
             else
@@ -170,8 +171,6 @@ namespace SliceOfPie_Model
                 list.Add(change);
                 ChangeList.Add(file_id, list);
             }
-    
->>>>>>> newB
         }
 
         public void FileChangedOnServer(FileInstance file)

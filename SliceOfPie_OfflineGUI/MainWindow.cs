@@ -13,20 +13,20 @@ namespace SliceOfPie_OfflineGUI {
   {
       public const char Separator = '\\';
 
-      private readonly Dictionary<String, int> _pathsToId;
+      private Dictionary<String, int> _pathsToId;
 
       public Document CurrentDocument {
       private get;
       set;
     }
 
+      private EditorWindow _editWindow;
     private TreeNode _root;
 
     public event FileInstanceRequestHandler FileRequested;
     public event FileInstanceEventHandler FileSaved, FileCreated;
-    public event EventHandler InterfaceClosing, SynchronizationRequested;
-
-    private EditorWindow _editWindow;
+    public event EventHandler InterfaceClosing, SynchronizationRequested, TreeRefreshed;
+    
 
     public MainWindow(Dictionary<String, int> fileTree) {
       InitializeComponent();
@@ -40,6 +40,7 @@ namespace SliceOfPie_OfflineGUI {
        CurrentDocument = doc;
 
        FileSaved(doc);
+       if(TreeRefreshed != null) TreeRefreshed(this, null);
     }
 
       private void InitializeTree()
@@ -56,9 +57,14 @@ namespace SliceOfPie_OfflineGUI {
                   node = AddNode(node, pathBits);
               }
           }
+          _root.ExpandAll();
       }
 
-
+      public void RefreshFileView(Dictionary<String, int> newFileTree)
+      {
+          _pathsToId = newFileTree;
+          RefreshTree();
+      }
 
 
       private TreeNode AddNode(TreeNode node, string key)
@@ -74,7 +80,7 @@ namespace SliceOfPie_OfflineGUI {
         }
 
     private void button1_Click(object sender, EventArgs e) {
-      InitializeTree();
+      RefreshTree();
     }
 
     private void Form3_Load(object sender, EventArgs e) {
@@ -93,8 +99,16 @@ namespace SliceOfPie_OfflineGUI {
       
         try
         {
-            return _pathsToId[PathOfNode(current)];
-
+            int i = 0;
+            String path = PathOfNode(current);
+            if (_pathsToId.TryGetValue(path, out i))
+            {
+                return _pathsToId[path];
+            }
+            else
+            {
+                return _pathsToId[path.Substring(0,path.Length-1)];
+            }
         }
         catch (Exception e)
         {
@@ -118,7 +132,7 @@ namespace SliceOfPie_OfflineGUI {
         {
             s += ss + Separator;
         }
-        return s.Substring(0,s.Length -1);
+        return s;
     }
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -171,6 +185,7 @@ namespace SliceOfPie_OfflineGUI {
       private void FileCreatedInEditor(Document doc)
       {
           FileCreated(doc);
+          if (TreeRefreshed != null) TreeRefreshed(this, null);
       }
 
 
@@ -195,11 +210,17 @@ namespace SliceOfPie_OfflineGUI {
     {
         CurrentDocument = new Document();
         CurrentDocument.File = new File();
+        User user = new User();
+        user.email = userEmailBox.Text;
+        CurrentDocument.User_email = user.email;
+        CurrentDocument.User = user;
         String path = "";
-        TreeNode current = treeView1.SelectedNode.Parent ?? _root;
+        TreeNode selected = treeView1.SelectedNode ?? _root;
+        TreeNode current = selected.Parent ?? _root;
         if (current == _root)
         {
-            path = current.FirstNode.Text;
+            TreeNode cNode = current.FirstNode ?? new TreeNode("C:\\");
+            path = cNode.Text;
         }
         else
         {
@@ -217,12 +238,16 @@ namespace SliceOfPie_OfflineGUI {
         }
         CurrentDocument.path = path;
 
-        _editWindow.NewDocument = true;
-         
         TryCreateEditor();
+        _editWindow.NewDocument = true;
         _editWindow.LoadDocContent(CurrentDocument);
         _editWindow.Show();
         
+    }
+
+    private void userEmailBox_TextChanged(object sender, EventArgs e)
+    {
+
     }
   }
 

@@ -37,20 +37,23 @@ namespace SliceOfPie_OfflineGUI
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            KeepAlive = true;
+            _currentDocument.Content = EditorBox.Text;
             if (NewDocument)
             {
                 if (DocumentCreated != null)
                 {
+                    docnameBox_TextChanged(this, null);
                     DocumentCreated(_currentDocument);
                 }
             }
             else
             {
-                KeepAlive = true;
-                _currentDocument.Content = EditorBox.Text;
+                
                 DocumentSaved(_currentDocument);
-                Hide();
+                
             }
+            Hide();
         }
 
         private void docnameBox_TextChanged(object sender, EventArgs e)
