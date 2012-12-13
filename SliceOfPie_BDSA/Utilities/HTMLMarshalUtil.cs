@@ -41,7 +41,8 @@ namespace SliceOfPie_Model
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
                 writer.WriteStartElement("body");
-                writer.WriteString(fileInstance.GetContent());
+                string s = fileInstance.GetContent();
+                writer.WriteString(s);
                 writer.WriteEndElement();
 
                 // writer.WriteStartElement("

@@ -17,8 +17,7 @@ namespace SliceOfPie_Model.Persistence {
     internal byte[] PrivContent;
 
     public byte[] Content {
-      get { if(PrivContent != null) return PrivContent; 
-      else return new byte[200];   }
+      get { return PrivContent; }
       set { PrivContent = value; }
     }
 

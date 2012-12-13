@@ -55,8 +55,10 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-    public static FileInstance AddFileInstance(FileInstance fileInstance) {
+    public static FileInstance AddFileInstance(FileInstance Instance) {
+        FileInstance fileInstance = (FileInstance)Instance;
       using (var dbContext = new SliceOfLifeEntities()) {
+          dbContext.MetadataWorkspace.LoadFromAssembly(System.Reflection.Assembly.Load("SliceOfPie_Model"));
         if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
 
         // Check for lots of constraints
@@ -68,12 +70,12 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
         // User
-        if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
+        if (fileInstance.User.email == null || fileInstance.User.email.Trim().Equals(""))
           throw new ConstraintException("Invalid user");
-        if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
+        if (GetUser(fileInstance.User.email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
 
-        fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
+        //fileInstance.User = GetUser(fileInstance.User.email);
         if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
