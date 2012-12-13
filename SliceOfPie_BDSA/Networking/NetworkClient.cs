@@ -92,11 +92,19 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="response">The response from the server</param>
     private static FileInstance HandleFileResponse(System.IO.Stream response) {
-      if (response != null) {
-        var formatter = new BinaryFormatter();
-        return (FileInstance)formatter.Deserialize(response);
-      }
-      return null;
+        try
+        {
+            if (response != null)
+            {
+                var formatter = new BinaryFormatter();
+                return (FileInstance)formatter.Deserialize(response);
+            }
+            return null;
+        }
+        catch (InvalidCastException e)
+        {
+            return null;
+        }
     }
 
     /// <summary>

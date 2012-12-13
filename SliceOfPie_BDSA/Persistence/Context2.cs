@@ -9,12 +9,17 @@ namespace SliceOfPie_Model.Persistence {
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
-        if (email == null || email.Trim().Equals("")) return null;
-        var query = from u in dbContext.Users
-                    where u.email == email
-                    select u;
-        return !query.Any() ? null : query.First();
+        return GetUserWithContext(email, dbContext);
       }
+    }
+
+    private static User GetUserWithContext(string email, SliceOfLifeEntities dbContext) {
+      if (email == null || email.Trim().Equals(""))
+        return null;
+      var query = from u in dbContext.Users
+                  where u.email == email
+                  select u;
+      return !query.Any() ? null : query.First();
     }
 
     public static int AddUser(User user) {
@@ -61,14 +66,14 @@ namespace SliceOfPie_Model.Persistence {
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
-
         // User
         if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
           throw new ConstraintException("Invalid user");
         if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
         //Sets the user from fileInstance to the user from the database
-        if (fileInstance.User == null) fileInstance.User = GetUser(fileInstance.User_email);
 
+        fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
+        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
@@ -79,7 +84,7 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-
+        dbContext.Files.AddObject(fileInstance.File);
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -229,6 +234,10 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
+        // Add MetaType
+        var metaType = MetaDataType.CreateMetaDataType("Type");
+        var metaValue = "Document";
+
         for (int i = 0; i < 10; i++) {
           // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
@@ -239,18 +248,24 @@ namespace SliceOfPie_Model.Persistence {
           if (i % 2 == 0) file.serverpath += "Subfolder";
           dbContext.Files.AddObject(file);
 
+          // Meta
+          var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
+          meta.value = metaValue;
+
           // Add FileInstances
           var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
           if (i % 2 == 0) fileInstance.path += "Subfolder";
           fileInstance.File = file;
           fileInstance.User = user;
           dbContext.FileInstances.AddObject(fileInstance);
+
+          try {
+            dbContext.SaveChanges();
+          } catch (UpdateException e) {
+            throw new ConstraintException("Problem with adding test entries", e);
+          }
         }
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException("Problem with adding test entries", e);
-        }
+
       }
     }
   }

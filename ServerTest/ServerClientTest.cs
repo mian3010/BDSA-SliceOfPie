@@ -56,11 +56,9 @@ namespace ServerTest {
       var e1 = new FileListEntry();
       var e2 = new FileListEntry();
       var e3 = new FileListEntry();
-      e1.Id = 30;
+      e1.Id = -40;
       e2.Id = 40;
       e3.Id = 350;
-      e2.Id = 31;
-      e3.Id = 32;
       list.List.Add(e1.Id, e1);
       list.List.Add(e2.Id, e2);
       list.List.Add(e3.Id, e3);
@@ -81,20 +79,22 @@ namespace ServerTest {
       user.email = "superman123@gm44ail.com";
       Context2.AddUser(user);
       File file = new File();
-
-      file.id = 32;
       file.name = "TES34123TFIL"; 
       file.serverpath = "test123Se234rverpath"; 
       file.Version = 0.0m;
       //file.FileMetaDatas.Add(data);
-      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
-        fileInstance.User = user;
+      var fileInstance = new FileInstance();
+      fileInstance.id = -40;
+      fileInstance.path = "//test";
+      fileInstance.User = user;
       fileInstance.File = file;
-      
       FileInstance instance = client.PushFile(fileInstance);
-      Assert.AreEqual(instance.id, fileInstance.id);
-      Assert.AreEqual(instance.File.id, file.id);
-      Assert.AreEqual(instance.User.email, user.email);
+      if (instance != null)
+      {
+        Assert.AreEqual(instance.id, fileInstance.id);
+        Assert.AreEqual(instance.File.id, file.id);
+        Assert.AreEqual(instance.User.email, user.email);
+      }
       server.Close();
       
 
