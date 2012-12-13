@@ -42,7 +42,7 @@ namespace SliceOfPie_Model
             else
             {
                 _pFileList = new FileList();
-                FileList.List = new Dictionary<int, FileListEntry>();
+                FileList.List = new Dictionary<long, FileListEntry>();
                 FileList.IncrementCounter = -1;
             }
         }
@@ -90,7 +90,7 @@ namespace SliceOfPie_Model
 
         public void FileChangedOnDisk(FileInstance file)
         {
-            FileList.List[file.id].Version += 0.001m;          
+            FileList.List[file.id].Version += 0.001m;
         }
 
         public void FileChangedOnServer(FileInstance file)
@@ -103,9 +103,9 @@ namespace SliceOfPie_Model
             FileList.List[file.id].Path = file.File.serverpath;
         }
 
-        public Dictionary<String, int> GetPathsWithId()
+        public Dictionary<String, long> GetPathsWithId()
         {
-            var dic = new Dictionary<String, int>();
+            var dic = new Dictionary<String, long>();
 
             foreach (FileListEntry entry in FileList.List.Values)
             {
