@@ -244,6 +244,7 @@ namespace SliceOfPie_Model.Persistence {
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
 
+          var count = 1;
           for (int k = 0; k < 10; k++) {
             // Add Files
             var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
@@ -255,7 +256,7 @@ namespace SliceOfPie_Model.Persistence {
             meta.value = metaValue;
 
             // Add FileInstances
-            var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
+            var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
             if (k % 2 == 0) fileInstance.path += @"Subfolder\";
             if (k % 3 == 0) fileInstance.path += @"AnotherSubFolder\";
             if (k % 7 == 0) fileInstance.path += @"YetAnotherSubFolder\";
