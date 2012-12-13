@@ -51,14 +51,15 @@ namespace SliceOfPie_Model.Persistence {
       // Id
       if (fileInstance.id < 1) throw new ConstraintException("ID must be greater than 0");
       if (GetFileInstance(fileInstance.id) != null) deleteBeforeAdd = true;
-
+        
       // Path
       if (fileInstance.path == null || fileInstance.path.Trim().Equals("")) throw new ConstraintException("Invalid file path");
 
       // User
       if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals("")) throw new ConstraintException("Invalid user");
-      if (GetUser(fileInstance.User_email) != null) throw new ConstraintException("No user known under that name");
-
+      if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
+        //Sets the user from fileInstance to the user from the database
+      fileInstance.User = GetUser(fileInstance.User_email);
       // File
       if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
 

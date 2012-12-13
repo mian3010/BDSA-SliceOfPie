@@ -49,6 +49,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronize() {
+      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
       var list = new FileList { List = new Dictionary<int, FileListEntry>() };
@@ -78,18 +79,21 @@ namespace ServerTest {
       data.MetaDataType = type;
       User user = new User();
       user.email = "superman123@gm44ail.com";
+      Context2.AddUser(user);
       File file = new File();
 
       file.id = 32;
       file.name = "TES34123TFIL"; 
       file.serverpath = "test123Se234rverpath"; 
       file.Version = 0.0m;
-      file.FileMetaDatas.Add(data);
+      //file.FileMetaDatas.Add(data);
       var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
         fileInstance.User = user;
       fileInstance.File = file;
       
       int id = client.PushFile(fileInstance);
+      Assert.AreEqual(id, fileInstance.id);
+      
 
     }
   }
