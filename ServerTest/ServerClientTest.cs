@@ -31,7 +31,10 @@ namespace ServerTest {
       }
 
       public void CreateTestFiles()
-      {        
+      {
+              User user1 = new User();
+              user1.email = "superman123456@gm44ail.com";
+              Context2.AddUser(user1);
               string email = "superman123456@gm44ail.com";
               File file1 = File.CreateFile(300, "Testfile" + 1 + "" + 1, @"C:\ServerTestFiles\", 0.0m);
 
@@ -44,8 +47,11 @@ namespace ServerTest {
               i3 = FileInstance.CreateFileInstance(3, email, @"C:\ClientTestFiles\Subfolder",file3.id);
 
               i1.File = file1;
+              i1.User = user1;
               i2.File = file2;
+              i2.User = user1;
               i3.File = file3;
+              i3.User = user1;
       }
     [TestMethod]
     public void TestGetFile() {
@@ -130,7 +136,8 @@ namespace ServerTest {
     [TestMethod]
     public void TestSynchronizeFull()
     {
-        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+
         CreateTestList();
         NetworkServer server = NetworkServer.GetInstance();
         var serverT = new Thread(server.Listen);

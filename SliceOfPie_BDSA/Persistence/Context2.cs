@@ -64,7 +64,7 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
                                        .Include("File")
-                                       .Include("File.Change")
+                                       .Include("File.Changes")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
@@ -88,24 +88,9 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
 
-    // if user is attached, check if it exists
-        if (fileInstance.User != null)
-        {
-            if (GetUserWithContext(fileInstance.User.email, dbContext) == null)
-            {
-                //AddUser();
-            }
-            else
-            {
-                fileInstance.User = null;
-            }
-        }
-        else
-        {
-
-        }
-
-        if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("User not registered");
+        User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
+        if (tmp == null) throw new ConstraintException("User not registered in the database");
+        fileInstance.User = tmp;
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
@@ -117,8 +102,6 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-        dbContext.Files.AddObject(fileInstance.File);
-        //dbContext.Attach(fileInstance);
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
