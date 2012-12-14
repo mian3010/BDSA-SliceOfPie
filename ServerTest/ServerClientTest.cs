@@ -39,9 +39,9 @@ namespace ServerTest {
       var file2 = new File { name = "TestName2", serverpath = "TestPath2", Version = 0.0m };
       var file3 = new File { name = "TestName3", serverpath = "TestPath3", Version = 0.0m };
 
-      i1 = new Document { User = user, File = file1, path = "docTestPath1" };
-      i2 = new Document { User = user, File = file2, path = "docTestPath2" };
-      i3 = new Document { User = user, File = file3, path = "docTestPath3" };
+      i1 = new Document { User_email = user.email, File = file1, path = "docTestPath1" };
+      i2 = new Document { User_email = user.email, File = file2, path = "docTestPath2" };
+      i3 = new Document { User_email = user.email, File = file3, path = "docTestPath3" };
     }
 
     [TestMethod]
