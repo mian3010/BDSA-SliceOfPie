@@ -11,13 +11,12 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   [Serializable()]
   public class Document : FileInstance {
-     
-      
-      public String Title
-      {
-          get { return Context.GetFileMetaData(File, "Title").value; }
-          set { Context.GetFileMetaData(File, "Title").value = value; }
-      }
+
+
+    public String Title {
+      get { return Context.GetFileMetaData(File, "Title").value; }
+      set { Context.GetFileMetaData(File, "Title").value = value; }
+    }
 
 
     public IList<User> Authors { get { return Context.GetUsers(File); } }
@@ -56,8 +55,9 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static Document CreateDocument(FileInstance file) {
-      if (Context2.GetFileMetaData(file.File, "Type").value == "Document") {
-        return (Document)file;
+      var fileType = Context2.GetFileMetaData(file.File, "Type");
+      if (fileType != null && file.File != null && fileType.value == "Document") {
+        return file as Document;
       }
       throw new NotADocumentException();
     }
