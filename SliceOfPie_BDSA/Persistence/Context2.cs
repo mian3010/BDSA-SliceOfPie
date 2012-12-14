@@ -50,9 +50,17 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
+    public static FileInstance GetFileInstance(int fileInstanceId)
+    {
+        FileInstance instance;
+        using (var dbContext = new SliceOfLifeEntities()) {
+            instance =  GetFileInstanceWithContext(fileInstanceId, dbContext);
+        }
+        return instance;
+    }
     // FileInstance
-    public static FileInstance GetFileInstance(int fileInstanceId) {
-      using (var dbContext = new SliceOfLifeEntities()) {
+    private static FileInstance GetFileInstanceWithContext(int fileInstanceId, SliceOfLifeEntities dbContext) {
+      
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
                                        .Include("File")
@@ -60,7 +68,7 @@ namespace SliceOfPie_Model.Persistence {
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
-      }
+      
     }
 
     public static FileInstance AddFileInstance(FileInstance Instance) {

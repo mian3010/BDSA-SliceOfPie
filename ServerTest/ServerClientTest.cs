@@ -35,11 +35,11 @@ namespace ServerTest {
       public void CreateTestFiles()
       {
           User user = new User();
-          user.email = "superman123@gm44ail.com";
+          user.email = "superman123456@gm44ail.com";
           Context2.AddUser(user);
-          i1 = new Document();
-          i2 = new Document();
-          i3 = new Document();
+          i1 = new FileInstance();
+          i2 = new FileInstance();
+          i3 = new FileInstance();
           i1.path = "docTestPath1";
           i2.path = "docTestPath2";
           i3.path = "docTestPath3";
@@ -145,7 +145,7 @@ namespace ServerTest {
     [TestMethod]
     public void TestSynchronizeFull()
     {
-        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
         CreateTestList();
         NetworkServer server = NetworkServer.GetInstance();
         var serverT = new Thread(server.Listen);
