@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 
 namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
 
-      private static FileInstance CreateFileInstance(FileInstance doc)
-      {
-          FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
-          instance.File = doc.File;
-          instance.User = doc.User;
-          return instance;
-      }
+    private static FileInstance CreateFileInstance(FileInstance doc) {
+      FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
+      instance.File = doc.File;
+      instance.User = doc.User;
+      return instance;
+    }
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -23,7 +23,7 @@ namespace SliceOfPie_Model.Persistence {
 
     private static User GetUserWithContext(string email, SliceOfLifeEntities dbContext) {
       if (email == null || email.Trim().Equals(""))
-        return null; 
+        return null;
       var query = from u in dbContext.Users
                   where u.email == email
                   select u;
@@ -71,10 +71,11 @@ namespace SliceOfPie_Model.Persistence {
       
     }
 
-    public static FileInstance AddFileInstance(FileInstance Instance) {
-        FileInstance fileInstance = CreateFileInstance(Instance);
+    public static FileInstance AddFileInstance(FileInstance fileInstance) {
+      //FileInstance fileInstance = CreateFileInstance(Instance);
       using (var dbContext = new SliceOfLifeEntities()) {
-          // dbContext.MetadataWorkspace.LoadFromAssembly(System.Reflection.Assembly.Load("SliceOfPie_Model"));
+        //Assembly a = typeof(Document).Assembly;
+        //dbContext.MetadataWorkspace.LoadFromAssembly(a);
         if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
 
         // Check for lots of constraints
@@ -272,10 +273,11 @@ namespace SliceOfPie_Model.Persistence {
             if (i % 2 == 0) file.serverpath += "Subfolder";
 
             // Meta
-            var meta = new FileMetaData(){ 
-              id = count, 
+            var meta = new FileMetaData() {
+              id = count,
               value = metaValue,
-              MetaDataType = metaType};
+              MetaDataType = metaType
+            };
             file.FileMetaDatas.Add(meta);
             dbContext.Files.AddObject(file);
 
