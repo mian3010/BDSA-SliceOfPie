@@ -6,39 +6,6 @@ using SliceOfPie_Model.Persistence;
 namespace SliceOfPie_Server {
   public class RequestHandler {
     private RequestHandler() { }
-    public static void Main(string[] args) {
-      /* FileInstance fi = FileInstance.CreateFileInstance(0, "test", "test", 42);
-      new SliceOfLifeEntities().AddToFileInstances(fi);
-      Context.GetServerFileList("test"); */
-
-      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
-
-      /*
-      // Fill database with test content
-      // Add user
-      var user = User.CreateUser("test2@example.com");
-      Context.AddUser(user);
-
-      // Add files
-      var file = File.CreateFile(2, "test.txt", @"C:\ServerFiles\", 0.0m);
-      var instance = new Document {
-        Content = "This is a test file. Does this work? \n New line",
-        Title = "Test document title",
-      };
-
-      Context.AddFileInstance(instance);
-
-      // Add FileInstance, bind to user
-      var fileInstance = FileInstance.CreateFileInstance(1, user.email, @"C:\ClientFiles\", file.id);
-      Context.AddFileInstance(fileInstance);
-
-      // Add MetaData to file
-      var metaDataType = MetaDataType.CreateMetaDataType("Test type");
-      var fileMetaData = FileMetaData.CreateFileMetaData(1, metaDataType.ToString(), file.id);
-      fileMetaData.value = "42";
-      Context.AddFileMetaData(fileMetaData);
-       */
-    }
 
     /// <summary>
     /// Get the list of approved to receive new files
@@ -97,8 +64,8 @@ namespace SliceOfPie_Server {
     /// <param name="id">FileId</param>
     /// /// <param name="processor">processor</param>
     /// <returns></returns>
-    public void GetFile(int id, HttpProcessor processor) {
-      var file = Context.GetFile(id);
+    public void GetFileInstance(int id, HttpProcessor processor) {
+      var file = Context2.GetFileInstance(id);
       processor.RecieveFile(file);
     }
   }

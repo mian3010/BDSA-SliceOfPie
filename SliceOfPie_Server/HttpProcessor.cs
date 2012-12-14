@@ -46,7 +46,7 @@ namespace SliceOfPie_Server {
         {
           NameValueCollection queryDict = HttpUtility.ParseQueryString(_request.Url.Query);
           var id = int.Parse(queryDict.Get("id"));
-          _handler.GetFile(id, this);
+          _handler.GetFileInstance(id, this);
         } else {
           throw new ArgumentException("Illegal XML method");
         }

@@ -5,6 +5,11 @@ using System.Linq;
 using System.Reflection;
 
 namespace SliceOfPie_Model.Persistence {
+
+/// <summary>
+/// Class responsible for connecting to the entity framwork. Has static methods for adding, modifying
+/// and deleting enteties.
+/// </summary>
   public static class Context2 {
 
     // User
@@ -43,12 +48,18 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
-    public static FileInstance GetFileInstance(int fileInstanceId) {
-      FileInstance instance;
-      using (var dbContext = new SliceOfLifeEntities()) {
-        instance = GetFileInstanceWithContext(fileInstanceId, dbContext);
-      }
-      return instance;
+      /// <summary>
+      /// Responsible for getting a fileinstance from the database
+      /// </summary>
+      /// <param name="fileInstanceId">instance id</param>
+      /// <returns>FileInstance</returns>
+    public static FileInstance GetFileInstance(int fileInstanceId)
+    {
+        FileInstance instance;
+        using (var dbContext = new SliceOfLifeEntities()) {
+            instance =  GetFileInstanceWithContext(fileInstanceId, dbContext);
+        }
+        return instance;
     }
     // FileInstance
     private static FileInstance GetFileInstanceWithContext(int fileInstanceId, SliceOfLifeEntities dbContext) {
@@ -63,7 +74,34 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
 
     }
+      /// <summary>
+      /// Responsible for modifying an existing frilInstance
+      /// </summary>
+      /// <param name="fileInstance">FileInstance</param>
+      /// <returns>modified FileInstance<returns>
+    public static FileInstance ModifyFileInstance(FileInstance fileInstance)
+    {
+        using (var dbContext = new SliceOfLifeEntities())
+        {
+            if (fileInstance == null)
+                throw new ConstraintException("FileInstance is null");
+            if (fileInstance.File == null)
+                throw new ConstraintException("Database handler received an empty file reference");
+            if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
+                throw new ConstraintException("Invalid file path");
+            FileInstance dbInstance = dbContext.FileInstances.First(i => i.id == fileInstance.id);
+            if (dbInstance == null) return AddFileInstance(fileInstance);
+            dbContext.FileInstances.DeleteObject(dbInstance);
+            dbContext.SaveChanges();
+        }
+        return AddFileInstance(fileInstance);
+    }
 
+      /// <summary>
+      /// Responsible for adding a FileInstance to the database
+      /// </summary>
+      /// <param name="fileInstance">fileinstance</param>
+      /// <returns>fileinstance with new id from db</returns>
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
 
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -130,31 +168,6 @@ namespace SliceOfPie_Model.Persistence {
           }
         }
         return usersFilesOnServer;
-      }
-    }
-
-    //TODO Should be private or removed
-    public static File GetFile(int fileId) {
-      if (fileId < 0) return null;
-      using (var dbContext = new SliceOfLifeEntities()) {
-        var query = from f in dbContext.Files
-                    where f.id == fileId
-                    select f;
-        return !query.Any() ? null : query.First();
-      }
-    }
-
-    //TODO Should be private or removed
-    public static void AddFile(File file) {
-      using (var dbContext = new SliceOfLifeEntities()) {
-        file.FileMetaDatas.Clear();
-        dbContext.Files.AddObject(file);
-        try {
-          dbContext.SaveChanges();
-        } catch (UpdateException e) {
-          throw new ConstraintException(
-            "Database handler received an error when trying saving changes to the database", e);
-        }
       }
     }
 

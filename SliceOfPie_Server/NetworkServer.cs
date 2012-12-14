@@ -45,5 +45,9 @@ namespace SliceOfPie_Server
         {
             _isActive = false;
         }
+        public static void Main(string[] args)
+        { 
+        
+        }
     }
 }
