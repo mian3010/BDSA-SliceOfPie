@@ -7,13 +7,6 @@ using System.Reflection;
 namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
-
-    private static FileInstance CreateFileInstance(FileInstance doc) {
-      FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
-      instance.File = doc.File;
-      instance.User = doc.User;
-      return instance;
-    }
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -73,17 +66,15 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
-      //FileInstance fileInstance = CreateFileInstance(Instance);
-      using (var dbContext = new SliceOfLifeEntities()) {
-        //Assembly a = typeof(Document).Assembly;
-        //dbContext.MetadataWorkspace.LoadFromAssembly(a);
-        if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
-        
 
-        // Check for lots of constraints
+      using (var dbContext = new SliceOfLifeEntities()) {
+          //CONSTRAINTCHECKS
+        if (fileInstance == null) 
+            throw new ConstraintException("Database handler received an empty reference");
 
         // File
-        if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
+        if (fileInstance.File == null) 
+            throw new ConstraintException("Database handler received an empty file reference");
 
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
