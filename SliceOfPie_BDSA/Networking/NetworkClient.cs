@@ -101,7 +101,7 @@ namespace SliceOfPie_Model {
             }
             return null;
         }
-        catch (InvalidCastException e)
+        catch (InvalidCastException)
         {
             return null;
         }

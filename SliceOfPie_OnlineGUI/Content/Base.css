@@ -8,3 +8,7 @@ html
 {
   overflow-y: scroll;
 }
+.featured .content-wrapper
+{
+  background: #9E31B7;
+}

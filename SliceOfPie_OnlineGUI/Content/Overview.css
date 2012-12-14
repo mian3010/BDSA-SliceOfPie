@@ -1,0 +1,16 @@
+﻿ul span.file:before {
+  content: url('/Images/file.png');
+  margin-right: 5px;
+}
+ul span.folder:before {
+  content: url('/Images/folder.png');
+  margin-right: 5px;
+}
+#FileList ul {
+  list-style: none;
+  padding-left: 10px;
+}
+#FileList > .folder {
+  font-size: 20px;
+  font-weight: bold;
+}

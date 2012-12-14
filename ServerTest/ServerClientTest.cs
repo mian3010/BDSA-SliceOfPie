@@ -30,37 +30,28 @@ namespace ServerTest {
           list.List.Add(e3.Id, e3);
       }
 
-   
-
       public void CreateTestFiles()
       {
-          User user = new User();
-          user.email = "superman123456@gm44ail.com";
-          Context2.AddUser(user);
-          i1 = new FileInstance();
-          i2 = new FileInstance();
-          i3 = new FileInstance();
-          i1.path = "docTestPath1";
-          i2.path = "docTestPath2";
-          i3.path = "docTestPath3";
-          File file1 = new File();
-          file1.name = "TestName1";
-          file1.serverpath = "TestPath2";
-          file1.Version = 0.0m;
-          File file2 = new File();
-          file2.name = "TestName2";
-          file2.serverpath = "TestPath2";
-          file2.Version = 0.0m;
-          File file3 = new File();
-          file3.name = "TestName3";
-          file3.serverpath = "TestPath3";
-          file3.Version = 0.0m;
-          i1.File = file1;
-          i1.User = user;
-          i2.File = file2;
-          i2.User = user;
-          i3.File = file3;
-          i3.User = user;
+              User user1 = new User();
+              user1.email = "superman123456@gm44ail.com";
+              Context2.AddUser(user1);
+              string email = "superman123456@gm44ail.com";
+              File file1 = File.CreateFile(300, "Testfile" + 1 + "" + 1, @"C:\ServerTestFiles\", 0.0m);
+
+              File file2 = File.CreateFile(400, "TestName2", @"C:\ClientTestFiles\Subfolder", 0.0m);
+
+              File file3 = File.CreateFile(500, "TestName1", @"C:\ClientTestFiles\Subfolder", 0.0m);
+
+              i1 = FileInstance.CreateFileInstance(40, email, @"C:\ClientTestFiles\Subfolder", file1.id);
+              i2 = FileInstance.CreateFileInstance(350, email, @"C:\ClientTestFiles\Subfolder", file2.id);
+              i3 = FileInstance.CreateFileInstance(3, email, @"C:\ClientTestFiles\Subfolder",file3.id);
+
+              i1.File = file1;
+              i1.User = user1;
+              i2.File = file2;
+              i2.User = user1;
+              i3.File = file3;
+              i3.User = user1;
       }
     [TestMethod]
     public void TestGetFile() {
@@ -145,7 +136,8 @@ namespace ServerTest {
     [TestMethod]
     public void TestSynchronizeFull()
     {
-        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+
         CreateTestList();
         NetworkServer server = NetworkServer.GetInstance();
         var serverT = new Thread(server.Listen);

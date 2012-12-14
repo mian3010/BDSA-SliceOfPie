@@ -64,7 +64,8 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
                                        .Include("File")
-                                       .Include("File.Change")
+                                       .Include("File.Changes")
+                                       .Include("File.FileMetaDatas")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
@@ -77,6 +78,7 @@ namespace SliceOfPie_Model.Persistence {
         //Assembly a = typeof(Document).Assembly;
         //dbContext.MetadataWorkspace.LoadFromAssembly(a);
         if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
+        
 
         // Check for lots of constraints
 
@@ -86,14 +88,11 @@ namespace SliceOfPie_Model.Persistence {
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
-        // User
-        if (fileInstance.User.email == null || fileInstance.User.email.Trim().Equals(""))
-          throw new ConstraintException("Invalid user");
-        if (GetUser(fileInstance.User.email) == null) throw new ConstraintException("No user known under that name");
-        //Sets the user from fileInstance to the user from the database
 
-        //fileInstance.User = GetUser(fileInstance.User.email);
-        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
+        User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
+        if (tmp == null) throw new ConstraintException("User not registered in the database");
+        fileInstance.User = tmp;
+
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
@@ -104,7 +103,6 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-        dbContext.Files.AddObject(fileInstance.File);
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -256,6 +254,10 @@ namespace SliceOfPie_Model.Persistence {
 
         // Reset AI
 
+        // Test user
+        User user1 = new User();
+        user1.email = "superman123456@gm44ail.com";
+        Context2.AddUser(user1);
 
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
@@ -279,7 +281,7 @@ namespace SliceOfPie_Model.Persistence {
               MetaDataType = metaType
             };
             file.FileMetaDatas.Add(meta);
-            dbContext.Files.AddObject(file);
+            //dbContext.Files.AddObject(file);
 
             // Add FileInstances
             var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);

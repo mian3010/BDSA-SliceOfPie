@@ -176,6 +176,7 @@
   <ItemGroup>
     <Content Include="Content\colorbox.css" />
     <Content Include="Content\Base.css" />
+    <Content Include="Content\Overview.css" />
     <Content Include="Content\Menu.css" />
     <Content Include="Content\Editor.css" />
     <Content Include="Content\Viewer.css" />
@@ -238,6 +239,8 @@
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\border.png" />
     <Content Include="Images\controls.png" />
+    <Content Include="Images\file.png" />
+    <Content Include="Images\folder.png" />
     <Content Include="Images\history.gif" />
     <Content Include="Images\icon_add_document.png" />
     <Content Include="Images\icon_cancel.png" />
@@ -262,7 +265,9 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
