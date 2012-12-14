@@ -12,7 +12,7 @@
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
+                <h1>@ViewBag.Title</h1>
                 <h2>@ViewBag.Message</h2>
             </hgroup>
         </div>
@@ -24,7 +24,7 @@
 <section class="viewer">
     <ul id="document-menu">
         <li>
-            <a id="ShowHistory" href="@Url.Action("History", "Default")">
+            <a id="ShowHistory" href="@Url.Action("History", "Default")?id=@ViewBag.Id">
                 <img src="@Url.Content("~/Images/history.gif")" />
             </a>
         </li>

@@ -39,6 +39,7 @@
         <div id="body">
             @RenderSection("header", required: false)
             <section class="content-wrapper main-content clear-fix">
+                <div class="message message-@ViewBag.MessageType">@ViewBag.StatusMessage</div>
                 @RenderBody()
             </section>
         </div>

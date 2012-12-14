@@ -73,6 +73,7 @@
           <Property Name="deleted" Type="tinyint" />
           <Property Name="Project_id" Type="int" />
           <Property Name="Version" Type="decimal" Nullable="false" Precision="30" Scale="30" />
+          <Property Name="Content" Type="blob" />
         </EntityType>
         <EntityType Name="FileInstance">
           <Key>
@@ -321,6 +322,7 @@
           <NavigationProperty Name="Project" Relationship="SliceOfLifeModel.fk_File_Project1" FromRole="File" ToRole="Project" />
           <NavigationProperty Name="FileInstances" Relationship="SliceOfLifeModel.fk_FileInstance_File1" FromRole="File" ToRole="FileInstance" />
           <NavigationProperty Name="FileMetaDatas" Relationship="SliceOfLifeModel.fk_FileMetaData_File1" FromRole="File" ToRole="FileMetaData" />
+          <Property Type="Binary" Name="Content" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="FileInstance">
           <Key>
@@ -495,6 +497,7 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="SliceOfLifeModel.File">
               <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="serverpath" ColumnName="serverpath" />

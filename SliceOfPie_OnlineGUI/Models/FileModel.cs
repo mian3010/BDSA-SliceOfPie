@@ -8,15 +8,10 @@ using System.Windows.Data;
 namespace SliceOfPie_OnlineGUI.Models {
   public class FileModel {
     public static Document GetDocument(int id) {
-      try {
-        return Document.CreateDocument(Context2.GetFileInstance(1));
-      } catch (NotADocumentException) {
-        return null;
-      }
+      return Context2.GetDocument(id);
     }
     public static FileInstance GetFile(int id) {
       return Context2.GetFileInstance(id);
-
     }
     public static string FileListToTree(IEnumerable<FileInstance> list) {
       var structure = new Folder { Label = "File list" };
@@ -45,9 +40,11 @@ namespace SliceOfPie_OnlineGUI.Models {
               }
             }
           }
-          var viewLink = "<a href=\"/Default/Viewer?id="+currentFile.id+"\">View</a>";
-          var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\">Edit</a>";
-          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink});
+          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id="+currentFile.id+"\">";
+          var viewLinkEnd = "</a>";
+          var viewImage = "<img src=\"/Images/open.png\" />";
+          var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\"><img src=\"/Images/edit.png\" /></a>";
+          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink, viewLinkEnd = viewLinkEnd, viewImage = viewImage});
         }
       return structure.ToString();
     }

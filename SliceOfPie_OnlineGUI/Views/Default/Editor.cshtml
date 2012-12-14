@@ -66,15 +66,16 @@
             <a id="Save" href="#">
                 <img src="@Url.Content("~/Images/icon_save.png")" />
             </a>
-            <a id="Cancel" href="@Url.Action("Viewer", "Default")">
+            <a id="Cancel" href="@Url.Action("Viewer", "Default")?id=@ViewBag.Id">
                 <img src="@Url.Content("~/Images/icon_cancel.png")" />
             </a>
         </li>
     </ul>
     <div class="content-wrapper">
-        <form>
-            <input type="text" class="title" value="@Html.Raw(ViewBag.DocumentTitle)" />
-            <textarea class="tinymce">@Html.Raw(ViewBag.DocumentContent)</textarea>
-        </form>
+        @using (Html.BeginForm("SaveDocument", "Default"))
+        {
+            <input type="text" class="title" value="@Html.Raw(ViewBag.DocumentTitle)" name="DocumentTitle" />
+            <textarea class="tinymce" name="DocumentContent" >@Html.Raw(ViewBag.DocumentContent)</textarea>
+        }
     </div>
 </section>
