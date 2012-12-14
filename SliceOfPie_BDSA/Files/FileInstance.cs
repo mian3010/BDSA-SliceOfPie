@@ -27,8 +27,9 @@ namespace SliceOfPie_Model.Persistence {
     }
 
 
-    public override string ToString() {
-      return Content.ToString();
+    public override string ToString()
+    {
+      return "<p>This is not a document. It cannot be opened in this program</p>";
     }
     public string HistoryToString() {
       var output = new StringBuilder();

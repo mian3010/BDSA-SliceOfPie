@@ -7,13 +7,6 @@ using System.Reflection;
 namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
-
-    private static FileInstance CreateFileInstance(FileInstance doc) {
-      FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
-      instance.File = doc.File;
-      instance.User = doc.User;
-      return instance;
-    }
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -50,42 +43,51 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
+    public static FileInstance GetFileInstance(int fileInstanceId)
+    {
+        FileInstance instance;
+        using (var dbContext = new SliceOfLifeEntities()) {
+            instance =  GetFileInstanceWithContext(fileInstanceId, dbContext);
+        }
+        return instance;
+    }
     // FileInstance
-    public static FileInstance GetFileInstance(int fileInstanceId) {
-      using (var dbContext = new SliceOfLifeEntities()) {
+    private static FileInstance GetFileInstanceWithContext(int fileInstanceId, SliceOfLifeEntities dbContext) {
+      
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
                                        .Include("File")
-                                       .Include("File.Change")
+                                       .Include("File.Changes")
+                                       .Include("File.FileMetaDatas")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
-      }
+      
     }
 
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
-      //FileInstance fileInstance = CreateFileInstance(Instance);
-      using (var dbContext = new SliceOfLifeEntities()) {
-        //Assembly a = typeof(Document).Assembly;
-        //dbContext.MetadataWorkspace.LoadFromAssembly(a);
-        if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
 
-        // Check for lots of constraints
+      using (var dbContext = new SliceOfLifeEntities()) {
+          //CONSTRAINTCHECKS
+        if (fileInstance == null) 
+            throw new ConstraintException("Database handler received an empty reference");
 
         // File
-        if (fileInstance.File == null) throw new ConstraintException("Database handler received an empty file reference");
+        if (fileInstance.File == null) 
+            throw new ConstraintException("Database handler received an empty file reference");
 
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
-        // User
-        if (fileInstance.User.email == null || fileInstance.User.email.Trim().Equals(""))
-          throw new ConstraintException("Invalid user");
-        if (GetUser(fileInstance.User.email) == null) throw new ConstraintException("No user known under that name");
-        //Sets the user from fileInstance to the user from the database
 
-        //fileInstance.User = GetUser(fileInstance.User.email);
-        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
+        User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
+        if (tmp == null) 
+            AddUser(fileInstance.User);
+        else
+        {
+            fileInstance.User = tmp;
+        }
+
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
@@ -96,7 +98,6 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-        dbContext.Files.AddObject(fileInstance.File);
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -248,6 +249,10 @@ namespace SliceOfPie_Model.Persistence {
 
         // Reset AI
 
+        // Test user
+        User user1 = new User();
+        user1.email = "superman123456@gm44ail.com";
+        Context2.AddUser(user1);
 
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
@@ -271,7 +276,7 @@ namespace SliceOfPie_Model.Persistence {
               MetaDataType = metaType
             };
             file.FileMetaDatas.Add(meta);
-            dbContext.Files.AddObject(file);
+            //dbContext.Files.AddObject(file);
 
             // Add FileInstances
             var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);

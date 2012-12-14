@@ -195,5 +195,24 @@ namespace SliceOfPie_Model
             return dic;
         }
 
+        public void ChangeIdOnFile(FileInstance file, int newID)
+        {
+            FileListEntry entry = null;
+            if(FileList.List.TryGetValue(file.id, out entry))
+            {
+                entry.Id = newID;
+            }
+            List<Change> log = null;
+            if (ChangeList.TryGetValue(file.id, out log))
+            {
+                foreach (Change c in log)
+                {
+                    c.File_id = newID;
+                }
+            }
+            file.id = newID;
+
+        }
+
     }
 }

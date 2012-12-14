@@ -10,19 +10,12 @@ namespace SliceOfPie_Model.Persistence {
   /// Author morr & msta.
   /// </summary>
   public partial class Document : FileInstance {
-
-
-    //public String Title
-    //{
-    //    get { return Context.GetFileMetaData(File, "Title").value; }
-    //    set { Context.GetFileMetaData(File, "Title").value = value; }
-    //}
-
-    public String Title { get; set; }
-
-    public String Author { get; set; }
-
-    //public IList<User> Authors { get { return Context.GetUsers(File); } }
+    public String Title {
+      get { return Context.GetFileMetaData(File, "Title").value; }
+      set { Context.GetFileMetaData(File, "Title").value = value; }
+    }
+    
+    public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
       get {
@@ -36,24 +29,21 @@ namespace SliceOfPie_Model.Persistence {
       return Content;
     }
 
-    //public override string ToString() {
-    //  var output = new StringBuilder();
-    //  output.Append("<div class=\"document\">");
-    //  output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-    //  output.Append("<div class=\"document-view\">");
-    //  output.Append("<ul class=\"metadata-view\">");
-    //  foreach (FileMetaData metaData in File.FileMetaDatas) {
-    //    output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
-    //  }
-    //  output.Append("</ul>");
-    //  output.Append(Content);
-    //  output.Append("</div>");
-    //  return output.ToString();
-    //}
-
     public override string ToString() {
-      return GetContent();
+      var output = new StringBuilder();
+      output.Append("<div class=\"document\">");
+      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+      output.Append("<div class=\"document-view\">");
+      output.Append("<ul class=\"metadata-view\">");
+      foreach (FileMetaData metaData in File.FileMetaDatas) {
+        output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
+      }
+      output.Append("</ul>");
+      output.Append(Content);
+      output.Append("</div>");
+      return output.ToString();
     }
+
 
     public new string HistoryToString() {
       var output = new StringBuilder();
@@ -65,8 +55,9 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static Document CreateDocument(FileInstance file) {
-      if (Context2.GetFileMetaData(file.File, "Type").value == "Document") {
-        return (Document)file;
+      var fileType = Context2.GetFileMetaData(file.File, "Type");
+      if (fileType != null && file.File != null && fileType.value == "Document") {
+        return file as Document;
       }
       throw new NotADocumentException();
     }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="30c4f2bd655c481193bf292c9b675bc6" Name="Diagram1">
+        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_Change_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_File_Project1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_File1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" ManuallyRouted="false" />
+        <AssociationConnector Association="SliceOfLifeModel.ProjectHasUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Document" Width="1.5" PointX="11.125" PointY="6.25" />
+        <InheritanceConnector EntityType="SliceOfLifeModel.Document" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

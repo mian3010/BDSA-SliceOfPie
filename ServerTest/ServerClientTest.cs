@@ -43,6 +43,7 @@ namespace ServerTest {
       i2 = new Document { User = user, File = file2, path = "docTestPath2" };
       i3 = new Document { User = user, File = file3, path = "docTestPath3" };
     }
+
     [TestMethod]
     public void TestGetFile() {
       NetworkServer server = NetworkServer.GetInstance();
@@ -136,6 +137,12 @@ namespace ServerTest {
       //admin.AddFile(i2);
       //admin.AddFile(i3);
       admin.Synchronize();
+    }
+
+    [TestMethod]
+    public void CleanUp()
+    {
+        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
     }
   }
 }

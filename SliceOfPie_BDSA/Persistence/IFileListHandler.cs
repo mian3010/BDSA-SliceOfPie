@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model
 {
@@ -28,5 +29,7 @@ namespace SliceOfPie_Model
         /// Persists changes made to files in storage.
         /// </summary>
         void PersistChangeList();
+
+        void ChangeIdOnFile(FileInstance file, int newI);
     }
 }

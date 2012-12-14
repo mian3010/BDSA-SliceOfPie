@@ -215,7 +215,7 @@ namespace SliceOfPie_Model
                 c.File_id = fileId;
                 c.User_email = (Node.Element("user_email") ?? def).Value;
                 c.change1 = (Node.Element("change") ?? def).Value;
-                c.timestamp = (Node.Element("timeStamp") ?? def).Value;
+                c.timestamp = long.Parse((Node.Element("timeStamp") ?? def).Value);
 
                 List<Change> list = null;
                 if (changeLog.TryGetValue(fileId,out list))

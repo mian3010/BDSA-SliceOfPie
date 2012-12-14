@@ -107,12 +107,20 @@ namespace SliceOfPie_OfflineGUI {
             }
             else
             {
-                return _pathsToId[path.Substring(0,path.Length-1)];
+                try
+                {
+                    return _pathsToId[path.Substring(0, path.Length - 1)];
+                }
+                catch (Exception e)
+                {
+                    throw new NotADocumentException("No document selected!");
+                }
             }
         }
-        catch (Exception e)
+        catch (NotADocumentException e)
         {
             throw new NotADocumentException();
+
         }
     }
 
@@ -149,16 +157,20 @@ namespace SliceOfPie_OfflineGUI {
     {
         TryCreateEditor();
           try
-        {
-            _editWindow.NewDocument = false;
-            FileRequested(this, new FileEventArgs(IdFromCurrentNode()));
-            _editWindow.LoadDocContent(CurrentDocument);
-            _editWindow.Show();
-        }
-        catch (NoNodeSelectedException ex)
-        {
-            Console.Out.WriteLine(ex);
-        }
+          {
+              _editWindow.NewDocument = false;
+              FileRequested(this, new FileEventArgs(IdFromCurrentNode()));
+              _editWindow.LoadDocContent(CurrentDocument);
+              _editWindow.Show();
+          }
+          catch (NoNodeSelectedException ex)
+          {
+              Console.Out.WriteLine(ex);
+          }
+          catch (NotADocumentException noDoc)
+          {
+             MessageBox.Show("Please select a valid user!");
+          }
 
     }
 

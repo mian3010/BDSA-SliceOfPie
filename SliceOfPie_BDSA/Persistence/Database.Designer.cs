@@ -27,7 +27,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileInstance_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.User), "FileInstance", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileInstance), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_FileMetaData_MetaDataType1", "MetaDataType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SliceOfPie_Model.Persistence.MetaDataType), "FileMetaData", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.FileMetaData), true)]
 [assembly: EdmRelationshipAttribute("SliceOfLifeModel", "ProjectHasUser", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.Project), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.User))]
-[assembly: EdmRelationshipAttribute("SliceOfLifeModel", "fk_File_Project11", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SliceOfPie_Model.Persistence.Project), "File", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SliceOfPie_Model.Persistence.File), true)]
 
 #endregion
 
@@ -347,7 +346,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String timestamp
+        public Nullable<global::System.Int64> timestamp
         {
             get
             {
@@ -357,13 +356,13 @@ namespace SliceOfPie_Model.Persistence
             {
                 OntimestampChanging(value);
                 ReportPropertyChanging("timestamp");
-                _timestamp = StructuralObject.SetValidValue(value, true);
+                _timestamp = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("timestamp");
                 OntimestampChanged();
             }
         }
-        private global::System.String _timestamp;
-        partial void OntimestampChanging(global::System.String value);
+        private Nullable<global::System.Int64> _timestamp;
+        partial void OntimestampChanging(Nullable<global::System.Int64> value);
         partial void OntimestampChanged();
     
         /// <summary>
@@ -505,6 +504,38 @@ namespace SliceOfPie_Model.Persistence
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SliceOfLifeModel", Name="Document")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Document : FileInstance
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Document object.
+        /// </summary>
+        /// <param name="id">Initial value of the id property.</param>
+        /// <param name="user_email">Initial value of the User_email property.</param>
+        /// <param name="path">Initial value of the path property.</param>
+        /// <param name="file_id">Initial value of the File_id property.</param>
+        public static Document CreateDocument(global::System.Int32 id, global::System.String user_email, global::System.String path, global::System.Int32 file_id)
+        {
+            Document document = new Document();
+            document.id = id;
+            document.User_email = user_email;
+            document.path = path;
+            document.File_id = file_id;
+            return document;
+        }
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="SliceOfLifeModel", Name="File")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -613,7 +644,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Byte> deleted
+        public Nullable<global::System.SByte> deleted
         {
             get
             {
@@ -628,33 +659,9 @@ namespace SliceOfPie_Model.Persistence
                 OndeletedChanged();
             }
         }
-        private Nullable<global::System.Byte> _deleted;
-        partial void OndeletedChanging(Nullable<global::System.Byte> value);
+        private Nullable<global::System.SByte> _deleted;
+        partial void OndeletedChanging(Nullable<global::System.SByte> value);
         partial void OndeletedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal Version
-        {
-            get
-            {
-                return _Version;
-            }
-            set
-            {
-                OnVersionChanging(value);
-                ReportPropertyChanging("Version");
-                _Version = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Version");
-                OnVersionChanged();
-            }
-        }
-        private global::System.Decimal _Version;
-        partial void OnVersionChanging(global::System.Decimal value);
-        partial void OnVersionChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -679,6 +686,30 @@ namespace SliceOfPie_Model.Persistence
         private Nullable<global::System.Int32> _Project_id;
         partial void OnProject_idChanging(Nullable<global::System.Int32> value);
         partial void OnProject_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Version
+        {
+            get
+            {
+                return _Version;
+            }
+            set
+            {
+                OnVersionChanging(value);
+                ReportPropertyChanging("Version");
+                _Version = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Version");
+                OnVersionChanged();
+            }
+        }
+        private global::System.Decimal _Version;
+        partial void OnVersionChanging(global::System.Decimal value);
+        partial void OnVersionChanged();
 
         #endregion
 
@@ -788,44 +819,6 @@ namespace SliceOfPie_Model.Persistence
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SliceOfLifeModel", "fk_File_Project11", "Project")]
-        public Project Project1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Project> Project1Reference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Project>("SliceOfLifeModel.fk_File_Project11", "Project", value);
-                }
-            }
-        }
 
         #endregion
 
@@ -837,6 +830,7 @@ namespace SliceOfPie_Model.Persistence
     [EdmEntityTypeAttribute(NamespaceName="SliceOfLifeModel", Name="FileInstance")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
+    [KnownTypeAttribute(typeof(Document))]
     public partial class FileInstance : EntityObject
     {
         #region Factory Method
@@ -892,7 +886,7 @@ namespace SliceOfPie_Model.Persistence
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String User_email
         {
@@ -902,14 +896,11 @@ namespace SliceOfPie_Model.Persistence
             }
             set
             {
-                if (_User_email != value)
-                {
-                    OnUser_emailChanging(value);
-                    ReportPropertyChanging("User_email");
-                    _User_email = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("User_email");
-                    OnUser_emailChanged();
-                }
+                OnUser_emailChanging(value);
+                ReportPropertyChanging("User_email");
+                _User_email = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("User_email");
+                OnUser_emailChanged();
             }
         }
         private global::System.String _User_email;
@@ -945,7 +936,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Byte> deleted
+        public Nullable<global::System.SByte> deleted
         {
             get
             {
@@ -960,14 +951,14 @@ namespace SliceOfPie_Model.Persistence
                 OndeletedChanged();
             }
         }
-        private Nullable<global::System.Byte> _deleted;
-        partial void OndeletedChanging(Nullable<global::System.Byte> value);
+        private Nullable<global::System.SByte> _deleted;
+        partial void OndeletedChanging(Nullable<global::System.SByte> value);
         partial void OndeletedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 File_id
         {
@@ -977,14 +968,11 @@ namespace SliceOfPie_Model.Persistence
             }
             set
             {
-                if (_File_id != value)
-                {
-                    OnFile_idChanging(value);
-                    ReportPropertyChanging("File_id");
-                    _File_id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("File_id");
-                    OnFile_idChanged();
-                }
+                OnFile_idChanging(value);
+                ReportPropertyChanging("File_id");
+                _File_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("File_id");
+                OnFile_idChanged();
             }
         }
         private global::System.Int32 _File_id;
@@ -1498,28 +1486,6 @@ namespace SliceOfPie_Model.Persistence
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("SliceOfLifeModel.ProjectHasUser", "User", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("SliceOfLifeModel", "fk_File_Project11", "File")]
-        public EntityCollection<File> File
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<File>("SliceOfLifeModel.fk_File_Project11", "File");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<File>("SliceOfLifeModel.fk_File_Project11", "File", value);
                 }
             }
         }
