@@ -106,16 +106,26 @@ namespace SliceOfPie_Model.Persistence {
         FileInstance dbInstance = dbContext.FileInstances.First(i => i.id == fileInstance.id);
         if (dbInstance == null) return AddFileInstance(fileInstance);
         dbContext.FileInstances.DeleteObject(dbInstance);
-        dbContext.SaveChanges();
+        try {
+          dbContext.SaveChanges();
+        } catch (UpdateException e) {
+          throw new ConstraintException("Problem with adding entries", e);
+        }
       }
       return AddFileInstance(fileInstance);
     }
 
     public static void ModifyDocument(int fileInstanceId, string title, string content) {
       if (fileInstanceId < 0 || title == null || content == null) throw new ConstraintException("Invalid arguments"); 
-      using (var dBContext = new SliceOfLifeEntities()) {
-        
-
+      using (var dbContext = new SliceOfLifeEntities()) {
+        var document = GetDocumentWithContext(fileInstanceId, dbContext);
+        document.Title = title;
+        document.Content = content;
+        try {
+          dbContext.SaveChanges();
+        } catch (UpdateException e) {
+          throw new ConstraintException("Problem with modifying entries", e);
+        }
       }
     }
 
