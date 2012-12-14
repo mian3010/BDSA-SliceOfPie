@@ -63,16 +63,16 @@ namespace SliceOfPie_Model.Persistence {
     }
     // FileInstance
     private static FileInstance GetFileInstanceWithContext(int fileInstanceId, SliceOfLifeEntities dbContext) {
-      
-        if (fileInstanceId < 1) return null;
-        var query = from f in dbContext.FileInstances
-                                       .Include("File")
-                                       .Include("File.Changes")
-                                       .Include("File.FileMetaDatas")
-                    where f.id == fileInstanceId
-                    select f;
-        return !query.Any() ? null : query.First();
-      
+
+      if (fileInstanceId < 1) return null;
+      var query = from f in dbContext.FileInstances
+                                     .Include("File")
+                                     .Include("File.Changes")
+                                     .Include("File.FileMetaDatas")
+                  where f.id == fileInstanceId
+                  select f;
+      return !query.Any() ? null : query.First();
+
     }
       /// <summary>
       /// Responsible for modifying an existing frilInstance
@@ -105,24 +105,23 @@ namespace SliceOfPie_Model.Persistence {
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
 
       using (var dbContext = new SliceOfLifeEntities()) {
-          //CONSTRAINTCHECKS
-        if (fileInstance == null) 
-            throw new ConstraintException("Database handler received an empty reference");
+        //CONSTRAINTCHECKS
+        if (fileInstance == null)
+          throw new ConstraintException("Database handler received an empty reference");
 
         // File
-        if (fileInstance.File == null) 
-            throw new ConstraintException("Database handler received an empty file reference");
+        if (fileInstance.File == null)
+          throw new ConstraintException("Database handler received an empty file reference");
 
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
 
         User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
-        if (tmp == null) 
-            AddUser(fileInstance.User);
-        else
-        {
-            fileInstance.User = tmp;
+        if (tmp == null)
+          AddUser(fileInstance.User);
+        else {
+          fileInstance.User = tmp;
         }
 
         // File name
@@ -146,7 +145,7 @@ namespace SliceOfPie_Model.Persistence {
       return fileInstance;
     }
 
-    private static List<FileInstance> GetFiles(string useremail) {
+    public static List<FileInstance> GetFiles(string useremail) {
       using (var dbContext = new SliceOfLifeEntities()) {
         if (useremail == null || useremail.Trim().Equals("")) return null;
         var query = from f in dbContext.FileInstances
