@@ -12,6 +12,10 @@
         </div>
     </section>
 }
+@section imports
+{
+    @Styles.Render("~/Content/Overview.css")
+}
 <section id="FileList">
     @Html.Raw(ViewBag.FileList)
 </section>
