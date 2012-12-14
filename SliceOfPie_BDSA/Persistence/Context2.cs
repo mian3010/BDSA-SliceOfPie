@@ -81,8 +81,12 @@ namespace SliceOfPie_Model.Persistence {
           throw new ConstraintException("Invalid file path");
 
         User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
-        if (tmp == null) throw new ConstraintException("User not registered in the database");
-        fileInstance.User = tmp;
+        if (tmp == null) 
+            AddUser(fileInstance.User);
+        else
+        {
+            fileInstance.User = tmp;
+        }
 
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))

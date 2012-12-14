@@ -136,8 +136,7 @@ namespace ServerTest {
     [TestMethod]
     public void TestSynchronizeFull()
     {
-        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
-
+        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
         CreateTestList();
         NetworkServer server = NetworkServer.GetInstance();
         var serverT = new Thread(server.Listen);
@@ -149,6 +148,12 @@ namespace ServerTest {
         admin.AddFile(i2);
         admin.AddFile(i3);
         admin.Synchronize();
+    }
+
+    [TestMethod]
+    public void CleanUp()
+    {
+        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
     }
   }
 }
