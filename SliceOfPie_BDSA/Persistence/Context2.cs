@@ -97,6 +97,14 @@ namespace SliceOfPie_Model.Persistence {
         return AddFileInstance(fileInstance);
     }
 
+    public static void ModifyDocument(int fileInstanceId, string title, string content) {
+      if (fileInstanceId < 0 || title == null || content == null) throw new ConstraintException("Invalid arguments"); 
+      using (var dBContext = new SliceOfLifeEntities()) {
+        
+
+      }
+    }
+
       /// <summary>
       /// Responsible for adding a FileInstance to the database
       /// </summary>
