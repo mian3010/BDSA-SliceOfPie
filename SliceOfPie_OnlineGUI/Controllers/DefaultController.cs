@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity;
+using System.Web.Mvc;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
 
@@ -10,9 +11,11 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       return View();
     }
 
-    public ActionResult Editor() {
-      if (Request.Params["id"] != null && Request.Params["id"] != "") {
-        Document documentToEdit = Models.FileModel.GetDocument(int.Parse(Request.Params["id"]));
+    public ActionResult Editor()
+    {
+      var id = @ViewBag.Id ?? Request.Params["id"];
+      if (id != null && id != "") {
+        Document documentToEdit = Models.FileModel.GetDocument(int.Parse(id));
         if (documentToEdit != null) {
           @ViewBag.DocumentTitle = documentToEdit.Title;
           @ViewBag.DocumentContent = documentToEdit.Content;
@@ -26,9 +29,10 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     }
 
     public ActionResult Viewer() {
-      if (Request.Params["id"] != null && Request.Params["id"] != "") {
-        FileInstance fileToView = Models.FileModel.GetDocument(int.Parse(Request.Params["id"])) ??
-                                  Models.FileModel.GetFile(int.Parse(Request.Params["id"]));
+      var id = @ViewBag.Id ?? Request.Params["id"];
+      if (id != null && id != "") {
+        FileInstance fileToView = Models.FileModel.GetDocument(int.Parse(id)) ??
+                                  Models.FileModel.GetFile(int.Parse(id));
         @ViewBag.Document = fileToView.ToString();
         @ViewBag.Id = fileToView.id;
       }
@@ -48,19 +52,15 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     [HttpPost]
     [ValidateInput(false)]
     public ActionResult SaveDocument(FormCollection collection) {
-      if (Request.Params["id"] != null && Request.Params["id"] != "") {
-        Document fileToEdit = Models.FileModel.GetDocument(int.Parse(Request.Params["id"]));
-        if (fileToEdit != null) {
-          fileToEdit.Title = collection.Get("DocumentTitle");
-          fileToEdit.Content = collection.Get("DocumentContent");
-          try {
-            Context2.ModifyFileInstance(fileToEdit);
-            @ViewBag.StatusMessage = "Content saved";
-            @ViewBag.MessageType = "status";
-          } catch (ConstraintException) {
-            @ViewBag.StatusMessage = "Exception during save";
-            @ViewBag.MessageType = "error";
-          }
+      if (collection.Get("DocumentId") != null && collection.Get("DocumentId") != "") {
+        try {
+          Models.FileModel.ModifyDocument(int.Parse(collection.Get("DocumentId")), collection.Get("DocumentTitle"), collection.Get("DocumentContent"));
+          @ViewBag.StatusMessage = "Content saved";
+          @ViewBag.MessageType = "status";
+          @ViewBag.Id = collection.Get("DocumentId");
+        } catch (ConstraintException) {
+          @ViewBag.StatusMessage = "Exception during save";
+          @ViewBag.MessageType = "error";
         }
       } else {
         @ViewBag.StatusMessage = "Document ID not found. Could not save";

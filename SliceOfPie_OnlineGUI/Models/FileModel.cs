@@ -10,6 +10,9 @@ namespace SliceOfPie_OnlineGUI.Models {
     public static Document GetDocument(int id) {
       return Context2.GetDocument(id);
     }
+    public static void ModifyDocument(int id, string title, string content) {
+      Context2.ModifyDocument(id, title, content);
+    }
     public static FileInstance GetFile(int id) {
       return Context2.GetFileInstance(id);
     }
@@ -40,11 +43,11 @@ namespace SliceOfPie_OnlineGUI.Models {
               }
             }
           }
-          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id="+currentFile.id+"\">";
+          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id=" + currentFile.id + "\">";
           var viewLinkEnd = "</a>";
           var viewImage = "<img src=\"/Images/open.png\" />";
           var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\"><img src=\"/Images/edit.png\" /></a>";
-          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink, viewLinkEnd = viewLinkEnd, viewImage = viewImage});
+          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink, viewLinkEnd = viewLinkEnd, viewImage = viewImage });
         }
       return structure.ToString();
     }

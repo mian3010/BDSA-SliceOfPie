@@ -74,6 +74,7 @@
     <div class="content-wrapper">
         @using (Html.BeginForm("SaveDocument", "Default"))
         {
+            <input type="hidden" name="DocumentId" value="@ViewBag.Id"/>
             <input type="text" class="title" value="@Html.Raw(ViewBag.DocumentTitle)" name="DocumentTitle" />
             <textarea class="tinymce" name="DocumentContent" >@Html.Raw(ViewBag.DocumentContent)</textarea>
         }
