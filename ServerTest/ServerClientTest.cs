@@ -125,7 +125,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronizeFull() {
-      //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       CreateTestList();
       NetworkServer server = NetworkServer.GetInstance();
       var serverT = new Thread(server.Listen);
@@ -134,8 +134,8 @@ namespace ServerTest {
       OfflineAdministrator admin = OfflineAdministrator.GetInstance();
       CreateTestFiles();
       admin.AddFile(i1);
-      //admin.AddFile(i2);
-      //admin.AddFile(i3);
+      admin.AddFile(i2);
+      admin.AddFile(i3);
       admin.Synchronize();
     }
 
