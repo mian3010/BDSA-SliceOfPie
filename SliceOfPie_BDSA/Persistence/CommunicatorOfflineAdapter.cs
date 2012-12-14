@@ -258,11 +258,17 @@ namespace SliceOfPie_Model {
     }
 
 
-
-
     public void UpdateFileId(FileInstance file, int newId)
     {
-        throw new NotImplementedException();
+        int oldID = file.id;
+        FileListHandler.ChangeIdOnFile(file, newId);
+        
+        // We might not have the same fileInstance object so we're gonna check and compare on id.
+        foreach (FileInstance f in cache)
+        {
+            if (f.id == oldID)
+                f.id = newId;
+        }
     }
   }
 }
