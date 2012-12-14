@@ -65,6 +65,7 @@ namespace SliceOfPie_Model.Persistence {
         var query = from f in dbContext.FileInstances
                                        .Include("File")
                                        .Include("File.Changes")
+                                       .Include("File.FileMetaDatas")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
