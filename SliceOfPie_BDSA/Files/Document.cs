@@ -9,25 +9,21 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  [Serializable()]
-  public class Document : FileInstance {
+  public partial class Document {
     public String Title {
       get { return Context.GetFileMetaData(File, "Title").value; }
       set { Context.GetFileMetaData(File, "Title").value = value; }
     }
-    
+
     public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
-        get { if (PrivContent.Length == 0)return ""; 
-              else return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
+      get {
+        if (PrivContent == null) PrivContent = new byte[0]; if (PrivContent.Length == 0) return "";
+        return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length);
+      }
       set { PrivContent = Encoding.UTF8.GetBytes(value); }
     }
-    
-      public Document() : base()
-      {
-          PrivContent = new byte[0];
-      }
 
     public override string GetContent() {
       return Content;
@@ -70,6 +66,5 @@ namespace SliceOfPie_Model.Persistence {
       var d = new Document { Content = s };
       return d;
     }
-
   }
 }

@@ -24,16 +24,20 @@ To further elaborate on requirements that are complicated to implement in the sy
 % !! -- add ref
 Moreover, to elaborate on the conditions of the requirement, we’ve created an Operation Contract as shown below (show in quotes?):\\
 % !! -- includes note
-% !! Do table
-\indent \textbf{Contract CO1: SynchronizeWithServer (Make sure name is same)}\\
-\indent \textbf{Cross References:} Use Case \#2: Synchronize\\
-\indent \textbf{Preconditions:} The user has an internet connection. The server is up and running.\\
-\indent \textbf{Postconditions:}
-\begin{itemize}
-\item The user has received files made in another client application.
-\item The client has sent files to online storage.
-\item The user interface displays the newly received files.
-\end{itemize}
+
+\begin{table*}[ht]\centering
+  \ra{1.3}
+  \begin{tabularx}{\textwidth}{@{}rXXl@{}}\toprule
+    \textbf{Contract CO1:} & SynchronizeWithServer (Make sure name is same\\
+    \textbf{Cross References:} & Use Case \#2: Synchronize\\
+    \textbf{Preconditions:} &  The user has an internet connection. The server is up and running.\\
+    \textbf{Postconditions:} & The user has received files made in another client application.\\
+    & The client has sent files to online storage.\\
+    & The user interface displays the newly received files.\\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
 The artifacts described above serves to make the requirement explicit and well-defined. The requirement is purely functional, however, and does not specify any measurable quality factors on the Use Case such as: how fast the process should be, how we should handle errors etc. However, trying to elaborate on all requirements is a time-consuming process and as RUP suggests [OOAD, 12.2, p. 196], we’d rather start implementing the high-risk elements of the requirements, reviewing and adapting the requirements at a later time. \\
 % !! -- add ref
 \subsubsection{Supplementary Specification}

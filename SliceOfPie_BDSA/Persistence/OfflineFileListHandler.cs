@@ -146,7 +146,7 @@ namespace SliceOfPie_Model
                 change.User.email = "Unknown";
             else
                 change.User.email = file.User_email;
-            change.timestamp = DateTime.Now.ToString();
+            change.timestamp = DateTime.Now.Ticks;
             change.change1 = "modified";
             change.File_id = file.id;
             file.File.Changes.Add(change);
