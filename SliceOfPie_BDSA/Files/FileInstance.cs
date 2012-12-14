@@ -10,7 +10,12 @@ namespace SliceOfPie_Model.Persistence {
       set;
     }
 
+    public String Title { get; set; }
+
+    public String Author { get; set; }
+
     internal byte[] PrivContent;
+
     public byte[] Content {
       get { return PrivContent; }
       set { PrivContent = value; }

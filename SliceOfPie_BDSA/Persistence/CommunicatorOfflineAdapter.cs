@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using SliceOfPie_Model.Persistence;
 
@@ -17,6 +18,8 @@ namespace SliceOfPie_Model {
       // The object takes a path for the root folder of the SoP documents. Each document will be automatically saved from there.
         private readonly OfflineFileListHandler _fileListHandler;
 
+        private HashSet<FileInstance> cache;
+
         private static CommunicatorOfflineAdapter _adapter;
 
         public IFileListHandler FileListHandler
@@ -24,7 +27,7 @@ namespace SliceOfPie_Model {
             get { return _fileListHandler; } 
         }
     
-      public event FileEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
+      public event FileInstanceEventHandler FileAdded, FileChanged, FileDeleted, FileMoved, FileRenamed, FilePulled;
 
         public static CommunicatorOfflineAdapter GetCommunicatorInstance()
         {
@@ -34,7 +37,8 @@ namespace SliceOfPie_Model {
         private CommunicatorOfflineAdapter()
       {
           _fileListHandler = new OfflineFileListHandler(this);
-      }
+           cache = new HashSet<FileInstance>();
+        }
 
         /// <summary>
         /// Adds a file from remote storage. Should be used during synchronization.
@@ -52,13 +56,15 @@ namespace SliceOfPie_Model {
           return false;
         }
 
-      private bool AddNewFile(FileInstance fileInstance) {
 
-        if(!System.IO.Directory.Exists(fileInstance.File.serverpath)) {
-            System.IO.Directory.CreateDirectory(fileInstance.File.serverpath);
+      private bool AddNewFile(FileInstance file)
+      {
+          cache.Add(file);
+        if(!System.IO.Directory.Exists(file.path)) {
+            System.IO.Directory.CreateDirectory(file.path);
         }
-        string fullpath = System.IO.Path.Combine(fileInstance.File.serverpath, fileInstance.File.name);
-        String fileHtml = HtmlMarshalUtil.MarshallFile(fileInstance);
+        string fullpath = System.IO.Path.Combine(file.path, file.File.name);
+        String fileHtml = HtmlMarshalUtil.MarshallFile(file);
         if (!System.IO.File.Exists(fullpath))
         {
             System.IO.File.WriteAllText(fullpath, fileHtml);
@@ -66,7 +72,8 @@ namespace SliceOfPie_Model {
         }
         // TO-DO Maybe do some other semantic than just doing it anyways -> can we overwrite?
         System.IO.File.WriteAllText(fullpath, fileHtml);
-        return true;
+
+          return true;
       }
 
       /// <summary>
@@ -216,20 +223,36 @@ namespace SliceOfPie_Model {
 
 
     /// <summary>
-    /// Retrieves a file from storage using the File's path
+    /// Retrieves a file from storage using the File's path. Also loads the history of the file using FileListHandler
     /// </summary>
     /// <param name="id">The id of the file to retrieve</param>
     /// <returns></returns>
     public FileInstance GetFile(int id)
     {
+        foreach (var fileInstance in cache)
+        {
+            if (fileInstance.id == id)
+                return fileInstance;
+        }
         FileListEntry fileInfo = _fileListHandler.FileList.List[id];
         String fullPath = System.IO.Path.Combine(fileInfo.Path, fileInfo.Name);
         String html = System.IO.File.ReadAllText(fullPath);
 
         FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
+        loadedFile.File = new File();
         loadedFile.File.serverpath = fileInfo.Path;
         loadedFile.File.name = fileInfo.Name;
 
+        // Load changes
+        if (_fileListHandler.ChangeList.ContainsKey(id))
+        {
+            foreach (Change change in _fileListHandler.ChangeList[id])
+            {
+                loadedFile.File.Changes.Add(change);
+            }
+        }
+
+        cache.Add(loadedFile);
         return loadedFile;
     
     }

@@ -41,12 +41,23 @@ namespace SliceOfPie_OfflineGUI
             // Bind the request for a file save in the model.
             _view.FileSaved += _model.SaveFile;
 
+            // Bind a file created request so it add's the file in the model
+             _view.FileCreated += _model.AddFile;
+
+           // Bind synchronization requests to the models synchronize with a little logic.
             _view.SynchronizationRequested += SynchronizeFiles;
+
+          _view.TreeRefreshed += GetNewFileStructure;
 
             Application.Run(_view);
 
      
 
+        }
+
+        private void GetNewFileStructure(object sender, EventArgs e)
+        {
+            _view.RefreshFileView(_model.GetPathsAndIDs());
         }
 
         private void SynchronizeFiles(object sender, EventArgs e)
@@ -66,12 +77,6 @@ namespace SliceOfPie_OfflineGUI
             _view.CurrentDocument = (SliceOfPie_Model.Persistence.Document)_model.GetFile(e.FileId);
         }
 
-        public MainWindow MainWindow
-        {
-          get {
-            throw new NotImplementedException();
-          }
-          set { throw new NotImplementedException(); }
-        }
+
     }
 }

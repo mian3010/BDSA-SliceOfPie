@@ -17,7 +17,7 @@ namespace SliceOfPie_Model
         public static string MarshallFile(FileInstance fileInstance)
         {
             var set = new XmlWriterSettings {Indent = true};
-          var builder = new StringBuilder();
+            var builder = new StringBuilder();
             using(XmlWriter writer = XmlWriter.Create(builder, set))
             {
                 writer.WriteStartDocument();
@@ -41,7 +41,8 @@ namespace SliceOfPie_Model
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
                 writer.WriteStartElement("body");
-                writer.WriteString(fileInstance.ToString());
+                string s = fileInstance.GetContent();
+                writer.WriteString(s);
                 writer.WriteEndElement();
 
                 // writer.WriteStartElement("
@@ -53,7 +54,7 @@ namespace SliceOfPie_Model
             return builder.ToString();
         }
         /// <summary>
-        /// Unmarshals a File according to the loosely defined XML format used in Slice of Pie.
+        /// Unmarshals a Document according to the loosely defined XML format used in Slice of Pie.
         /// </summary>
         /// <param name="xml">The xml to unmarshal</param>
         /// <returns>A new FileInstance object</returns>
@@ -193,6 +194,64 @@ namespace SliceOfPie_Model
           }
           return 0;
         }
+
+        /// <summary>
+        /// Returns a dictionary that maps each file_id to a list of changes. 
+        /// Must conform to the loosely specified XML format as defined by the MarshallChangeList method.
+        /// </summary>
+        /// <param name="logXml"></param>
+        /// <returns></returns>
+        public static Dictionary<int, List<Change>> UnMarshallChangeList(string logXml)
+        {
+            var changeLog = new Dictionary<int, List<Change>>();
+            XElement Node = XElement.Parse(logXml).Element("Change");
+            // Default node if any element is null
+            XElement def = new XElement("def", "no_entry1");
+            while (Node != null)
+            {
+                Change c = new Change();
+                int fileId = Int32.Parse((Node.Element("file_id") ?? def).Value);
+                c.id = Int32.Parse((Node.Element("id") ?? def).Value);
+                c.File_id = fileId;
+                c.User_email = (Node.Element("user_email") ?? def).Value;
+                c.change1 = (Node.Element("change") ?? def).Value;
+                c.timestamp = (Node.Element("timeStamp") ?? def).Value;
+
+                List<Change> list = null;
+                if (changeLog.TryGetValue(fileId,out list))
+                {
+                    list.Add(c);
+                    changeLog[fileId] = list;
+                }
+                else
+                {
+                    list = new List<Change>();
+                    changeLog[fileId] = list;
+                }
+            Node = Node.ElementsAfterSelf().FirstOrDefault();
+            }
+                return changeLog;
+        }
+            
+       
+
+        public static String MarshallChangeList(Dictionary<int, List<Change>> changeList)
+        {
+            List<Change> bigList = new List<Change>();
+            foreach(List<Change> list in changeList.Values)
+            {
+                bigList.AddRange(list);
+            }
+            var doc = new XElement("Changes",
+                                 from a in bigList
+                                 select new XElement("Change",
+                                                     new XElement("file_id", a.File_id),
+                                                     new XElement("user_email", a.User_email),
+                                                     new XElement("timeStamp", a.timestamp),
+                                                     new XElement("change", a.change1),
+                                                     new XElement("id", a.id)));
+            return doc.ToString();
+        }
+        
     }
 }
-

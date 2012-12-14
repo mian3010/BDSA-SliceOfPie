@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 
 namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
+
+    private static FileInstance CreateFileInstance(FileInstance doc) {
+      FileInstance instance = FileInstance.CreateFileInstance(doc.id, doc.UserEmail, doc.path, doc.File_id);
+      instance.File = doc.File;
+      instance.User = doc.User;
+      return instance;
+    }
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -42,21 +50,33 @@ namespace SliceOfPie_Model.Persistence {
       return !query.Any() ? null : query.First();
     }
 
+    public static FileInstance GetFileInstance(int fileInstanceId)
+    {
+        FileInstance instance;
+        using (var dbContext = new SliceOfLifeEntities()) {
+            instance =  GetFileInstanceWithContext(fileInstanceId, dbContext);
+        }
+        return instance;
+    }
     // FileInstance
-    public static FileInstance GetFileInstance(int fileInstanceId) {
-      using (var dbContext = new SliceOfLifeEntities()) {
+    private static FileInstance GetFileInstanceWithContext(int fileInstanceId, SliceOfLifeEntities dbContext) {
+      
         if (fileInstanceId < 1) return null;
         var query = from f in dbContext.FileInstances
                                        .Include("File.FileMetaDatas")
                     where f.id == fileInstanceId
                     select f;
         return !query.Any() ? null : query.First();
-      }
+      
     }
 
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
+      //FileInstance fileInstance = CreateFileInstance(Instance);
       using (var dbContext = new SliceOfLifeEntities()) {
+        //Assembly a = typeof(Document).Assembly;
+        //dbContext.MetadataWorkspace.LoadFromAssembly(a);
         if (fileInstance == null) throw new ConstraintException("Database handler received an empty reference");
+        
 
         // Check for lots of constraints
 
@@ -66,14 +86,26 @@ namespace SliceOfPie_Model.Persistence {
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
-        // User
-        if (fileInstance.User_email == null || fileInstance.User_email.Trim().Equals(""))
-          throw new ConstraintException("Invalid user");
-        if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("No user known under that name");
-        //Sets the user from fileInstance to the user from the database
 
-        fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
-        if (GetFile(fileInstance.File.id) != null) fileInstance.File = GetFile(fileInstance.File.id);
+    // if user is attached, check if it exists
+        if (fileInstance.User != null)
+        {
+            if (GetUserWithContext(fileInstance.User.email, dbContext) == null)
+            {
+                //AddUser();
+            }
+            else
+            {
+                fileInstance.User = null;
+            }
+        }
+        else
+        {
+
+        }
+
+        if (GetUser(fileInstance.User_email) == null) throw new ConstraintException("User not registered");
+
         // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
@@ -85,6 +117,7 @@ namespace SliceOfPie_Model.Persistence {
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
         dbContext.Files.AddObject(fileInstance.File);
+        //dbContext.Attach(fileInstance);
         dbContext.FileInstances.AddObject(fileInstance);
         try {
           dbContext.SaveChanges();
@@ -234,35 +267,52 @@ namespace SliceOfPie_Model.Persistence {
           } catch (UpdateException) { }
         }
 
+        // Reset AI
+
+        // Test user
+        User user1 = new User();
+        user1.email = "superman123456@gm44ail.com";
+        Context2.AddUser(user1);
+
         // Add MetaType
         var metaType = MetaDataType.CreateMetaDataType("Type");
         const string metaValue = "Document";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
           // Add Users
           var user = User.CreateUser("testuser" + i + "@example.com");
           dbContext.Users.AddObject(user);
 
-          // Add Files
-          var file = File.CreateFile(i, "Testfile" + i, @"C:\ServerTestFiles\", 0.0m);
-          if (i % 2 == 0) file.serverpath += "Subfolder";
-          dbContext.Files.AddObject(file);
+          var count = 1;
+          for (int k = 0; k < 10; k++) {
+            // Add Files
+            var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
+            if (i % 2 == 0) file.serverpath += "Subfolder";
 
-          // Meta
-          var meta = FileMetaData.CreateFileMetaData(i, metaType.Type, file.id);
-          meta.value = metaValue;
+            // Meta
+            var meta = new FileMetaData() {
+              id = count,
+              value = metaValue,
+              MetaDataType = metaType
+            };
+            file.FileMetaDatas.Add(meta);
+            //dbContext.Files.AddObject(file);
 
-          // Add FileInstances
-          var fileInstance = FileInstance.CreateFileInstance(i, "testuser" + i, @"C:\ClientTestFiles\", file.id);
-          if (i % 2 == 0) fileInstance.path += "Subfolder";
-          fileInstance.File = file;
-          fileInstance.User = user;
-          dbContext.FileInstances.AddObject(fileInstance);
+            // Add FileInstances
+            var fileInstance = FileInstance.CreateFileInstance(count++, "testuser" + i + "" + k, @"C:\ClientTestFiles\", file.id);
+            if (k % 2 == 0) fileInstance.path += @"Subfolder\";
+            if (k % 3 == 0) fileInstance.path += @"AnotherSubFolder\";
+            if (k % 7 == 0) fileInstance.path += @"YetAnotherSubFolder\";
+            if (k % 5 == 0) fileInstance.path += @"SomeSubFolder\";
+            fileInstance.File = file;
+            fileInstance.User = user;
+            dbContext.FileInstances.AddObject(fileInstance);
 
-          try {
-            dbContext.SaveChanges();
-          } catch (UpdateException e) {
-            throw new ConstraintException("Problem with adding test entries", e);
+            try {
+              dbContext.SaveChanges();
+            } catch (UpdateException e) {
+              throw new ConstraintException("Problem with adding test entries", e);
+            }
           }
         }
 

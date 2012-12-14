@@ -34,11 +34,13 @@
             this.button_load = new System.Windows.Forms.Button();
             this.button_synchronize = new System.Windows.Forms.Button();
             this.button_Create = new System.Windows.Forms.Button();
+            this.userEmailBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(21, 52);
+            this.treeView1.Location = new System.Drawing.Point(21, 109);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(305, 307);
             this.treeView1.TabIndex = 0;
@@ -46,7 +48,7 @@
             // 
             // button_tree
             // 
-            this.button_tree.Location = new System.Drawing.Point(359, 52);
+            this.button_tree.Location = new System.Drawing.Point(359, 109);
             this.button_tree.Name = "button_tree";
             this.button_tree.Size = new System.Drawing.Size(75, 23);
             this.button_tree.TabIndex = 1;
@@ -58,13 +60,13 @@
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(547, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(596, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // button_load
             // 
-            this.button_load.Location = new System.Drawing.Point(359, 92);
+            this.button_load.Location = new System.Drawing.Point(359, 301);
             this.button_load.Name = "button_load";
             this.button_load.Size = new System.Drawing.Size(75, 23);
             this.button_load.TabIndex = 4;
@@ -74,7 +76,7 @@
             // 
             // button_synchronize
             // 
-            this.button_synchronize.Location = new System.Drawing.Point(359, 131);
+            this.button_synchronize.Location = new System.Drawing.Point(359, 347);
             this.button_synchronize.Name = "button_synchronize";
             this.button_synchronize.Size = new System.Drawing.Size(75, 23);
             this.button_synchronize.TabIndex = 5;
@@ -84,7 +86,7 @@
             // 
             // button_Create
             // 
-            this.button_Create.Location = new System.Drawing.Point(359, 179);
+            this.button_Create.Location = new System.Drawing.Point(359, 393);
             this.button_Create.Name = "button_Create";
             this.button_Create.Size = new System.Drawing.Size(75, 23);
             this.button_Create.TabIndex = 6;
@@ -92,11 +94,30 @@
             this.button_Create.UseVisualStyleBackColor = true;
             this.button_Create.Click += new System.EventHandler(this.button_Create_Click);
             // 
+            // userEmailBox
+            // 
+            this.userEmailBox.Location = new System.Drawing.Point(21, 60);
+            this.userEmailBox.Name = "userEmailBox";
+            this.userEmailBox.Size = new System.Drawing.Size(150, 20);
+            this.userEmailBox.TabIndex = 7;
+            this.userEmailBox.TextChanged += new System.EventHandler(this.userEmailBox_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(153, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Enter User Identification (email)";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 386);
+            this.ClientSize = new System.Drawing.Size(596, 454);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.userEmailBox);
             this.Controls.Add(this.button_Create);
             this.Controls.Add(this.button_synchronize);
             this.Controls.Add(this.button_load);
@@ -120,5 +141,7 @@
         private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.Button button_synchronize;
         private System.Windows.Forms.Button button_Create;
+        private System.Windows.Forms.TextBox userEmailBox;
+        private System.Windows.Forms.Label label1;
     }
 }

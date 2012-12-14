@@ -10,6 +10,43 @@ namespace ServerTest {
 
   [TestClass]
   public class ServerClientTest {
+
+      private FileList list;
+      private FileInstance i1;
+      private FileInstance i2;
+      private FileInstance i3;
+
+      public void CreateTestList()
+      {
+          list = new FileList { List = new Dictionary<int, FileListEntry>() };
+          var e1 = new FileListEntry();
+          var e2 = new FileListEntry();
+          var e3 = new FileListEntry();
+          e1.Id = -40;
+          e2.Id = 40;
+          e3.Id = 350;
+          list.List.Add(e1.Id, e1);
+          list.List.Add(e2.Id, e2);
+          list.List.Add(e3.Id, e3);
+      }
+
+      public void CreateTestFiles()
+      {        
+              string email = "superman123456@gm44ail.com";
+              File file1 = File.CreateFile(300, "Testfile" + 1 + "" + 1, @"C:\ServerTestFiles\", 0.0m);
+
+              File file2 = File.CreateFile(400, "TestName2", @"C:\ClientTestFiles\Subfolder", 0.0m);
+
+              File file3 = File.CreateFile(500, "TestName1", @"C:\ClientTestFiles\Subfolder", 0.0m);
+
+              i1 = FileInstance.CreateFileInstance(40, email, @"C:\ClientTestFiles\Subfolder", file1.id);
+              i2 = FileInstance.CreateFileInstance(350, email, @"C:\ClientTestFiles\Subfolder", file2.id);
+              i3 = FileInstance.CreateFileInstance(3, email, @"C:\ClientTestFiles\Subfolder",file3.id);
+
+              i1.File = file1;
+              i2.File = file2;
+              i3.File = file3;
+      }
     [TestMethod]
     public void TestGetFile() {
       NetworkServer server = NetworkServer.GetInstance();
@@ -48,20 +85,11 @@ namespace ServerTest {
     }
 
     [TestMethod]
-    public void TestSynchronize() {
+    public void TestSynchronizeSimple() {
       Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
-      var list = new FileList { List = new Dictionary<int, FileListEntry>() };
-      var e1 = new FileListEntry();
-      var e2 = new FileListEntry();
-      var e3 = new FileListEntry();
-      e1.Id = -40;
-      e2.Id = 40;
-      e3.Id = 350;
-      list.List.Add(e1.Id, e1);
-      list.List.Add(e2.Id, e2);
-      list.List.Add(e3.Id, e3);
+      CreateTestList();
       var serverT = new Thread(server.Listen);
       serverT.Start();
       //Thread.Sleep(5000);
@@ -73,31 +101,47 @@ namespace ServerTest {
       data.value = "testd234atatype";
       MetaDataType type = new MetaDataType();
       type.Type = "He234y";
-      data.MetaDataType_Type = type.Type;
+      // data.MetaDataType_Type = type.Type;
       data.MetaDataType = type;
       User user = new User();
-      user.email = "superman123@gm44ail.com";
-      Context2.AddUser(user);
+        Context2.AddUser(user);
+        user.email = "superman123@gmail.com";
+
       File file = new File();
       file.name = "TES34123TFIL"; 
       file.serverpath = "test123Se234rverpath"; 
       file.Version = 0.0m;
-      //file.FileMetaDatas.Add(data);
-      var fileInstance = new FileInstance();
-      fileInstance.id = -40;
-      fileInstance.path = "//test";
-      fileInstance.User = user;
-      fileInstance.File = file;
+      file.FileMetaDatas.Add(data);
+      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
+       fileInstance.User = user;
+
       FileInstance instance = client.PushFile(fileInstance);
       if (instance != null)
       {
         Assert.AreEqual(instance.id, fileInstance.id);
-        Assert.AreEqual(instance.File.id, file.id);
+        Assert.IsTrue(instance.File.id > 0);
         Assert.AreEqual(instance.User.email, user.email);
       }
       server.Close();
       
 
+    }
+
+    [TestMethod]
+    public void TestSynchronizeFull()
+    {
+        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        CreateTestList();
+        NetworkServer server = NetworkServer.GetInstance();
+        var serverT = new Thread(server.Listen);
+        serverT.Start();
+        Thread.Sleep(1000);
+        OfflineAdministrator admin = OfflineAdministrator.GetInstance();
+        CreateTestFiles();
+        admin.AddFile(i1);
+        admin.AddFile(i2);
+        admin.AddFile(i3);
+        admin.Synchronize();
     }
   }
 }

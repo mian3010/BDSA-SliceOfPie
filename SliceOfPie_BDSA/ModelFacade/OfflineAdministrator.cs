@@ -97,6 +97,7 @@ namespace SliceOfPie_Model {
     public void ExitGracefully(object sender, EventArgs e)
     {
         _communicator.FileListHandler.PersistFileList();
+        _communicator.FileListHandler.PersistChangeList();
 
     }
   }
