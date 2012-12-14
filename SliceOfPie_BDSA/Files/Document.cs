@@ -9,12 +9,12 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  public partial class Document : FileInstance {
+  public partial class Document {
     public String Title {
       get { return Context.GetFileMetaData(File, "Title").value; }
       set { Context.GetFileMetaData(File, "Title").value = value; }
     }
-    
+
     public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
