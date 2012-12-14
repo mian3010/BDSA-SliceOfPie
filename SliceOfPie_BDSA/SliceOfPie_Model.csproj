@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="FileListHandler_CD.cd" />
     <None Include="FileOverviewRep_CD.cd" />
     <None Include="ModelFacade_CD.cd" />

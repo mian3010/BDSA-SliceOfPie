@@ -12,7 +12,8 @@ namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form
   {
       public const char Separator = '\\';
-
+      public const String DefaultFolder = "C:\\SliceOfPie";
+  
       private Dictionary<String, int> _pathsToId;
 
       public Document CurrentDocument {
@@ -169,7 +170,7 @@ namespace SliceOfPie_OfflineGUI {
           }
           catch (NotADocumentException noDoc)
           {
-             MessageBox.Show("Please select a valid user!");
+             MessageBox.Show("Please select a valid document to load!");
           }
 
     }
@@ -222,6 +223,7 @@ namespace SliceOfPie_OfflineGUI {
     {
         CurrentDocument = new Document();
         CurrentDocument.File = new File();
+        // Set user both in email and the navigation property.
         User user = new User();
         user.email = userEmailBox.Text;
         CurrentDocument.User_email = user.email;
@@ -231,7 +233,7 @@ namespace SliceOfPie_OfflineGUI {
         TreeNode current = selected.Parent ?? _root;
         if (current == _root)
         {
-            TreeNode cNode = current.FirstNode ?? new TreeNode("C:\\");
+            TreeNode cNode = current.FirstNode ?? new TreeNode(DefaultFolder);
             path = cNode.Text;
         }
         else
