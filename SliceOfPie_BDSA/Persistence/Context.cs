@@ -23,7 +23,7 @@ namespace SliceOfPie_Model.Persistence {
                   where f.File_id == file.id
                   select f;
       if (!query.Any()) return null;
-      return query.Select(fileInstance => User.CreateUser(fileInstance.UserEmail)).ToList();
+      return query.Select(fileInstance => User.CreateUser(fileInstance.User_email)).ToList();
     }
 
     public static User GetUser(string email) {

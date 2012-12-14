@@ -5,15 +5,6 @@ namespace SliceOfPie_Model.Persistence {
   
   public partial class FileInstance {
 
-    public String UserEmail {
-      get;
-      set;
-    }
-
-    public String Title { get; set; }
-
-    public String Author { get; set; }
-
     internal byte[] PrivContent;
 
     public byte[] Content {

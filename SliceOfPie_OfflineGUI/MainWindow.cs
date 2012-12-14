@@ -111,13 +111,13 @@ namespace SliceOfPie_OfflineGUI {
                 {
                     return _pathsToId[path.Substring(0, path.Length - 1)];
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new NotADocumentException("No document selected!");
                 }
             }
         }
-        catch (NotADocumentException e)
+        catch (NotADocumentException)
         {
             throw new NotADocumentException();
 
@@ -167,7 +167,7 @@ namespace SliceOfPie_OfflineGUI {
           {
               Console.Out.WriteLine(ex);
           }
-          catch (NotADocumentException noDoc)
+          catch (NotADocumentException)
           {
              MessageBox.Show("Please select a valid user!");
           }
@@ -241,7 +241,7 @@ namespace SliceOfPie_OfflineGUI {
                 IdFromCurrentNode();
                 path = PathOfNode(current);
             }
-            catch (NotADocumentException ex)
+            catch (NotADocumentException)
             {
                 if (current.Parent != null)
                     path = PathOfNode(treeView1.SelectedNode.Parent);
