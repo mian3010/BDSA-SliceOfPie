@@ -134,8 +134,8 @@ namespace ServerTest {
       OfflineAdministrator admin = OfflineAdministrator.GetInstance();
       CreateTestFiles();
       admin.AddFile(i1);
-      //admin.AddFile(i2);
-      //admin.AddFile(i3);
+      admin.AddFile(i2);
+      admin.AddFile(i3);
       admin.Synchronize();
     }
 
