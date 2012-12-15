@@ -18,6 +18,7 @@ namespace SliceOfPie_OfflineGUI
         [STAThread]
         public static void Main(String[] args)
         {
+
             new ClientPresenter();
           
         }
