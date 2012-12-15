@@ -11,19 +11,18 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       return View();
     }
 
-    public ActionResult Editor()
-    {
-      var id = @ViewBag.Id ?? Request.Params["id"];
-      if (id != null && id != "") {
-        Document documentToEdit = Models.FileModel.GetDocument(int.Parse(id));
-        if (documentToEdit != null) {
-          @ViewBag.DocumentTitle = documentToEdit.Title;
-          @ViewBag.DocumentContent = documentToEdit.Content;
-          @ViewBag.Id = documentToEdit.id;
-        } else {
-          @ViewBag.DocumentTitle = "N/A";
-          @ViewBag.DocumentContent = "Document not found or not a document";
-        }
+    public ActionResult Editor() {
+      var id = -1;
+      var convert = int.TryParse(@ViewBag.Id, out id);
+      if (!convert) id = int.Parse(Request.Params.Get("id"));
+      var documentToEdit = Models.FileModel.GetDocument(id);
+      if (documentToEdit != null) {
+        @ViewBag.DocumentTitle = documentToEdit.Title;
+        @ViewBag.DocumentContent = documentToEdit.Content;
+        @ViewBag.Id = documentToEdit.id;
+      } else {
+        @ViewBag.DocumentTitle = "N/A";
+        @ViewBag.DocumentContent = "Document not found or not a document";
       }
       return View();
     }
@@ -66,6 +65,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
         @ViewBag.StatusMessage = "Document ID not found. Could not save";
         @ViewBag.MessageType = "error";
       }
+      Editor();
       return View("Editor");
     }
   }

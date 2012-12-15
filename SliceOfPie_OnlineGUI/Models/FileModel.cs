@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
 using SliceOfPie_Model.CompositeStructure;
-using System.Windows.Data;
 
 namespace SliceOfPie_OnlineGUI.Models {
-  public class FileModel {
+  public static class FileModel {
     public static Document GetDocument(int id) {
       return Context2.GetDocument(id);
     }
@@ -44,8 +42,8 @@ namespace SliceOfPie_OnlineGUI.Models {
             }
           }
           var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id=" + currentFile.id + "\">";
-          var viewLinkEnd = "</a>";
-          var viewImage = "<img src=\"/Images/open.png\" />";
+          const string viewLinkEnd = "</a>";
+          const string viewImage = "<img src=\"/Images/open.png\" />";
           var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\"><img src=\"/Images/edit.png\" /></a>";
           currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink, viewLinkEnd = viewLinkEnd, viewImage = viewImage });
         }
