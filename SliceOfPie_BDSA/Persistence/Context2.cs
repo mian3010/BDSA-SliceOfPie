@@ -6,12 +6,15 @@ using System.Reflection;
 
 namespace SliceOfPie_Model.Persistence {
 
+
   /// <summary>
   /// Class responsible for connecting to the entity framwork. Has static methods for adding, modifying
   /// and deleting enteties.
   /// </summary>
   public static class Context2 {
 
+    private const String _pathString = "YoMammasAss";
+     
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -150,19 +153,24 @@ namespace SliceOfPie_Model.Persistence {
           throw new ConstraintException("Invalid file path");
 
         User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
-        if (tmp == null)
-          AddUser(fileInstance.User);
-        else {
-          fileInstance.User = tmp;
-        }
+          if (tmp == null)
+          {
+              //User u = fileInstance.User ?? new User() {email = fileInstance.User_email};
+              //fileInstance.User = u;
+              //AddUser(fileInstance.User);
+          }
+          else
+          {
+              fileInstance.User = tmp;
+          }
 
-        // File name
+          // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
 
         // File serverpath
-        if (fileInstance.File.serverpath == null || fileInstance.File.serverpath.Trim().Equals(""))
-          throw new ConstraintException("Invalid server file path");
+          if (fileInstance.File.serverpath == null || fileInstance.File.serverpath.Trim().Equals(""))
+              fileInstance.File.serverpath = _pathString;
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
