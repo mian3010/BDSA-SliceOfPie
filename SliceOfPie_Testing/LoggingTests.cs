@@ -29,7 +29,7 @@ namespace SliceOfPie_Testing
             // Add all test files to local disc.
             foreach (FileInstance testFileInstance in testFiles)
             {
-                communicatorOfflineAdaptor.AddOfflineCreatedFile(testFileInstance);
+                communicatorOfflineAdaptor.AddFile(testFileInstance);
             }
             Assert.AreEqual(1, 1);        
         }

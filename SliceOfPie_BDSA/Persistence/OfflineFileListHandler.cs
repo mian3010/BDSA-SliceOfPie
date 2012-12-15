@@ -88,6 +88,12 @@ namespace SliceOfPie_Model
             FileListEntry entry = StandardFileEntry(file);
             entry.Id = file.id;
             FileList.List.Add(entry.Id, entry); 
+
+            foreach (Change change in file.File.Changes)
+            {
+                AddChange(change);
+            }
+
             // Version from File ?
         }
 
@@ -140,7 +146,7 @@ namespace SliceOfPie_Model
         {
 
             FileList.List[file.id].Version += 0.001m;         
-            Change change = new Change();
+            var change = new Change();
             change.User = new User();
             if (file.User.email == null)
                 change.User.email = "Unknown";

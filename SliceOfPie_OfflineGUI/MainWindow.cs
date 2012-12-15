@@ -14,6 +14,11 @@ namespace SliceOfPie_OfflineGUI {
       public const char Separator = '\\';
       public const String DefaultFolder = "C:\\SliceOfPie";
   
+      public String CurrentUser
+      {
+          get { return userEmailBox.Text; }
+      }
+
       private Dictionary<String, int> _pathsToId;
 
       public Document CurrentDocument {

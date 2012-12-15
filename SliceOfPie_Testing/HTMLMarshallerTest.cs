@@ -51,7 +51,7 @@ namespace SliceOfPie_Testing
             TestOne.File.name = "Document 1";
             TestOne.File.serverpath = "Testclass/HTMLMarshallerTest/testOne";
             TestOne.File.Project_id = 1;
-            TestOne.UserEmail = "morr@itu.com";
+            TestOne.User_email = "morr@itu.com";
             TestOne.File.FileMetaDatas.Add(authorTypeValue);
 /*
             TestTwo = new FileInstance();
@@ -114,7 +114,7 @@ namespace SliceOfPie_Testing
                 Assert.AreEqual(unmarshalledFile.File.name, testFileInstance.File.name);
                 Assert.AreEqual(unmarshalledFile.File.serverpath, testFileInstance.File.serverpath);
                 Assert.AreEqual(unmarshalledFile.File.Project_id, testFileInstance.File.Project_id);
-                Assert.AreEqual(unmarshalledFile.UserEmail, testFileInstance.UserEmail);
+                Assert.AreEqual(unmarshalledFile.User_email, testFileInstance.User_email);
                 Assert.AreEqual(unmarshalledFile.File.FileMetaDatas, testFileInstance.File.FileMetaDatas);
 
                 Assert.AreNotEqual(unmarshalledFile.id, 99999);

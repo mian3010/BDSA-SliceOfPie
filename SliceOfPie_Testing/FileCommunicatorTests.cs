@@ -77,7 +77,7 @@ namespace SliceOfPie_Testing
 
             foreach (FileInstance fileInstance in rig)
             {
-                ts.AddOfflineCreatedFile(fileInstance);
+                ts.AddFile(fileInstance);
                 Assert.AreEqual(true, ts.FindFile(fileInstance));
             }
         }
@@ -134,7 +134,7 @@ namespace SliceOfPie_Testing
         {
             foreach (FileInstance fileInstance in rig)
             {
-                ts.AddOfflineCreatedFile(fileInstance);
+                ts.AddFile(fileInstance);
             }
         }
 
