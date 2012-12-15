@@ -73,6 +73,21 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       return RedirectToAction("Login", "Account");
     }
 
+    public ActionResult Sharer() {
+      string email = System.Web.HttpContext.Current.User.Identity.Name;
+      if (!string.IsNullOrEmpty(email)) {
+        int id;
+        var convert = int.TryParse((string)RouteData.Values["id"], out id);
+        if (convert || Request.Params.Get("id") != null) {
+          if (!convert) id = int.Parse(Request.Params.Get("id"));
+          @ViewBag.Id = id;
+          @ViewBag.Authors = Models.FileModel.GetAuthors(id);
+        }
+        return View();
+      }
+      return RedirectToAction("Login", "Account");
+    }
+
     [HttpPost]
     [ValidateInput(false)]
     public ActionResult SaveDocument(FormCollection collection) {
@@ -102,18 +117,29 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     public ActionResult CreateDocument(FormCollection collection) {
       string email = System.Web.HttpContext.Current.User.Identity.Name;
       if (!string.IsNullOrEmpty(email)) {
-        try
-        {
+        try {
           var instance = Models.FileModel.CreateDocument(email, collection.Get("FileName"), decimal.Parse(collection.Get("FileVersion")), collection.Get("DocumentPath"), collection.Get("DocumentTitle"), collection.Get("DocumentContent"));
           @ViewBag.StatusMessage = "Content saved";
           @ViewBag.MessageType = "status";
           @ViewBag.Id = collection.Get("DocumentId");
           return RedirectToAction("Editor", "Default", new { id = instance.id });
-        } catch (ConstraintException e) {
+        } catch (ConstraintException) {
           @ViewBag.StatusMessage = "Exception during save";
           @ViewBag.MessageType = "error";
         }
         return RedirectToAction("Creator", "Default");
+      }
+      return RedirectToAction("Login", "Account");
+    }
+
+    [HttpPost]
+    [ValidateInput(false)]
+    public ActionResult AddAuthor(FormCollection collection) {
+      string email = System.Web.HttpContext.Current.User.Identity.Name;
+      if (!string.IsNullOrEmpty(email))
+      {
+        Models.FileModel.AddAuthor(collection.Get("AuthorEmail"), int.Parse(collection.Get("DocumentId")));
+        return RedirectToAction("Sharer", "Default", new { id = collection.Get("DocumentId") });
       }
       return RedirectToAction("Login", "Account");
     }

@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Slice of Pie.";
+    ViewBag.Message = "Sharer";
+}
+@section imports {
+    @Styles.Render("~/Content/Sharer.css")
+    @Styles.Render("~/Content/Menu.css")
+    @Scripts.Render("~/Scripts/jquery.formdefaults.js")
+    @Scripts.Render("~/Scripts/SliceOfPie/default-values.js")
+}
+@section header {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+@section js {
+    $.default_values();
+}
+<section class="viewer">
+    <ul id="document-menu">
+        <li>
+            <a href="@Url.Action("Editor", "Default")?id=@ViewBag.Id" title="Edit">
+                <img src="@Url.Content("~/Images/edit_big.png")" />
+            </a>
+            <a id="ShowHistory" href="@Url.Action("Viewer", "Default")?id=@ViewBag.Id" title="View">
+                <img src="@Url.Content("~/Images/icon_cancel.png")" />
+            </a>
+        </li>
+    </ul>
+    <div class="content-wrapper">
+        @using (Html.BeginForm("AddAuthor", "Default"))
+        {
+            <input type="hidden" name="DocumentId" value="@ViewBag.Id"/>
+            <input type="text" name="AuthorEmail" value="" data-default-value="Author email"/>
+            <input type="submit" value="Add"/>
+        }
+            @Html.Raw(ViewBag.Authors)
+    </div>
+</section>

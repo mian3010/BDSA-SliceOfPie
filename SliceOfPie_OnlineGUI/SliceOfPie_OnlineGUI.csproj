@@ -307,6 +307,7 @@
     <Content Include="Views\Shared\_Colorbox.cshtml" />
     <Content Include="Views\Default\History.cshtml" />
     <Content Include="Views\Default\Creator.cshtml" />
+    <Content Include="Views\Default\Sharer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
