@@ -62,7 +62,7 @@ namespace SliceOfPie_OfflineGUI
 
         private void SynchronizeFiles(object sender, EventArgs e)
         {
-            _model.Synchronize();
+            _model.Synchronize(_view.CurrentUser);
         }
 
 

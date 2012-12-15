@@ -73,7 +73,8 @@ namespace SliceOfPie_OfflineGUI
                 var history = new StringBuilder();
                 foreach (Change change in _currentDocument.File.Changes)
                 {
-                    history.Append("User : " + change.User_email + "made a change at :" + change.timestamp + "\n");
+                    history.Append("Changelog for file : " + _currentDocument.File.name + "\n");
+                    history.Append("User : " + change.User_email + " " + change.change1 + " @ the time : " + new DateTime((long)change.timestamp) + "\n");
                 }
                 MessageBox.Show(history.ToString());
             }

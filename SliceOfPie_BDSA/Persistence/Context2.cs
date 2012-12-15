@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
 
@@ -132,6 +133,17 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
+      private static FileInstance FileWithoutUser(FileInstance file)
+      {
+          FileInstance newFile = new FileInstance();
+          newFile.File = file.File;
+          newFile.Content = file.Content;
+          newFile.File_id = file.File_id;
+          newFile.path = file.path;
+          newFile.User_email = file.User_email;
+          return newFile;
+      }
+
       /// <summary>
       /// Responsible for adding a FileInstance to the database
       /// </summary>
@@ -152,18 +164,6 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
 
-        User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
-          if (tmp == null)
-          {
-              //User u = fileInstance.User ?? new User() {email = fileInstance.User_email};
-              //fileInstance.User = u;
-              //AddUser(fileInstance.User);
-          }
-          else
-          {
-              fileInstance.User = tmp;
-          }
-
           // File name
         if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
           throw new ConstraintException("Invalid file name");
@@ -174,7 +174,28 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-        dbContext.FileInstances.AddObject(fileInstance);
+   
+
+          User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
+
+         fileInstance = FileWithoutUser(fileInstance);
+          
+            
+          
+          if (tmp == null)
+          {
+              User u = fileInstance.User ?? new User() {email = fileInstance.User_email};
+              fileInstance.User = u;
+              dbContext.Users.AddObject(fileInstance.User);
+          }
+          else
+          {
+              
+          }
+
+          fileInstance.File.Changes.Clear();
+          dbContext.FileInstances.AddObject(fileInstance);
+
         try {
           dbContext.SaveChanges();
         } catch (UpdateException e) {
@@ -198,13 +219,16 @@ namespace SliceOfPie_Model.Persistence {
     public static FileList GetFileList(string useremail) {
       using (var dbContext = new SliceOfLifeEntities()) {
         var usersFilesOnServer = new FileList();
-        var list = usersFilesOnServer.List;
         var query = from f in dbContext.FileInstances
+                    .Include("File.Changes")
+                    .Include("User")
+                    .Include("File.FileMetaDatas.MetaDataType")
+                    
                     where f.User_email == useremail
                     select f;
-        if (!query.Any()) {
+        if (query.Any()) {
           foreach (FileInstance fi in query) {
-            list.Add(fi.File_id, FileListEntry.EntryFromFile(fi));
+            usersFilesOnServer.List.Add(fi.id, FileListEntry.EntryFromFile(fi));
           }
         }
         return usersFilesOnServer;

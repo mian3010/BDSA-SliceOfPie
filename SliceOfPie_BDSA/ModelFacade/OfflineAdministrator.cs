@@ -39,10 +39,11 @@ namespace SliceOfPie_Model {
         _communicator.AddFile(file);
     }
    
-    public void Synchronize()
+    public void Synchronize(string userEmail)
     {
         // Get fileList from Communicator
         FileList oFileList = _communicator.FileListHandler.FileList;
+        oFileList.User = userEmail;
         // Send filelist to Server via Client
         FileList responseList = _netClient.SyncServer(oFileList);
         // Receive fileList
