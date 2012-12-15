@@ -9,8 +9,10 @@ namespace SliceOfPie_OnlineGUI.Models {
     public static Document GetDocument(int id) {
       return Context2.GetDocument(id);
     }
-    public static void ModifyDocument(int id, string title, string content) {
+    public static void ModifyDocument(string fromEmail, int id, string title, string content) {
       Context2.ModifyDocument(id, title, content);
+      var document = GetDocument(id);
+      Context2.AddChange(document.File.id, new Change { change1 = "Modified document", timestamp = System.DateTime.Now.Ticks, User_email = fromEmail });
     }
     public static string GetAuthors(int id) {
       var output = new StringBuilder();
@@ -23,17 +25,20 @@ namespace SliceOfPie_OnlineGUI.Models {
       output.Append("</ul>");
       return output.ToString();
     }
-    public static void AddAuthor(string email, int id) {
+    public static void AddAuthor(string fromEmail, string email, int id) {
       var origInstance = Context2.GetDocument(id);
       if (origInstance != null) {
         var fileInstance = new Document { User_email = email, path = origInstance.path, File_id = origInstance.File_id };
         Context2.AddFileInstance(fileInstance);
+        Context2.AddChange(origInstance.File.id, new Change{change1 = "Shared document with "+email, timestamp = System.DateTime.Now.Ticks, User_email = fromEmail});
       }
     }
     public static FileInstance CreateDocument(string email, string name, decimal version, string path, string title, string content) {
       var file = new SliceOfPie_Model.Persistence.File { name = name, Version = version };
       var document = new Document { User_email = email, File = file, path = path, Content = content, Title = title };
-      return Context2.AddFileInstance(document);
+      var returnVal = Context2.AddFileInstance(document);
+      Context2.AddChange(document.File.id, new Change { change1 = "Created document", timestamp = System.DateTime.Now.Ticks, User_email = email });
+      return returnVal;
     }
     public static FileInstance GetFile(int id) {
       return Context2.GetFileInstance(id);

@@ -244,6 +244,21 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
+    public static void AddChange(int fileId, Change change)
+    {
+      using (var dbContext = new SliceOfLifeEntities())
+      {
+        var file = GetFileWithContext(fileId, dbContext);
+        file.Changes.Add(change);
+        try {
+          dbContext.SaveChanges();
+        } catch (UpdateException e) {
+          throw new ConstraintException(
+            "Database handler received an error when trying saving changes to the database", e);
+        }
+      }
+    }
+
     public static void CleanUp(string password) {
       using (var dbContext = new SliceOfLifeEntities()) {
         if (!password.Equals("VerySecretPasswordYoureNeverGonnaGuess")) return;

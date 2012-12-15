@@ -66,7 +66,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
           FileInstance fileToView = Models.FileModel.GetDocument(int.Parse(Request.Params["id"])) ??
                                     Models.FileModel.GetFile(int.Parse(Request.Params["id"]));
           @ViewBag.Title = "File: " + fileToView.File.name;
-          @ViewBag.DocumentHistory = fileToView.HistoryToString();
+          @ViewBag.DocumentHistory = fileToView.ChangesToString();
         }
         return View();
       }
@@ -95,7 +95,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       if (!string.IsNullOrEmpty(email)) {
         if (collection.Get("DocumentId") != null && collection.Get("DocumentId") != "") {
           try {
-            Models.FileModel.ModifyDocument(int.Parse(collection.Get("DocumentId")), collection.Get("DocumentTitle"),
+            Models.FileModel.ModifyDocument(email, int.Parse(collection.Get("DocumentId")), collection.Get("DocumentTitle"),
                                             collection.Get("DocumentContent"));
             @ViewBag.StatusMessage = "Content saved";
             @ViewBag.MessageType = "status";
@@ -138,7 +138,7 @@ namespace SliceOfPie_OnlineGUI.Controllers {
       string email = System.Web.HttpContext.Current.User.Identity.Name;
       if (!string.IsNullOrEmpty(email))
       {
-        Models.FileModel.AddAuthor(collection.Get("AuthorEmail"), int.Parse(collection.Get("DocumentId")));
+        Models.FileModel.AddAuthor(email, collection.Get("AuthorEmail"), int.Parse(collection.Get("DocumentId")));
         return RedirectToAction("Sharer", "Default", new { id = collection.Get("DocumentId") });
       }
       return RedirectToAction("Login", "Account");
