@@ -1,0 +1,122 @@
+\subsection{Use Cases}
+\begin{table*}[ht]\centering
+  \ra{1.3}
+  \begin{tabularx}{\textwidth}{@{}rXl@{}}\toprule
+    \textbf{ID} & \textbf{Description} & \textbf{Priority} \\\hline
+    1
+    & CreateDocumentOnline
+    & High \\\hline
+    2 
+    & SynchronizeChanges
+    & High \\\hline
+    3 
+    & MultipleUserEdit
+    & High \\\hline
+    4 
+    & ViewVersionHistory
+    & Medium \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Our use cases}
+  \label{usecases}\centering% 
+\end{table*}
+
+\subsubsection{CreateDocumentOffline}
+\textbf{Use Case \#1:} CreateDocumentOffline\\
+\textbf{ID:} U\#1\\
+\textbf{Primary Actor:} User / Writer\\
+\textbf{Stakeholders:}\\
+\underline{1. User:} Wants effective access to a bunch of documents. Wants to share these documents with to other users. Want to be able to access documents in his/her home computer, but still access them elsewhere through a web interface\\
+\underline{2. Other users:} Potential other users, who wants to use the same document on their home computer or through the web interface.\\
+\newline
+\textbf{Precondition:} The user is authenticated into the system.\\
+\textbf{Postcondition:} The document is created and saved locally.\\
+\newline
+\textbf{Main success scenario:} \\
+1. User creates a new document on his local computer.\\
+2. System saves the document offline and online. \\
+3. User edits the newly created document to his liking. When he’s done editing, he’ll request a save from System.\\
+4. System saves the changes made offline and online.\\
+\indent\textit{Steps 3-4 are repeated until User is satisfied with the document.}\\
+5. User quits the system repeats steps 1-6 until satisfied.\\
+6. System commits changes offline and online, recording a session of editing to the history of the document.\\
+\newline
+\textbf{Extensions}\\
+\textbf{2.} System has no online connection
+\begin{enumerate}
+\item System alerts User that his changes will not be saved online. System then defers synchronization to processes shown in U\#3.
+\item User continues editing as in the main scenario until done.
+\item The System makes an offline commit, recording a session of editing that differs from another, possible offline editing session.
+\end{enumerate}
+
+\subsubsection{SynchronizeChanges}
+\textbf{Use Case \#2:} SynchronizeChanges\\
+\textbf{ID:} U\#2\\
+\textbf{Primary Actor:} User \\
+\textbf{Stakeholder:}\\
+\underline{1. User:} Wants his files to be available both offline and online. Being available offline permits the user to always access them and edit them even when there is no connection. When online, he can access them from all computers.\\
+\newline
+\textbf{Precondition:} The user is authenticated into the system.\\
+\textbf{Postcondition:} The local folder is synchronized with the online folder\\
+\newline
+\textbf{Main success scenario:}\\
+1. User opens the program\\
+2. System synchronizes the local folder with the online folder.\\
+3. User edits a document from the folder locally.\\
+4. User saves the document.\\
+5. System synchronizes the local folder with the online folder.\\
+\newline
+\textbf{Extension:}\\
+\textbf{2.} System fails to synchronize with the online folder
+\begin{enumerate}
+\item User tries to synchronize using a button.
+\item User repeat 2b until 2d.
+\item System synchronizes with the online folder.
+\end{enumerate}
+
+\subsubsection{MultipleUserEdit}
+\textbf{Use Case \#3:} MultipleUserEdit\\
+\textbf{ID:} U\#3\\
+\textbf{Primary Actor:} User1, User2\\
+\textbf{Stakeholder:}\\
+\underline{1. User:} Wants to edit in a document, that is shared with another user. Wants the document to be saved online and synchronized with both his and the other user(s) local document folders.\\
+\newline
+\textbf{Precondition:} User is authenticated. User has created a document as shown in U\#1.\\
+\textbf{Postcondition:} The two documents are merged and saved online.\\
+\newline
+\textbf{Main success scenario:}\\
+1. User1 shares his document with user2 online.\\
+2. User2 synchronizes his local folder with the online folder.\\
+3. User1 edits the document locally.\\
+4. User1 synchronizes with the online document folder.\\
+5. User2 edits the document locally.\\
+6. User2 saves the document locally.\\
+7. User2 synchronizes with the online folder.\\
+8. System merges the online document with the changes made in user2´s document.\\
+9. System presents the merged document and the original document to user2.\\
+10. User2 accepts the merged document.\\
+11. System saves the new merged document online.\\
+\newline
+\textbf{Extensions:}\\
+\textbf{2.} User2 has no internet connection
+\begin{enumerate}
+\item User2 fails to synchronize with the system
+\item User2 does not receive the file from the online folder
+\end{enumerate}
+\textbf{10.} User2 does not accept the merged document
+\begin{enumerate}
+\item User2 edits in the merged document
+\item User2 accepts the edited, merged document.
+\item System saves the new merged document online.
+\end{enumerate}
+
+\subsubsection{ViewVersionHistory}
+\textbf{Use Case \#4:} ViewVersionHistory\\
+\textbf{ID:} U\#4\\
+\newline
+\textbf{Primary Actor:} User\\
+\textbf{Main:}\\
+The user wants to view a history for a file in the Slice Of Pie system. He’ll select a file from the graphical user interface in the system and click on a show version history button. The system will retrieve version history for the file and display it in a new window. \\
+\textbf{Alternate:}\\
+The user wants to revert document to an earlier state. This use case has yet to be defined and elaborated on.\\
+\newpage
