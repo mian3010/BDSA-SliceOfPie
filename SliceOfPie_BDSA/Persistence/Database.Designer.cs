@@ -46,7 +46,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities() : base("name=SliceOfLifeEntities", "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     
@@ -55,7 +55,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities(string connectionString) : base(connectionString, "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     
@@ -64,7 +64,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities(EntityConnection connection) : base(connection, "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     

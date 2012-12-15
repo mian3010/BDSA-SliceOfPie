@@ -38,7 +38,8 @@ namespace SliceOfPie_OfflineGUI {
       InitializeComponent();
       _pathsToId = fileTree;
       InitializeTree();
-     
+        userEmailBox.Text = "testuser0@example.com";
+
     }
 
     private void DocumentSavedInEditor(Document doc)
@@ -86,7 +87,10 @@ namespace SliceOfPie_OfflineGUI {
         }
 
     private void button1_Click(object sender, EventArgs e) {
-      RefreshTree();
+        if (TreeRefreshed != null)
+        {
+            TreeRefreshed(this, e);
+        }
     }
 
     private void Form3_Load(object sender, EventArgs e) {
@@ -229,10 +233,10 @@ namespace SliceOfPie_OfflineGUI {
         CurrentDocument = new Document();
         CurrentDocument.File = new File();
         // Set user both in email and the navigation property.
-        User user = new User();
-        user.email = userEmailBox.Text;
+        var user = User.CreateUser(userEmailBox.Text);
+        //user.email = userEmailBox.Text;
         CurrentDocument.User_email = user.email;
-        CurrentDocument.User = user;
+        //CurrentDocument.User = user;
         String path = "";
         TreeNode selected = treeView1.SelectedNode ?? _root;
         TreeNode current = selected.Parent ?? _root;

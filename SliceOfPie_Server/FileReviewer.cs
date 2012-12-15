@@ -26,7 +26,7 @@ namespace SliceOfPie_Server {
     }
 
     public void Review() {
-      FileList usersFilesFromServer = Context2.GetFileList("lala"); //hp.user
+      FileList usersFilesFromServer = Context2.GetFileList(_fileList.User); //hp.user
       if (usersFilesFromServer.List == null) usersFilesFromServer.List = new Dictionary<int, FileListEntry>();
       foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists

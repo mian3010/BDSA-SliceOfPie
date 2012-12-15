@@ -34,7 +34,8 @@ namespace SliceOfPie_Model {
     /// <param name="fromFile"></param>
     /// <returns></returns>
     public static FileListEntry EntryFromFile(FileInstance fromFile) {
-      return new FileListEntry { Id = fromFile.File_id, Path = fromFile.path, IsDeleted = fromFile.deleted == 1 };
+      return new FileListEntry { Id = fromFile.id, Path = fromFile.path, IsDeleted = fromFile.deleted == 1, Type = FileListType.Pull
+                                 , Name = fromFile.File.name };
     }
   }
 }
