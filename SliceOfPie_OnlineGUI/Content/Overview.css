@@ -10,7 +10,9 @@ ul .folder:before {
   list-style: none;
   padding: 0;
   margin-left: 15px;
+  margin-top: -10px;
   border-left: 3px solid #9E31B7;
+  padding: 10px 0 0 0;
 }
 #FileList li .file {
   width: 100%;
@@ -30,6 +32,9 @@ ul .folder:before {
 #FileList > .folder {
   font-size: 20px;
   font-weight: bold;
+}
+#FileList > ul {
+  margin-top: 0;
 }
 .FileLink {
   padding: 0;

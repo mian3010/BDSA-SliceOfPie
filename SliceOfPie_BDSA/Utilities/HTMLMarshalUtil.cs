@@ -39,6 +39,10 @@ namespace SliceOfPie_Model
                 writer.WriteString(fileInstance.id.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
 
+                writer.WriteStartElement("user");
+                writer.WriteString(fileInstance.User_email.ToString(CultureInfo.InvariantCulture));
+                writer.WriteEndElement();
+
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
                 writer.WriteStartElement("body");
                 string s = fileInstance.GetContent();
@@ -79,6 +83,9 @@ namespace SliceOfPie_Model
 
           XElement body = doc.Element("body");
           if (body != null) file.Content = body.Value;
+
+            XElement user = doc.Element("user");
+            file.User_email = (user ?? new XElement("No User")).Value;
 
           return file;
         }

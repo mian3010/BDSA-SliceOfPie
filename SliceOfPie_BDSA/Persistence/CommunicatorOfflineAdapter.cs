@@ -10,7 +10,6 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// 
 
-   /////// TO DO -  IMPLEMENT CACHE
 
 
     public class CommunicatorOfflineAdapter : ICommunicator {
@@ -45,7 +44,7 @@ namespace SliceOfPie_Model {
         /// </summary>
         /// <param name="file">The file to add from a remote location</param>
         /// <returns>True if successful, false otherwise</returns>
-      public bool AddFileFromRemote(FileInstance file)
+      private bool AddFileFromRemote(FileInstance file)
         {
           if (AddNewFile(file))
           {
@@ -55,8 +54,18 @@ namespace SliceOfPie_Model {
           }
           return false;
         }
-
-
+        
+        public void AddFile(FileInstance file)
+        {
+            if (file.id <= 0)
+            {
+               AddOfflineCreatedFile(file);
+            }
+            else
+            {
+               AddFileFromRemote(file);
+            }
+        }
       private bool AddNewFile(FileInstance file)
       {
           cache.Add(file);
@@ -83,7 +92,7 @@ namespace SliceOfPie_Model {
       /// <param name="fileInstance">The file to be added. Does not need a id or a path. Has to be created with an offline client.
       /// </param>
       /// <returns>Boolean indicating whether the creation was succesful</returns>
-    public bool AddOfflineCreatedFile(FileInstance fileInstance)
+    private bool AddOfflineCreatedFile(FileInstance fileInstance)
     {
         fileInstance.id = FileListHandler.FileList.IncrementCounter--;
         if (AddNewFile(fileInstance))
