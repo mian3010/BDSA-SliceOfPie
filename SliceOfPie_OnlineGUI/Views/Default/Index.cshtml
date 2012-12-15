@@ -16,6 +16,15 @@
 {
     @Styles.Render("~/Content/Overview.css")
 }
-<section id="FileList">
-    @Html.Raw(ViewBag.FileList)
+<section id="wrapper">
+    <ul id="document-menu">
+            <li>
+                <a id="Create" href="@Url.Action("Creator", "Default")" title="Create document">
+                    <img src="@Url.Content("~/Images/create.png")" />
+                </a>
+            </li>
+        </ul>
+    <section id="FileList">
+        @Html.Raw(ViewBag.FileList)
+    </section>
 </section>

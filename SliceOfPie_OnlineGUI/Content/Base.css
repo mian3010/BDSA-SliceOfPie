@@ -33,3 +33,11 @@ html
   background: #00ff00;
   color: #000000;
 }
+#document-menu
+{
+  list-style: none;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  margin: 0;
+}

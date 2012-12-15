@@ -10,9 +10,7 @@ namespace SliceOfPie_Model.Persistence {
   /// </summary>
   public partial class Document {
     public String Title {
-      get {
-        return (GetMetadata("Title") ?? new FileMetaData()).value;
-      }
+      get { return GetMetadata("Title").value; }
       set { GetMetadata("Title").value = value; }
     }
 

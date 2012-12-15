@@ -27,11 +27,3 @@ h2.document-title:hover + div.document-view .metadata-view,
 {
   opacity: 1;
 }
-#document-menu
-{
-  list-style: none;
-  position: absolute;
-  right: 0;
-  top: -10px;
-  margin: 0;
-}

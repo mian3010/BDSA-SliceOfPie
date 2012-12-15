@@ -48,3 +48,6 @@ ul .folder:before {
 #FileList li .file:hover {
   background: rgba(0, 0, 0, 0.2);
 }
+#wrapper {
+  position: relative;
+}

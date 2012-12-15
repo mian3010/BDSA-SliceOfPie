@@ -11,6 +11,12 @@ namespace SliceOfPie_OnlineGUI.Models {
     public static void ModifyDocument(int id, string title, string content) {
       Context2.ModifyDocument(id, title, content);
     }
+    public static FileInstance CreateDocument(string email, string name, decimal version, string path, string title, string content)
+    {
+      var file = new SliceOfPie_Model.Persistence.File {name = name, Version = version};
+      var document = new Document {User_email = email, File = file, path = path, Content = content, Title = title};
+      return Context2.AddFileInstance(document);
+    }
     public static FileInstance GetFile(int id) {
       return Context2.GetFileInstance(id);
     }

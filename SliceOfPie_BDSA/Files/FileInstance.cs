@@ -30,11 +30,18 @@ namespace SliceOfPie_Model.Persistence {
       return output.ToString();
     }
     internal FileMetaData GetMetadata(string metaDataType) {
-      var query = from meta in this.File.FileMetaDatas
-                  where meta.MetaDataType_Type.Equals(metaDataType)
+      var query = from meta in File.FileMetaDatas
+                  where meta.MetaDataType_Type != null && meta.MetaDataType_Type.Equals(metaDataType)
                   select meta;
       var fileMetaDatas = query as IList<FileMetaData> ?? query.ToList();
-      return !fileMetaDatas.Any() ? null : fileMetaDatas.First();
+      if (!fileMetaDatas.Any()) { return CreateMetadata("Title", ""); }
+      return fileMetaDatas.First();
+    }
+
+    internal FileMetaData CreateMetadata(string strType, string value) {
+      var meta = new FileMetaData { MetaDataType_Type = strType, value = value };
+      File.FileMetaDatas.Add(meta);
+      return meta;
     }
   }
 }
