@@ -339,7 +339,7 @@ namespace SliceOfPie_Model.Persistence {
           dbContext.Users.AddObject(user);
 
           var count = 1;
-          for (int k = 0; k < 10; k++) {
+          for (int k = 0; k < 1000; k++) {
             // Add Files
             var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
             if (i % 2 == 0) file.serverpath += "Subfolder";

@@ -24,10 +24,10 @@
 <section class="viewer">
     <ul id="document-menu">
         <li>
-            <a href="@Url.Action("Editor", "Default")?id=@ViewBag.Id">
+            <a href="@Url.Action("Editor", "Default")?id=@ViewBag.Id" title="Edit">
                 <img src="@Url.Content("~/Images/edit_big.png")" />
             </a>
-            <a id="ShowHistory" href="@Url.Action("History", "Default")?id=@ViewBag.Id">
+            <a id="ShowHistory" href="@Url.Action("History", "Default")?id=@ViewBag.Id" title="View changes">
                 <img src="@Url.Content("~/Images/history.gif")" />
             </a>
         </li>
