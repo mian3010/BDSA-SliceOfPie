@@ -8,9 +8,9 @@ namespace SliceOfPie_Model.CompositeStructure {
     public string viewLink { get; set; }
     public string viewLinkEnd { get; set; }
     public string viewImage { get; set; }
-    public string editLink { get; set; }
+    public string actionLinks { get; set; }
     public new string ToString() {
-      return "<span class=\"file\">" + viewLink + Label + viewLinkEnd + "<div class=\"FileActions\">" + editLink + viewImage + "</div></span>";
+      return "<span class=\"file\">" + viewLink + Label + viewLinkEnd + "<div class=\"FileActions\">" + actionLinks + viewImage + "</div></span>";
     }
   }
 }

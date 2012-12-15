@@ -15,7 +15,7 @@ namespace SliceOfPie_Model.Persistence {
   public static class Context2 {
 
     private const String _pathString = "YoMammasAss";
-     
+
     // User
     public static User GetUser(string email) {
       using (var dbContext = new SliceOfLifeEntities()) {
@@ -28,6 +28,13 @@ namespace SliceOfPie_Model.Persistence {
         return null;
       var query = from u in dbContext.Users
                   where u.email == email
+                  select u;
+      return !query.Any() ? null : query.First();
+    }
+
+    private static File GetFileWithContext(int id, SliceOfLifeEntities dbContext) {
+      var query = from u in dbContext.Files
+                  where u.id == id
                   select u;
       return !query.Any() ? null : query.First();
     }
@@ -120,7 +127,7 @@ namespace SliceOfPie_Model.Persistence {
     }
 
     public static void ModifyDocument(int fileInstanceId, string title, string content) {
-      if (fileInstanceId < 0 || title == null || content == null) throw new ConstraintException("Invalid arguments"); 
+      if (fileInstanceId < 0 || title == null || content == null) throw new ConstraintException("Invalid arguments");
       using (var dbContext = new SliceOfLifeEntities()) {
         var document = GetDocumentWithContext(fileInstanceId, dbContext);
         document.Title = title;
@@ -133,68 +140,59 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
-      private static FileInstance FileWithoutUser(FileInstance file)
-      {
-          FileInstance newFile = new FileInstance();
-          newFile.File = file.File;
-          newFile.Content = file.Content;
-          newFile.File_id = file.File_id;
-          newFile.path = file.path;
-          newFile.User_email = file.User_email;
-          return newFile;
-      }
+    private static FileInstance FileWithoutUser(FileInstance file) {
+      FileInstance newFile = new FileInstance();
+      newFile.File = file.File;
+      newFile.Content = file.Content;
+      newFile.File_id = file.File_id;
+      newFile.path = file.path;
+      newFile.User_email = file.User_email;
+      return newFile;
+    }
 
-      /// <summary>
-      /// Responsible for adding a FileInstance to the database
-      /// </summary>
-      /// <param name="fileInstance">fileinstance</param>
-      /// <returns>fileinstance with new id from db</returns>
+    /// <summary>
+    /// Responsible for adding a FileInstance to the database
+    /// </summary>
+    /// <param name="fileInstance">fileinstance</param>
+    /// <returns>fileinstance with new id from db</returns>
     public static FileInstance AddFileInstance(FileInstance fileInstance) {
 
-      using (var dbContext = new SliceOfLifeEntities()) {
+      using (var dbContext = new SliceOfLifeEntities())
+      {
         //CONSTRAINTCHECKS
         if (fileInstance == null)
           throw new ConstraintException("Database handler received an empty reference");
 
+        if (fileInstance.File_id != 0) fileInstance.File = GetFileWithContext(fileInstance.File_id, dbContext);
+        if (fileInstance.User_email != null) fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
+
         // File
-        if (fileInstance.File == null)
+        if (fileInstance.File == null && fileInstance.File_id == 0)
           throw new ConstraintException("Database handler received an empty file reference");
 
         // Path
         if (fileInstance.path == null || fileInstance.path.Trim().Equals(""))
           throw new ConstraintException("Invalid file path");
 
-          // File name
-        if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
-          throw new ConstraintException("Invalid file name");
+        // File name
+          if (fileInstance.File.name == null || fileInstance.File.name.Trim().Equals(""))
+            throw new ConstraintException("Invalid file name");
 
-        // File serverpath
+          // File serverpath
           if (fileInstance.File.serverpath == null || fileInstance.File.serverpath.Trim().Equals(""))
-              fileInstance.File.serverpath = _pathString;
+            fileInstance.File.serverpath = _pathString;
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-   
+        
+        if (fileInstance.User == null) {
+          User u = fileInstance.User ?? new User() { email = fileInstance.User_email };
+          fileInstance.User = u;
+          dbContext.Users.AddObject(fileInstance.User);
+        }
 
-          User tmp = GetUserWithContext(fileInstance.User_email, dbContext);
-
-         fileInstance = FileWithoutUser(fileInstance);
-          
-            
-          
-          if (tmp == null)
-          {
-              User u = fileInstance.User ?? new User() {email = fileInstance.User_email};
-              fileInstance.User = u;
-              dbContext.Users.AddObject(fileInstance.User);
-          }
-          else
-          {
-              
-          }
-
-          fileInstance.File.Changes.Clear();
-          dbContext.FileInstances.AddObject(fileInstance);
+        fileInstance.File.Changes.Clear();
+        dbContext.FileInstances.AddObject(fileInstance);
 
         try {
           dbContext.SaveChanges();
@@ -216,6 +214,17 @@ namespace SliceOfPie_Model.Persistence {
       }
     }
 
+    public static List<User> GetUsers(int fileInstanceId) {
+      using (var dbContext = new SliceOfLifeEntities()) {
+        var fileInstance = GetFileInstanceWithContext(fileInstanceId, dbContext);
+        if (fileInstance == null) return null;
+        var query = from f in dbContext.FileInstances.Include("User")
+                    where f.File_id == fileInstance.File.id
+                    select f;
+        return !query.Any() ? null : query.Select(instance => instance.User).ToList();
+      }
+    }
+
     public static FileList GetFileList(string useremail) {
       using (var dbContext = new SliceOfLifeEntities()) {
         var usersFilesOnServer = new FileList();
@@ -223,7 +232,7 @@ namespace SliceOfPie_Model.Persistence {
                     .Include("File.Changes")
                     .Include("User")
                     .Include("File.FileMetaDatas.MetaDataType")
-                    
+
                     where f.User_email == useremail
                     select f;
         if (query.Any()) {
@@ -232,6 +241,21 @@ namespace SliceOfPie_Model.Persistence {
           }
         }
         return usersFilesOnServer;
+      }
+    }
+
+    public static void AddChange(int fileId, Change change)
+    {
+      using (var dbContext = new SliceOfLifeEntities())
+      {
+        var file = GetFileWithContext(fileId, dbContext);
+        file.Changes.Add(change);
+        try {
+          dbContext.SaveChanges();
+        } catch (UpdateException e) {
+          throw new ConstraintException(
+            "Database handler received an error when trying saving changes to the database", e);
+        }
       }
     }
 
@@ -354,7 +378,7 @@ namespace SliceOfPie_Model.Persistence {
             //dbContext.Files.AddObject(file);
 
             // Add FileInstances
-            Document document = new Document { File = file, Content = "Some content"+i+k, id = i, path = @"C:\ClientTestFiles\" };
+            Document document = new Document { File = file, Content = "Some content" + i + k, id = i, path = @"C:\ClientTestFiles\" };
             if (k % 2 == 0) document.path += @"Subfolder\";
             if (k % 3 == 0) document.path += @"AnotherSubFolder\";
             if (k % 7 == 0) document.path += @"YetAnotherSubFolder\";

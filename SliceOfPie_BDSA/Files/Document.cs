@@ -40,16 +40,6 @@ namespace SliceOfPie_Model.Persistence {
       return output.ToString();
     }
 
-
-    public new string HistoryToString() {
-      var output = new StringBuilder();
-      output.Append("<ol>");
-      output.Append("<li>Document created</li>");
-      output.Append("<li>Document saved</li>");
-      output.Append("</ol>");
-      return output.ToString();
-    }
-
     static internal Document CreateTestDocument(String s) {
       var d = new Document { Content = s };
       return d;
