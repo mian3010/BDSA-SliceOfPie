@@ -136,7 +136,7 @@ namespace ServerTest {
       admin.AddFile(i1);
       admin.AddFile(i2);
       admin.AddFile(i3);
-      admin.Synchronize();
+      admin.Synchronize("testuser0@example.com");
     }
 
     [TestMethod]
