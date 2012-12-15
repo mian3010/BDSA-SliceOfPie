@@ -63,10 +63,10 @@
 <section class="editor">
     <ul id="document-menu">
         <li>
-            <a id="Save" href="#">
+            <a id="Save" href="#" title="Save">
                 <img src="@Url.Content("~/Images/icon_save.png")" />
             </a>
-            <a id="Cancel" href="@Url.Action("Viewer", "Default")?id=@ViewBag.Id">
+            <a id="Cancel" href="@Url.Action("Viewer", "Default")?id=@ViewBag.Id" title="View document">
                 <img src="@Url.Content("~/Images/icon_cancel.png")" />
             </a>
         </li>

@@ -41,10 +41,10 @@ namespace SliceOfPie_OnlineGUI.Models {
               }
             }
           }
-          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id=" + currentFile.id + "\">";
+          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id=" + currentFile.id + "\" title=\"View\">";
           const string viewLinkEnd = "</a>";
           const string viewImage = "<img src=\"/Images/open.png\" />";
-          var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\"><img src=\"/Images/edit.png\" /></a>";
+          var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\" title=\"Edit\"><img src=\"/Images/edit.png\" /></a>";
           currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink, viewLinkEnd = viewLinkEnd, viewImage = viewImage });
         }
       return structure.ToString();
