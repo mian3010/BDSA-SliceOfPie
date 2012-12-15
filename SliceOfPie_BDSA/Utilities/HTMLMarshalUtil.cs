@@ -27,7 +27,7 @@ namespace SliceOfPie_Model
                 foreach (FileMetaData types in fileInstance.File.FileMetaDatas)
                 {
                     writer.WriteStartElement("meta");
-                    writer.WriteAttributeString("name", types.MetaDataType.Type);
+                    writer.WriteAttributeString("name", types.MetaDataType_Type);
                     //writer.WriteEndAttribute(); 
                     writer.WriteAttributeString("content", types.value);
                     // writer.WriteEndAttribute();
@@ -37,6 +37,10 @@ namespace SliceOfPie_Model
                 // Write a custom ID tag which we can use later for database purposes.
                 writer.WriteStartElement("ID");
                 writer.WriteString(fileInstance.id.ToString(CultureInfo.InvariantCulture));
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("user");
+                writer.WriteString(fileInstance.User_email.ToString(CultureInfo.InvariantCulture));
                 writer.WriteEndElement();
 
                 // Write body, notice we can't somehow write < and > properly when passed as strings.. :/
@@ -79,6 +83,13 @@ namespace SliceOfPie_Model
 
           XElement body = doc.Element("body");
           if (body != null) file.Content = body.Value;
+
+            XElement user = doc.Element("user");
+            file.User_email = (user ?? new XElement("No User")).Value;
+
+            file.User = new User();
+            file.User.email = file.User_email;
+
 
           return file;
         }
@@ -215,7 +226,7 @@ namespace SliceOfPie_Model
                 c.File_id = fileId;
                 c.User_email = (Node.Element("user_email") ?? def).Value;
                 c.change1 = (Node.Element("change") ?? def).Value;
-                c.timestamp = (Node.Element("timeStamp") ?? def).Value;
+                c.timestamp = long.Parse((Node.Element("timeStamp") ?? def).Value);
 
                 List<Change> list = null;
                 if (changeLog.TryGetValue(fileId,out list))

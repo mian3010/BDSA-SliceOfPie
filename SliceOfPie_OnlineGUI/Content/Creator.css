@@ -1,0 +1,14 @@
+﻿.content-wrapper textarea,
+.content-wrapper input
+{
+  width: 100%;
+}
+.content-wrapper textarea
+{
+  height: 500px;
+}
+.content-wrapper input.name
+{
+  width: 93%;
+  margin-top: -5px;
+}

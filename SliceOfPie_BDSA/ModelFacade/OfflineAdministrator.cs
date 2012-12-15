@@ -35,21 +35,15 @@ namespace SliceOfPie_Model {
 
     public void AddFile(FileInstance file)
     {
-        if (file.id <= 0)
-        {
-            _communicator.AddOfflineCreatedFile(file);
-        }
-        else
-        {
-            _communicator.AddFileFromRemote(file);
-        }
 
+        _communicator.AddFile(file);
     }
    
-    public void Synchronize()
+    public void Synchronize(string userEmail)
     {
         // Get fileList from Communicator
         FileList oFileList = _communicator.FileListHandler.FileList;
+        oFileList.User = userEmail;
         // Send filelist to Server via Client
         FileList responseList = _netClient.SyncServer(oFileList);
         // Receive fileList
@@ -62,8 +56,8 @@ namespace SliceOfPie_Model {
                 case FileListType.Conflict: 
                     conflictFiles.Add(_netClient.PullFile(entry.Id)); break;
                 case FileListType.Pull:
-                    _communicator.AddOfflineCreatedFile(_netClient.PullFile(entry.Id)); break;
-                case FileListType.Push: 
+                    _communicator.AddFile(_netClient.PullFile(entry.Id)); break;
+                case FileListType.Push:
                     FileInstance toPush = _communicator.GetFile(entry.Id);
                     _communicator.UpdateFileId(toPush, _netClient.PushFile(toPush).id); 
                     break;

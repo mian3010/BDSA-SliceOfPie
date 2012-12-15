@@ -8,7 +8,7 @@ namespace SliceOfPie_Model.CompositeStructure {
     public IList<CompositeStructure> Children = new List<CompositeStructure>();
     public new string ToString() {
       var output = new StringBuilder();
-      output.Append("<span>" + Label + "</span>" +
+      output.Append("<span class=\"folder\">" + Label + "</span>" +
                     "<ul>");
 
       foreach (var child in Children) {

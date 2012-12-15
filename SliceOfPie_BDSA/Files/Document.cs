@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
@@ -9,56 +8,38 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  [Serializable()]
-  public class Document : FileInstance {
+  public partial class Document {
+    public String Title {
+      get { return GetMetadata("Title").value; }
+      set { GetMetadata("Title").value = value; }
+    }
 
-
-      //public String Title
-      //{
-      //    get { return Context.GetFileMetaData(File, "Title").value; }
-      //    set { Context.GetFileMetaData(File, "Title").value = value; }
-      //}
-
-      public String Title { get; set; }
-
-      public String Author { get; set; }
-
-    //public IList<User> Authors { get { return Context.GetUsers(File); } }
+    public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
-        get { if (PrivContent.Length == 0)return ""; 
-              else return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length); }
-      set { PrivContent = Encoding.UTF8.GetBytes(value); }
+      get { if (File.Content == null) File.Content = new byte[0]; return File.Content.Length == 0 ? "" : Encoding.UTF8.GetString(File.Content, 0, File.Content.Length); }
+      set { File.Content = Encoding.UTF8.GetBytes(value); }
     }
-    
-      public Document() : base()
-      {
-          PrivContent = new byte[0];
-      }
 
     public override string GetContent() {
       return Content;
     }
 
-    //public override string ToString() {
-    //  var output = new StringBuilder();
-    //  output.Append("<div class=\"document\">");
-    //  output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
-    //  output.Append("<div class=\"document-view\">");
-    //  output.Append("<ul class=\"metadata-view\">");
-    //  foreach (FileMetaData metaData in File.FileMetaDatas) {
-    //    output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
-    //  }
-    //  output.Append("</ul>");
-    //  output.Append(Content);
-    //  output.Append("</div>");
-    //  return output.ToString();
-    //}
-
-    public override string ToString()
-    {
-        return GetContent();
+    public override string ToString() {
+      var output = new StringBuilder();
+      output.Append("<div class=\"document\">");
+      output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
+      output.Append("<div class=\"document-view\">");
+      output.Append("<ul class=\"metadata-view\">");
+      foreach (var metaData in File.FileMetaDatas) {
+        output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
+      }
+      output.Append("</ul>");
+      output.Append(Content);
+      output.Append("</div>");
+      return output.ToString();
     }
+
 
     public new string HistoryToString() {
       var output = new StringBuilder();
@@ -69,17 +50,9 @@ namespace SliceOfPie_Model.Persistence {
       return output.ToString();
     }
 
-    public static Document CreateDocument(FileInstance file) {
-      if (Context2.GetFileMetaData(file.File, "Type").value == "Document") {
-        return (Document)file;
-      }
-      throw new NotADocumentException();
-    }
-
     static internal Document CreateTestDocument(String s) {
       var d = new Document { Content = s };
       return d;
     }
-
   }
 }
