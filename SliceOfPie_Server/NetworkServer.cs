@@ -14,7 +14,7 @@ namespace SliceOfPie_Server
 
         public static NetworkServer GetInstance()
         {
-          return _server ?? (_server = new NetworkServer(80, RequestHandler.Instance));
+          return _server ?? (_server = new NetworkServer(8080, RequestHandler.Instance));
         }
 
       private NetworkServer(int port, RequestHandler handler) {
