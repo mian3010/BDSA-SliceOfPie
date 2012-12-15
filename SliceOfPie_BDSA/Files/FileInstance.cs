@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
-  
+
   public partial class FileInstance {
 
-    internal byte[] PrivContent;
-
     public byte[] Content {
-      get { return PrivContent; }
-      set { PrivContent = value; }
+      get { return File.Content; }
+      set { File.Content = value; }
     }
 
     public virtual String GetContent() {
@@ -18,9 +18,8 @@ namespace SliceOfPie_Model.Persistence {
     }
 
 
-    public override string ToString()
-    {
-      return "<p>This is not a document. It cannot be opened in this program</p>";
+    public override string ToString() {
+      return "<p>File with id " + id + " is not a document. It cannot be opened in this program</p>";
     }
     public string HistoryToString() {
       var output = new StringBuilder();
@@ -29,6 +28,13 @@ namespace SliceOfPie_Model.Persistence {
       output.Append("<li>File saved</li>");
       output.Append("</ol>");
       return output.ToString();
+    }
+    internal FileMetaData GetMetadata(string metaDataType) {
+      var query = from meta in this.File.FileMetaDatas
+                  where meta.MetaDataType_Type.Equals(metaDataType)
+                  select meta;
+      var fileMetaDatas = query as IList<FileMetaData> ?? query.ToList();
+      return !fileMetaDatas.Any() ? null : fileMetaDatas.First();
     }
   }
 }

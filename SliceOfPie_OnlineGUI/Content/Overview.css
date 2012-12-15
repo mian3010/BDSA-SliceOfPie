@@ -1,16 +1,45 @@
-﻿ul span.file:before {
+﻿ul .file:before {
   content: url('/Images/file.png');
   margin-right: 5px;
 }
-ul span.folder:before {
+ul .folder:before {
   content: url('/Images/folder.png');
   margin-right: 5px;
 }
 #FileList ul {
   list-style: none;
-  padding-left: 10px;
+  padding: 0;
+  margin-left: 15px;
+  border-left: 3px solid #9E31B7;
+}
+#FileList li .file {
+  width: 100%;
+  display: block;
+  background: rgba(0, 0, 0, 0.05);
+  position: relative;
+  margin: 2px 0;
+}
+.FileActions {
+  display: none;
+  position: absolute;
+  right: 0;
+}
+#FileList li .file:hover .FileActions {
+  display: inline-block;
 }
 #FileList > .folder {
   font-size: 20px;
   font-weight: bold;
+}
+.FileLink {
+  padding: 0;
+  position: absolute;
+  left: 30px;
+  right: 0;
+}
+.FileLink:hover {
+  background: none;
+}
+#FileList li .file:hover {
+  background: rgba(0, 0, 0, 0.2);
 }

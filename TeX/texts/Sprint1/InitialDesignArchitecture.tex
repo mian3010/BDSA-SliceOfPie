@@ -2,9 +2,11 @@
 This section covers our initial program design. We’ll show the artifacts related to the process of choosing a logical architecture and their influence. Moreover, we’ll describe and discuss Class Diagrams as our layers in our architecture were initially thought out. 
 % [maybe we need some more introduction here]
 \subsubsection{Logical Architectural Design}
-% !! -- Add refs to following
+% refs following
 Our initial logical architectural design signals a transition from understanding and analysing the requirements to actually outlining major subsystems of the program. This is done with the artifacts from earlier described in mind.\\
-The requirements explicitly state that the program should contain two modes of program execution: offline and online work. Hence, to use several features of the .NET framework we decide to make separate User Interfaces to support this. It follows that we need some separation between UI and the logic applied when synchronizing documents between applications as according to the Model-View separation Principle [OOAD, p. 209]. Additionally, we want to introduce a layer between persistence of the documents and the synchronization logic specific to the client or the server. Outlining this initial architecture is a very crude UML package diagram as shown in [reference Appendix Tex/illu/package diagram.jpeg or maybe a minimized version]. 
+The requirements explicitly state that the program should contain two modes of program execution: offline and online work. Hence, to use several features of the .NET framework we decide to make separate User Interfaces to support this. It follows that we need some separation between UI and the logic applied when synchronizing documents between applications as according to the Model-View separation Principle \cite[p.~209]{OOAD}. Additionally, we want to introduce a layer between persistence of the documents and the synchronization logic specific to the client or the server. Outlining this initial architecture is a very crude UML package diagram as shown in [Appendix, Figur \ref{packagediagram}, page \pageref{packagediagram}].
+% or maybe a minimized version]. 
+% ref
 The package diagram shows separate subsystems, but in a logical partition. This means we may implement packages such as GUI(Web) and GUI(Offline) in separate applications.\\
 As we will show later, the architecture shown in the diagram needs some improvement, which we’ll do in the next iteration. The argument for this decision is that we want to identify and implement a core solution for the critical elements of the program such as persisting files, marshalling files and synchronizing files.\\
 \subsubsection{Initial Client Server Class Design}
@@ -14,9 +16,8 @@ This section describes an overview of our class design as we envision it during 
 \item It splits a potential fat client up into a thinner client and a domain server, which run logic for example specific to synchronizing between users
 \item A front-end client need only concentrate on it’s own responsibilities such as - document editing and local persistence
 \end{itemize}
-% [reference to http://c2.com/cgi/wiki?ThreeTierDistributionArchitecture]
-These traits allows us to build a proof-of-concept that contains the minimum requirements. Additionally, the proof-of-concept is expandable to contain for example a client written in another language. On the other hand, it contains some more implementation. And moreover, we need to define some interfaces early for the server and the client to implement. These initial crude designs is shown in our initial overview of the classes a server and a client could contain:\\
-% [reference to ClassDiagramServer and ClassDiagramClient]
+\cite{ttda}\\
+These traits allows us to build a proof-of-concept that contains the minimum requirements. Additionally, the proof-of-concept is expandable to contain for example a client written in another language. On the other hand, it contains some more implementation. And moreover, we need to define some interfaces early for the server and the client to implement. These initial crude designs is shown in our initial overview of the classes a server and a client could contain: [Appendix, Figur \ref{classdiagramserver} and \ref{classdiagramclient}, page \pageref{classdiagramserver}]\\
 These initial diagram are very flawed and incomplete, but nevertheless have a profound impact on our later design, as we shall see.\\
 \newline
 This concludes our first sprint and the connected artifacts. We’ve developed artifacts thats relevant to the inception and elaboration phase of RUP which we felt were necessary to obtain three central objectives:\\
