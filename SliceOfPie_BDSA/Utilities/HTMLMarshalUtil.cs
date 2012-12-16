@@ -145,7 +145,7 @@ namespace SliceOfPie_Model
                           Id = Int32.Parse(xElement.Value),
                           Name = element.Value,
                           Path = xElement1.Value,
-                          Version = decimal.Parse(element1.Value),
+                          Version = decimal.Parse(element1.Value, CultureInfo.InvariantCulture),
                           IsDeleted = xElement2 != null && bool.Parse(xElement2.Value)
                         };
                       var element2 = m.Element("type");
