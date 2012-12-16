@@ -50,6 +50,7 @@ namespace SliceOfPie_Server {
         } else {
           throw new ArgumentException("Illegal XML method");
         }
+        Console.Out.WriteLine("Process completed");
       /*} catch (Exception e) {
         Exception ex = new ArgumentException("Error in Process()", e);
         throw ex;
@@ -67,6 +68,7 @@ namespace SliceOfPie_Server {
       Stream stream = _response.OutputStream;
       byte[] data = fileListStream.ToArray();
       stream.Write(data, 0, data.Length);
+      stream.Flush();
       stream.Close();
     }
 
@@ -81,6 +83,7 @@ namespace SliceOfPie_Server {
       Stream stream = _response.OutputStream;
       byte[] data = fileListStream.ToArray();
       stream.Write(data, 0, data.Length);
+      stream.Flush();
       stream.Close();
     }
 
@@ -101,6 +104,7 @@ namespace SliceOfPie_Server {
       Stream stream = _response.OutputStream;
       byte[] data = fileListStream.ToArray();
       stream.Write(data, 0, data.Length);
+      stream.Flush();
       stream.Close();
     }
   }
