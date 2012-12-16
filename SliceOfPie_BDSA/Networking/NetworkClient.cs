@@ -7,8 +7,10 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SliceOfPie_Model {
-  public class NetworkClient : INetClient {
-    private const int Port = 80;
+  public class NetworkClient : INetClient
+  {
+      private const int Port = 80;
+      private const String TestIP = "http://10.25.243.118:";
 
     public NetworkClient() {
 
@@ -67,8 +69,8 @@ namespace SliceOfPie_Model {
       HttpWebRequest request;
       if (method != "GET") {
         int length = data.Length;
-        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/");
-        //request = WebRequest.Create("http://localhost:" + Port + "/");
+        request = (HttpWebRequest)WebRequest.Create(TestIP + Port + "/");
+     
         request.Method = method;
         request.ContentType = "application/octet-stream";
         request.ContentLength = length;
@@ -78,9 +80,7 @@ namespace SliceOfPie_Model {
         requestStream.Close();
       }
       else {
-
-        //request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
-        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        request = (HttpWebRequest)WebRequest.Create(TestIP + Port + "/?" + Encoding.UTF8.GetString(data));
         request.Method = method;
       }
       return request.GetResponse().GetResponseStream();
