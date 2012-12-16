@@ -14,7 +14,7 @@ namespace SliceOfPie_Server
 
         public static NetworkServer GetInstance()
         {
-          return _server ?? (_server = new NetworkServer(8080, RequestHandler.Instance));
+          return _server ?? (_server = new NetworkServer(80, RequestHandler.Instance));
         }
 
       private NetworkServer(int port, RequestHandler handler) {
@@ -27,8 +27,8 @@ namespace SliceOfPie_Server
         /// </summary>
         public void Listen() {
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://localhost:"+_port+"/");
-            //_listener.Prefixes.Add("http://10.25.207.250:" + _port + "/");
+            //_listener.Prefixes.Add("http://localhost:"+_port+"/");
+            _listener.Prefixes.Add("http://10.25.207.250:" + _port + "/");
             _listener.Start();
             while (_isActive) {
                 HttpListenerContext context = _listener.GetContext();
