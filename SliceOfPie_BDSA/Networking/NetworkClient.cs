@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Sockets;
 using System.Text;
 using System.Net;
 using SliceOfPie_Model.Persistence;
@@ -35,7 +36,6 @@ namespace SliceOfPie_Model {
     public FileInstance PullFile(int fileId) {
       var fileIdByte = Encoding.UTF8.GetBytes("id=" + fileId.ToString(CultureInfo.InvariantCulture));
       var responseFromServer = Send(fileIdByte, "GET");
-
       //Read the file instance object from response
       return HandleFileResponse(responseFromServer);
     }
@@ -64,6 +64,7 @@ namespace SliceOfPie_Model {
     /// <param name="method">The REST method</param>
     /// <returns>A response from the server to be returned</returns>
     private static System.IO.Stream Send(byte[] data, string method) {
+
       WebRequest request;
       if (method != "GET") {
         request = WebRequest.Create("http://10.25.207.250:" + Port + "/");
@@ -74,10 +75,12 @@ namespace SliceOfPie_Model {
         requestStream.Flush();
         requestStream.Close();
       } else {
+
+
           request = WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
         request.Method = method;
       }
-      return request.GetResponse().GetResponseStream();
+        return request.GetResponse().GetResponseStream();
     }
 
     /// <summary>
@@ -102,7 +105,10 @@ namespace SliceOfPie_Model {
             if (response != null)
             {
                 var formatter = new BinaryFormatter();
-                return (FileInstance)formatter.Deserialize(response);
+                FileInstance file = (FileInstance) formatter.Deserialize(response);
+                response.Dispose();
+                response.Close();
+                return file;
             }
             return null;
         }

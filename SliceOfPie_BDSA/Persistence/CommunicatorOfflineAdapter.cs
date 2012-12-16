@@ -17,12 +17,12 @@ namespace SliceOfPie_Model
         private static CommunicatorOfflineAdapter _adapter;
         private readonly OfflineFileListHandler _fileListHandler;
 
-        private readonly HashSet<FileInstance> cache;
+        private readonly HashSet<FileInstance> _cache;
 
         private CommunicatorOfflineAdapter()
         {
             _fileListHandler = new OfflineFileListHandler(this);
-            cache = new HashSet<FileInstance>();
+            _cache = new HashSet<FileInstance>();
         }
 
         public IFileListHandler FileListHandler
@@ -158,7 +158,7 @@ namespace SliceOfPie_Model
         /// <returns></returns>
         public FileInstance GetFile(int id)
         {
-            foreach (FileInstance fileInstance in cache)
+            foreach (FileInstance fileInstance in _cache)
             {
                 if (fileInstance.id == id)
                     return fileInstance;
@@ -184,7 +184,7 @@ namespace SliceOfPie_Model
 
 
 
-            cache.Add(loadedFile);
+            _cache.Add(loadedFile);
             return loadedFile;
         }
 
@@ -195,7 +195,7 @@ namespace SliceOfPie_Model
             FileListHandler.ChangeIdOnFile(file, newId);
 
             // We might not have the same fileInstance object so we're gonna check and compare on id.
-            foreach (FileInstance f in cache)
+            foreach (FileInstance f in _cache)
             {
                 if (f.id == oldID)
                     f.id = newId;
@@ -225,7 +225,7 @@ namespace SliceOfPie_Model
 
         private bool AddNewFile(FileInstance file)
         {
-            cache.Add(file);
+            _cache.Add(file);
             if (!Directory.Exists(file.path))
             {
                 Directory.CreateDirectory(file.path);
