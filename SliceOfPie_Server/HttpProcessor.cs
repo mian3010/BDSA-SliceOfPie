@@ -37,7 +37,7 @@ namespace SliceOfPie_Server {
       var formatter = new BinaryFormatter();
       //try {
         if (httpMethod == "PUT") {
-          var file = (SliceOfPie_Model.Persistence.FileInstance)formatter.Deserialize(inputStream);
+          var file = (FileInstance)formatter.Deserialize(inputStream);
           _handler.ReceiveFile(file, this);
         } else if (httpMethod == "POST") {
           var fileList = (FileList)formatter.Deserialize(inputStream);
@@ -50,6 +50,7 @@ namespace SliceOfPie_Server {
         } else {
           throw new ArgumentException("Illegal XML method");
         }
+      inputStream.Close();
         Console.Out.WriteLine("Process completed");
       /*} catch (Exception e) {
         Exception ex = new ArgumentException("Error in Process()", e);

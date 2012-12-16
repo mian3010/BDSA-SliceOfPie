@@ -91,7 +91,10 @@ namespace SliceOfPie_Model {
     private static FileList HandleFileListResponse(System.IO.Stream response) {
       if (response != null) {
         var formatter = new BinaryFormatter();
-        return (FileList)formatter.Deserialize(response);
+        var fileList = (FileList)formatter.Deserialize(response);
+        response.Dispose();
+        response.Close();
+        return fileList;
       }
       return null;
     }
