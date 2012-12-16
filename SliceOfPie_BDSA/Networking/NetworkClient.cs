@@ -66,7 +66,8 @@ namespace SliceOfPie_Model {
     private static System.IO.Stream Send(byte[] data, string method) {
       WebRequest request;
       if (method != "GET") {
-        request = WebRequest.Create("http://10.25.207.250:" + Port + "/");
+        //request = WebRequest.Create("http://10.25.207.250:" + Port + "/");
+        request = WebRequest.Create("http://localhost:" + Port + "/");
         request.Method = method;
         var requestStream = request.GetRequestStream();
         int length = data.Length;
@@ -74,7 +75,8 @@ namespace SliceOfPie_Model {
         requestStream.Flush();
         requestStream.Close();
       } else {
-          request = WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data)); 
+        //request = WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
         request.Method = method;
       }
       return request.GetResponse().GetResponseStream();
