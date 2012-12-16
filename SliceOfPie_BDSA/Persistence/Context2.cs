@@ -132,6 +132,7 @@ namespace SliceOfPie_Model.Persistence {
         var document = GetDocumentWithContext(fileInstanceId, dbContext);
         document.Title = title;
         document.Content = content;
+        document.File.Version += 1;
         try {
           dbContext.SaveChanges();
         } catch (UpdateException e) {
@@ -192,6 +193,7 @@ namespace SliceOfPie_Model.Persistence {
         }
 
         fileInstance.File.Changes.Clear();
+        fileInstance.File.Version += 1;
         dbContext.FileInstances.AddObject(fileInstance);
 
         try {
@@ -363,7 +365,7 @@ namespace SliceOfPie_Model.Persistence {
           dbContext.Users.AddObject(user);
 
           var count = 1;
-          for (int k = 0; k < 100; k++) {
+          for (int k = 0; k < 2; k++) {
             // Add Files
             var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
             if (i % 2 == 0) file.serverpath += "Subfolder";
@@ -379,10 +381,12 @@ namespace SliceOfPie_Model.Persistence {
 
             // Add FileInstances
             Document document = new Document { File = file, Content = "Some content" + i + k, id = i, path = @"C:\ClientTestFiles\" };
+           /*
             if (k % 2 == 0) document.path += @"Subfolder\";
             if (k % 3 == 0) document.path += @"AnotherSubFolder\";
             if (k % 7 == 0) document.path += @"YetAnotherSubFolder\";
             if (k % 5 == 0) document.path += @"SomeSubFolder\";
+            * */
             document.File = file;
             document.User = user;
             dbContext.FileInstances.AddObject(document);

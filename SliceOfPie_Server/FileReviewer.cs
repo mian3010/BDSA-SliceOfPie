@@ -33,9 +33,9 @@ namespace SliceOfPie_Server {
         FileInstance fileFromDb = Context2.GetFileInstance(entry.Id);
         if (fileFromDb != null) {
           var majorEntryVersion = (int)Math.Truncate(entry.Version);
-          var minorEntryVersion = (int)(entry.Version - Math.Truncate(entry.Version) * 10);
+          var minorEntryVersion = (int)((entry.Version - Math.Truncate(entry.Version)) * 1000);
           var majorDbVersion = (int)Math.Truncate(fileFromDb.File.Version);
-          var minorDbVersion = (int)(entry.Version - Math.Truncate(fileFromDb.File.Version) * 10);
+          var minorDbVersion = (int)((fileFromDb.File.Version - Math.Truncate(fileFromDb.File.Version)) * 1000);
           if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
             //Client must push their file for merging
             RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
