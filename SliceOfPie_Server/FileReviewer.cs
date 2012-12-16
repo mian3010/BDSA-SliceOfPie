@@ -38,11 +38,15 @@ namespace SliceOfPie_Server {
           var minorDbVersion = (int)((fileFromDb.File.Version - Math.Truncate(fileFromDb.File.Version)) * 1000);
           if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
             //Client must push their file for merging
-            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            try {
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            } catch (ArgumentException) {}
             usersFilesFromServer.List[entry.Id].Type = FileListType.Push;
           } else if (majorEntryVersion < majorDbVersion && minorEntryVersion == 0) {
             //Client does not have the latest file, and must pull it.
-            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            try{
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            } catch (ArgumentException) { }
             usersFilesFromServer.List[entry.Id].Type = FileListType.Pull;
           } else usersFilesFromServer.List.Remove(entry.Id); //File on client and server is the same
         } else {
