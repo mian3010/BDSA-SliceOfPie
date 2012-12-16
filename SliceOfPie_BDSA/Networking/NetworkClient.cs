@@ -10,9 +10,8 @@ namespace SliceOfPie_Model {
   public class NetworkClient : INetClient {
     private const int Port = 80;
 
-    public NetworkClient()
-    { 
-    
+    public NetworkClient() {
+
     }
 
     /// <summary>
@@ -65,23 +64,26 @@ namespace SliceOfPie_Model {
     /// <returns>A response from the server to be returned</returns>
     private static System.IO.Stream Send(byte[] data, string method) {
 
-      WebRequest request;
+      HttpWebRequest request;
       if (method != "GET") {
-        //request = WebRequest.Create("http://10.25.207.250:" + Port + "/");
-        request = WebRequest.Create("http://localhost:" + Port + "/");
-        request.Method = method;
-        var requestStream = request.GetRequestStream();
         int length = data.Length;
+        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/");
+        //request = WebRequest.Create("http://localhost:" + Port + "/");
+        request.Method = method;
+        request.ContentType = "application/octet-stream";
+        request.ContentLength = length;
+        var requestStream = request.GetRequestStream();
         requestStream.Write(data, 0, length);
         requestStream.Flush();
         requestStream.Close();
-      } else {
+      }
+      else {
 
-          request = WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
-        //request = WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        //request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
         request.Method = method;
       }
-        return request.GetResponse().GetResponseStream();
+      return request.GetResponse().GetResponseStream();
     }
 
     /// <summary>
@@ -91,7 +93,10 @@ namespace SliceOfPie_Model {
     private static FileList HandleFileListResponse(System.IO.Stream response) {
       if (response != null) {
         var formatter = new BinaryFormatter();
-        return (FileList)formatter.Deserialize(response);
+        var fileList = (FileList)formatter.Deserialize(response);
+        response.Dispose();
+        response.Close();
+        return fileList;
       }
       return null;
     }
@@ -101,22 +106,19 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="response">The response from the server</param>
     private static FileInstance HandleFileResponse(System.IO.Stream response) {
-        try
-        {
-            if (response != null)
-            {
-                var formatter = new BinaryFormatter();
-                FileInstance file = (FileInstance) formatter.Deserialize(response);
-                response.Dispose();
-                response.Close();
-                return file;
-            }
-            return null;
+      try {
+        if (response != null) {
+          var formatter = new BinaryFormatter();
+          FileInstance file = (FileInstance)formatter.Deserialize(response);
+          response.Dispose();
+          response.Close();
+          return file;
         }
-        catch (InvalidCastException)
-        {
-            return null;
-        }
+        return null;
+      }
+      catch (InvalidCastException) {
+        return null;
+      }
     }
 
     /// <summary>
@@ -126,8 +128,8 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     private static int HandleIdResponse(System.IO.Stream response) {
       if (response != null) {
-          var formatter = new BinaryFormatter();
-          return (int)formatter.Deserialize(response);
+        var formatter = new BinaryFormatter();
+        return (int)formatter.Deserialize(response);
       }
       return 0;
     }
