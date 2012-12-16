@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SliceOfPie_Server.FileReceiver">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACAAAEAA=</HashCode>
+      <FileName>FileReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Server.FileListReviewer">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAACACAAAAAA=</HashCode>
+      <FileName>FileReviewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Server.HttpProcessor">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAACAAQgEAAAAIAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>HttpProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Server.NetworkServer">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAEgAQIEAAAAABAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>NetworkServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Server.RequestHandler">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEACAAAAAAAAAAAIIAAACAAAAAAAgAQAAAAAAABAA=</HashCode>
+      <FileName>RequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Server.ServerLauncher">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>ServerLauncher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
