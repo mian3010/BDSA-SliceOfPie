@@ -40,7 +40,7 @@ The diagram illustrates the need for several interacting modules, each with a we
 CDA: Describes the client synchronization before sending a request to the server\\
 CDB: Describes the synchronization on receiving the reply from the server\\
 \newline
-For example, client objects should not be dependent on more than one interface on the server side. This shows in the sequence diagram by many method arrows that are interrupted by object lifelines. Second, as the server logic contains concurrent programming to allow for separate client requests at the same time, we expand the concrete logic in a UML activity diagram. The diagram is shown in Appendix [Appendix, Illustrations, \ref{activitydiagram}, page \pageref{activitydiagram}]\\
+For example, client objects should not be dependent on more than one interface on the server side. This shows in the sequence diagram by many method arrows that are interrupted by object lifelines. Second, as the server logic contains concurrent programming to allow for separate client requests at the same time, we expand the concrete logic in a UML activity diagram. The diagram is shown in [Appendix, Illustrations, \ref{activitydiagram}, page \pageref{activitydiagram}]\\
 \newline
 The diagrams notates threads as different swimlanes. Each request from a client is treated separately and concurrently. Additionally, each synchronization process relates to a specified user. This means that several clients can access the server at the same time and request synchronization.\\
 \subsubsection{Using GRASP principles}
