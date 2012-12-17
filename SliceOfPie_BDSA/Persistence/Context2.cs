@@ -165,6 +165,7 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstanceInput == null)
           throw new ConstraintException("Database handler received an empty reference");
         FileInstance fileInstance;
+        var update = false;
         if (fileInstanceInput.id > 0)
         {
           fileInstance = dbContext.FileInstances.Find(fileInstanceInput.id);
@@ -172,6 +173,12 @@ namespace SliceOfPie_Model.Persistence {
           fileInstanceInput.File.id = fileInstance.File_id;
           fileInstance.File = dbContext.Files.Find(fileInstance.File_id);
           dbContext.Entry(fileInstance.File).CurrentValues.SetValues(fileInstanceInput.File);
+          foreach (var change in from change in fileInstanceInput.File.Changes let tmp = dbContext.Changes.Find(change.id) where tmp == null select change)
+          {
+            fileInstance.File.Changes.Add(change);
+          }
+          update = true;
+
         }
         else fileInstance = fileInstanceInput;
 
@@ -204,9 +211,8 @@ namespace SliceOfPie_Model.Persistence {
           dbContext.Users.Add(fileInstance.User);
         }
 
-        fileInstance.File.Changes.Clear();
         fileInstance.File.Version += 1;
-        dbContext.FileInstances.Add(fileInstance);
+        if (!update) dbContext.FileInstances.Add(fileInstance);
 
         try {
           dbContext.SaveChanges();
