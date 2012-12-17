@@ -3,10 +3,12 @@
   \ra{1.3}
   \begin{tabularx}{\textwidth}{@{}rXl@{}}\toprule
     \textbf{ID} & \textbf{Description} & \textbf{Priority} \\\hline
-    1 & CreateDocumentOnline & High   \\\hline
+    1 & CreateDocumentOffline & High   \\\hline
     2 & SynchronizeChanges   & High   \\\hline
     3 & MultipleUserEdit     & High   \\\hline
-    4 & ViewVersionHistory   & Medium \\
+    4 & ViewVersionHistory   & Medium \\\hline
+    5 & CreateDocumentOnline & High \\\hline
+    6 & EditDocumentOnline	 & High \\
     \bottomrule
   \end{tabularx}
   \caption{Our use cases}
@@ -107,7 +109,6 @@
 The user wants to view a history for a file in the Slice Of Pie system. He'll select a file from the graphical user interface in the system and click on a show version history button. The system will retrieve version history for the file and display it in a new window. \\
 \textbf{Alternate:}\\
 The user wants to revert document to an earlier state. This use case has yet to be defined and elaborated on.\\
-
 \subsubsection{CreateDocumentOnline}
 \textbf{Use Case \#5:} CreateDocumentOnline\\
 \textbf{ID:} U\#5\\
@@ -117,7 +118,6 @@ The user wants to revert document to an earlier state. This use case has yet to 
 The user want to create a document using the Slice Of Pie web page. He'll enter the front page and log in to his account. A page with the file list will show up. The user will push the green plus button in the upper right corner. The creator page will show and the user can enter a filename, a document path, a document name and the the content of the document. The user will click on the save button which is an icon of a disc. He'll now see the Editor window with the content and the filename.\\
 \newline
 \textbf{Precondition:} The user have a running internet connection.\\
-
 \subsubsection{EditDocumentOnline}
 \textbf{Use Case \#6:} EditDocumentOnline\\
 \textbf{ID:} U\#6\\
@@ -126,5 +126,5 @@ The user want to create a document using the Slice Of Pie web page. He'll enter 
 \textbf{Main:}\\
 The user will edit a document online. He'll click on the document he will edit. He can now see the document in the viewer window. He will click on the edit button. It is the button with the pencil image. He now enter the editor window and he can enter the content of the document. When he is done editing he now push the save button.\\
 \newline
-\tekstbf{Precondition:} The file list is not empty adn the user have a running internet connection.
+\textbf{Precondition:} The file list is not empty and the user have a running internet connection.
 \newpage
