@@ -11,7 +11,7 @@ USE `SliceOfLife` ;
 -- Table `SliceOfLife`.`Project`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`Project` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `title` VARCHAR(400) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
@@ -21,19 +21,20 @@ ENGINE = InnoDB;
 -- Table `SliceOfLife`.`File`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`File` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(400) NOT NULL ,
   `serverpath` VARCHAR(400) NOT NULL ,
-  `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
+  `deleted` TINYINT NULL DEFAULT 0 ,
   `Project_id` INT NULL ,
   `Version` DECIMAL(30,30) NOT NULL ,
+  `Content` BLOB NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_File_Project1_idx` (`Project_id` ASC) ,
   CONSTRAINT `fk_File_Project1`
     FOREIGN KEY (`Project_id` )
     REFERENCES `SliceOfLife`.`Project` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -51,24 +52,25 @@ ENGINE = InnoDB;
 -- Table `SliceOfLife`.`FileInstance`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`FileInstance` (
-  `id` INT UNSIGNED NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `User_email` VARCHAR(400) NOT NULL ,
   `path` VARCHAR(400) NOT NULL ,
-  `deleted` TINYINT UNSIGNED NULL DEFAULT 0 ,
-  `File_id` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`, `User_email`, `File_id`) ,
+  `deleted` TINYINT NULL DEFAULT 0 ,
+  `File_id` INT NOT NULL ,
+  `Type` VARCHAR(45) NULL ,
+  PRIMARY KEY (`id`) ,
   INDEX `fk_FileInstance_User1_idx` (`User_email` ASC) ,
   INDEX `fk_FileInstance_File1_idx` (`File_id` ASC) ,
   CONSTRAINT `fk_FileInstance_User1`
     FOREIGN KEY (`User_email` )
     REFERENCES `SliceOfLife`.`User` (`email` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_FileInstance_File1`
     FOREIGN KEY (`File_id` )
     REFERENCES `SliceOfLife`.`File` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -76,24 +78,24 @@ ENGINE = InnoDB;
 -- Table `SliceOfLife`.`Change`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`Change` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `User_email` VARCHAR(400) NOT NULL ,
   `timestamp` BIGINT NULL ,
   `change` TEXT NULL ,
-  `File_id` INT UNSIGNED NOT NULL ,
+  `File_id` INT NOT NULL ,
   PRIMARY KEY (`id`, `User_email`, `File_id`) ,
   INDEX `fk_Change_User1_idx` (`User_email` ASC) ,
   INDEX `fk_Change_File1_idx` (`File_id` ASC) ,
   CONSTRAINT `fk_Change_User1`
     FOREIGN KEY (`User_email` )
     REFERENCES `SliceOfLife`.`User` (`email` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Change_File1`
     FOREIGN KEY (`File_id` )
     REFERENCES `SliceOfLife`.`File` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -110,23 +112,23 @@ ENGINE = InnoDB;
 -- Table `SliceOfLife`.`FileMetaData`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`FileMetaData` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `value` VARCHAR(400) NULL ,
   `MetaDataType_Type` VARCHAR(400) NOT NULL ,
-  `File_id` INT UNSIGNED NOT NULL ,
+  `File_id` INT NOT NULL ,
   PRIMARY KEY (`id`, `MetaDataType_Type`) ,
   INDEX `fk_FileMetaData_MetaDataType1_idx` (`MetaDataType_Type` ASC) ,
   INDEX `fk_FileMetaData_File1_idx` (`File_id` ASC) ,
   CONSTRAINT `fk_FileMetaData_MetaDataType1`
     FOREIGN KEY (`MetaDataType_Type` )
     REFERENCES `SliceOfLife`.`MetaDataType` (`Type` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_FileMetaData_File1`
     FOREIGN KEY (`File_id` )
     REFERENCES `SliceOfLife`.`File` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -142,13 +144,13 @@ CREATE  TABLE IF NOT EXISTS `SliceOfLife`.`ProjectHasUser` (
   CONSTRAINT `fk_ProjectHasUser_User1`
     FOREIGN KEY (`User_email` )
     REFERENCES `SliceOfLife`.`User` (`email` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_ProjectHasUser_Project1`
     FOREIGN KEY (`Project_id` )
     REFERENCES `SliceOfLife`.`Project` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -156,5 +158,6 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 \end{spverbatim}
 \newpage
