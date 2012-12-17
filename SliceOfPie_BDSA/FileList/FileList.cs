@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 
 namespace SliceOfPie_Model {
-  [Serializable()]
-  public class FileList {
+  
+    /// <summary>
+    /// Contains a 
+    /// </summary>
+    [Serializable()]
+    public class FileList {
     public IDictionary<int, FileListEntry> List { get; set; }
 
     public int IncrementCounter {

@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="30c4f2bd655c481193bf292c9b675bc6" Name="Diagram1">
-        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="1.375" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="8.125" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="4.625" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="2.5" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="0.5" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="6.375" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3.875" PointY="8.125" IsExpanded="true" />
+      <Diagram DiagramId="907584bd3b96491ab8d1f1e82951656d" Name="Diagram1">
+        <EntityTypeShape EntityType="SliceOfLifeModel.Change" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.File" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileInstance" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.FileMetaData" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.MetaDataType" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Project" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.User" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
         <AssociationConnector Association="SliceOfLifeModel.fk_Change_File1" ManuallyRouted="false" />
         <AssociationConnector Association="SliceOfLifeModel.fk_Change_User1" ManuallyRouted="false" />
         <AssociationConnector Association="SliceOfLifeModel.fk_File_Project1" ManuallyRouted="false" />
@@ -20,7 +20,7 @@
         <AssociationConnector Association="SliceOfLifeModel.fk_FileInstance_User1" ManuallyRouted="false" />
         <AssociationConnector Association="SliceOfLifeModel.fk_FileMetaData_MetaDataType1" ManuallyRouted="false" />
         <AssociationConnector Association="SliceOfLifeModel.ProjectHasUser" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SliceOfLifeModel.Document" Width="1.5" PointX="6.625" PointY="2" />
+        <EntityTypeShape EntityType="SliceOfLifeModel.Document" Width="1.5" PointX="8.25" PointY="2.75" />
         <InheritanceConnector EntityType="SliceOfLifeModel.Document" />
       </Diagram>
     </edmx:Diagrams>
