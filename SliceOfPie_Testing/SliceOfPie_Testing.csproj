@@ -74,12 +74,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextTest.cs" />
     <Compile Include="FileCommunicatorTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HTMLMarshallerTest.cs" />
     <Compile Include="NetworkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerClientTest.cs" />
     <Compile Include="SimpleMergePolicyTest.cs" />
     <Compile Include="LoggingTests.cs" />
     <Compile Include="UnmarshallFileTests.cs" />
@@ -91,6 +93,10 @@
     <ProjectReference Include="..\SliceOfPie_BDSA\SliceOfPie_Model.csproj">
       <Project>{48b6328a-33a1-4ffd-b6b4-ed75e380e68c}</Project>
       <Name>SliceOfPie_Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SliceOfPie_Server\SliceOfPie_Server.csproj">
+      <Project>{27529225-bb29-4e63-8739-13b49751abc8}</Project>
+      <Name>SliceOfPie_Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
