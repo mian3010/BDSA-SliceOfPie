@@ -27,7 +27,9 @@ Following our design of the data-containing classes, we move on to modelling the
 \end{itemize}
 We will present how we make interaction diagrams as a case study of one our use cases.
 \subsubsection{Case: Synchronization}
-Below is an example of an UML communication diagram made to support a process as described in a use case, U\#2. Please note that the diagram illustrates the design as we thought it out at the start of the sprint. A section regarding the diagrams used for ‘real' code documentation is presented in Sprint 3. \\
+In Appendix is an example of an UML communication diagram made to support a process as described in a use case, U\#2.
+[Appendix, Illustrations, \ref{CD5A} and \ref{CD5B}, page \pageref{CD5A} and \pageref{CD5B}]\\
+Please note that the diagram illustrates the design as we thought it out at the start of the sprint. A section regarding the diagrams used for ‘real' code documentation is presented in Sprint 3. \\
 The diagram illustrates the need for several interacting modules, each with a well-defined API, each module briefly described:\\
 \begin{itemize}
 \item An administrator module, serving as an entry point to the model, receiving and redirecting requests from the user interface
@@ -38,8 +40,7 @@ independently of the persistent storage so it is potentially reuseable.
 \end{itemize}
 [Appendix, Illustrations, \ref{CD5A} and \ref{CD5B}, page \pageref{CD5A} and \pageref{CD5B}]\\
 \newline
-\newline
-Client objects should not be dependent on more than one interface on the server side. This shows in the sequence diagram by the many method arrows that are interrupted by object lifelines. As the server logic contains concurrent programming to allow for separate client requests at the same time, we expand the concrete logic in a UML activity diagram. This diagram is shown in [Appendix, Illustrations, \ref{activitydiagram}, page \pageref{activitydiagram}]\\
+Client objects should not be dependent on more than one interface on the server side. This shows in the sequence diagram by the many method arrows that are interrupted by object lifelines. As the server logic contains concurrent programming to allow for separate client requests at the same time, we expand the concrete logic in a UML activity diagram. This diagram is shown in [Appendix, Illustrations, Figur \ref{activitydiagram}, page \pageref{activitydiagram}]\\
 \newline
 The diagram notates threads as different swimlanes. Each request from a client is treated separately and concurrently. Additionally, each synchronization process relates to a specified user. This means that several clients can access the server at the same time and request synchronization.\\
 \subsubsection{Using GRASP principles}
