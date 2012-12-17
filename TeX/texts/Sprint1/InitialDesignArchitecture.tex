@@ -14,9 +14,8 @@ This section describes an overview of our class design as we envision it during 
 \begin{itemize}
 \item It allows for multiple clients to access remote storage independently.
 \item It splits a potential fat client up into a thinner client and a domain server, which apply logic for example specific to synchronizing between users
-\item A front-end client need only concentrate on it's own responsibilities such as - document editing and local persistence \cite{ttda}\\.
+\item A front-end client need only concentrate on it's own responsibilities such as - document editing and local persistence \cite{ttda}\\
 \end{itemize}
-
 These traits allows us to build a proof-of-concept that contains the minimum requirements. Additionally, the proof-of-concept is expandable to contain for example a client written in another language. On the other hand, it contains some more implementation. Moreover, we need to define some interfaces early for the server and the client to implement. These initial crude designs is shown in our initial overview of the classes a server and a client could contain [Appendix, Figur \ref{classdiagramserver} and \ref{classdiagramclient}, page \pageref{classdiagramserver}].\\
 % Insert picture?
 These initial diagram are very flawed and incomplete, but nevertheless have a profound impact on our later design, as we shall see.\\

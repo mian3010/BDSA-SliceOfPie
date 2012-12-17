@@ -59,5 +59,6 @@ with such an object becomes harder as the object now only have a global state.\\
 Another pattern that we highlight in the persistence module is the Cache Management \cite[p.~551]{OOAD}. The cache management is done in the class which retrieves files from disks. The class then maintains the file in memory for later use. However, the cache could be improved by for example implementing a caching algorithm. This would be useful if the system should extend its use to other file types like large images.\cite{cachingalgorithm} \\
 \newline
 A key part of the Model View Controller pattern which we implement includes the Observer Pattern \cite[p.~377]{OOAD}. This pattern is easily implemented in C\# by using the delegate and the event constructs. This means that the Windows Forms which we use in the offline interface publishes user inputs as events without knowing the identity of observers. This pattern greatly decreases coupling. \\
-% Michael add stuff here about composite
+\newline
+Finally, for constructing the html tree of files and folders in the online GUI the composite design pattern \cite[p.~453]{OOAD} is used. Folder should contain either other folders or files, and this is achieved by creating a superclass, and a subclass for each type (folder and file). \\
 \newpage

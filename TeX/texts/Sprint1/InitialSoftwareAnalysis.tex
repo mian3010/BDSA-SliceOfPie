@@ -11,7 +11,8 @@ Before doing any design of the system, we realize the need for a common terminol
 The picture shows our first draft of the domain model. It shows that our domain model reflects the entities needed to fulfill the requirements given in the project description.\\
 Additionally, we quickly identify that online storage using a database will be an important part of our system. As a consequence we also add a relational data model to create a better view of the entities in this aspect:\\
 \begin{figure}[H]
-  \includegraphics[width=\textwidth,natwidth=410,natheight=418]{illustrations/RelationalData-model.png}
+\centering
+  \includegraphics[width=0.5\textwidth]{illustrations/RelationalData-model.png}
   \caption{Relational Data-Model}
   \label{relationalmodel}
 \end{figure}
@@ -35,11 +36,10 @@ The use cases created in this sprint are shown in [Appendix, Use Cases page \pag
 \subsubsection{Non-trivial requirements}
 To further elaborate on requirements that may require complex implementation in the system, we create additional artifacts to understand them. The example we will show here is the users ability to synchronize documents between a client and the server holding the documents in online storage. To illustrate the interaction between the user and the system when this process is occurring, a System Sequence Diagram is drawn to display this [Appendix, Illustrations, Figur \ref{activitydiagram}, \pageref{systemsequencediagram}]. The SSD is shown in the Appendix.\\
 Moreover, to elaborate on the conditions of the requirement, we create an Operation Contract as shown below:\\
-% !! -- includes note
 \begin{table*}[ht]\centering
   \ra{1.3}
   \begin{tabularx}{\textwidth}{@{}rXXl@{}}\toprule
-    \textbf{Contract CO1:} & SynchronizeWithServer (Make sure name is same\\
+    \textbf{Contract CO1:} & SynchronizeWithServer\\
     \textbf{Cross References:} & Use Case \#2: Synchronize\\
     \textbf{Preconditions:} &  The user has an internet connection. The server is up and running.\\
     \textbf{Postconditions:} & The user has received files made in another client application.\\
