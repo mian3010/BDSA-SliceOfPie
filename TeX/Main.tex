@@ -9,12 +9,14 @@
 \usepackage{alltt}
 \usepackage{float}
 \usepackage{url}
+\usepackage{fancyhdr}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \newcommand{\specialcell}[1]{\begin{tabular}{@{}c@{}#1\end{tabular}}}
 \newcommand{\CS}{C\nolinebreak\hspace{-.05em}\raisebox{.6ex}{\tiny\bf \#}}
 % define the title
 \author{StroustrupSekten}
 \title{Slice of Pie}
+\pagestyle{fancy}
 \begin{document}
 \maketitle
 \input{texts/Preface.tex}
@@ -32,8 +34,3 @@
 \bibliographystyle{cell}
 \bibliography{bib}
 \end{document}
-
-Todo:
-[sprinttimeline.jpeg
-[reference to Appendix: SSD2 (Synchronize)]
-[insert partPersistence.png]
