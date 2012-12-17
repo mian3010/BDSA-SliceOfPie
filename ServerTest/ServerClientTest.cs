@@ -65,7 +65,7 @@ namespace ServerTest {
     public void TestSaveFileNegative() {
       var server = NetworkServer.GetInstance();
       var client = new NetworkClient();
-      var file = File.CreateFile(10, "TestFileName", @"C:\Some\Path\", 1.0M);
+      var file = new File{id = 10, name = "TestFileName", serverpath = @"C:\Some\Path\", Version = 1.0M};
       var doc = new Document { File = file };
       var data = new FileMetaData { value = "HALLO" };
       var type = new MetaDataType { Type = "test metadatatype" };
@@ -109,7 +109,7 @@ namespace ServerTest {
       file.serverpath = "test123Se234rverpath";
       file.Version = 0.0m;
       file.FileMetaDatas.Add(data);
-      var fileInstance = FileInstance.CreateFileInstance(32, user.email, @"C:\ClientFiles\Test\", file.id);
+      var fileInstance = new FileInstance {id = 32, User_email = user.email, path = @"C:\ClientFiles\Test\", File_id = file.id};
       fileInstance.User = user;
 
       FileInstance instance = client.PushFile(fileInstance);
