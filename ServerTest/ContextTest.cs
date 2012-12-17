@@ -5,10 +5,10 @@ using SliceOfPie_Model.Persistence;
 namespace ServerTest {
   [TestClass]
   public class ContextTest {
-    private static readonly User TestUser = User.CreateUser("testcase@user.dk");
-    private static readonly File File1 = File.CreateFile(1, "test1.txt", @"C:\ServerFiles\Test\", 0.0m);
-    private static readonly File File2 = File.CreateFile(2, "test2.txt", @"C:\ServerFiles\Test\", 0.0m);
-    private static readonly File File3 = File.CreateFile(3, "test3.txt", @"C:\ServerFiles\Test\", 0.0m);
+    private static readonly User TestUser = new User { email = "testcase@user.dk" };
+    private static readonly File File1 = new File{name = "test1.txt", serverpath= @"C:\ServerFiles\Test\", Version = 0.0m};
+    private static readonly File File2 = new File { id = 2, name = "test2.txt", serverpath = @"C:\ServerFiles\Test\", Version = 0.0m };
+    private static readonly File File3 = new File { id = 3, name = "test3.txt", serverpath = @"C:\ServerFiles\Test\", Version = 0.0m };
     private static readonly FileInstance Fi1 = FileInstance.CreateFileInstance(1, TestUser.email, @"C:\ClientFiles\Test\", File1.id);
     private static readonly FileInstance Fi2 = FileInstance.CreateFileInstance(2, TestUser.email, @"C:\ClientFiles\Test\", File2.id);
     private static readonly FileInstance Fi3 = FileInstance.CreateFileInstance(3, TestUser.email, @"C:\ClientFiles\Test\", File3.id);
