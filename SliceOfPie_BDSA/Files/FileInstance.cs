@@ -21,11 +21,13 @@ namespace SliceOfPie_Model.Persistence {
     public override string ToString() {
       return "<p>File with id " + id + " is not a document. It cannot be opened in this program</p>";
     }
-    public string HistoryToString() {
+    public string ChangesToString() {
       var output = new StringBuilder();
       output.Append("<ol>");
-      output.Append("<li>File created</li>");
-      output.Append("<li>File saved</li>");
+      foreach (var change in File.Changes) {
+        output.Append("<li>User : " + change.User_email + " " + change.change1 + " @ the time : " +
+                      new DateTime((long)change.timestamp) + "</li>");
+      }
       output.Append("</ol>");
       return output.ToString();
     }

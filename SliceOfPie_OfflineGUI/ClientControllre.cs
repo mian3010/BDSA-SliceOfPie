@@ -10,7 +10,7 @@ namespace SliceOfPie_OfflineGUI
     /// Controls the input from the GUI and redirects the relevant information to the Model.
     /// Binds primarily using delegates and events.
     /// </summary>
-    public class ClientPresenter
+    public class ClientControllre
     {
         private readonly MainWindow _view;
         private readonly OfflineAdministrator _model;
@@ -18,13 +18,12 @@ namespace SliceOfPie_OfflineGUI
         [STAThread]
         public static void Main(String[] args)
         {
-
-            new ClientPresenter();
+            new ClientControllre();
           
         }
 
 
-      private ClientPresenter()
+      private ClientControllre()
         {
             _model = OfflineAdministrator.GetInstance();
             Application.EnableVisualStyles();

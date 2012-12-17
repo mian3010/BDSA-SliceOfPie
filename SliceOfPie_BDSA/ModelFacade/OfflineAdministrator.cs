@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
+
+
   public class OfflineAdministrator : IAdministrator {
 
     private readonly ICommunicator _communicator;

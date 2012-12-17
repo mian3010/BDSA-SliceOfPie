@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Sockets;
 using System.Text;
 using System.Net;
 using SliceOfPie_Model.Persistence;
@@ -7,7 +8,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SliceOfPie_Model {
   public class NetworkClient : INetClient {
-    private const int Port = 8080;
+    private const int Port = 80;
+
+    public NetworkClient() {
+
+    }
 
     /// <summary>
     /// Sends the FileList to the Server and initializes the synchronization process
@@ -30,7 +35,6 @@ namespace SliceOfPie_Model {
     public FileInstance PullFile(int fileId) {
       var fileIdByte = Encoding.UTF8.GetBytes("id=" + fileId.ToString(CultureInfo.InvariantCulture));
       var responseFromServer = Send(fileIdByte, "GET");
-
       //Read the file instance object from response
       return HandleFileResponse(responseFromServer);
     }
@@ -59,17 +63,24 @@ namespace SliceOfPie_Model {
     /// <param name="method">The REST method</param>
     /// <returns>A response from the server to be returned</returns>
     private static System.IO.Stream Send(byte[] data, string method) {
-      WebRequest request;
+
+      HttpWebRequest request;
       if (method != "GET") {
-        request = WebRequest.Create("http://localhost:" + Port + "/");
-        request.Method = method;
-        var requestStream = request.GetRequestStream();
         int length = data.Length;
+        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/");
+        //request = WebRequest.Create("http://localhost:" + Port + "/");
+        request.Method = method;
+        request.ContentType = "application/octet-stream";
+        request.ContentLength = length;
+        var requestStream = request.GetRequestStream();
         requestStream.Write(data, 0, length);
         requestStream.Flush();
         requestStream.Close();
-      } else {
-        request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
+      }
+      else {
+
+        //request = WebRequest.Create("http://localhost:" + Port + "/?" + Encoding.UTF8.GetString(data));
+        request = (HttpWebRequest)WebRequest.Create("http://10.25.207.250:" + Port + "/?" + Encoding.UTF8.GetString(data));
         request.Method = method;
       }
       return request.GetResponse().GetResponseStream();
@@ -82,7 +93,10 @@ namespace SliceOfPie_Model {
     private static FileList HandleFileListResponse(System.IO.Stream response) {
       if (response != null) {
         var formatter = new BinaryFormatter();
-        return (FileList)formatter.Deserialize(response);
+        var fileList = (FileList)formatter.Deserialize(response);
+        response.Dispose();
+        response.Close();
+        return fileList;
       }
       return null;
     }
@@ -92,19 +106,19 @@ namespace SliceOfPie_Model {
     /// </summary>
     /// <param name="response">The response from the server</param>
     private static FileInstance HandleFileResponse(System.IO.Stream response) {
-        try
-        {
-            if (response != null)
-            {
-                var formatter = new BinaryFormatter();
-                return (FileInstance)formatter.Deserialize(response);
-            }
-            return null;
+      try {
+        if (response != null) {
+          var formatter = new BinaryFormatter();
+          FileInstance file = (FileInstance)formatter.Deserialize(response);
+          response.Dispose();
+          response.Close();
+          return file;
         }
-        catch (InvalidCastException)
-        {
-            return null;
-        }
+        return null;
+      }
+      catch (InvalidCastException) {
+        return null;
+      }
     }
 
     /// <summary>
@@ -114,8 +128,8 @@ namespace SliceOfPie_Model {
     /// <returns></returns>
     private static int HandleIdResponse(System.IO.Stream response) {
       if (response != null) {
-          var formatter = new BinaryFormatter();
-          return (int)formatter.Deserialize(response);
+        var formatter = new BinaryFormatter();
+        return (int)formatter.Deserialize(response);
       }
       return 0;
     }
