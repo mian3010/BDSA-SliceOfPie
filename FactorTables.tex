@@ -1,0 +1,22 @@
+\documentclass[10pt]{article}
+\begin{document}
+\addtolength{\hoffset}{-65mm}
+\subsection{Factor Table}
+\begin{tabular}{| p{3cm} | p{3cm} | p{3cm} | p{3cm} | p{12mm} | p{14mm} |}
+\hline
+Factor & Measures and Quality Scenarios & Variability (current flexibility and future evolution) & impact on factors (and it's variability) on stakeholders, architecture and other factors & Priority of success & Difficulty of risk\\ \hline
+Recovery from lost connection while synchronizing files from database & When connection is lost all changes from database shall be recorded in a local log and synchronization shall continue within 2 seconds when connection to the server is re-established & Current flexibility - The FileListHandler shall keep track of the process so synchronization can proceed when reconnection is possible.
+
+Evolution - none & Requirement for product acceptance & H & M\\ \hline
+Recovery from lost connection when synchronizing files to database & When connection the server is lost all changes on local files shall be saved locally and synchronization shall continue within 2 seconds when connection is re-established & Current flexibility -  The FileListHandler shall keep track of the process so synchronization can proceed when reconnection is possible. 
+
+Evolution - none & as above & H & M\\ \hline
+Availability & Slice Of Pie should be available 90\% of the time including downtime for maintenance seen over a period of one year. & Current flexibility - We have a relative large buffer in a 5\% acceptance in downtime. 
+
+Evolution - none & High impact on the architecture and design. & H & L\\ \hline
+Responce time at start up & Performance - When Slice Of Pie system is launched and a connection to the server is established a maximum of 2 seconds delay under normal conditions before synchronizing from the database begins. & Current flexibility - We have a relativ large buffer in a 5\% acceptance in downtime.
+
+Evolution - none & High impact on the architecture and design. & H & L\\ \hline
+\end{tabular}
+\addtolength{\hoffset}{33mm}
+\end{document}
