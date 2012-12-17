@@ -1,25 +1,282 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Interface Name="SliceOfPie_Model.ICommunicator">
-    <Position X="0.5" Y="0.5" Width="2" />
+  <Class Name="SliceOfPie_Model.CompositeStructure.File">
+    <Position X="2.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACMAAAAAQAgAABAEASAAAIAAAAAAAAAAAEEADAAEAA=</HashCode>
-      <FileName>Persistence\ICommunicator.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAgAEAAACAAAAAAAAAAAAAAACAAIAAAA=</HashCode>
+      <FileName>CompositeStructure\File.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="SliceOfPie_Model.IFileListHandler">
-    <Position X="3.25" Y="0.5" Width="1.5" />
+  </Class>
+  <Class Name="SliceOfPie_Model.CompositeStructure.Folder">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAQAACAAAA=</HashCode>
-      <FileName>Persistence\IFileListHandler.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CompositeStructure\Folder.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="SliceOfPie_Model.IAdministrator">
+  </Class>
+  <Class Name="SliceOfPie_Model.CompositeStructure.CompositeStructure">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CompositeStructure\ICompositeStructure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.ConstraintException">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ConstraintException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.FilePersistenceException" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\FilePersistenceException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.MergeImpossibleException" Collapsed="true">
+    <Position X="9.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\MergeImpossibleException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.NotADocumentException" Collapsed="true">
+    <Position X="9.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NotADocumentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.FileList">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAI=</HashCode>
+      <FileName>FileList\FileList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.FileListEntry">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACIAAAAAACAAIAAAAAAAQAAAAAAAAAAQAAAQAAAAI=</HashCode>
+      <FileName>FileList\FileListEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.MergePolicy">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAIAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>MergePolicy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.OfflineAdministrator" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAgIAAAAIAAAABAAAEAAAJAAEAQABAAA=</HashCode>
+      <FileName>ModelFacade\OfflineAdministrator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SliceOfPie_Model.NetworkClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEABAAAAAAAAAEAAAEAAAAAAGAIQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\NetworkClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SliceOfPie_Model.CommunicatorOfflineAdapter" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASMAAAAAYAgAAJAEASAAIIAAAAAAAAAAAUEADAAEBA=</HashCode>
+      <FileName>Persistence\CommunicatorOfflineAdapter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SliceOfPie_Model.OfflineFileListHandler" BaseTypeListCollapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAEAAAEhAAABAkAQAAACAEADQgAAAggAQARCIEAA=</HashCode>
+      <FileName>Persistence\OfflineFileListHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SliceOfPie_Model.SimpleMergePolicy">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimpleMergePolicy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.HtmlMarshalUtil">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAgAAAAAAABAAAAAAAEACAABAAQAAAAgAAAAAA=</HashCode>
+      <FileName>Utilities\HtmlMarshalUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Exceptions.NoNodeSelectedException" Collapsed="true">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NoNodeSelectedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.Document">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAgAAAEAEAAAAQAAAAABAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Files\Document.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.FileInstance">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <Members>
+      <Method Name="CreateFileInstance" Hidden="true" />
+      <Property Name="deleted" Hidden="true" />
+      <Property Name="File" Hidden="true" />
+      <Property Name="File_id" Hidden="true" />
+      <Property Name="FileReference" Hidden="true" />
+      <Property Name="id" Hidden="true" />
+      <Method Name="OndeletedChanged" Hidden="true" />
+      <Method Name="OndeletedChanging" Hidden="true" />
+      <Method Name="OnFile_idChanged" Hidden="true" />
+      <Method Name="OnFile_idChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OnpathChanged" Hidden="true" />
+      <Method Name="OnpathChanging" Hidden="true" />
+      <Method Name="OnUser_emailChanged" Hidden="true" />
+      <Method Name="OnUser_emailChanging" Hidden="true" />
+      <Property Name="path" Hidden="true" />
+      <Property Name="User" Hidden="true" />
+      <Property Name="User_email" Hidden="true" />
+      <Property Name="UserReference" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAABAAAABiACQEgkACBCQACIBBQEgAAAQCoACAAQwoA=</HashCode>
+      <FileName>Files\FileInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.FileMetaData">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateFileMetaData" Hidden="true" />
+      <Property Name="File" Hidden="true" />
+      <Property Name="File_id" Hidden="true" />
+      <Property Name="FileReference" Hidden="true" />
+      <Property Name="id" Hidden="true" />
+      <Property Name="MetaDataType" Hidden="true" />
+      <Property Name="MetaDataType_Type" Hidden="true" />
+      <Property Name="MetaDataTypeReference" Hidden="true" />
+      <Method Name="OnFile_idChanged" Hidden="true" />
+      <Method Name="OnFile_idChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OnMetaDataType_TypeChanged" Hidden="true" />
+      <Method Name="OnMetaDataType_TypeChanging" Hidden="true" />
+      <Method Name="OnvalueChanged" Hidden="true" />
+      <Method Name="OnvalueChanging" Hidden="true" />
+      <Property Name="value" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAgAAAAAAAkABBAAAAAZAREACFABAIAgAAQgoA=</HashCode>
+      <FileName>Files\FileMetaData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.MetaDataType">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAgAAAABEAAAAAAAAAAAAAAAAAQAAABAABAA=</HashCode>
+      <FileName>Files\MetaDataType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.Context2">
+    <Position X="15.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAEAAAAIAAAAAAAAAAAOAAIEAgAAwFAgAAEgAAAA=</HashCode>
+      <FileName>Persistence\Context2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.SliceOfLifeEntities" Collapsed="true">
+    <Position X="15.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCACAAAAIAAIgAAIAQAAAABEAgGAAQACACABUACYA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.Change">
     <Position X="5.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateChange" Hidden="true" />
+      <Method Name="Onchange1Changed" Hidden="true" />
+      <Method Name="Onchange1Changing" Hidden="true" />
+      <Method Name="OnFile_idChanged" Hidden="true" />
+      <Method Name="OnFile_idChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OntimestampChanged" Hidden="true" />
+      <Method Name="OntimestampChanging" Hidden="true" />
+      <Method Name="OnUser_emailChanged" Hidden="true" />
+      <Method Name="OnUser_emailChanging" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAEAQAAAAA=</HashCode>
-      <FileName>ModelFacade\IAdministrator.cs</FileName>
+      <HashCode>EAABAAAAoAAAAAAgAABARCCIBgSEgAAAAAIBAAAQwoA=</HashCode>
     </TypeIdentifier>
-  </Interface>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.File">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <Members>
+      <Property Name="Changes" Hidden="true" />
+      <Property Name="Content" Hidden="true" />
+      <Method Name="CreateFile" Hidden="true" />
+      <Property Name="deleted" Hidden="true" />
+      <Property Name="FileInstances" Hidden="true" />
+      <Property Name="FileMetaDatas" Hidden="true" />
+      <Property Name="id" Hidden="true" />
+      <Property Name="name" Hidden="true" />
+      <Method Name="OnContentChanged" Hidden="true" />
+      <Method Name="OnContentChanging" Hidden="true" />
+      <Method Name="OndeletedChanged" Hidden="true" />
+      <Method Name="OndeletedChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OnnameChanged" Hidden="true" />
+      <Method Name="OnnameChanging" Hidden="true" />
+      <Method Name="OnProject_idChanged" Hidden="true" />
+      <Method Name="OnProject_idChanging" Hidden="true" />
+      <Method Name="OnserverpathChanged" Hidden="true" />
+      <Method Name="OnserverpathChanging" Hidden="true" />
+      <Method Name="OnVersionChanged" Hidden="true" />
+      <Method Name="OnVersionChanging" Hidden="true" />
+      <Property Name="Project" Hidden="true" />
+      <Property Name="Project_id" Hidden="true" />
+      <Property Name="ProjectReference" Hidden="true" />
+      <Property Name="serverpath" Hidden="true" />
+      <Property Name="Version" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAECIAAQAggAAEgAIGRAGAAAFXAEQAAAAAABAFAwQoA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.Project">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAQIAAAAAAAABBAAAABAAAAAAAAAAABAAQCoA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SliceOfPie_Model.Persistence.User">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAQAAAAggBAAAAAAAAEAAAAAAAAAAAAAAAQE=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="SliceOfPie_Model.FileListType">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAA=</HashCode>
+      <FileName>FileList\FileListType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

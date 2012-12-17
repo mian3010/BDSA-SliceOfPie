@@ -233,7 +233,7 @@ namespace SliceOfPie_OfflineGUI {
         CurrentDocument = new Document();
         CurrentDocument.File = new File();
         // Set user both in email and the navigation property.
-        var user = User.CreateUser(userEmailBox.Text);
+        var user = new User{ email = userEmailBox.Text};
         //user.email = userEmailBox.Text;
         CurrentDocument.User_email = user.email;
         //CurrentDocument.User = user;
