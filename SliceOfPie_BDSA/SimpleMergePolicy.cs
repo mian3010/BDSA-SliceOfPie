@@ -24,7 +24,7 @@ namespace SliceOfPie_Model
 
             string[] originalArray = splitter.Split(original.Content).Where(s => s != String.Empty).ToArray();
             string[] latestArray = splitter.Split(latest.Content).Where(s => s != String.Empty).ToArray();
-       
+
             var merged = new StringBuilder();
 
             int o = 0;
@@ -35,6 +35,12 @@ namespace SliceOfPie_Model
             // Always run once in case we can't split our document.
             do
             {
+                // If both arrays are of lenght 0, we can only use latest
+                if (endOfN == 0 && endOfO == 0)
+                {
+                    merged.Append(latestArray[n]);
+                    break;
+                }
                 // All remaining lines are new, we append from latest
                 if (o == endOfO && n != endOfN)
                 {
@@ -43,7 +49,7 @@ namespace SliceOfPie_Model
                         merged.Append(latestArray[n++]);
                     }
                 }
-                
+
                 // If two sentences are equal, just append one of them.
                 else if (originalArray[o].Equals(latestArray[n]))
                 {
@@ -55,7 +61,7 @@ namespace SliceOfPie_Model
                 else if (o != endOfO && n == endOfN)
                 {
                     o = endOfO;
-                }                
+                }
 
 
                 // If a sentence is different from original array we have to merge backwards.
@@ -93,7 +99,7 @@ namespace SliceOfPie_Model
                 }
 
             } while (o <= endOfO && n <= endOfN);
-            
+
             // Since we use stringbuilder, we'll reuse the latest documents metadata.
             // Maybe change this later?
             latest.Content = merged.ToString();

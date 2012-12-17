@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
 
+  [Serializable()]
   public partial class FileInstance {
 
     public byte[] Content {

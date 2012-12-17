@@ -168,7 +168,6 @@ namespace SliceOfPie_Model
             String html = File.ReadAllText(fullPath);
 
             FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
-            loadedFile.File = new Persistence.File();
             loadedFile.File.serverpath = fileInfo.Path;
             loadedFile.path = fileInfo.Path;
             loadedFile.File.name = fileInfo.Name;

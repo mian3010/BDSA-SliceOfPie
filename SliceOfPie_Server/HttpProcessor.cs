@@ -37,7 +37,7 @@ namespace SliceOfPie_Server {
       var formatter = new BinaryFormatter();
       //try {
         if (httpMethod == "PUT") {
-          var file = (FileInstance)formatter.Deserialize(inputStream);
+            var file = (FileInstance)formatter.Deserialize(inputStream);
           _handler.ReceiveFile(file, this);
         } else if (httpMethod == "POST") {
           var fileList = (FileList)formatter.Deserialize(inputStream);

@@ -74,21 +74,58 @@
     <Compile Include="FileList\FileList.cs" />
     <Compile Include="FileList\FileListEntry.cs" />
     <Compile Include="FileList\FileListType.cs" />
+    <Compile Include="Files\Change.cs" />
+    <Compile Include="Files\File.cs" />
+    <Compile Include="Files\Project.cs" />
+    <Compile Include="Files\User.cs" />
     <Compile Include="MergePolicy.cs" />
     <Compile Include="Networking\INetClient.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Persistence\Change.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Context2.cs" />
     <Compile Include="Files\FileInstance.cs" />
+    <Compile Include="Persistence\Database.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Database.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Document.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\File.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\FileInstance.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\FileMetaData.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\IFileListHandler.cs" />
     <Compile Include="ModelFacade\OfflineAdministrator.cs" />
     <Compile Include="Exceptions\FilePersistenceException.cs" />
     <Compile Include="Persistence\CommunicatorOfflineAdapter.cs" />
-    <Compile Include="Persistence\Context.cs" />
+    <Compile Include="Persistence\MetaDataType.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Project.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\User.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\EventDelegates.cs" />
     <Compile Include="Utilities\FileEventArgs.cs" />
     <Compile Include="Utilities\HtmlMarshalUtil.cs" />
@@ -115,8 +152,18 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Database.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Persistence\Database.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Database.edmx</DependentUpon>
+      <LastGenOutput>Database.Context.cs</LastGenOutput>
+    </None>
     <None Include="Persistence\Database.edmx.diagram">
       <DependentUpon>Database.edmx</DependentUpon>
+    </None>
+    <None Include="Persistence\Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Database.edmx</DependentUpon>
+      <LastGenOutput>Database.cs</LastGenOutput>
     </None>
     <None Include="Properties\DataSources\SliceOfPie_Model.Persistence.SliceOfLifeEntities.datasource" />
   </ItemGroup>
