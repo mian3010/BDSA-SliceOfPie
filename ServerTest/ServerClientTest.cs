@@ -33,7 +33,7 @@ namespace ServerTest {
 
     public void CreateTestFiles() {
       var user = new User { email = "superman123@gm44ail.com" };
-      Context2.AddUser(user);
+      Context.AddUser(user);
 
       var file1 = new File { name = "TestName1", serverpath = "TestPath2", Version = 0.0m };
       var file2 = new File { name = "TestName2", serverpath = "TestPath2", Version = 0.0m };
@@ -83,7 +83,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronizeSimple() {
-      Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
       CreateTestList();
@@ -101,7 +101,7 @@ namespace ServerTest {
       // data.MetaDataType_Type = type.Type;
       data.MetaDataType = type;
       User user = new User();
-      Context2.AddUser(user);
+      Context.AddUser(user);
       user.email = "superman123@gmail.com";
 
       File file = new File();
@@ -125,7 +125,7 @@ namespace ServerTest {
 
     [TestMethod]
     public void TestSynchronizeFull() {
-      Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
       CreateTestList();
       NetworkServer server = NetworkServer.GetInstance();
       var serverT = new Thread(server.Listen);
@@ -150,7 +150,7 @@ namespace ServerTest {
     [TestMethod]
     public void CleanUp()
     {
-        Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
     }
   }
 }

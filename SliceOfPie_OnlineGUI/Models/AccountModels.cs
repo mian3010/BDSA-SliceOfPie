@@ -10,7 +10,7 @@ namespace SliceOfPie_OnlineGUI.Models {
     public string UserEmail { get; set; }
 
     public static bool LoginUser(string email) {
-      if (Context2.GetUser(email) != null) {
+      if (Context.GetUser(email) != null) {
         FormsAuthentication.SetAuthCookie(email, true);
         return true;
       }
@@ -26,7 +26,7 @@ namespace SliceOfPie_OnlineGUI.Models {
     [Display(Name = "Email")]
     public string UserEmail { get; set; }
     public static int CreateUser(string email) {
-      return Context2.AddUser(new User { email = email });
+      return Context.AddUser(new User { email = email });
     }
 
 

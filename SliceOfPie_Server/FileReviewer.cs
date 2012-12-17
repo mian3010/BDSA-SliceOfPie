@@ -26,11 +26,11 @@ namespace SliceOfPie_Server {
     }
 
     public void Review() {
-      FileList usersFilesFromServer = Context2.GetFileList(_fileList.User); //hp.user
+      FileList usersFilesFromServer = Context.GetFileList(_fileList.User); //hp.user
       if (usersFilesFromServer.List == null) usersFilesFromServer.List = new Dictionary<int, FileListEntry>();
       foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
-        FileInstance fileFromDb = Context2.GetFileInstance(entry.Id);
+        FileInstance fileFromDb = Context.GetFileInstance(entry.Id);
         if (fileFromDb != null) {
           var majorEntryVersion = (int)Math.Truncate(entry.Version);
           var minorEntryVersion = (int)((entry.Version - Math.Truncate(entry.Version)) * 1000);

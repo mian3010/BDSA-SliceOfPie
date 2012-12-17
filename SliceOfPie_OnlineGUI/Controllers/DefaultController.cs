@@ -8,8 +8,8 @@ namespace SliceOfPie_OnlineGUI.Controllers {
     public ActionResult Index() {
       string email = System.Web.HttpContext.Current.User.Identity.Name;
       if (!string.IsNullOrEmpty(email)) {
-        //Context2.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
-        @ViewBag.FileList = Models.FileModel.FileListToTree(Context2.GetFiles(email));
+        //Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+        @ViewBag.FileList = Models.FileModel.FileListToTree(Context.GetFiles(email));
         return View();
       }
       return RedirectToAction("Login", "Account");
