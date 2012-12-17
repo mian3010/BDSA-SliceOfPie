@@ -18,6 +18,7 @@ namespace SliceOfPie_Model.Persistence
         public SliceOfLifeEntities()
             : base("name=SliceOfLifeEntities")
         {
+          base.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
