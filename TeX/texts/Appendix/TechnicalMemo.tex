@@ -1,0 +1,22 @@
+\subsection{Technical Memo}
+\label{technicalmemo}
+\textbf{Issue:} Recovery from lost internet connection / server failure\\
+\textbf{Solution Summary:} Self-recovering synchronization process using persistent logging and client-server architecture.\\
+\textbf{Factors:} 
+\begin{itemize}
+\item Recovery from internet connection failure
+\item Recovery from server failure while synchronizing
+\end{itemize}
+\textbf{Solution:}
+Implement a log file in the offline client that is persistent. Furthermore, when synchronizing with server files and folders, treat each file as a single task to be executed, allowing for interruption without corrupting more than one file. When the connection is re-established the interrupted process is restarted where it stopped.\\
+The client-server allows this communication, letting the client request push and pull operations from the server.\\
+The defining criteria for the server in this architecture is that it acts as a “lawgiver”, deciding which files to merge, which conflicts to erect, which files to add to the file system etc.\\
+\newline
+\textbf{Motivation:} If the internet connection is lost while synchronizing files we want the system to gracefully pause the synchronization. This means that all synchronization before the breakdown/lost internet is done except the file that was currently in the synchronizing process. Our motivation for this is simple: nobody likes to restart a heavy synchronization process!\\
+Additionally, we want our system to be scaleable in case the proof of concept should be accepted. This means handling potentially large (more than 1GB) synchronization operations. In these cases, we want the operation to be pauseable.\\
+\newline
+\textbf{Unresolved Issues:}
+This is not a ‘real’ issue as it could be considered an extension to the solution but; making the project truly scaleable would include a form of partitioned single-file synchronization so even large file synchronization could be paused and returned at a later time.\\
+\newline
+\textbf{Alternatives Considered:} We considered doing our synchronization a single coherent operation. The upside to doing it this way is the speed of this alternative. However, in a volatile distributed system (which the Slice Of Pie could be extended to at some point), this would be much too risky as network failures are much more common. Hence, the adapted solution seems more scalable and usable.
+\newpage

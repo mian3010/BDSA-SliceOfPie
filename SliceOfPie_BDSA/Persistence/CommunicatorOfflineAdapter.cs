@@ -10,6 +10,7 @@ namespace SliceOfPie_Model
     /// <summary>
     ///     The offline adapter for the ICommunicator interface. Implements persistent storage on disk.
     ///     Also distinguishes between adding files on disk that's retrieved from server or just created offline.
+    /// This class implements the Singleton pattern. 
     /// </summary>
     public class CommunicatorOfflineAdapter : ICommunicator
     {
@@ -25,6 +26,16 @@ namespace SliceOfPie_Model
             _cache = new HashSet<FileInstance>();
         }
 
+        /// <summary>
+        /// Returns the singleton instance of the Communicator.
+        /// </summary>
+        /// <returns></returns>
+        public static CommunicatorOfflineAdapter GetCommunicatorInstance()
+        {
+            return _adapter ?? (_adapter = new CommunicatorOfflineAdapter());
+        }
+
+
         public IFileListHandler FileListHandler
         {
             get { return _fileListHandler; }
@@ -37,6 +48,10 @@ namespace SliceOfPie_Model
             FileRenamed ,
             FilePulled;
 
+        /// <summary>
+        /// Add a file to persistent storage.
+        /// </summary>
+        /// <param name="file">The file to add</param>
         public void AddFile(FileInstance file)
         {
             if (file.id <= 0)
@@ -167,6 +182,7 @@ namespace SliceOfPie_Model
             String fullPath = Path.Combine(fileInfo.Path, fileInfo.Name);
             String html = File.ReadAllText(fullPath);
 
+            // Init file by marshalling
             FileInstance loadedFile = HtmlMarshalUtil.UnmarshallDocument(html);
             loadedFile.File.serverpath = fileInfo.Path;
             loadedFile.path = fileInfo.Path;
@@ -187,7 +203,11 @@ namespace SliceOfPie_Model
             return loadedFile;
         }
 
-
+        /// <summary>
+        /// Updates a file with its new id and logs the change. 
+        /// </summary>
+        /// <param name="file">The file to be updated</param>
+        /// <param name="newId">The new id</param>
         public void UpdateFileId(FileInstance file, int newId)
         {
             int oldID = file.id;
@@ -201,11 +221,7 @@ namespace SliceOfPie_Model
             }
         }
 
-        public static CommunicatorOfflineAdapter GetCommunicatorInstance()
-        {
-            return _adapter ?? (_adapter = new CommunicatorOfflineAdapter());
-        }
-
+   
         /// <summary>
         ///     Adds a file from remote storage. Should be used during synchronization.
         /// </summary>
