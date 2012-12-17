@@ -84,7 +84,7 @@
     <Compile Include="Persistence\Change.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Context2.cs" />
+    <Compile Include="Persistence\Context.cs" />
     <Compile Include="Files\FileInstance.cs" />
     <Compile Include="Persistence\Database.Context.cs">
       <AutoGen>True</AutoGen>

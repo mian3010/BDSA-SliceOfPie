@@ -65,7 +65,7 @@ namespace SliceOfPie_Server {
     /// /// <param name="processor">processor</param>
     /// <returns></returns>
     public void GetFileInstance(int id, HttpProcessor processor) {
-      var file = Context2.GetFileInstance(id);
+      var file = Context.GetFileInstance(id);
       processor.RecieveFile(file);
     }
   }
