@@ -3,21 +3,27 @@
 \bibitem[Hirschfeld, 1996]{ttda}
 Hirschfeld, R. (1996{\rm{}}).
 \newblock {\rm Three Tier Distribution Architecture}.\\
-\newblock \url{http://c2.com/cgi/wiki?ThreeTierDistributionArchitecture.}
+\newblock   \url{http://c2.com/cgi/wiki?ThreeTierDistributionArchitecture}
 
 \bibitem[Larman, 2005]{OOAD}
 Larman, C. (2005{\rm{}}).
 \newblock {\rm Object-oriented analysis and design}.
 \newblock 3rd edition edition.
 
+\bibitem[Panchekha, 2012]{cachingalgorithm}
+Panchekha, P. (2012{\rm{}}).
+\newblock {\rm Caching in theory and practice}.\\
+\newblock   \url{https://tech.dropbox.com/2012/10/caching-in-theory-and-practice/}
+
 \bibitem[ScrumWise, 2012]{scrumwise}
 ScrumWise (2012{\rm{}}).
 \newblock {\rm Scrum Wise}.\\
-\newblock \url{http://www.scrumwise.com.}
+\newblock   \url{http://www.scrumwise.com}
 
 \bibitem[Scwaber \& Sutherland, 2011]{scrumguide}
 Scwaber, K. \& Sutherland, J. (October 2011{\rm{}}).
 \newblock {\rm The Scrum Guide}.\\
 \newblock
-  \url{http://www.scrum.org/Portals/0/Documents/Scrum%20Guides/Scrum_Guide.pdf.}
+  \url{http://www.scrum.org/Portals/0/Documents/Scrum%20Guides/Scrum_Guide.pdf}
+
 \end{thebibliography}
