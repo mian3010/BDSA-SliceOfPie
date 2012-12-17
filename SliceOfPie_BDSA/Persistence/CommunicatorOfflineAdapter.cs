@@ -284,13 +284,27 @@ namespace SliceOfPie_Model
         }
 
         /// <summary>
+        /// Clears the persistent storage. Used for testing
+        /// </summary>
+        public void CleanUp()
+        {
+            foreach (FileListEntry entry in _fileListHandler.FileList.List.Values)
+            {
+                DeleteFile(GetFile(entry.Id));
+            }
+
+            _fileListHandler.FileList.List.Clear();
+            _fileListHandler.ChangeList.Clear();
+        }
+
+        /// <summary>
         ///     Checks for a file in the root folder or the given path
         /// </summary>
         /// <param name="fileInstance">The file to search for</param>
         /// <returns>True if the file is found, false if not existing (at least not in root path)</returns>
         public Boolean FindFile(FileInstance fileInstance)
         {
-            String searchPath = fileInstance.File.serverpath;
+            String searchPath = fileInstance.path;
             searchPath = Path.Combine(searchPath, fileInstance.File.name);
 
             if (File.Exists(searchPath))

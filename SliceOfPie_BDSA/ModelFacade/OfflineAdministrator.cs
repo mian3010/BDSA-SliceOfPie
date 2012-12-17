@@ -66,6 +66,8 @@ namespace SliceOfPie_Model {
                     
             }
         }
+
+        // Right now we don't handle conflicted files. However, this method could easily implement it in the future. -> Should probably call smthn on the GUI.
         HandleConflictedFiles(conflictFiles);
     
     }
@@ -75,12 +77,19 @@ namespace SliceOfPie_Model {
     {
         // Here we should alert the user and let him fix conflicted files.
     }
-       
+      
+      /// <summary>
+      /// Saves a file to storage. Currently overwrites the file and writes a modify change. 
+      /// </summary>
+      /// <param name="file"></param>
     public void SaveFile(FileInstance file) {
         _communicator.ModifyFile(file);
     }
 
-  
+  /// <summary>
+  /// returns a list of file paths mapped to their id's. This is extensible so you don't have to load any files but you can still view them.
+  /// </summary>
+  /// <returns></returns>
     public Dictionary<String, int> GetPathsAndIDs()
     {
         return _communicator.FileListHandler.GetPathsWithId();
