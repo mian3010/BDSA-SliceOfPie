@@ -75,6 +75,7 @@
     <Compile Include="FileList\FileListEntry.cs" />
     <Compile Include="FileList\FileListType.cs" />
     <Compile Include="Files\File.cs" />
+    <Compile Include="Files\User.cs" />
     <Compile Include="MergePolicy.cs" />
     <Compile Include="Networking\INetClient.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
