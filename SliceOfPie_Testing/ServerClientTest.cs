@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SliceOfPie_Model;
 using SliceOfPie_Model.Persistence;
-using SliceOfPie_Server;
 using System.Threading;
 using System.Collections.Generic;
+using SliceOfPie_Server;
 
 namespace ServerTest {
 
@@ -48,7 +48,7 @@ namespace ServerTest {
     public void TestGetFile() {
       NetworkServer server = NetworkServer.GetInstance();
       var client = new NetworkClient();
-      const int id = 1;
+      const int id = 2255;
       var serverT = new Thread(server.Listen);
       serverT.Start();
       Thread.Sleep(1000);
@@ -76,7 +76,7 @@ namespace ServerTest {
       serverT.Start();
       Thread.Sleep(1000);
       FileInstance instance = client.PushFile(doc);
-      Assert.AreEqual(-2, instance.id);
+      Assert.AreEqual(null, instance);
       server.Close();
 
     }

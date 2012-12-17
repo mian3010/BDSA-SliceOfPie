@@ -1,3 +1,32 @@
+\section{Test Strategy}
+This final section covers a discussion of our testing strategies and the results we achieve with them. The section is not placed in a sprint as it hasn’t been subject to iterative development. The principles which we use to test our software and it’s components were developed at the start of the project. The end of the section also contains a list of known bugs in the current release.
+\subsection{Verification \& Validation}
+The system we’ve built contains several sub-packages and components. Not all components have been developed by all team members, and therefore several problems can arise when integrating components and deploying them on different machines. \\
+Additionally, we want to make sure that the system we release is as compliant with the requirements as we can make it. The result is doing both verification and validation testing during each sprint \cite[p.~207]{se9}. The verification tests concern whether our program is functioning correctly in accordance with our requirements, while the validation tests concerns whether the interpretation of the requirements are really what the stakeholders of the project want. \\
+The validation tests are mainly done at the end of each sprint. In here our designated Product Owner assumes the role of a critical stakeholder and asks the following question: “Is this what the customers really want?”. The value of different components may then change based on the answer to this question. \\
+The verification testing is mainly done during development. Here we try to eliminate bugs and faulty behavior from the system. This testing contains of different strategies, which we cover in the following sections.
+\subsection{Black-box testing}
+When testing the parts of our system that deals with user input, such as the online and offline GUI, we primarily use the concept of black-box testing. Each testing scenario has a starting point in a use case. This way we control that the functionality of the system is functioning correctly. 
+The black-box testing comprises two main testing strategies: 
+\begin{itemize}
+\item a manual test where a team member runs the program and creates some input and runs it through the system
+\item an automated set of tests that uses the API of each user interface component.
+\end{itemize}
+The manual test is done each time a significant part of a component has been added or modified in the system. Each test includes executing each use case separately. Moreover, a combination of use cases can be executed to ensure that program states are handled correctly. And lastly, the program must be tested for correct persistent behavior. This means executing Use Cases over several program executions as well.\\
+The automated test is a set of Unit Tests developed within Visual Studio that emulates behaviour in the manual test. This means generating both valid and invalid input for the system to handle. Each public method of the API is tested. A valid point to make here is these testing are primarily done at the beginning and the end of a sprint. The tests reveal the ‘current state of affairs’ and what’s currently lacking.
+\subsection{Component testing}
+When developing complex logic such as the logic used for synchronizing files and changes, we simultaneously develop a set of automated tests to verify the behaviour of the program. The automated tests are then run each time a change is made to the code. The test set typically contains two automated tests: a functional test and a boundary test \cite[p.~214]{se9}. The functional test test the component as it should function according to a use case main success scenario. The boundary test tries to burden the system with abnormal behaviour to expose defects that are not revealed by normal program use. We use the concept of equivalence partitioning when determining input. \\
+In theory, we want to test each public method of each class for input so we can verify behaviour as we code it. However, in practice, this is hard to apply and we have to reduce the testing requirements to cover methods that are defined in interfaces and important top-layer objects of each component. When the tests are run, they usually reveal critical points in the lower-level code and then, we can specific tests for these areas.
+\section{Known Issues \& Bugs}
+\textbf{Bugs:}
+\begin{itemize}
+\item The list of files displayed in the client GUI does not refresh itself properly when a new user and his/her files is synchronized\\
+\end{itemize}
+\textbf{Issues}
+\begin{itemize}
+\item Title is not shown correctly in Client GUI
+\item Web GUI does not use Server-module, but connects directly to the Database.
+\end{itemize}
 \section{Conclusion}
 This section concludes our report. The following is a list of the things we have hoped to describe and achieve with our report and the system behind it. We have:
 \begin{itemize}
