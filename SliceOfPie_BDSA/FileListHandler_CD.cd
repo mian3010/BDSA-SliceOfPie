@@ -1,51 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SliceOfPie_Model.FileList">
-    <Position X="6" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAI=</HashCode>
-      <FileName>FileList\FileList.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SliceOfPie_Model.FileListEntry">
-    <Position X="8" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IAACIAAAAAACAAIAAAAAAAQAAAAAAAAAAQAAAQAAAAI=</HashCode>
-      <FileName>FileList\FileListEntry.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SliceOfPie_Model.OfflineFileListHandler">
-    <Position X="3" Y="2.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAAAABAAABAEAQAAACAEACAAACAgAAQARAAEAA=</HashCode>
-      <FileName>Persistence\OfflineFileListHandler.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="SliceOfPie_Model.CommunicatorOfflineAdapter">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="4" Y="0.5" Width="2.5" />
+    <Members>
+      <Event Name="FileDeleted" Hidden="true" />
+      <Event Name="FileMoved" Hidden="true" />
+      <Event Name="FilePulled" Hidden="true" />
+      <Event Name="FileRenamed" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AASMAAAAAQAgAABAEASAAIIIAAAAAAAAAAUEADAAEBA=</HashCode>
+      <HashCode>ACSMAAAAAQAgAABAEASAAIIAAAAAAAAAAAUEADAAEBA=</HashCode>
       <FileName>Persistence\CommunicatorOfflineAdapter.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="OfflineFileListHandler" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Interface Name="SliceOfPie_Model.IFileListHandler">
-    <Position X="3.75" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAQAACAAAA=</HashCode>
       <FileName>Persistence\IFileListHandler.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="SliceOfPie_Model.FileListType">
-    <Position X="7.75" Y="4.75" Width="1.5" />
+  <Interface Name="SliceOfPie_Model.IAdministrator">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAA=</HashCode>
-      <FileName>FileList\FileListType.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAEAQAAAAA=</HashCode>
+      <FileName>ModelFacade\IAdministrator.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+  </Interface>
+  <Interface Name="SliceOfPie_Model.ICommunicator">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACMAAAAAQAgAABAEASAAAIAAAAAAAAAAAEEADAAEAA=</HashCode>
+      <FileName>Persistence\ICommunicator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

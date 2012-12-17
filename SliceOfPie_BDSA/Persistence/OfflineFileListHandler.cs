@@ -88,6 +88,12 @@ namespace SliceOfPie_Model
             FileListEntry entry = StandardFileEntry(file);
             entry.Id = file.id;
             FileList.List.Add(entry.Id, entry); 
+
+            foreach (Change change in file.File.Changes)
+            {
+                AddChange(change);
+            }
+
             // Version from File ?
         }
 
@@ -99,10 +105,14 @@ namespace SliceOfPie_Model
 
         public void FileAdded(FileInstance file)
         {
+            
             FileListEntry entry =  StandardFileEntry(file);
             entry.Id = file.id;
             entry.Version = 0.001m;
-            FileList.List.Add(entry.Id, entry);  
+            FileList.List.Add(entry.Id, entry);
+            Change c = MakeChangeFromFile(file, "created");
+            file.File.Changes.Add(c);
+            AddChange(c);
         }
 
         public void FileDeleted(FileInstance file)
@@ -139,20 +149,25 @@ namespace SliceOfPie_Model
         public void FileChangedOnDisk(FileInstance file)
         {
 
-            FileList.List[file.id].Version += 0.001m;         
-            Change change = new Change();
-            change.User = new User();
-            if (file.User.email == null)
-                change.User.email = "Unknown";
-            else
-                change.User.email = file.User_email;
-            change.timestamp = DateTime.Now.Ticks;
-            change.change1 = "modified";
-            change.File_id = file.id;
+            FileList.List[file.id].Version += 0.001m;
+           
+            Change change = MakeChangeFromFile(file, "modified");
             file.File.Changes.Add(change);
-
             AddChange(change);
 
+        }
+
+        public Change MakeChangeFromFile(FileInstance file, string action)
+        {
+            var change = new Change();
+            if (file.User_email == null)
+                change.User_email = "Unknown";
+            else
+                change.User_email = file.User_email;
+            change.timestamp = DateTime.Now.Ticks;
+            change.change1 = action;
+            change.File_id = file.id;
+            return change;
         }
 
         private void AddChange(Change change)
@@ -213,6 +228,8 @@ namespace SliceOfPie_Model
             file.id = newID;
 
         }
+
+
 
     }
 }

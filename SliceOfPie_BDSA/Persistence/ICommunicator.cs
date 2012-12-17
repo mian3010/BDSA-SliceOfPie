@@ -14,18 +14,11 @@ namespace SliceOfPie_Model
         }
 
         /// <summary>
-        /// Adds a file to storage
+        /// Adds a file to persistent storage
         /// </summary>
-        /// <param name="file">The file object to add</param>
-        /// <returns></returns>
-        bool AddOfflineCreatedFile(FileInstance file);
+        /// <param name="file"></param>
+        void AddFile(FileInstance file);
 
-        /// <summary>
-        /// Adds a file from remote storage. Should be used during synchronization.
-        /// </summary>
-        /// <param name="file">The file to add from a remote location</param>
-        /// <returns>True if successful, false otherwise</returns>
-        bool AddFileFromRemote(FileInstance file);
 
         /// <summary>
         /// Modifies a file already in storage

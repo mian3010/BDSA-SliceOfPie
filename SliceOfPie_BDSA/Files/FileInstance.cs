@@ -1,24 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
-  
+
   public partial class FileInstance {
 
-    public String UserEmail {
-      get;
-      set;
-    }
-
-    public String Title { get; set; }
-
-    public String Author { get; set; }
-
-    internal byte[] PrivContent;
-
     public byte[] Content {
-      get { return PrivContent; }
-      set { PrivContent = value; }
+      get { return File.Content; }
+      set { File.Content = value; }
     }
 
     public virtual String GetContent() {
@@ -27,17 +18,32 @@ namespace SliceOfPie_Model.Persistence {
     }
 
 
-    public override string ToString()
-    {
-      return "<p>This is not a document. It cannot be opened in this program</p>";
+    public override string ToString() {
+      return "<p>File with id " + id + " is not a document. It cannot be opened in this program</p>";
     }
-    public string HistoryToString() {
+    public string ChangesToString() {
       var output = new StringBuilder();
       output.Append("<ol>");
-      output.Append("<li>File created</li>");
-      output.Append("<li>File saved</li>");
+      foreach (var change in File.Changes) {
+        output.Append("<li>User : " + change.User_email + " " + change.change1 + " @ the time : " +
+                      new DateTime((long)change.timestamp) + "</li>");
+      }
       output.Append("</ol>");
       return output.ToString();
+    }
+    internal FileMetaData GetMetadata(string metaDataType) {
+      var query = from meta in File.FileMetaDatas
+                  where meta.MetaDataType_Type != null && meta.MetaDataType_Type.Equals(metaDataType)
+                  select meta;
+      var fileMetaDatas = query as IList<FileMetaData> ?? query.ToList();
+      if (!fileMetaDatas.Any()) { return CreateMetadata("Title", ""); }
+      return fileMetaDatas.First();
+    }
+
+    internal FileMetaData CreateMetadata(string strType, string value) {
+      var meta = new FileMetaData { MetaDataType_Type = strType, value = value };
+      File.FileMetaDatas.Add(meta);
+      return meta;
     }
   }
 }

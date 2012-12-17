@@ -18,6 +18,7 @@ namespace SliceOfPie_OfflineGUI
         [STAThread]
         public static void Main(String[] args)
         {
+
             new ClientPresenter();
           
         }
@@ -62,7 +63,7 @@ namespace SliceOfPie_OfflineGUI
 
         private void SynchronizeFiles(object sender, EventArgs e)
         {
-            _model.Synchronize();
+            _model.Synchronize(_view.CurrentUser);
         }
 
 

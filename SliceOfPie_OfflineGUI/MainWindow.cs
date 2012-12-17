@@ -12,6 +12,12 @@ namespace SliceOfPie_OfflineGUI {
   public partial class MainWindow : Form
   {
       public const char Separator = '\\';
+      public const String DefaultFolder = "C:\\SliceOfPie";
+  
+      public String CurrentUser
+      {
+          get { return userEmailBox.Text; }
+      }
 
       private Dictionary<String, int> _pathsToId;
 
@@ -32,7 +38,8 @@ namespace SliceOfPie_OfflineGUI {
       InitializeComponent();
       _pathsToId = fileTree;
       InitializeTree();
-     
+        userEmailBox.Text = "testuser0@example.com";
+
     }
 
     private void DocumentSavedInEditor(Document doc)
@@ -80,7 +87,10 @@ namespace SliceOfPie_OfflineGUI {
         }
 
     private void button1_Click(object sender, EventArgs e) {
-      RefreshTree();
+        if (TreeRefreshed != null)
+        {
+            TreeRefreshed(this, e);
+        }
     }
 
     private void Form3_Load(object sender, EventArgs e) {
@@ -111,13 +121,13 @@ namespace SliceOfPie_OfflineGUI {
                 {
                     return _pathsToId[path.Substring(0, path.Length - 1)];
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new NotADocumentException("No document selected!");
                 }
             }
         }
-        catch (NotADocumentException e)
+        catch (NotADocumentException)
         {
             throw new NotADocumentException();
 
@@ -167,9 +177,9 @@ namespace SliceOfPie_OfflineGUI {
           {
               Console.Out.WriteLine(ex);
           }
-          catch (NotADocumentException noDoc)
+          catch (NotADocumentException)
           {
-             MessageBox.Show("Please select a valid user!");
+             MessageBox.Show("Please select a valid document to load!");
           }
 
     }
@@ -222,16 +232,17 @@ namespace SliceOfPie_OfflineGUI {
     {
         CurrentDocument = new Document();
         CurrentDocument.File = new File();
-        User user = new User();
-        user.email = userEmailBox.Text;
+        // Set user both in email and the navigation property.
+        var user = User.CreateUser(userEmailBox.Text);
+        //user.email = userEmailBox.Text;
         CurrentDocument.User_email = user.email;
-        CurrentDocument.User = user;
+        //CurrentDocument.User = user;
         String path = "";
         TreeNode selected = treeView1.SelectedNode ?? _root;
         TreeNode current = selected.Parent ?? _root;
         if (current == _root)
         {
-            TreeNode cNode = current.FirstNode ?? new TreeNode("C:\\");
+            TreeNode cNode = current.FirstNode ?? new TreeNode(DefaultFolder);
             path = cNode.Text;
         }
         else
@@ -241,7 +252,7 @@ namespace SliceOfPie_OfflineGUI {
                 IdFromCurrentNode();
                 path = PathOfNode(current);
             }
-            catch (NotADocumentException ex)
+            catch (NotADocumentException)
             {
                 if (current.Parent != null)
                     path = PathOfNode(treeView1.SelectedNode.Parent);

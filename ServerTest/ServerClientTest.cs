@@ -136,7 +136,15 @@ namespace ServerTest {
       admin.AddFile(i1);
       admin.AddFile(i2);
       admin.AddFile(i3);
-      admin.Synchronize();
+      admin.Synchronize("superman123@gm44ail.com");
+    }
+
+    [TestMethod]
+    public void RunServer()
+    {
+        NetworkServer server = NetworkServer.GetInstance();
+        var serverT = new Thread(server.Listen);
+        serverT.Start();
     }
 
     [TestMethod]

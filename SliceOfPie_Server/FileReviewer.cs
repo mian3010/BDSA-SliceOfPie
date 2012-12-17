@@ -26,23 +26,27 @@ namespace SliceOfPie_Server {
     }
 
     public void Review() {
-      FileList usersFilesFromServer = Context2.GetFileList("lala"); //hp.user
+      FileList usersFilesFromServer = Context2.GetFileList(_fileList.User); //hp.user
       if (usersFilesFromServer.List == null) usersFilesFromServer.List = new Dictionary<int, FileListEntry>();
       foreach (FileListEntry entry in _fileList.List.Values) {
         // if file exists
         FileInstance fileFromDb = Context2.GetFileInstance(entry.Id);
         if (fileFromDb != null) {
           var majorEntryVersion = (int)Math.Truncate(entry.Version);
-          var minorEntryVersion = (int)(entry.Version - Math.Truncate(entry.Version) * 10);
+          var minorEntryVersion = (int)((entry.Version - Math.Truncate(entry.Version)) * 1000);
           var majorDbVersion = (int)Math.Truncate(fileFromDb.File.Version);
-          var minorDbVersion = (int)(entry.Version - Math.Truncate(fileFromDb.File.Version) * 10);
+          var minorDbVersion = (int)((fileFromDb.File.Version - Math.Truncate(fileFromDb.File.Version)) * 1000);
           if ((majorEntryVersion == majorDbVersion && minorEntryVersion != minorDbVersion) || (majorEntryVersion < majorDbVersion && minorEntryVersion > 0)) {
             //Client must push their file for merging
-            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            try {
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            } catch (ArgumentException) {}
             usersFilesFromServer.List[entry.Id].Type = FileListType.Push;
           } else if (majorEntryVersion < majorDbVersion && minorEntryVersion == 0) {
             //Client does not have the latest file, and must pull it.
-            RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            try{
+              RequestHandler.Instance.PendingModFileList.Add(entry.Id, entry);
+            } catch (ArgumentException) { }
             usersFilesFromServer.List[entry.Id].Type = FileListType.Pull;
           } else usersFilesFromServer.List.Remove(entry.Id); //File on client and server is the same
         } else {

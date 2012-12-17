@@ -46,7 +46,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities() : base("name=SliceOfLifeEntities", "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     
@@ -55,7 +55,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities(string connectionString) : base(connectionString, "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     
@@ -64,7 +64,7 @@ namespace SliceOfPie_Model.Persistence
         /// </summary>
         public SliceOfLifeEntities(EntityConnection connection) : base(connection, "SliceOfLifeEntities")
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            this.ContextOptions.LazyLoadingEnabled = false;
             OnContextCreated();
         }
     
@@ -710,6 +710,30 @@ namespace SliceOfPie_Model.Persistence
         private global::System.Decimal _Version;
         partial void OnVersionChanging(global::System.Decimal value);
         partial void OnVersionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.Byte[] Content
+        {
+            get
+            {
+                return StructuralObject.GetValidValue(_Content);
+            }
+            set
+            {
+                OnContentChanging(value);
+                ReportPropertyChanging("Content");
+                _Content = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Content");
+                OnContentChanged();
+            }
+        }
+        private global::System.Byte[] _Content;
+        partial void OnContentChanging(global::System.Byte[] value);
+        partial void OnContentChanged();
 
         #endregion
 

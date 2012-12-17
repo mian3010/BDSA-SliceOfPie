@@ -30,6 +30,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -160,7 +162,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -176,6 +177,7 @@
   <ItemGroup>
     <Content Include="Content\colorbox.css" />
     <Content Include="Content\Base.css" />
+    <Content Include="Content\Creator.css" />
     <Content Include="Content\Overview.css" />
     <Content Include="Content\Menu.css" />
     <Content Include="Content\Editor.css" />
@@ -239,6 +241,8 @@
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\border.png" />
     <Content Include="Images\controls.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\edit_big.png" />
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />
     <Content Include="Images\history.gif" />
@@ -249,6 +253,7 @@
     <Content Include="Images\loading.gif" />
     <Content Include="Images\loading_background.png" />
     <Content Include="Images\logo_pie.png" />
+    <Content Include="Images\open.png" />
     <Content Include="Images\overlay.png" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -256,6 +261,7 @@
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
     <Content Include="Scripts\jquery.colorbox-min.js" />
+    <Content Include="Scripts\jquery.formdefaults.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -265,6 +271,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\SliceOfPie\default-values.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -290,15 +297,8 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Default\Editor.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -308,9 +308,12 @@
     <Content Include="Views\Default\Viewer.cshtml" />
     <Content Include="Views\Shared\_Colorbox.cshtml" />
     <Content Include="Views\Default\History.cshtml" />
+    <Content Include="Views\Default\Creator.cshtml" />
+    <Content Include="Views\Default\Sharer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -359,15 +362,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54455</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50098/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://sliceofpie.dev</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

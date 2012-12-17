@@ -2,27 +2,60 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="SliceOfPie_Model.Persistence.Document">
     <Position X="2.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateTestDocument" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAQAAAAAAEAEAAAAAAAAAABgAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAAAgAAAEAEAAAAQAAAAABgAAAAACAAAAAAAAA=</HashCode>
       <FileName>Files\Document.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SliceOfPie_Model.Persistence.File">
     <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateFile" Hidden="true" />
+      <Method Name="OndeletedChanged" Hidden="true" />
+      <Method Name="OndeletedChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OnnameChanged" Hidden="true" />
+      <Method Name="OnnameChanging" Hidden="true" />
+      <Method Name="OnProject_idChanged" Hidden="true" />
+      <Method Name="OnProject_idChanging" Hidden="true" />
+      <Method Name="OnserverpathChanged" Hidden="true" />
+      <Method Name="OnserverpathChanging" Hidden="true" />
+      <Method Name="OnVersionChanged" Hidden="true" />
+      <Method Name="OnVersionChanging" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAACICAQAggAIEgEIGRAGAAAFVAkQAIAACABCFAQQoA=</HashCode>
-      <FileName>Files\File.cs</FileName>
+      <HashCode>IAACIAAQAAgAAEgAIGRAGAAAFVAEQAAAAAABAFAwQoA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="SliceOfPie_Model.Persistence.FileMetaData">
     <Position X="6.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateFileMetaData" Hidden="true" />
+      <Method Name="OnFile_idChanged" Hidden="true" />
+      <Method Name="OnFile_idChanging" Hidden="true" />
+      <Method Name="OnidChanged" Hidden="true" />
+      <Method Name="OnidChanging" Hidden="true" />
+      <Method Name="OnMetaDataType_TypeChanged" Hidden="true" />
+      <Method Name="OnMetaDataType_TypeChanging" Hidden="true" />
+      <Method Name="OnvalueChanged" Hidden="true" />
+      <Method Name="OnvalueChanging" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>ABAAAAAgAAAAAAAkABBAAAAAZAREACFABAIAgAAQgoA=</HashCode>
       <FileName>Files\FileMetaData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SliceOfPie_Model.Persistence.MetaDataType">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="CreateMetaDataType" Hidden="true" />
+      <Method Name="OnTypeChanged" Hidden="true" />
+      <Method Name="OnTypeChanging" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAACAAAAgAAAABEAAAAAAAAAAAAAAAAAQAAABAABAA=</HashCode>
       <FileName>Files\MetaDataType.cs</FileName>

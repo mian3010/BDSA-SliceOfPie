@@ -1,22 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using SliceOfPie_Model;
+using System.Text;
 using SliceOfPie_Model.Persistence;
 using SliceOfPie_Model.CompositeStructure;
-using System.Windows.Data;
 
 namespace SliceOfPie_OnlineGUI.Models {
-  public class FileModel {
+  public static class FileModel {
     public static Document GetDocument(int id) {
-      try {
-        return Document.CreateDocument(Context2.GetFileInstance(1));
-      } catch (NotADocumentException) {
-        return null;
+      return Context2.GetDocument(id);
+    }
+    public static void ModifyDocument(string fromEmail, int id, string title, string content) {
+      Context2.ModifyDocument(id, title, content);
+      var document = GetDocument(id);
+      Context2.AddChange(document.File.id, new Change { change1 = "modified document", timestamp = System.DateTime.Now.Ticks, User_email = fromEmail });
+    }
+    public static string GetAuthors(int id) {
+      var output = new StringBuilder();
+      output.Append("<h2>Users that own this file</h2>");
+      output.Append("<ul>");
+      IList<User> authors = Context2.GetUsers(id);
+      foreach (var author in authors) {
+        output.Append("<li>" + author.email + "</li>");
       }
+      output.Append("</ul>");
+      return output.ToString();
+    }
+    public static void AddAuthor(string fromEmail, string email, int id) {
+      var origInstance = Context2.GetDocument(id);
+      if (origInstance != null) {
+        var fileInstance = new Document { User_email = email, path = origInstance.path, File_id = origInstance.File_id };
+        Context2.AddFileInstance(fileInstance);
+        Context2.AddChange(origInstance.File.id, new Change{change1 = "shared document with "+email, timestamp = System.DateTime.Now.Ticks, User_email = fromEmail});
+      }
+    }
+    public static FileInstance CreateDocument(string email, string name, decimal version, string path, string title, string content) {
+      var file = new SliceOfPie_Model.Persistence.File { name = name, Version = version };
+      var document = new Document { User_email = email, File = file, path = path, Content = content, Title = title };
+      var returnVal = Context2.AddFileInstance(document);
+      Context2.AddChange(document.File.id, new Change { change1 = "created document", timestamp = System.DateTime.Now.Ticks, User_email = email });
+      return returnVal;
     }
     public static FileInstance GetFile(int id) {
       return Context2.GetFileInstance(id);
-
     }
     public static string FileListToTree(IEnumerable<FileInstance> list) {
       var structure = new Folder { Label = "File list" };
@@ -45,9 +70,12 @@ namespace SliceOfPie_OnlineGUI.Models {
               }
             }
           }
-          var viewLink = "<a href=\"/Default/Viewer?id="+currentFile.id+"\">View</a>";
-          var editLink = "<a href=\"/Default/Editor?id=" + currentFile.id + "\">Edit</a>";
-          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, editLink = editLink});
+          var viewLink = "<a class=\"FileLink\" href=\"/Default/Viewer?id=" + currentFile.id + "\" title=\"View\">";
+          const string viewLinkEnd = "</a>";
+          const string viewImage = "<img src=\"/Images/open.png\" />";
+          var actionLinks = "<a href=\"/Default/Editor?id=" + currentFile.id + "\" title=\"Edit\"><img src=\"/Images/edit.png\" /></a>" +
+            "<a href=\"/Default/Sharer?id=" + currentFile.id + "\" title=\"Share\"><img src=\"/Images/share.png\" /></a>";
+          currentStructure.Children.Add(new SliceOfPie_Model.CompositeStructure.File { Label = currentFile.File.name, viewLink = viewLink, actionLinks = actionLinks, viewLinkEnd = viewLinkEnd, viewImage = viewImage });
         }
       return structure.ToString();
     }

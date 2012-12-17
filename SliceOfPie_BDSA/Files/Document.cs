@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 namespace SliceOfPie_Model.Persistence {
@@ -9,20 +8,17 @@ namespace SliceOfPie_Model.Persistence {
   /// Needs enclosing HTML tags when saved and displayed in system.
   /// Author morr & msta.
   /// </summary>
-  public partial class Document : FileInstance {
+  public partial class Document {
     public String Title {
-      get { return Context.GetFileMetaData(File, "Title").value; }
-      set { Context.GetFileMetaData(File, "Title").value = value; }
+      get { return GetMetadata("Title").value; }
+      set { GetMetadata("Title").value = value; }
     }
-    
+
     public IList<User> Authors { get { return Context.GetUsers(File); } }
 
     public new string Content {
-      get {
-        if (PrivContent == null) PrivContent = new byte[0]; if (PrivContent.Length == 0) return "";
-        return Encoding.UTF8.GetString(PrivContent, 0, PrivContent.Length);
-      }
-      set { PrivContent = Encoding.UTF8.GetBytes(value); }
+      get { if (File.Content == null) File.Content = new byte[0]; return File.Content.Length == 0 ? "" : Encoding.UTF8.GetString(File.Content, 0, File.Content.Length); }
+      set { File.Content = Encoding.UTF8.GetBytes(value); }
     }
 
     public override string GetContent() {
@@ -35,31 +31,13 @@ namespace SliceOfPie_Model.Persistence {
       output.Append("<h2 class=\"document-title\">" + Title + "</h2>");
       output.Append("<div class=\"document-view\">");
       output.Append("<ul class=\"metadata-view\">");
-      foreach (FileMetaData metaData in File.FileMetaDatas) {
+      foreach (var metaData in File.FileMetaDatas) {
         output.Append("<li>" + metaData.MetaDataType + ": " + metaData + "</li>");
       }
       output.Append("</ul>");
       output.Append(Content);
       output.Append("</div>");
       return output.ToString();
-    }
-
-
-    public new string HistoryToString() {
-      var output = new StringBuilder();
-      output.Append("<ol>");
-      output.Append("<li>Document created</li>");
-      output.Append("<li>Document saved</li>");
-      output.Append("</ol>");
-      return output.ToString();
-    }
-
-    public static Document CreateDocument(FileInstance file) {
-      var fileType = Context2.GetFileMetaData(file.File, "Type");
-      if (fileType != null && file.File != null && fileType.value == "Document") {
-        return file as Document;
-      }
-      throw new NotADocumentException();
     }
 
     static internal Document CreateTestDocument(String s) {

@@ -10,7 +10,7 @@ namespace SliceOfPie_Model {
       /// <summary>
     /// Initializes the Synchroization process.
     /// </summary>
-    void Synchronize();
+    void Synchronize(String userEmail);
 
 
     void SaveFile(FileInstance file);

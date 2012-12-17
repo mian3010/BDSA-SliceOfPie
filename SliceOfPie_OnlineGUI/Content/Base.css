@@ -4,11 +4,40 @@
   position: relative;
   margin: 20px;
 }
+
 html
 {
   overflow-y: scroll;
 }
+
 .featured .content-wrapper
 {
   background: #9E31B7;
+}
+
+.message
+{
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.message-error
+{
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.message-status
+{
+  background: #00ff00;
+  color: #000000;
+}
+#document-menu
+{
+  list-style: none;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  margin: 0;
 }
