@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
@@ -43,7 +44,7 @@ namespace SliceOfPie_Model.Persistence {
       using (var dbContext = new SliceOfLifeEntities()) {
         if (user == null || user.email == null || user.email.Trim().Equals("")) return -2;
         if (GetUser(user.email) != null) return 0;
-        dbContext.Users.AddObject(user);
+        dbContext.Users.Add(user);
         try {
           return dbContext.SaveChanges();
         } catch (UpdateException) {
@@ -116,7 +117,7 @@ namespace SliceOfPie_Model.Persistence {
           throw new ConstraintException("Invalid file path");
         FileInstance dbInstance = dbContext.FileInstances.First(i => i.id == fileInstance.id);
         if (dbInstance == null) return AddFileInstance(fileInstance);
-        dbContext.FileInstances.DeleteObject(dbInstance);
+        dbContext.FileInstances.Remove(dbInstance);
         try {
           dbContext.SaveChanges();
         } catch (UpdateException e) {
@@ -164,7 +165,15 @@ namespace SliceOfPie_Model.Persistence {
         if (fileInstance == null)
           throw new ConstraintException("Database handler received an empty reference");
 
+        if (fileInstance.id > 0)
+        {
+          var instance = dbContext.FileInstances.Find(fileInstance.id);
+          dbContext.Entry(instance).CurrentValues.SetValues(fileInstance);
+        }
+
         if (fileInstance.File_id != 0) fileInstance.File = GetFileWithContext(fileInstance.File_id, dbContext);
+        else if (fileInstance.File_id == 0 && fileInstance.File != null && fileInstance.File.id == 0)
+          fileInstance.File = GetFileInstanceWithContext(fileInstance.id, dbContext).File;
         if (fileInstance.User_email != null) fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
 
         // File
@@ -185,16 +194,17 @@ namespace SliceOfPie_Model.Persistence {
 
         // File Version
         if (fileInstance.File.Version < 0) throw new ConstraintException("Invalid file version");
-        
-        if (fileInstance.User == null) {
+
+        if (fileInstance.User == null)
+        {
           User u = fileInstance.User ?? new User() { email = fileInstance.User_email };
           fileInstance.User = u;
-          dbContext.Users.AddObject(fileInstance.User);
+          dbContext.Users.Add(fileInstance.User);
         }
 
         fileInstance.File.Changes.Clear();
         fileInstance.File.Version += 1;
-        dbContext.FileInstances.AddObject(fileInstance);
+        dbContext.FileInstances.Add(fileInstance);
 
         try {
           dbContext.SaveChanges();
@@ -269,7 +279,7 @@ namespace SliceOfPie_Model.Persistence {
                     select e;
         if (query.Any()) {
           foreach (var element in query) {
-            dbContext.Changes.DeleteObject(element);
+            dbContext.Changes.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -281,7 +291,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query2.Any()) {
           foreach (var element in query2) {
-            dbContext.Projects.DeleteObject(element);
+            dbContext.Projects.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -293,7 +303,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query3.Any()) {
           foreach (var element in query3) {
-            dbContext.MetaDataTypes.DeleteObject(element);
+            dbContext.MetaDataTypes.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -305,7 +315,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query4.Any()) {
           foreach (var element in query4) {
-            dbContext.FileMetaDatas.DeleteObject(element);
+            dbContext.FileMetaDatas.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -317,7 +327,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query5.Any()) {
           foreach (var element in query5) {
-            dbContext.FileInstances.DeleteObject(element);
+            dbContext.FileInstances.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -329,7 +339,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query6.Any()) {
           foreach (var element in query6) {
-            dbContext.Files.DeleteObject(element);
+            dbContext.Files.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -341,7 +351,7 @@ namespace SliceOfPie_Model.Persistence {
                      select e;
         if (query7.Any()) {
           foreach (var element in query7) {
-            dbContext.Users.DeleteObject(element);
+            dbContext.Users.Remove(element);
           }
           try {
             dbContext.SaveChanges();
@@ -356,18 +366,18 @@ namespace SliceOfPie_Model.Persistence {
         Context2.AddUser(user1);
 
         // Add MetaType
-        var metaType = MetaDataType.CreateMetaDataType("Title");
+        var metaType = new MetaDataType{Type = "Title"};
         const string metaValue = "SomeTitle";
 
         for (int i = 0; i < 1; i++) {
           // Add Users
-          var user = User.CreateUser("testuser" + i + "@example.com");
-          dbContext.Users.AddObject(user);
+          var user = new User {email = "testuser" + i + "@example.com"};
+          dbContext.Users.Add(user);
 
           var count = 1;
           for (int k = 0; k < 2; k++) {
             // Add Files
-            var file = File.CreateFile(i, "Testfile" + i + "" + k, @"C:\ServerTestFiles\", 0.0m);
+            var file = new File{id = i, name = "Testfile" + i + "" + k, serverpath = @"C:\ServerTestFiles\", Version = 0.0m};
             if (i % 2 == 0) file.serverpath += "Subfolder";
 
             // Meta
@@ -389,7 +399,7 @@ namespace SliceOfPie_Model.Persistence {
             * */
             document.File = file;
             document.User = user;
-            dbContext.FileInstances.AddObject(document);
+            dbContext.FileInstances.Add(document);
 
             try {
               dbContext.SaveChanges();

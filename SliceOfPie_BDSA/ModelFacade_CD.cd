@@ -3,24 +3,24 @@
   <Class Name="SliceOfPie_Model.OfflineAdministrator">
     <Position X="2.5" Y="2.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAiIAAAAIAQAABAAAAAAAJAAEAQAAAAA=</HashCode>
+      <HashCode>AAAAABAAAAAAAgIAAAAIAAAABAAAEAAAJAAEAQABAAA=</HashCode>
       <FileName>ModelFacade\OfflineAdministrator.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SliceOfPie_Model.CommunicatorOfflineAdapter">
-    <Position X="7.25" Y="1" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AASMAAAAAQAgAABAEASCAAIIAAAAAAAAAAUEADAAGAA=</HashCode>
-      <FileName>Persistence\CommunicatorOfflineAdapter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SliceOfPie_Model.NetworkClient">
     <Position X="0.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AEABAAAACAAAIEAAAEAAAAAAEAIQAAgAAAAEBAAAAAI=</HashCode>
+      <HashCode>AEABAAAAAAAAAEAAAEAAAAAAGAIQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Networking\NetworkClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SliceOfPie_Model.CommunicatorOfflineAdapter">
+    <Position X="7.25" Y="1" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AASMAAAAAQAgAABAEASAAIIAAAAAAAAAAAUEADAAEBA=</HashCode>
+      <FileName>Persistence\CommunicatorOfflineAdapter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
