@@ -157,24 +157,26 @@ namespace SliceOfPie_Model.Persistence {
     /// </summary>
     /// <param name="fileInstance">fileinstance</param>
     /// <returns>fileinstance with new id from db</returns>
-    public static FileInstance AddFileInstance(FileInstance fileInstance) {
+    public static FileInstance AddFileInstance(FileInstance fileInstanceInput) {
 
       using (var dbContext = new SliceOfLifeEntities())
       {
         //CONSTRAINTCHECKS
-        if (fileInstance == null)
+        if (fileInstanceInput == null)
           throw new ConstraintException("Database handler received an empty reference");
-
-        if (fileInstance.id > 0)
+        FileInstance fileInstance;
+        if (fileInstanceInput.id > 0)
         {
-          var instance = dbContext.FileInstances.Find(fileInstance.id);
-          dbContext.Entry(instance).CurrentValues.SetValues(fileInstance);
+          fileInstance = dbContext.FileInstances.Find(fileInstanceInput.id);
+          dbContext.Entry(fileInstance).CurrentValues.SetValues(fileInstance);
+          fileInstanceInput.File.id = fileInstance.File_id;
+          fileInstance.File = dbContext.Files.Find(fileInstance.File_id);
+          dbContext.Entry(fileInstance.File).CurrentValues.SetValues(fileInstanceInput.File);
         }
+        else fileInstance = fileInstanceInput;
 
-        if (fileInstance.File_id != 0) fileInstance.File = GetFileWithContext(fileInstance.File_id, dbContext);
-        else if (fileInstance.File_id == 0 && fileInstance.File != null && fileInstance.File.id == 0)
-          fileInstance.File = GetFileInstanceWithContext(fileInstance.id, dbContext).File;
-        if (fileInstance.User_email != null) fileInstance.User = GetUserWithContext(fileInstance.User_email, dbContext);
+        if (fileInstance.File_id != 0 && fileInstance.File == null) fileInstance.File = dbContext.Files.Find(fileInstance.File_id);
+        if (fileInstance.User_email != null) fileInstance.User = dbContext.Users.Find(fileInstance.User_email);
 
         // File
         if (fileInstance.File == null && fileInstance.File_id == 0)
@@ -213,7 +215,7 @@ namespace SliceOfPie_Model.Persistence {
             "Database handler received an error when trying saving changes to the database", e);
         }
       }
-      return fileInstance;
+      return fileInstanceInput;
     }
 
     public static List<FileInstance> GetFiles(string useremail) {
