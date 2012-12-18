@@ -2,7 +2,10 @@
 using SliceOfPie_Model.Persistence;
 
 namespace SliceOfPie_Model {
-  [Serializable()]
+  /// <summary>
+  /// Models an entry in the FileLIst. Contains information about the whereabouts of the file and the versioning.
+  /// </summary>
+    [Serializable()]
   public class FileListEntry {
     public int Id { get; set; }
 

@@ -15,6 +15,9 @@ namespace SliceOfPie_Model.Persistence {
       set { GetMetadata("Title").value = value; }
     }
 
+      /// <summary>
+      /// Models Content to and from byte storage.
+      /// </summary>
     public new string Content {
       get { if (File.Content == null) File.Content = new byte[0]; return File.Content.Length == 0 ? "" : Encoding.UTF8.GetString(File.Content, 0, File.Content.Length); }
       set { File.Content = Encoding.UTF8.GetBytes(value); }

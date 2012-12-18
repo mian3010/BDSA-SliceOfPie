@@ -32,6 +32,7 @@ namespace SliceOfPie_Testing
                 communicatorOfflineAdaptor.AddFile(testFileInstance);
             }
             Assert.AreEqual(1, 1);        
+            communicatorOfflineAdaptor.CleanUp();
         }
         
 
@@ -45,6 +46,7 @@ namespace SliceOfPie_Testing
                 communicatorOfflineAdaptor.RenameFile(testFile, "Document" + i);
                 i++;
             }
+            communicatorOfflineAdaptor.CleanUp();
         }
 
         [TestMethod]
@@ -53,8 +55,9 @@ namespace SliceOfPie_Testing
             List<FileInstance> testFiles = GetTestFiles();
             foreach (FileInstance testFileInstance in testFiles)
             {
-                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.File.serverpath + @"\newTestFolder");
+                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.path + @"\newTestFolder");
             }
+            communicatorOfflineAdaptor.CleanUp();
         }
 
 
@@ -86,10 +89,11 @@ namespace SliceOfPie_Testing
                 Assert.AreEqual(fileList.List[i].Id, testFileInstance.id);
                 Assert.AreEqual(fileList.List[i].Version, testFileInstance.File.Version);
                 Assert.AreEqual(fileList.List[i].Name, testFileInstance.File.name);
-                Assert.AreEqual(fileList.List[i].Path, testFileInstance.File.serverpath);
+                Assert.AreEqual(fileList.List[i].Path, testFileInstance.path);
                 break;
 //                i--;
-            }            
+            }
+            communicatorOfflineAdaptor.CleanUp();
         }
     }
 }
