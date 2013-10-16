@@ -89,47 +89,47 @@ namespace SliceOfPie_Testing {
       }
     }
 
-    [TestMethod]
-    public void TestRenameFile() {
-      CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
-      List<FileInstance> rig = GetTestRig();
-      AddFileRig(ts, rig);
-      foreach (FileInstance fileInstance in rig) {
-        String newName = "exexex" + fileInstance.File.name;
-        ts.RenameFile(fileInstance, newName);
-        fileInstance.File.name = newName;
-        Assert.AreEqual(true, ts.FindFile(fileInstance));
-        ts.DeleteFile(fileInstance);
-      }
+    //[TestMethod]
+    //public void TestRenameFile() {
+    //  CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
+    //  List<FileInstance> rig = GetTestRig();
+    //  AddFileRig(ts, rig);
+    //  foreach (FileInstance fileInstance in rig) {
+    //    String newName = "exexex" + fileInstance.File.name;
+    //    ts.RenameFile(fileInstance, newName);
+    //    fileInstance.File.name = newName;
+    //    Assert.AreEqual(true, ts.FindFile(fileInstance));
+    //    ts.DeleteFile(fileInstance);
+    //  }
 
-    }
+    //}
 
-    [TestMethod]
-    public void TestDeleteFile() {
-      CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
-      foreach (FileInstance fileInstance in GetTestRig()) {
-        ts.DeleteFile(fileInstance);
-        Assert.AreEqual(false, ts.FindFile(fileInstance));
-      }
+    //[TestMethod]
+    //public void TestDeleteFile() {
+    //  CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
+    //  foreach (FileInstance fileInstance in GetTestRig()) {
+    //    ts.AddFile(fileInstance);
+    //    ts.DeleteFile(fileInstance);
+    //    Assert.AreEqual(false, ts.FindFile(fileInstance));
+    //  }
 
-    }
+    //}
 
-    [TestMethod]
-    public void TestMoveFile() {
-      CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
-      List<FileInstance> rig = GetTestRig();
-      AddFileRig(ts, rig);
-      foreach (FileInstance fileInstance in rig) {
-        String newPath = TestPath + "\\testMove";
-        Debug.WriteLine("!!!!! WTF : " + newPath);
-        ts.MoveFile(fileInstance, newPath);
-        Assert.AreEqual(true, ts.FindFile(fileInstance));
-        fileInstance.File.serverpath = newPath;
-        ts.DeleteFile(fileInstance);
-      }
+    //[TestMethod]
+    //public void TestMoveFile() {
+    //  CommunicatorOfflineAdapter ts = CommunicatorOfflineAdapter.GetCommunicatorInstance();
+    //  List<FileInstance> rig = GetTestRig();
+    //  AddFileRig(ts, rig);
+    //  foreach (FileInstance fileInstance in rig) {
+    //    String newPath = TestPath + "\\testMove";
+    //    ts.MoveFile(fileInstance, newPath);
+    //    Assert.AreEqual(true, ts.FindFile(fileInstance));
+    //    fileInstance.path = newPath;
+    //    ts.DeleteFile(fileInstance);
+    //  }
 
 
-    }
+    //}
 
     private static void AddFileRig(CommunicatorOfflineAdapter ts, List<FileInstance> rig) {
       foreach (FileInstance fileInstance in rig) {

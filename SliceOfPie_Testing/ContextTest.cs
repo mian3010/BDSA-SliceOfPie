@@ -13,7 +13,7 @@ namespace ServerTest
     [TestCleanup]
     public void CleanUp()
     {
-      Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
+      //Context.CleanUp("VerySecretPasswordYoureNeverGonnaGuess");
     }
 
     // User test 

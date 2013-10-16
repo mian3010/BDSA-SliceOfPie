@@ -49,7 +49,7 @@ namespace SliceOfPie_Testing
             TestOne.File = FileOne;
             TestOne.id = 1;
             TestOne.File.name = "Document 1";
-            TestOne.File.serverpath = "Testclass/HTMLMarshallerTest/testOne";
+            TestOne.path = "Testclass/HTMLMarshallerTest/testOne";
             TestOne.File.Project_id = 1;
             TestOne.User_email = "morr@itu.com";
             TestOne.File.FileMetaDatas.Add(authorTypeValue);

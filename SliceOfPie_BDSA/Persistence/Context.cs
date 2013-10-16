@@ -376,13 +376,13 @@ namespace SliceOfPie_Model.Persistence {
         var metaType = new MetaDataType { Type = "Title" };
         const string metaValue = "SomeTitle";
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
           // Add Users
           var user = new User { email = "testuser" + i + "@example.com" };
           dbContext.Users.Add(user);
 
           var count = 1;
-          for (int k = 0; k < 2; k++) {
+          for (int k = 0; k < 10; k++) {
             // Add Files
             var file = new File { id = i, name = "Testfile" + i + "" + k, serverpath = @"C:\ServerTestFiles\", Version = 0.0m };
             if (i % 2 == 0) file.serverpath += "Subfolder";
@@ -398,12 +398,10 @@ namespace SliceOfPie_Model.Persistence {
 
             // Add FileInstances
             Document document = new Document { File = file, Content = "Some content" + i + k, id = i, path = @"C:\ClientTestFiles\" };
-            /*
              if (k % 2 == 0) document.path += @"Subfolder\";
              if (k % 3 == 0) document.path += @"AnotherSubFolder\";
              if (k % 7 == 0) document.path += @"YetAnotherSubFolder\";
              if (k % 5 == 0) document.path += @"SomeSubFolder\";
-             * */
             document.File = file;
             document.User = user;
             dbContext.FileInstances.Add(document);

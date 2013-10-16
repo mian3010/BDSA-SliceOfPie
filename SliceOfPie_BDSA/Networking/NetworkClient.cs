@@ -10,7 +10,7 @@ namespace SliceOfPie_Model {
   public class NetworkClient : INetClient
   {
       private const int Port = 80;
-      private const String TestIP = "http://localhost:";
+      private const String TestIP = "http://10.25.243.118:";
 
     public NetworkClient() {
 

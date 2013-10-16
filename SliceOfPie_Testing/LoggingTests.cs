@@ -49,16 +49,16 @@ namespace SliceOfPie_Testing
             communicatorOfflineAdaptor.CleanUp();
         }
 
-        [TestMethod]
-        public void TestMoveFiles()
-        {
-            List<FileInstance> testFiles = GetTestFiles();
-            foreach (FileInstance testFileInstance in testFiles)
-            {
-                communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.path + @"\newTestFolder");
-            }
-            communicatorOfflineAdaptor.CleanUp();
-        }
+        //[TestMethod]
+        //public void TestMoveFiles()
+        //{
+        //    List<FileInstance> testFiles = GetTestFiles();
+        //    foreach (FileInstance testFileInstance in testFiles)
+        //    {
+        //        communicatorOfflineAdaptor.MoveFile(testFileInstance, testFileInstance.path + @"\newTestFolder");
+        //    }
+        //    communicatorOfflineAdaptor.CleanUp();
+        //}
 
 
         [TestMethod]
